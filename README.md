@@ -26,6 +26,7 @@ Please make sure to update tests as appropriate.
 
 ## Viewing Reference
 .xmind files are made and viewed with [XMind: ZEN](https://www.xmind.net/zen/)
+
 .ods are OpenDocument formats, viewed with OpenOffice, LibreOffice, MicrosoftOffice, etc.
 
 ## License
