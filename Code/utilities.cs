@@ -100,7 +100,7 @@ namespace DnDTools{
         }
 
         public void change(int v){
-            this.value = (ulong)(this.value + v);
+            this.value = (ulong)((int)this.value + v);
         }
 
         ///And finally, here's the reason I made this in the first place
@@ -188,6 +188,58 @@ namespace DnDTools{
             return new Wallet(value);
         }
         
+    }
+
+    public struct ExperienceGrant{
+        private ushort baseexp;
+        private ushort extra;
+        private Entity parent;
+
+        public ExperienceGrant(Entity parent){
+            this.parent = parent;
+            this.baseexp = 1;
+            this.extra = 0;
+        }
+        public ExperienceGrant(Entity parent, ushort b){
+            this.parent = parent;
+            this.baseexp = b;
+            this.extra = 0;
+        }
+        public ExperienceGrant(Entity parent, ushort b, ushort e){
+            this.parent = parent;
+            this.baseexp = b;
+            this.extra = e;
+        }
+
+        public void setBaseGrant(ushort b){
+            this.baseexp = b;
+        }
+
+        public ushort getBaseGrant(){
+            return this.baseexp;
+        }
+
+        public void setExtra(ushort b){
+            this.extra = b;
+        }
+
+        public ushort getExtra(){
+            return this.extra;
+        }
+
+        public static ushort operator+(ExperienceGrant a,int b){
+            return (ushort)(a.baseexp+b);
+        }
+
+        public static ushort operator-(ExperienceGrant a,int b){
+            return (ushort)(a.baseexp-b);
+        }
+
+        public int getExp(){
+            byte l = this.parent.getLevel();
+            return ((l*(l-1)*500)+(this.baseexp*l))+this.extra;
+        }
+
     }
 
 }

@@ -4,7 +4,7 @@ namespace DnDTools{
 
     class App{
 
-        public static Version version = new Version("Alpha",0,0,2,1);
+        public static Version version = new Version("Alpha",0,0,3,0);
         public const string author = "Diego Garcia";
        
        public enum Stats {
