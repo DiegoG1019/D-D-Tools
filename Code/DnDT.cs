@@ -4,7 +4,7 @@ namespace DnDTools{
 
     class App{
 
-        public static Version version = new Version("Alpha",0,0,3,0);
+        public static Version version = new Version("Alpha",0,0,4,0);
         public const string author = "Diego Garcia";
        
        public enum Stats {
@@ -33,17 +33,67 @@ namespace DnDTools{
 
             /*-----------------------------------------Testing-----------------------------------------*/
             
-            Entity testEnt = new Entity(5);
+            //test char
+            Character tchar = new Character(5);
 
-            Console.WriteLine("testEnt extra: {0}", testEnt.expgrant.getExtra() );
-            Console.WriteLine("testEnt baseGrant: {0}", testEnt.expgrant.getBaseGrant() );
+            Console.WriteLine(
+                "---------------- \n Tchar's level {0} \n Tchar's current exp {1} \n Tchar's required exp {2} \n Can Tchar level up? {3} \n How much more exp does Tchar need? {4}",
+                tchar.level,
+                tchar.exp.get(),
+                tchar.exp.getRequired(),
+                tchar.exp.didLevel(),
+                tchar.exp.getRequiredLeft()
+            );
 
-            testEnt.expgrant.addBase(16);
-            testEnt.expgrant.addExtra(48);
-            testEnt.expgrant.subBase(16);
-            testEnt.expgrant.subExtra(48);
+            try{
+                tchar.exp.levelUp();
+            }catch(CantLevelUpYet e1){
+                Console.WriteLine(e1.ToString());
+            }
+
+            tchar.exp.gain(28772);
+            Console.WriteLine(
+                "---------------- \n Tchar's level {0} \n Tchar's current exp {1} \n Tchar's required exp {2} \n Can Tchar level up? {3} \n How much more exp does Tchar need? {4}",
+                tchar.level,
+                tchar.exp.get(),
+                tchar.exp.getRequired(),
+                tchar.exp.didLevel(),
+                tchar.exp.getRequiredLeft()
+            );
+
+            try{
+                tchar.exp.levelUp();
+            }catch(CantLevelUpYet e1){
+                Console.WriteLine(e1.ToString());
+            }
+
+            tchar.exp.gain(69451);
+            Console.WriteLine(
+                "---------------- \n Tchar's level {0} \n Tchar's current exp {1} \n Tchar's required exp {2} \n Can Tchar level up? {3} \n How much more exp does Tchar need? {4}",
+                tchar.level,
+                tchar.exp.get(),
+                tchar.exp.getRequired(),
+                tchar.exp.didLevel(),
+                tchar.exp.getRequiredLeft()
+            );
+
+            try{
+                tchar.exp.levelUp();
+            }catch(CantLevelUpYet e1){
+                Console.WriteLine(e1.ToString());
+            }
             
-            Console.WriteLine("testEnt grants: {0}", testEnt.expgrant.getExp() );
+            Console.WriteLine(
+                "---------------- \n Tchar's level {0} \n Tchar's current exp {1} \n Tchar's required exp {2} \n Can Tchar level up? {3} \n How much more exp does Tchar need? {4}",
+                tchar.level,
+                tchar.exp.get(),
+                tchar.exp.getRequired(),
+                tchar.exp.didLevel(),
+                tchar.exp.getRequiredLeft()
+            );
+
+
+            /*---------------------------------------Finalization--------------------------------------*/
 
             Console.ReadKey();
 

@@ -21,6 +21,14 @@ namespace DnDTools{
         }
 
     }
+
+    public interface Historied{
+        
+        dynamic get();
+        dynamic get(int i);
+        int getItems();
+
+    }
     
     public struct Dice{
 
@@ -110,7 +118,7 @@ namespace DnDTools{
         
     }
 
-    public struct Wallet{
+    public struct Wallet: Historied{
 
         private ulong value;
         private List<int> history;
@@ -118,9 +126,9 @@ namespace DnDTools{
 
         private void updateWeight(){
             if(this.value > 0){
-                this.weight = this.value/50;
+                this.weight = this.value/50F;
             }else{
-                this.weight = 0;
+                this.weight = 0F;
             }
         }
 
@@ -129,9 +137,9 @@ namespace DnDTools{
             this.value = value;
             this.history.Add((int)value);
             if(this.value > 0){
-                this.weight = this.value/50;
+                this.weight = this.value/50F;
             }else{
-                this.weight = 0;
+                this.weight = 0F;
             }
         }
 
@@ -172,11 +180,15 @@ namespace DnDTools{
             this.spend(this.value);
         }
 
-        public ulong get(){
+        public dynamic get(){
             return this.value;
         }
-        public int get(int i){
+        public dynamic get(int i){
             return this.history[i];
+        }
+
+        public int getItems(){
+            return this.history.Count;
         }
 
         public string toString(){

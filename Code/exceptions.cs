@@ -10,4 +10,14 @@ namespace DnDTools{
         public WalletOverDrawException(string message): base(message){
         }
     }
+
+    public class TooManyFreeLevels: Exception{
+        public TooManyFreeLevels(string message): base(message){
+        }
+    }
+
+    public class CantLevelUpYet: Exception{
+        public CantLevelUpYet(string message): base(message){
+        }
+    }
 }

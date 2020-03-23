@@ -135,10 +135,6 @@ namespace DnDTools{
             return this.required;
         }
 
-        public int getRequiredLeft(){
-            return (int)(this.required-this.current);
-        }
-
         public void add(uint v){
             this.current += v;
         }
