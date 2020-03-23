@@ -1,12 +1,43 @@
 using System;
+using System.Collections.Generic;
+
 
 namespace DnDTools{
+
+    public struct Version{
+        
+        //String noting a version preppendix
+        private string preppendix;
+        //Array holding version number
+        private byte[] v;
+
+        //Constructor, it simply puts all the numbers where they belong
+        public Version(string p, byte w, byte z, byte y, byte x){
+            this.v = new byte[4];
+            this.v[0] = w;
+            this.v[1] = z;
+            this.v[2] = y;
+            this.v[3] = x;
+            this.preppendix = p;
+        }
+
+        //Returns a formatted string of the current version
+        public string get(){
+            return String.Format("{0}-{1}.{2}.{3}.{4}",this.preppendix,this.v[0],this.v[1],this.v[2],this.v[3]);
+        }
+
+    }
     
     public struct Dice{
+
+        //Random number generator
         private static dynamic rand = new Random();
 
+        //The throws of the dice
         private byte throws;
+        //The type of dice (d20, d6, etc...)
         private byte type;
+        //The value to be added or removed from the dice
         private sbyte extra;
 
         public Dice(byte throws, byte type){
@@ -19,15 +50,15 @@ namespace DnDTools{
             this.type = type;
             this.extra = extra;
         }
-        public short throwDice(){
+        public int throwDice(){
 
-            short total = 0;
+            int total = 0;
 
             for(byte i = this.throws; i > 0; i--){
                 total += Dice.rand.Next(1,this.type+1);
             };
 
-            return (short)(total+this.extra);
+            return total+this.extra;
 
         }
 
@@ -66,7 +97,81 @@ namespace DnDTools{
 
     public struct Wallet{
 
+        private ulong value;
+        private List<int> history;
+        private float weight;
 
+        private void updateWeight(){
+            if(this.value > 0){
+                this.weight = this.value/50;
+            }else{
+                this.weight = 0;
+            }
+        }
+
+        public Wallet(ulong value){
+            this.history = new List<int>();
+            this.value = value;
+            this.history.Add((int)value);
+            if(this.value > 0){
+                this.weight = this.value/50;
+            }else{
+                this.weight = 0;
+            }
+        }
+
+        public void add(ulong value){
+            this.value += value;
+            this.updateWeight();
+        }
+
+        public void gain(ulong value){
+            this.add(value);
+            this.history.Add(((int)value));
+        }
+        public void gain(Wallet other){
+            this.add(other.value);
+            other.empty();
+            this.history.Add(((int)value));
+        }
+
+        public void sub(ulong value){
+            if(value > this.value){
+                throw new WalletOverDrawException(String.Format("Attempted to draw {0} over limit. W1:{1} ; w2:{2}",value-this.value,this.value,value));
+            }else{
+                this.value -= value;
+                this.updateWeight();
+            }
+        }
+
+        public void spend(ulong value){
+            this.sub(value);
+            this.history.Add(-((int)value));
+        }
+        public void spend(Wallet other){
+            this.sub(other.value);
+            this.history.Add(-((int)other.value));
+        }
+
+        public void empty(){
+            this.spend(this.value);
+        }
+
+        public ulong get(){
+            return this.value;
+        }
+        public int get(int i){
+            return this.history[i];
+        }
+
+        public string toString(){
+            return String.Format("{0}{1}",Cf.lang.getUtil("currency"),this.value);
+        }
+
+        public Wallet separate(ulong value){
+            this.spend(value);
+            return new Wallet(value);
+        }
         
     }
 
