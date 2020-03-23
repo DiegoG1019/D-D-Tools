@@ -23,32 +23,27 @@ namespace DnDTools{
        
         static void Main(string[] args){
 
+            /*--------------------------------------------  -------------------------------------------*/
+
+            /*--------------------------------------Initialization-------------------------------------*/
+            
             Console.WriteLine("Running D&DTools version: {0}", App.version.get());
             Console.WriteLine("Program Author: {0}", App.author);
             Cf.loadLang();
+
+            /*-----------------------------------------Testing-----------------------------------------*/
             
-            Wallet w1 = new Wallet(532);
-            Wallet w2 = new Wallet(6699);
+            Entity testEnt = new Entity(5);
 
-            Console.WriteLine("Wallet 1 get: {0}", w1.get());
-            Console.WriteLine("Wallet 1 toString: {0}", w1.toString());
+            Console.WriteLine("testEnt extra: {0}", testEnt.expgrant.getExtra() );
+            Console.WriteLine("testEnt baseGrant: {0}", testEnt.expgrant.getBaseGrant() );
 
-            w1.spend(69);
-            w1.gain(124);
-            w1.gain(w2);
-            w1.spend(464);
-            w1.gain(35);
-
-            Console.WriteLine("Wallet 1 get(1): {0}", w1.get(1));
-            Console.WriteLine("Wallet 1 get(3): {0}", w1.get(3));
-
-            Wallet w3 = w1.separate(3563);
-
-            Console.WriteLine("Wallet 3 get: {0}", w3.get());
-            Console.WriteLine("Wallet 4 get: {0}", w3.separate(2221).get());
-            Console.WriteLine("Wallet 3 get (again) : {0}", w3.get());
-
-            w3.spend(w1.separate(159));
+            testEnt.expgrant.addBase(16);
+            testEnt.expgrant.addExtra(48);
+            testEnt.expgrant.subBase(16);
+            testEnt.expgrant.subExtra(48);
+            
+            Console.WriteLine("testEnt grants: {0}", testEnt.expgrant.getExp() );
 
             Console.ReadKey();
 

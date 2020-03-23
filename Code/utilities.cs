@@ -227,12 +227,20 @@ namespace DnDTools{
             return this.extra;
         }
 
-        public static ushort operator+(ExperienceGrant a,int b){
-            return (ushort)(a.baseexp+b);
+        public void addBase(uint b){
+            this.baseexp = (ushort)(this.baseexp+b);
         }
 
-        public static ushort operator-(ExperienceGrant a,int b){
-            return (ushort)(a.baseexp-b);
+        public void subBase(uint b){
+            this.baseexp = (ushort)(this.baseexp-b);
+        }
+
+        public void addExtra(uint b){
+            this.baseexp = (ushort)(this.extra+b);
+        }
+
+        public void subExtra(uint b){
+            this.baseexp = (ushort)(this.extra-b);
         }
 
         public int getExp(){
