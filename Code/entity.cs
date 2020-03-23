@@ -25,4 +25,65 @@ namespace DnDTools{
 
     }
 
+    
+    public struct ExperienceGrant{
+        private uint baseexp;
+        private uint extra;
+        private Entity parent;
+
+        public ExperienceGrant(Entity parent){
+            this.parent = parent;
+            this.baseexp = 1;
+            this.extra = 0;
+        }
+        public ExperienceGrant(Entity parent, uint b){
+            this.parent = parent;
+            this.baseexp = b;
+            this.extra = 0;
+        }
+        public ExperienceGrant(Entity parent, uint b, uint e){
+            this.parent = parent;
+            this.baseexp = b;
+            this.extra = e;
+        }
+
+        public void setBaseGrant(uint b){
+            this.baseexp = b;
+        }
+
+        public uint getBaseGrant(){
+            return this.baseexp;
+        }
+
+        public void setExtra(uint b){
+            this.extra = b;
+        }
+
+        public uint getExtra(){
+            return this.extra;
+        }
+
+        public void addBase(uint b){
+            this.baseexp = (this.baseexp+b);
+        }
+
+        public void subBase(uint b){
+            this.baseexp = (this.baseexp-b);
+        }
+
+        public void addExtra(uint b){
+            this.baseexp = (this.extra+b);
+        }
+
+        public void subExtra(uint b){
+            this.baseexp = (this.extra-b);
+        }
+
+        public uint getExp(){
+            byte l = this.parent.getLevel();
+            return ((l*(l-1)*500)+(this.baseexp*l))+this.extra;
+        }
+
+    }
+
 }
