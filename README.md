@@ -16,8 +16,9 @@ W.Z.Y.X
 
 
 ## Usage
+To compile an executable, assuming the folder structure remains the same, simply run the compile.bat
 
-
+(This is made this way because I don't have VisualStudio, and I haven't gotten around to setup a better method of project management, mostly due to internet limitations)
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
