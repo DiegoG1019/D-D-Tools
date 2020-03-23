@@ -6,12 +6,8 @@ namespace DnDTools{
 
     public struct Version{
         
-        //String noting a version preppendix
         private string preppendix;
-        //Array holding version number
         private byte[] v;
-
-        //Constructor, it simply puts all the numbers where they belong
         public Version(string p, byte w, byte z, byte y, byte x){
             this.v = new byte[4];
             this.v[0] = w;
@@ -20,24 +16,17 @@ namespace DnDTools{
             this.v[3] = x;
             this.preppendix = p;
         }
-
-        //Returns a formatted string of the current version
         public string get(){
-            return String.Format("{0}-{1}.{2}.{3}.{4}",this.preppendix,this.v[0],this.v[1],this.v[2],this.v[3]);
+            return String.Format("{0}-{1}.{2}.{3}.{4}",this.preppendix, this.v[0], this.v[1], this.v[2], this.v[3]);
         }
 
     }
     
     public struct Dice{
 
-        //Random number generator
         private static dynamic rand = new Random();
-
-        //The throws of the dice
         private byte throws;
-        //The type of dice (d20, d6, etc...)
         private byte type;
-        //The value to be added or removed from the dice
         private sbyte extra;
 
         public Dice(byte throws, byte type){
@@ -93,6 +82,32 @@ namespace DnDTools{
             }
         }
 
+    }
+
+    public struct PriceTag{
+        private ulong value;
+
+        public PriceTag(ulong v){
+            this.value = v;
+        }
+
+        public ulong get(){
+            return this.value;
+        }
+
+        public void set(ulong v){
+            this.value = v;
+        }
+
+        public void change(int v){
+            this.value = (ulong)(this.value + v);
+        }
+
+        ///And finally, here's the reason I made this in the first place
+        public string toString(){
+            return String.Format("{0}{1}",Cf.lang.getUtil("currency"),this.value);
+        }
+        
     }
 
     public struct Wallet{
