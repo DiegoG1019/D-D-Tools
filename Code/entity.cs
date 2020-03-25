@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 
 namespace DnDTools{
 
@@ -13,14 +14,14 @@ namespace DnDTools{
         public byte skillPointModifier;
         public byte extraSkillPoints;
         public byte level = 1;
-        public string name;
         private uint id;
         public ExperienceGrant expgrant;
         public ArmorClass armorC;
         public Health health;
+        public Description desc;
+        public uint[] spentSpells = new uint[Cf.Options.EntityValues["maxSpellLevel"]];
 
         public byte getLevel(){
-            return this.level;
         }
 
         public int getBaseMod(byte i){
@@ -35,12 +36,13 @@ namespace DnDTools{
             return this.id;
         }
 
-        public Entity(byte level){
+        public Entity(byte level, string name){
             this.level = level;
             this.expgrant = new ExperienceGrant(this,69,120);
             this.health = new Health(this);
             this.armorC = new ArmorClass(this);
             this.health.setBaseHP();
+            this.desc.name = name;
         }
 
     }
@@ -49,12 +51,13 @@ namespace DnDTools{
         public byte freeLevels;
         public Experience exp;
 
-        public Character(byte level): base(level){
+        public Character(byte level, string name): base(level,name){
             this.exp = new Experience(this);
         }
     }
     
     public struct ExperienceGrant{
+
         private uint baseexp;
         private uint extra;
         private Entity parent;
@@ -164,7 +167,7 @@ namespace DnDTools{
             }
         }
 
-        public void setMultipler(float v){
+        public void setMultiplier(float v){
             this.multiplier = v;
         }
 
@@ -184,7 +187,7 @@ namespace DnDTools{
                     return 0.25F;
                     break;
                 default:
-                    throw new TooManyFreeLevels(String.Format("The entity \"{0}\" of ID \"{1}\" has too many free levels", this.parent.name, this.parent.getId()));
+                    throw new TooManyFreeLevels(String.Format("The entity \"{0}\" of ID \"{1}\" has too many free levels", this.parent.desc.name, this.parent.getId()));
                     break;
             }
         }
@@ -204,7 +207,7 @@ namespace DnDTools{
                 this.current -= this.required;
                 this.parent.level++;
             }else{
-                throw new CantLevelUpYet(String.Format("The entity \"{0}\" of ID \"{1}\" attempted to level up without a right to", this.parent.name, this.parent.getId()));
+                throw new CantLevelUpYet(String.Format("The entity \"{0}\" of ID \"{1}\" attempted to level up without a right to", this.parent.desc.name, this.parent.getId()));
             }
         }
 
@@ -416,6 +419,7 @@ namespace DnDTools{
     }
     
     public struct Health{
+
         private uint basehp;
         public Hurt lethalDamage;
         public Hurt nonlethalDamage;
@@ -499,6 +503,34 @@ namespace DnDTools{
                 return "";
             }
         }
+
+    }
+
+    public struct Description{
+
+        public string name;
+        public string fullname;
+        public string race;
+        public string alignment;
+        public string deity;
+        public string bodyType;
+        public string size;
+        public string bio;
+        public string intro;
+        public string personality;
+        public string gender;
+        public List<string> notes;
+        public ulong age;
+        public uint height; //cm
+        public float weight; //kg
+        public Color eyes;
+        public Color hair;
+        public Color skin;
+        public Color? bgcolor;
+        public Color? bannerColor;
+        public Image? mugshot;
+        public Image? fullBody;
+        public Image? arcaneMark;
 
     }
 

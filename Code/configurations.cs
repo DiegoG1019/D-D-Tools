@@ -26,6 +26,7 @@ namespace DnDTools{
             Options.EntityValues.Add("dead",-10);
             Options.EntityValues.Add("bleedingOut",-1);
             Options.EntityValues.Add("down",0);
+            Options.EntityValues.Add("maxSpellLevel",9);
         }
 
     }

@@ -5,14 +5,16 @@ namespace DnDTools{
     public enum Stats {
         str,      con,       dex,      wis,       inte,     cha,            
         fort,     refl,      will,     spd,      initiative
-        };
+    };
+
+    public enum Schools { 
+        abjuration, divination, conjuration, enchantment, evocation, illusion, necromancy, transmutation
+    }
 
     class App{
 
-        public static Version version = new Version("Alpha",0,0,5,4);
+        public static Version version = new Version("Alpha",0,0,6,0);
         public const string author = "Diego Garcia";
-       
-       
        
         static void Main(string[] args){
 
@@ -28,7 +30,7 @@ namespace DnDTools{
             /*-----------------------------------------Testing-----------------------------------------*/
             
             //test char
-            Character tchar = new Character(5);
+            Character tchar = new Character(5, "Tchar");
             tchar.armorC.armor = 5;
             tchar.baseStats[(byte)Stats.dex] = 14;
 
