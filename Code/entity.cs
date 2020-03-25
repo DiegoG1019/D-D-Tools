@@ -5,20 +5,30 @@ namespace DnDTools{
 
     public class Entity{
 
-        private byte[] baseStats;
-        private byte[] tempStats;
-        private byte[] miscBuffs;
-        private byte[] baseModifiers;
-        private byte[] modifiers;
+        // Base values for            str con dex wis inte cha fort refl will spd initiative
+        public int[] baseStats     = { 0 , 0 , 0 , 0 , 0  , 0 , 0  , 0  , 0  , 0 ,    0      };
+        public int[] tempStats     = { 0 , 0 , 0 , 0 , 0  , 0 , 0  , 0  , 0  , 0 ,    0      };
+        public int[] miscBuffs     = { 0 , 0 , 0 , 0 , 0  , 0 , 0  , 0  , 0  , 0 ,    0      };
+
         public byte skillPointModifier;
         public byte extraSkillPoints;
         public byte level = 1;
         public string name;
         private uint id;
         public ExperienceGrant expgrant;
+        public ArmorClass armorC = new ArmorClass();
+        public Health health;
 
         public byte getLevel(){
             return this.level;
+        }
+
+        public int getBaseMod(byte i){
+            return ((this.baseStats[i]+this.miscBuffs[i])/2)-5;
+        }
+
+        public int getMod(byte i){
+            return ((this.baseStats[i]+this.miscBuffs[i]+this.tempStats[i])/2)-5;
         }
 
         public uint getId(){
@@ -28,6 +38,8 @@ namespace DnDTools{
         public Entity(byte level){
             this.level = level;
             this.expgrant = new ExperienceGrant(this,69,120);
+            this.health = new Health(this);
+            this.health.setBaseHP();
         }
 
     }
@@ -101,7 +113,7 @@ namespace DnDTools{
 
     }
 
-    public struct Experience: Historied{
+    public struct Experience: Historied<uint,int>{
 
         private uint current;
 
@@ -120,10 +132,10 @@ namespace DnDTools{
             this.setRequired();
         }
 
-        public dynamic get(){
+        public uint get(){
             return this.current;
         }
-        public dynamic get(int i){
+        public int get(int i){
             return this.history[i];
         }
         
@@ -201,6 +213,192 @@ namespace DnDTools{
         }
         public void setRequired(uint v){
             this.required = (uint)v;
+        }
+
+    }
+
+    public struct ArmorClass{
+
+        public enum flags{
+            featDex
+        }
+
+        public int baseac; //base armor class
+        public int armor;
+        public int size;
+        public int natural;
+        public int deflex;
+        public int temporary;
+        public int misc;
+        private Entity parent;
+        private int featDex; //A variable to use in case the character has a feat that enables dex to always be used
+        private bool[] flagsArr;
+
+        public bool getFlag(byte i){ //You'll notice there's no "set" method
+            return flagsArr[i];
+        }
+
+        ///---------------------------- baseac, armor,  size, natural, deflex, temporary,     misc
+        public ArmorClass(Entity parent, int b, int a, int s,   int n,  int d,  int temp, int misc){
+            
+            this.parent = parent;
+            this.baseac = b;
+            this.armor = a;
+            this.size = s;
+            this.natural = n;
+            this.deflex = d;
+            this.temporary = temp;
+            this.misc = misc;
+            this.featDex = 0;
+
+            this.flagsArr = new bool[1];
+
+        }
+
+        public uint get(){
+            return (uint)(this.baseac + this.armor + this.size + this.natural + this.deflex + this.temporary + this.misc + this.parent.getMod((byte)Stats.dex));
+        }
+
+        public uint touch(){
+            return (uint)(this.baseac + this.size + this.misc + this.deflex + this.parent.getMod((byte)Stats.dex));
+        }
+
+        public uint unaware(){
+            return (uint)(this.baseac + this.armor + this.size + this.natural + this.misc + this.featDex);
+        }
+
+        public void enableFeatDex(bool t){
+            if(t){
+                this.featDex = this.parent.getMod((byte)Stats.dex) + this.deflex;
+            }else{
+                this.featDex = 0;
+            }
+            this.flagsArr[(int)ArmorClass.flags.featDex] = t;
+        }
+
+    }
+
+    public struct Hurt: Historied<uint, int>{
+
+        private uint damage;
+        private List<int> history;
+
+        public Hurt(byte a){
+            this.damage = 0;
+            this.history = new List<int>();
+        }
+
+        public uint get(){
+            return this.damage;
+        }
+        public int get(int i){
+            return this.history[i];
+        }
+        public int getItems(){
+            return this.history.Count;
+        }
+
+        public void hurt(int d){
+            if((d < 0) && (Math.Abs(d) > this.damage)){
+                this.damage = 0u;
+            }else{
+                this.damage = (uint)(this.damage +d);
+            }
+            this.history.Add(d);
+        }
+
+        public void heal(int h){
+            if(h > this.damage){
+                this.damage = 0u;
+            }else{
+                this.damage -= (uint)(this.damage -h);
+            }
+            this.history.Add(-h);
+        }
+
+    }
+    
+    public struct Health{
+        private uint basehp;
+        public Hurt lethalDamage;
+        public Hurt nonlethalDamage;
+        public List<uint> hpthrows;
+        private Entity parent;
+
+        public Health(Entity p){
+            this.basehp = 0;
+            this.parent = p;
+            this.lethalDamage = new Hurt(0);
+            this.nonlethalDamage = new Hurt(0);
+            this.hpthrows = new List<uint>();
+        }
+        public Health(Entity p, uint h){
+            this.basehp = h;
+            this.parent = p;
+            this.lethalDamage = new Hurt(0);
+            this.nonlethalDamage = new Hurt(0);
+            this.hpthrows = new List<uint>();
+        }
+
+        public void setBaseHP(){
+            for(byte i = 0; i <= this.parent.level; i++){
+                int n = (int)(this.hpthrows[i] + this.parent.getMod((byte)Stats.con));
+                if(n > 1){
+                    this.basehp = (uint)(this.basehp + n);
+                }else{
+                    this.basehp++;
+                }
+            }
+        }
+        public void setBaseHP(uint h){
+            this.basehp = h;
+        }
+
+        public uint getBaseHP(){
+            return this.basehp;
+        }
+
+        public int getHP(){
+            return (int)(this.basehp - (this.lethalDamage.get()+this.nonlethalDamage.get()));
+        }
+
+        public int getNlHP(){
+            return (int)(this.basehp - this.lethalDamage.get());
+        }
+
+        public bool isDead(){
+            return this.getHP() <= Cf.Options.EntityValues["dead"];
+        }
+
+        public bool isBleedingOut(){
+            return this.getHP() <= Cf.Options.EntityValues["bleedingOut"];
+        }
+
+        public bool isDown(){
+            return this.getHP() <= Cf.Options.EntityValues["down"];
+        }
+
+        public string getState(){
+            if(this.isDead()){
+                return "Dead";
+            }else{
+                if(this.isBleedingOut()){
+                    return "Bleeding out";
+                }else{
+                    if(this.isDown()){
+                        return "Down";
+                    }
+                }
+            }
+            return "Fine";
+        }
+
+        public string omaeWaMou(){
+            if(this.isDead()){
+                return "Shindeiru";
+            }else{
+                return "";
+            }
         }
 
     }

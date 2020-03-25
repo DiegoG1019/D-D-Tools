@@ -22,10 +22,10 @@ namespace DnDTools{
 
     }
 
-    public interface Historied{
+    public interface Historied<T1,T2>{
         
-        dynamic get();
-        dynamic get(int i);
+        T1 get();
+        T2 get(int i);
         int getItems();
 
     }
@@ -113,12 +113,12 @@ namespace DnDTools{
 
         ///And finally, here's the reason I made this in the first place
         public string toString(){
-            return String.Format("{0}{1}",Cf.lang.getUtil("currency"),this.value);
+            return String.Format("{0}{1}",Cf.Lang.getUtil("currency"),this.value);
         }
         
     }
 
-    public struct Wallet: Historied{
+    public struct Wallet: Historied<ulong, int>{
 
         private ulong value;
         private List<int> history;
@@ -180,10 +180,10 @@ namespace DnDTools{
             this.spend(this.value);
         }
 
-        public dynamic get(){
+        public ulong get(){
             return this.value;
         }
-        public dynamic get(int i){
+        public int get(int i){
             return this.history[i];
         }
 
@@ -192,7 +192,7 @@ namespace DnDTools{
         }
 
         public string toString(){
-            return String.Format("{0}{1}",Cf.lang.getUtil("currency"),this.value);
+            return String.Format("{0}{1}",Cf.Lang.getUtil("currency"),this.value);
         }
 
         public Wallet separate(ulong value){

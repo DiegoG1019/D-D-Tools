@@ -2,24 +2,17 @@ using System;
 
 namespace DnDTools{
 
+    public enum Stats {
+        str,      con,       dex,      wis,       inte,     cha,            
+        fort,     refl,      will,     spd,      initiative
+        };
+
     class App{
 
-        public static Version version = new Version("Alpha",0,0,4,0);
+        public static Version version = new Version("Alpha",0,0,5,0);
         public const string author = "Diego Garcia";
        
-       public enum Stats {
-           str,
-           con,
-           dex,
-           wis,
-           inte,
-           cha,
-           fortitude,
-           reflexes,
-           will,
-           speed,
-           initiative
-        };
+       
        
         static void Main(string[] args){
 
@@ -35,63 +28,47 @@ namespace DnDTools{
             
             //test char
             Character tchar = new Character(5);
+            string tc = "---------------- \n Tchar's basehp {0} \n Tchar's current hp {1} \n Tchar's current lethal damage {2} \n Is Tchar dead? {3} \n Tchar's AC {4} \n Tchar's touch AC {5} \n Tchar's unaware AC {6} \n Tchar is {7}";
 
             Console.WriteLine(
-                "---------------- \n Tchar's level {0} \n Tchar's current exp {1} \n Tchar's required exp {2} \n Can Tchar level up? {3} \n How much more exp does Tchar need? {4}",
-                tchar.level,
-                tchar.exp.get(),
-                tchar.exp.getRequired(),
-                tchar.exp.didLevel(),
-                tchar.exp.getRequiredLeft()
+                tc,
+                tchar.health.getBaseHP(),
+                tchar.health.getHP(),
+                tchar.health.lethalDamage.get(),
+                tchar.health.isDead(),
+                tchar.armorC.get(),
+                tchar.armorC.touch(),
+                tchar.armorC.unaware(),
+                tchar.health.getState()
             );
 
-            try{
-                tchar.exp.levelUp();
-            }catch(CantLevelUpYet e1){
-                Console.WriteLine(e1.ToString());
-            }
+            tchar.health.lethalDamage.hurt(69);
 
-            tchar.exp.gain(28772);
             Console.WriteLine(
-                "---------------- \n Tchar's level {0} \n Tchar's current exp {1} \n Tchar's required exp {2} \n Can Tchar level up? {3} \n How much more exp does Tchar need? {4}",
-                tchar.level,
-                tchar.exp.get(),
-                tchar.exp.getRequired(),
-                tchar.exp.didLevel(),
-                tchar.exp.getRequiredLeft()
+                tc,
+                tchar.health.getBaseHP(),
+                tchar.health.getHP(),
+                tchar.health.lethalDamage.get(),
+                tchar.health.isDead(),
+                tchar.armorC.get(),
+                tchar.armorC.touch(),
+                tchar.armorC.unaware(),
+                tchar.health.getState()
             );
 
-            try{
-                tchar.exp.levelUp();
-            }catch(CantLevelUpYet e1){
-                Console.WriteLine(e1.ToString());
-            }
-
-            tchar.exp.gain(69451);
-            Console.WriteLine(
-                "---------------- \n Tchar's level {0} \n Tchar's current exp {1} \n Tchar's required exp {2} \n Can Tchar level up? {3} \n How much more exp does Tchar need? {4}",
-                tchar.level,
-                tchar.exp.get(),
-                tchar.exp.getRequired(),
-                tchar.exp.didLevel(),
-                tchar.exp.getRequiredLeft()
-            );
-
-            try{
-                tchar.exp.levelUp();
-            }catch(CantLevelUpYet e1){
-                Console.WriteLine(e1.ToString());
-            }
+            tchar.health.lethalDamage.heal(100);
             
             Console.WriteLine(
-                "---------------- \n Tchar's level {0} \n Tchar's current exp {1} \n Tchar's required exp {2} \n Can Tchar level up? {3} \n How much more exp does Tchar need? {4}",
-                tchar.level,
-                tchar.exp.get(),
-                tchar.exp.getRequired(),
-                tchar.exp.didLevel(),
-                tchar.exp.getRequiredLeft()
+                tc,
+                tchar.health.getBaseHP(),
+                tchar.health.getHP(),
+                tchar.health.lethalDamage.get(),
+                tchar.health.isDead(),
+                tchar.armorC.get(),
+                tchar.armorC.touch(),
+                tchar.armorC.unaware(),
+                tchar.health.getState()
             );
-
 
             /*---------------------------------------Finalization--------------------------------------*/
 
