@@ -9,7 +9,7 @@ namespace DnDTools{
 
     class App{
 
-        public static Version version = new Version("Alpha",0,0,5,2);
+        public static Version version = new Version("Alpha",0,0,5,3);
         public const string author = "Diego Garcia";
        
        
@@ -23,6 +23,7 @@ namespace DnDTools{
             Console.WriteLine("Running D&DTools version: {0}", App.version.get());
             Console.WriteLine("Program Author: {0}", App.author);
             Cf.loadLang();
+            Cf.loadOptions();
 
             /*-----------------------------------------Testing-----------------------------------------*/
             

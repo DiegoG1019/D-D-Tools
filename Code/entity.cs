@@ -16,7 +16,7 @@ namespace DnDTools{
         public string name;
         private uint id;
         public ExperienceGrant expgrant;
-        public ArmorClass armorC = new ArmorClass();
+        public ArmorClass armorC;
         public Health health;
 
         public byte getLevel(){
@@ -39,6 +39,7 @@ namespace DnDTools{
             this.level = level;
             this.expgrant = new ExperienceGrant(this,69,120);
             this.health = new Health(this);
+            this.armorC = new ArmorClass(this);
             this.health.setBaseHP();
         }
 
@@ -240,7 +241,6 @@ namespace DnDTools{
 
         ///---------------------------- baseac, armor,  size, natural, deflex, temporary,     misc
         public ArmorClass(Entity parent, int b, int a, int s,   int n,  int d,  int temp, int misc){
-            
             this.parent = parent;
             this.baseac = b;
             this.armor = a;
@@ -250,17 +250,99 @@ namespace DnDTools{
             this.temporary = temp;
             this.misc = misc;
             this.featDex = 0;
-
             this.flagsArr = new bool[1];
-
+        }
+        public ArmorClass(Entity parent, int b, int a, int s,   int n,  int d,  int temp){
+            this.parent = parent;
+            this.baseac = b;
+            this.armor = a;
+            this.size = s;
+            this.natural = n;
+            this.deflex = d;
+            this.temporary = temp;
+            this.misc = 0;
+            this.featDex = 0;
+            this.flagsArr = new bool[1];
+        }
+        public ArmorClass(Entity parent, int b, int a, int s,   int n,  int d){
+            this.parent = parent;
+            this.baseac = b;
+            this.armor = a;
+            this.size = s;
+            this.natural = n;
+            this.deflex = d;
+            this.temporary = 0;
+            this.misc = 0;
+            this.featDex = 0;
+            this.flagsArr = new bool[1];
+        }
+        public ArmorClass(Entity parent, int b, int a, int s,   int n){
+            this.parent = parent;
+            this.baseac = b;
+            this.armor = a;
+            this.size = s;
+            this.natural = n;
+            this.deflex = 0;
+            this.temporary = 0;
+            this.misc = 0;
+            this.featDex = 0;
+            this.flagsArr = new bool[1];
+        }
+        public ArmorClass(Entity parent, int b, int a, int s){
+            this.parent = parent;
+            this.baseac = b;
+            this.armor = a;
+            this.size = s;
+            this.natural = 0;
+            this.deflex = 0;
+            this.temporary = 0;
+            this.misc = 0;
+            this.featDex = 0;
+            this.flagsArr = new bool[1];
+        }
+        public ArmorClass(Entity parent, int b, int a){
+            this.parent = parent;
+            this.baseac = b;
+            this.armor = a;
+            this.size = 0;
+            this.natural = 0;
+            this.deflex = 0;
+            this.temporary = 0;
+            this.misc = 0;
+            this.featDex = 0;
+            this.flagsArr = new bool[1];
+        }
+        public ArmorClass(Entity parent, int b){
+            this.parent = parent;
+            this.baseac = b;
+            this.armor = 0;
+            this.size = 0;
+            this.natural = 0;
+            this.deflex = 0;
+            this.temporary = 0;
+            this.misc = 0;
+            this.featDex = 0;
+            this.flagsArr = new bool[1];
+        }
+        public ArmorClass(Entity parent){
+            this.parent = parent;
+            this.baseac = 0;
+            this.armor = 0;
+            this.size = 0;
+            this.natural = 0;
+            this.deflex = 0;
+            this.temporary = 0;
+            this.misc = 0;
+            this.featDex = 0;
+            this.flagsArr = new bool[1];
         }
 
         public uint get(){
-            return (uint)(this.baseac + this.armor + this.size + this.natural + this.deflex + this.temporary + this.misc + this.parent.getMod((byte)Stats.dex));
+            return (uint)(this.baseac + this.armor + this.size + this.natural + this.deflex + this.temporary + this.misc + this.parent.getMod((int)Stats.dex));
         }
 
         public uint touch(){
-            return (uint)(this.baseac + this.size + this.misc + this.deflex + this.parent.getMod((byte)Stats.dex));
+            return (uint)(this.baseac + this.size + this.misc + this.deflex + this.parent.getMod((int)Stats.dex));
         }
 
         public uint unaware(){
@@ -269,7 +351,7 @@ namespace DnDTools{
 
         public void enableFeatDex(bool t){
             if(t){
-                this.featDex = this.parent.getMod((byte)Stats.dex) + this.deflex;
+                this.featDex = this.parent.getMod((int)Stats.dex) + this.deflex;
             }else{
                 this.featDex = 0;
             }
@@ -344,7 +426,7 @@ namespace DnDTools{
 
         public void setBaseHP(){
             for(byte i = 0; i <= this.parent.level; i++){
-                int n = (int)(this.hpthrows[i] + this.parent.getMod((byte)Stats.con));
+                int n = (int)(this.hpthrows[i] + this.parent.getMod((int)Stats.con));
                 if(n > 1){
                     this.basehp = (uint)(this.basehp + n);
                 }else{

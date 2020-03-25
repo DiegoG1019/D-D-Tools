@@ -15,7 +15,7 @@ namespace DnDTools{
         }
 
         public static class Options{
-            public static Dictionary<string, int> EntityValues;
+            public static Dictionary<string, int> EntityValues = new Dictionary<string, int>();
         }
 
         public static void loadLang(){
