@@ -322,22 +322,24 @@ namespace DnDTools{
         private uint basehp;
         public Hurt lethalDamage;
         public Hurt nonlethalDamage;
-        public List<uint> hpthrows;
+        public List<uint> hpthrows; //This is a List, as opposed to a simple Array, because while usually levels cap out at 20, this is D&D we're talking about. I want the user to be able to expand it as necessary.
+        //This list will have to be displayed and handled with this in mind.
         private Entity parent;
 
-        public Health(Entity p){
+        public  Health(Entity p){
             this.basehp = 0;
             this.parent = p;
             this.lethalDamage = new Hurt(0);
             this.nonlethalDamage = new Hurt(0);
-            this.hpthrows = new List<uint>();
+            this.hpthrows = new List<uint>( new uint[20] );
         }
         public Health(Entity p, uint h){
             this.basehp = h;
             this.parent = p;
             this.lethalDamage = new Hurt(0);
             this.nonlethalDamage = new Hurt(0);
-            this.hpthrows = new List<uint>();
+            this.hpthrows = new List<uint>( new uint[20] );
+
         }
 
         public void setBaseHP(){

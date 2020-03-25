@@ -9,7 +9,7 @@ namespace DnDTools{
 
     class App{
 
-        public static Version version = new Version("Alpha",0,0,5,1);
+        public static Version version = new Version("Alpha",0,0,5,2);
         public const string author = "Diego Garcia";
        
        
