@@ -113,7 +113,7 @@ namespace DnDTools{
 
         ///And finally, here's the reason I made this in the first place
         public string toString(){
-            return String.Format("{0}{1}",Cf.Lang.getUtil("currency"),this.value);
+            return String.Format("{0}{1}",Cf.Lang.util["currency"],this.value);
         }
         
     }
@@ -192,7 +192,7 @@ namespace DnDTools{
         }
 
         public string toString(){
-            return String.Format("{0}{1}",Cf.Lang.getUtil("currency"),this.value);
+            return String.Format("{0}{1}",Cf.Lang.util["currency"],this.value);
         }
 
         public Wallet separate(ulong value){

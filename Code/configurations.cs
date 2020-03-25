@@ -5,31 +5,12 @@ namespace DnDTools{
     
     public static class Cf{
 
-        public static class Lang{
+        public static class Lang{ //I don't honestly have a reason to encapsulate these right now
 
-            public enum lcat{ //Language category
-                util, gui, ent, item
-            }
-
-            public static Dictionary<string, string>[] l = new Dictionary<string, string>[]{
-                new Dictionary<string, string>(), //utilities
-                new Dictionary<string, string>(), //gui
-                new Dictionary<string, string>(), //entities
-                new Dictionary<string, string>()  //items
-            };
-
-            public static string getUtil(string k){
-                return l[0][k];
-            }
-            public static string getGui(string k){
-                return l[1][k];
-            }
-            public static string getEnt(string k){
-                return l[2][k];
-            }
-            public static string getItems(string k){
-                return l[3][k];
-            }
+            public static Dictionary<string, string> util = new Dictionary<string, string>();
+            public static Dictionary<string, string> gui = new Dictionary<string, string>();
+            public static Dictionary<string, string> ent = new Dictionary<string, string>();
+            public static Dictionary<string, string> items = new Dictionary<string, string>();
 
         }
 
@@ -38,7 +19,7 @@ namespace DnDTools{
         }
 
         public static void loadLang(){
-            Lang.l[0].Add("currency","P.");
+            Lang.util.Add("currency","P.");
         }
 
         public static void loadOptions(){
