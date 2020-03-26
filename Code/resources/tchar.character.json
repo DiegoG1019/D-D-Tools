@@ -68,7 +68,7 @@
             "He likes long walks on the beach.",
             "He does not know what a beach is",
             "He twitches when he sleeps",
-            "He has never slept once in his life"
+            "He has never slept once in his 'life'"
         ],
         "age" : 4000000527,
         "height" : 187,
@@ -97,6 +97,27 @@
             "G" : 162,
             "B" : 232
         }
-    }
+    },
+
+    "skills" : [
+        {
+            "name" : "Lockpicking",
+            "keyStat" : "dex",
+            "level" : 9,
+            "miscLevels" : 0,
+            "flags" : [
+                true, false, true
+            ]
+        },
+        {
+            "name" : "Diplomacy",
+            "keyStat" : "cha",
+            "level" : 2,
+            "miscLevels" : 1,
+            "flags" : [
+                true, false, false
+            ]
+        }
+    ]
 
 }

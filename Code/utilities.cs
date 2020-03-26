@@ -29,6 +29,12 @@ namespace DnDTools{
         int getItems();
 
     }
+
+    public interface Flagged<T>{
+        
+        bool getFlag(T i);
+
+    }
     
     public struct Dice{
 

@@ -6,10 +6,9 @@ namespace DnDTools{
 
     public class Entity{
 
-        // Base values for            str con dex wis inte cha fort refl will spd initiative
-        public int[] baseStats     = { 0 , 0 , 0 , 0 , 0  , 0 , 0  , 0  , 0  , 0 ,    0      };
-        public int[] tempStats     = { 0 , 0 , 0 , 0 , 0  , 0 , 0  , 0  , 0  , 0 ,    0      };
-        public int[] miscBuffs     = { 0 , 0 , 0 , 0 , 0  , 0 , 0  , 0  , 0  , 0 ,    0      };
+        private int[] baseStats     = new int[Enum.GetNames(typeof(Stats)).Length];
+        private int[] tempStats     = new int[Enum.GetNames(typeof(Stats)).Length];
+        private int[] miscBuffs     = new int[Enum.GetNames(typeof(Stats)).Length];
 
         public byte skillPointModifier;
         public byte extraSkillPoints;
@@ -19,16 +18,46 @@ namespace DnDTools{
         public ArmorClass armorC;
         public Health health;
         public Description desc;
+        public List<Skill> skills;
         public uint[] spentSpells = new uint[Cf.Options.EntityValues["maxSpellLevel"]];
 
-        public byte getLevel(){
+        public int getBaseStats(Stats ind){
+            return this.baseStats[(byte)ind];
+        }
+        public void addBaseStats(Stats ind, int x){
+            this.baseStats[(byte)ind] += x;
+        }
+        public void setBaseStats(Stats ind, int x){
+            this.baseStats[(byte)ind] = x;
         }
 
-        public int getBaseMod(byte i){
+        public int getTempStats(Stats ind){
+            return this.tempStats[(byte)ind];
+        }
+        public void addTempStats(Stats ind, int x){
+            this.tempStats[(byte)ind] += x;
+        }
+        public void setTempStats(Stats ind, int x){
+            this.tempStats[(byte)ind] = x;
+        }
+
+        public int getMiscBuffs(Stats ind){
+            return this.miscBuffs[(byte)ind];
+        }
+        public void addMiscBuffs(Stats ind, int x){
+            this.miscBuffs[(byte)ind] += x;
+        }
+        public void setMiscBuffs(Stats ind, int x){
+            this.miscBuffs[(byte)ind] = x;
+        }
+
+        public int getBaseMod(Stats stat){
+            byte i = (byte)stat;
             return ((this.baseStats[i]+this.miscBuffs[i])/2)-5;
         }
 
-        public int getMod(byte i){
+        public int getMod(Stats stat){
+            byte i = (byte)stat;
             return ((this.baseStats[i]+this.miscBuffs[i]+this.tempStats[i])/2)-5;
         }
 
@@ -42,7 +71,9 @@ namespace DnDTools{
             this.health = new Health(this);
             this.armorC = new ArmorClass(this);
             this.health.setBaseHP();
-            this.desc.name = name;
+            this.skills.Add(new Skill(this, "Lockpicking", Stats.dex, 0, 5, true, false, true));
+            this.skills.Add(new Skill(this, "Diplomacy", Stats.cha, 3, 2, true, false, false));
+            this.desc = new Description(name);
         }
 
     }
@@ -341,7 +372,7 @@ namespace DnDTools{
         }
 
         public uint get(){
-            int a = (this.baseac + this.armor + this.size + this.natural + this.deflex + this.temporary + this.misc + this.parent.getMod((int)Stats.dex));
+            int a = (this.baseac + this.armor + this.size + this.natural + this.deflex + this.temporary + this.misc + this.parent.getMod(Stats.dex));
             if(a>0){
                 return (uint)a;
             }else{
@@ -350,7 +381,7 @@ namespace DnDTools{
         }
 
         public uint touch(){
-            int a = (this.baseac + this.size + this.misc + this.deflex + this.parent.getMod((int)Stats.dex));
+            int a = (this.baseac + this.size + this.misc + this.deflex + this.parent.getMod(Stats.dex));
             if(a>0){
                 return (uint)a;
             }else{
@@ -369,7 +400,7 @@ namespace DnDTools{
 
         public void enableFeatDex(bool t){
             if(t){
-                this.featDex = this.parent.getMod((int)Stats.dex) + this.deflex;
+                this.featDex = this.parent.getMod(Stats.dex) + this.deflex;
             }else{
                 this.featDex = 0;
             }
@@ -445,7 +476,7 @@ namespace DnDTools{
 
         public void setBaseHP(){
             for(byte i = 0; i <= this.parent.level; i++){
-                int n = (int)(this.hpthrows[i] + this.parent.getMod((int)Stats.con));
+                int n = (int)(this.hpthrows[i] + this.parent.getMod(Stats.con));
                 if(n > 1){
                     this.basehp = (uint)(this.basehp + n);
                 }else{
@@ -528,9 +559,102 @@ namespace DnDTools{
         public Color skin;
         public Color? bgcolor;
         public Color? bannerColor;
-        public Image? mugshot;
-        public Image? fullBody;
-        public Image? arcaneMark;
+        public Image mugshot;
+        public Image fullBody;
+        public Image arcaneMark;
+
+        public Description(string name){
+            this.name = name;
+            this.fullname = name;
+            this.race = "Human";
+            this.alignment = "True Neutral";
+            this.deity = "None";
+            this.bodyType = "Humanoid";
+            this.size = "Medium";
+            this.bio = "None";
+            this.intro = "No intro";
+            this.personality = "Blank";
+            this.gender = "Unknown";
+            this.notes = new List<string>();
+            this.age = 0;
+            this.height = 0;
+            this.weight = 0;
+            this.eyes = Color.FromName("White");
+            this.hair = Color.FromName("Black");
+            this.skin = Color.FromName("Bisque");
+            this.bgcolor = null;
+            this.bannerColor = null;
+            this.mugshot = null;
+            this.fullBody = null;
+            this.arcaneMark = null;
+        }
+
+    }
+
+    public struct Skill: Flagged<Skill.flags>{
+        
+        public enum flags{
+            trainedOnly, penalizedByArmor, JobSkill
+        };
+
+        public string name;
+        public Stats keyStat;
+        public uint level;
+        public uint miscLevels;
+
+        private bool[] flagsArr;
+        private Entity parent;
+
+        public Skill(Entity p, string name, Stats keyStat){
+            this.parent = p;
+            this.name = name;
+            this.keyStat = keyStat;
+            this.miscLevels = 0;
+            this.level = 0;
+            this.flagsArr = new bool[3];
+        }
+        public Skill(Entity p, string name, Stats keyStat, uint miscLevels){
+            this.parent = p;
+            this.name = name;
+            this.keyStat = keyStat;
+            this.miscLevels = miscLevels;
+            this.level = 0;
+            this.flagsArr = new bool[3];
+        }
+        public Skill(Entity p, string name, Stats keyStat, uint miscLevels, uint level){
+            this.parent = p;
+            this.name = name;
+            this.keyStat = keyStat;
+            this.miscLevels = miscLevels;
+            this.level = level;
+            this.flagsArr = new bool[3];
+        }
+        public Skill(Entity p, string name, Stats keyStat, uint miscLevels, uint level, bool to, bool pba, bool jk){
+            this.parent = p;
+            this.name = name;
+            this.keyStat = keyStat;
+            this.miscLevels = miscLevels;
+            this.level = level;
+            this.flagsArr = new bool[3];
+            this.flagsArr[(byte)Skill.flags.trainedOnly] = to;
+            this.flagsArr[(byte)Skill.flags.penalizedByArmor] = pba;
+            this.flagsArr[(byte)Skill.flags.JobSkill] = jk;
+        }
+
+        public bool getFlag(flags i){
+            return this.flagsArr[(byte)i];
+        }
+        public void train(uint l){
+            this.level += l;
+        }
+        public long getMod(){
+            int val = (int)(this.parent.getMod(this.keyStat) + this.miscLevels);
+            if(this.getFlag(flags.JobSkill)){
+                return val + this.level;
+            }else{
+                return val + (this.level/2);
+            }
+        }
 
     }
 
