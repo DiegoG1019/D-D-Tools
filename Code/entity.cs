@@ -18,7 +18,7 @@ namespace DnDTools{
         public ArmorClass armorC;
         public Health health;
         public Description desc;
-        public List<Skill> skills;
+        public List<Skill> skills = new List<Skill>();
         public uint[] spentSpells = new uint[Cf.Options.EntityValues["maxSpellLevel"]];
 
         public int getBaseStats(Stats ind){

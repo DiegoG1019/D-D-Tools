@@ -19,7 +19,7 @@ namespace DnDTools{
 
     class App{
 
-        public static Version version = new Version("Alpha",0,0,7,0);
+        public static Version version = new Version("Alpha",0,0,7,1);
         public const string author = "Diego Garcia";
        
         static void Main(string[] args){
@@ -47,13 +47,13 @@ namespace DnDTools{
                 tcsk = tcsk + String.Format(tcskt, tchar.skills[i].name);
             }
 
-            string tc = "---------------- \n {0}'s significant skills {1}";
+            string tc = "---------------- \n {0}'s significant skills: {1}";
             string tcs = "------***------ \n {0} Skill #{1} \n  {2} \n  Key Statistic: {3} \n  Levels: {4} \n  Misc. Levels: {5} \n  Can it be used without training? {6} \n  Is it penalized by armor? {7} \n  Is it a class skill? {8} \n  Skill modifier: {9}";
 
             Console.WriteLine(
                 tc,
                 tchar.desc.name,
-                tcsk
+                tcsk.TrimEnd(',')
             );
 
             for(int i = 0; i<tchar.skills.Count; i++){
