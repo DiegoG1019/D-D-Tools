@@ -658,4 +658,48 @@ namespace DnDTools{
 
     }
 
+    public struct Ability: Flagged<Ability.flags>{
+
+        public enum flags{
+            extraordinary, spellLike, psiLike, supernatural
+        };
+        
+        public string name;
+        public string requirements;
+        public string description;
+        public List<string> notes;
+        private bool[] flags;
+
+        bool getFlag(flags ind){
+            return this.flags[(byte)ind];
+        }
+
+        public string getName(){
+            string str = this.name;
+            if(this.getFlag(flags.extraordinary)){
+                str += " (Ex)";
+            }
+            if(this.getFlag(flags.spellLike)){
+                str += " (Sl)";
+            }
+            if(this.getFlag(flags.psiLike)){
+                str += " (Pl)";
+            }
+            if(this.getFlag(flags.supernatural)){
+                str += " (Sn)";
+            }
+            return str;
+        }
+
+        public string getNotes(){
+            const string a = "-{0}\n";
+            string c = "";
+            foreach(string b in notes){
+                c += String.Format(a,b);
+            }
+            return c.Substring(0,c.Length-1);
+        }
+
+    }
+
 }

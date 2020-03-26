@@ -1,9 +1,3 @@
-#define Debug1
-#define Debug2
-#define Debug3
-#define Debug4
-//Debug console output verbosity level 1, 2, 3 and 4
-
 using System;
 
 namespace DnDTools{
@@ -19,7 +13,7 @@ namespace DnDTools{
 
     class App{
 
-        public static Version version = new Version("Alpha",0,0,7,3);
+        public static Version version = new Version("Alpha",0,0,7,4);
         public const string author = "Diego Garcia";
        
         static void Main(string[] args){
@@ -64,7 +58,7 @@ namespace DnDTools{
                     tchar.skills[i].keyStat,
                     tchar.skills[i].level,
                     tchar.skills[i].miscLevels,
-                    !tchar.skills[i].getFlag(Skill.flags.trainedOnly),
+                    !tchar.skills[i].getFlag(Skill.flags.trainedOnly), //This value is inverted, as denoted by the ! preceding it. - if trainedOnly is true, then it can only be used with training. Therefore, to answer if it can be used /Without/ training, it needs to be inverted.
                     tchar.skills[i].getFlag(Skill.flags.penalizedByArmor),
                     tchar.skills[i].getFlag(Skill.flags.JobSkill),
                     tchar.skills[i].getMod()
