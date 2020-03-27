@@ -20,6 +20,7 @@ namespace DnDTools{
 
         public static void loadLang(){
             Lang.util.Add("currency","P.");
+            Lang.ent.Add("noRequirements","Nothing");
         }
 
         public static void loadOptions(){

@@ -3,8 +3,8 @@ using System;
 namespace DnDTools{
 
     public enum Stats {
-        str,      con,       dex,      wis,       inte,     cha,            
-        fort,     refl,      will,     spd,      initiative
+        strength,      constitution,       dexterity,      wisdom,       intelligence,     charisma,            
+        fortitude,     reflex,             will,           speed,        initiative
     }; //Is it possible to dynamically initialize an enum? Maybe I just need a new object type
 
     public enum Schools { 
@@ -13,7 +13,7 @@ namespace DnDTools{
 
     class App{
 
-        public static Version version = new Version("Alpha",0,0,7,4);
+        public static Version version = new Version("Alpha",0,0,8,0);
         public const string author = "Diego Garcia";
        
         static void Main(string[] args){
@@ -32,17 +32,20 @@ namespace DnDTools{
             //test char
             Character tchar = new Character(5, "Tchar");
             tchar.armorC.armor = 5;
-            tchar.setBaseStats(Stats.dex, 14);
-            tchar.setBaseStats(Stats.cha, 2);
+            tchar.setBaseStats(Stats.dexterity, 14);
+            tchar.setBaseStats(Stats.charisma, 2);
 
             string tcskt = "{0}, ";
             string tcsk = "";
-            for(int i = 0; i<tchar.skills.Count; i++){
-                tcsk = tcsk + String.Format(tcskt, tchar.skills[i].name);
+            for(int i = 0; i<tchar.abilities.Count; i++){
+                tcsk = tcsk + String.Format(tcskt, tchar.feats[i].name);
+            }
+            for(int i = 0; i<tchar.feats.Count; i++){
+                tcsk = tcsk + String.Format(tcskt, tchar.abilities[i].name);
             }
 
-            string tc = "---------------- \n {0}'s significant skills: {1}";
-            string tcs = "------***------ \n {0} Skill #{1} \n {2} \n  Key Statistic: {3} \n  Levels: {4} \n  Misc. Levels: {5} \n  Can it be used without training? {6} \n  Is it penalized by armor? {7} \n  Is it a class skill? {8} \n  Skill modifier: {9}";
+            string tc = "---------------- \n {0}'s significant abilities and feats: {1}";
+            string tcs = "-----***----- \n {0}'s {1} #{2}: \"{3}\"\n  -{4}\n  Requires: {5}";
 
             Console.WriteLine(
                 tc,
@@ -50,20 +53,33 @@ namespace DnDTools{
                 tcsk.Substring(0,tcsk.Length-2)
             );
 
-            for(int i = 0; i<tchar.skills.Count; i++){
+            for(int i = 0; i<tchar.abilities.Count; i++){
                 Console.WriteLine(tcs,
                     tchar.desc.name,
+                    "Ability",
                     i+1,
-                    tchar.skills[i].name,
-                    tchar.skills[i].keyStat,
-                    tchar.skills[i].level,
-                    tchar.skills[i].miscLevels,
-                    !tchar.skills[i].getFlag(Skill.flags.trainedOnly), //This value is inverted, as denoted by the ! preceding it. - if trainedOnly is true, then it can only be used with training. Therefore, to answer if it can be used /Without/ training, it needs to be inverted.
-                    tchar.skills[i].getFlag(Skill.flags.penalizedByArmor),
-                    tchar.skills[i].getFlag(Skill.flags.JobSkill),
-                    tchar.skills[i].getMod()
+                    tchar.abilities[i].name,
+                    tchar.abilities[i].description,
+                    tchar.abilities[i].requirements
                 );
             }
+            for(int i = 0; i<tchar.feats.Count; i++){
+                Console.WriteLine(tcs,
+                    tchar.desc.name,
+                    "Feat",
+                    i+1,
+                    tchar.feats[i].name,
+                    tchar.feats[i].description,
+                    tchar.feats[i].requirements
+                );
+            }
+
+            Console.WriteLine(" *** {0}: {1}",Stats.charisma,tchar.getMod(Stats.charisma));
+            Console.WriteLine(" *** {0}: {1}",Stats.constitution,tchar.getMod(Stats.constitution));
+            Console.WriteLine(" *** {0}: {1}",Stats.dexterity,tchar.getMod(Stats.dexterity));
+            Console.WriteLine(" *** {0}: {1}",Stats.strength,tchar.getMod(Stats.strength));
+            Console.WriteLine(" *** {0}: {1}",Stats.intelligence,tchar.getMod(Stats.intelligence));
+            Console.WriteLine(" *** {0}: {1}",Stats.wisdom,tchar.getMod(Stats.wisdom));
 
             /*---------------------------------------Finalization--------------------------------------*/
 

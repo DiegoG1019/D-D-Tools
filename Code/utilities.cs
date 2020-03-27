@@ -85,13 +85,14 @@ namespace DnDTools{
         }
 
         public string toString(){
+            const string str1 = "{0}d{1}+{2}", str2 = "{0}d{1}{2}", str3 = "{0}d{1}";
             if(this.extra > 0){
-                return String.Format("{0}d{1}+{2}",this.throws, this.type, this.extra);
+                return String.Format(str1,this.throws, this.type, this.extra);
             }else{
                 if(this.extra < 0){
-                    return String.Format("{0}d{1}{2}", this.throws, this.type, this.extra);
+                    return String.Format(str2, this.throws, this.type, this.extra);
                 }else{
-                    return String.Format("{0}d{1}", this.throws, this.type);
+                    return String.Format(str3, this.throws, this.type);
                 }
             }
         }
