@@ -3,8 +3,8 @@ using System;
 namespace DnDTools{
 
     public enum Stats {
-        strength,      constitution,       dexterity,      wisdom,       intelligence,     charisma,            
-        fortitude,     reflex,             will,           speed,        initiative
+        strength,   constitution,   dexterity,   wisdom,   intelligence,   charisma,            
+        fortitude,  reflex,         will,        speed,    initiative
     }; //Is it possible to dynamically initialize an enum? Maybe I just need a new object type
 
     public enum Schools { 
@@ -13,7 +13,10 @@ namespace DnDTools{
 
     class App{
 
-        public static Version version = new Version("Alpha",0,0,8,0);
+        public static int statCount = Enum.GetNames(typeof(Stats)).Length;
+        public static int schoolCount = Enum.GetNames(typeof(Schools)).Length;
+
+        public static Version version = new Version("Alpha",0,0,8,1);
         public const string author = "Diego Garcia";
        
         static void Main(string[] args){
@@ -45,7 +48,7 @@ namespace DnDTools{
             }
 
             string tc = "---------------- \n {0}'s significant abilities and feats: {1}";
-            string tcs = "-----***----- \n {0}'s {1} #{2}: \"{3}\"\n  -{4}\n  Requires: {5}";
+            string tcs = "-----***----- \n {0}'s {1} #{2}: {3}\n  -{4}\n  Requires: {5}";
 
             Console.WriteLine(
                 tc,
@@ -58,7 +61,7 @@ namespace DnDTools{
                     tchar.desc.name,
                     "Ability",
                     i+1,
-                    tchar.abilities[i].name,
+                    tchar.abilities[i].getName(),
                     tchar.abilities[i].description,
                     tchar.abilities[i].requirements
                 );
@@ -68,7 +71,7 @@ namespace DnDTools{
                     tchar.desc.name,
                     "Feat",
                     i+1,
-                    tchar.feats[i].name,
+                    tchar.feats[i].getName(),
                     tchar.feats[i].description,
                     tchar.feats[i].requirements
                 );

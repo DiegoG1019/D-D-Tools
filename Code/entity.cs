@@ -6,9 +6,9 @@ namespace DnDTools{
 
     public class Entity{
 
-        protected int[] baseStats     = new int[Enum.GetNames(typeof(Stats)).Length];
-        protected int[] tempStats     = new int[Enum.GetNames(typeof(Stats)).Length];
-        protected int[] miscBuffs     = new int[Enum.GetNames(typeof(Stats)).Length];
+        protected int[] baseStats     = new int[App.statCount];
+        protected int[] tempStats     = new int[App.statCount];
+        protected int[] miscBuffs     = new int[App.statCount];
         protected uint id;
 
         public byte skillPointModifier; //Added to the class and race skill points for calculation
@@ -91,7 +91,7 @@ namespace DnDTools{
 
         public Character(byte level, string name): base(level,name){
             this.exp = new Experience(this);
-            this.feats.Add(new Ability("Fleeting Presence", null, "This character can disappear from existence at will",new List<string>()));
+            this.feats.Add(new Ability("Fleeting Presence", null, "This character can disappear from existence at will",new List<string>(),new int[App.statCount], new bool[]{true, false, false, true}));
             this.abilities.Add(new Ability("Power Surge", null, "Augments strength and constitution", new List<string>(), new int[]{2,4,0,0,0,0,0,0,0,0,0}));
         }
 
