@@ -22,11 +22,10 @@ namespace DnDTools{
 
     }
 
-    public interface Historied<T1,T2>{
+    public interface Historied<T>{
         
-        T1 get();
-        T2 get(int i);
-        int getItems();
+        T getHistory(int i);
+        int HistoryEntries{get;}
 
     }
 

@@ -11,6 +11,9 @@ namespace DnDTools{
         protected int[] miscBuffs     = new int[App.statCount];
         protected uint id;
 
+        protected uint pid; //player list id
+        protected Player player;
+
         public byte skillPointModifier; //Added to the class and race skill points for calculation
         public byte extraSkillPoints; //Added to the final calculation of skill points
         public byte level = 1;
@@ -19,6 +22,7 @@ namespace DnDTools{
         public Health health;
         public Description desc;
         public List<Skill> skills = new List<Skill>();
+        public Job job;
         public uint[] spentSpells = new uint[Cf.Options.EntityValues["maxSpellLevel"]];
 
         public int getBaseStats(Stats ind){
@@ -69,6 +73,13 @@ namespace DnDTools{
             this.id = nid;
         }
 
+        public Player getPlayer(){
+            return this.player;
+        }
+
+        virtual public void setPlayer(Player ply){
+        }
+
         public Entity(byte level, string name){
             this.level = level;
             this.expgrant = new ExperienceGrant(this,69,120);
@@ -88,6 +99,7 @@ namespace DnDTools{
         public Experience exp;
         public List<Ability> feats = new List<Ability>();
         public List<Ability> abilities = new List<Ability>();
+        new public List<Job> job;
 
         public Character(byte level, string name): base(level,name){
             this.exp = new Experience(this);
@@ -120,8 +132,9 @@ namespace DnDTools{
     
     public struct ExperienceGrant{
 
-        private uint baseexp;
-        private uint extra;
+        public uint baseexp;
+        public uint extra;
+
         private Entity parent;
 
         public ExperienceGrant(Entity parent){
@@ -140,52 +153,22 @@ namespace DnDTools{
             this.extra = e;
         }
 
-        public void setBaseGrant(uint b){
-            this.baseexp = b;
-        }
-
-        public uint getBaseGrant(){
-            return this.baseexp;
-        }
-
-        public void setExtra(uint b){
-            this.extra = b;
-        }
-
-        public uint getExtra(){
-            return this.extra;
-        }
-
-        public void addBase(uint b){
-            this.baseexp = (this.baseexp+b);
-        }
-
-        public void subBase(uint b){
-            this.baseexp = (this.baseexp-b);
-        }
-
-        public void addExtra(uint b){
-            this.baseexp = (this.extra+b);
-        }
-
-        public void subExtra(uint b){
-            this.baseexp = (this.extra-b);
-        }
-
-        public uint get(){
-            byte l = this.parent.level;
-            return (uint)(((l*(l-1)*500)+(this.baseexp*l))+this.extra);
+        public uint Grant{
+            get{
+                byte l = this.parent.level;
+                return (uint)(((l*(l-1)*500)+(this.baseexp*l))+this.extra);
+            }
         }
 
     }
 
-    public struct Experience: Historied<uint,int>{
+    public struct Experience: Historied<int>{
+
+        public  float multiplier;
 
         private uint current;
-
         private uint required;
 
-        private float multiplier;
         private List<int> history;
         private Character parent;
 
@@ -198,10 +181,13 @@ namespace DnDTools{
             this.setRequired();
         }
 
-        public uint get(){
-            return this.current;
+        public uint Current{
+            get{
+                this.current;
+            }
         }
-        public int get(int i){
+
+        public int getHistory(int i){
             return this.history[i];
         }
         
@@ -209,12 +195,16 @@ namespace DnDTools{
             return this.history.Count;
         }
 
-        public uint getRequired(){
-            return this.required;
+        public int Left{
+            get{
+                return (int)(this.required-this.current);
+            }
         }
 
-        public int getRequiredLeft(){
-            return (int)(this.required-this.current);
+        public int Progress{
+            get{
+                return (int)(((float)(this.current)/(float)(this.required))*100f);
+            }
         }
 
         public void add(uint v){
@@ -229,38 +219,40 @@ namespace DnDTools{
             }
         }
 
-        public void setMultiplier(float v){
-            this.multiplier = v;
-        }
-
         ///<summary><c>SetFreeLevel</c> This method picks between the four available free level choices to set the multiplier. The range is 0-3.
-        public float freeLevelmultiplier(byte fl){
-            switch(fl){
-                case 0:
-                    return 1F;
-                    break;
-                case 1:
-                    return 0.75F;
-                    break;
-                case 2:
-                    return 0.5F;
-                    break;
-                case 3:
-                    return 0.25F;
-                    break;
-                default:
-                    throw new TooManyFreeLevels(String.Format("The entity \"{0}\" of ID \"{1}\" has too many free levels", this.parent.desc.name, this.parent.getId()));
-                    break;
+        public float freeLevelmultiplier{
+            get{
+                switch(this.parent.freeLevels){
+                    case 0:
+                        return 1F;
+                        break;
+                    case 1:
+                        return 0.75F;
+                        break;
+                    case 2:
+                        return 0.5F;
+                        break;
+                    case 3:
+                        return 0.25F;
+                        break;
+                    default:
+                        throw new TooManyFreeLevels(String.Format("The entity \"{0}\" of ID \"{1}\" has too many free levels", this.parent.desc.name, this.parent.Id));
+                        break;
+                }
             }
         }
 
+
+
         public void gain(uint v){
-            this.add((uint)(v*(this.multiplier*this.freeLevelmultiplier(this.parent.freeLevels))));
+            this.add((uint)(v*(this.multiplier*this.freeLevelmultiplier)));
             this.history.Add((int)v);
         }
 
-        public bool didLevel(){
-            return this.current >= this.required;
+        public bool didLevel{
+            get{
+                return this.current >= this.required;
+            }
         }
 
         //More stuff happens when an entity levels up, but that requires the Job and Job.Growth structures
@@ -277,8 +269,14 @@ namespace DnDTools{
             byte l = this.parent.level;
             this.required = (uint)((l+1)*(l)*500);
         }
-        public void setRequired(uint v){
-            this.required = (uint)v;
+        
+        public uint Required{
+            get{
+                return this.required;
+            }
+            set{
+                this.required = value;
+            }
         }
 
     }
@@ -300,7 +298,7 @@ namespace DnDTools{
         private int featDex; //A variable to use in case the character has a feat that enables dexterity to always be used
         private bool[] flagsArr;
 
-        public bool getFlag(byte i){ //You'll notice there's no "set" method
+        public bool getFlag(byte i){
             return flagsArr[i];
         }
 
@@ -402,30 +400,36 @@ namespace DnDTools{
             this.flagsArr = new bool[1];
         }
 
-        public uint get(){
-            int a = (this.baseac + this.armor + this.size + this.natural + this.deflex + this.temporary + this.misc + this.parent.getMod(Stats.dexterity));
-            if(a>0){
-                return (uint)a;
-            }else{
-                return 0u;
+        public uint AC{
+            get{
+                int a = (this.baseac + this.armor + this.size + this.natural + this.deflex + this.temporary + this.misc + this.parent.getMod(Stats.dexterity));
+                if(a>0){
+                    return (uint)a;
+                }else{
+                    return 0u;
+                }
             }
         }
 
-        public uint touch(){
-            int a = (this.baseac + this.size + this.misc + this.deflex + this.parent.getMod(Stats.dexterity));
-            if(a>0){
-                return (uint)a;
-            }else{
-                return 0u;
+        public uint TouchAC{
+            get{
+                int a = (this.baseac + this.size + this.misc + this.deflex + this.parent.getMod(Stats.dexterity));
+                if(a>0){
+                    return (uint)a;
+                }else{
+                    return 0u;
+                }
             }
         }
 
-        public uint unaware(){
-            int a = (this.baseac + this.armor + this.size + this.natural + this.misc + this.featDex);
-            if(a>0){
-                return (uint)a;
-            }else{
-                return 0u;
+        public uint UnawareAC{
+            get{
+                int a = (this.baseac + this.armor + this.size + this.natural + this.misc + this.featDex);
+                if(a>0){
+                    return (uint)a;
+                }else{
+                    return 0u;
+                }
             }
         }
 
@@ -450,14 +454,18 @@ namespace DnDTools{
             this.history = new List<int>();
         }
 
-        public uint get(){
-            return this.damage;
+        public uint Damage{
+            get{
+                return this.damage;
+            }
         }
-        public int get(int i){
+        public int getHistory(int i){
             return this.history[i];
         }
-        public int getItems(){
-            return this.history.Count;
+        public int HistoryEntries{
+            get{
+                return this.history.Count;
+            }
         }
 
         public void hurt(int d){
@@ -515,54 +523,69 @@ namespace DnDTools{
                 }
             }
         }
-        public void setBaseHP(uint h){
-            this.basehp = h;
+        public uint BaseHP{
+            set{
+                this.basehp = h;
+            }
+            get{
+                return this.basehp;
+            }
         }
 
-        public uint getBaseHP(){
-            return this.basehp;
+        public int HP{
+            get{
+                return (int)(this.basehp - (this.lethalDamage.get()+this.nonlethalDamage.get()));
+            }
         }
 
-        public int getHP(){
-            return (int)(this.basehp - (this.lethalDamage.get()+this.nonlethalDamage.get()));
+        public int NlHP{
+            get{
+                return (int)(this.basehp - this.lethalDamage.get());
+            }
         }
 
-        public int getNlHP(){
-            return (int)(this.basehp - this.lethalDamage.get());
+        public bool isDead{
+            get{
+                return this.getHP() <= Cf.Options.EntityValues["dead"];
+            }
         }
 
-        public bool isDead(){
-            return this.getHP() <= Cf.Options.EntityValues["dead"];
+        public bool isBleedingOut{
+            get{
+                return this.getHP() <= Cf.Options.EntityValues["bleedingOut"];
+            }
         }
 
-        public bool isBleedingOut(){
-            return this.getHP() <= Cf.Options.EntityValues["bleedingOut"];
+        public bool isDown{
+            get{
+                return this.getHP() <= Cf.Options.EntityValues["down"];
+            }
         }
 
-        public bool isDown(){
-            return this.getHP() <= Cf.Options.EntityValues["down"];
-        }
-
-        public string getState(){
-            if(this.isDead()){
-                return "Dead";
-            }else{
-                if(this.isBleedingOut()){
-                    return "Bleeding out";
+        public string State{
+            get{
+                if(this.isDead()){
+                    return "Dead";
                 }else{
-                    if(this.isDown()){
-                        return "Down";
+                    if(this.isBleedingOut()){
+                        return "Bleeding out";
+                    }else{
+                        if(this.isDown()){
+                            return "Down";
+                        }
                     }
                 }
+                return "Fine";
             }
-            return "Fine";
         }
 
-        public string omaeWaMou(){
-            if(this.isDead()){
-                return "Shindeiru";
-            }else{
-                return "";
+        public string omaeWaMou{
+            get{
+                if(this.isDead()){
+                    return "Shindeiru";
+                }else{
+                    return "";
+                }
             }
         }
 
@@ -675,12 +698,14 @@ namespace DnDTools{
         public void train(uint l){
             this.level += l;
         }
-        public long getMod(){
-            int val = (int)(this.parent.getMod(this.keyStat) + this.miscLevels);
-            if(this.getFlag(flags.JobSkill)){
-                return val + this.level;
-            }else{
-                return val + (this.level/2);
+        public long Mod{
+            get{
+                int val = (int)(this.parent.getMod(this.keyStat) + this.miscLevels);
+                if(this.getFlag(flags.JobSkill)){
+                    return val + this.level;
+                }else{
+                    return val + (this.level/2);
+                }
             }
         }
 
@@ -691,8 +716,8 @@ namespace DnDTools{
         public enum flags{
             extraordinary, spellLike, psiLike, supernatural
         };
-        
-        public string name;
+
+        private string name;
         public string requirements;
         public string description;
         public List<string> notes;
@@ -761,31 +786,63 @@ namespace DnDTools{
             return this.flagsArr[(byte)ind];
         }
 
-        public string getName(){
-            string str = this.name;
-            if(this.getFlag(Ability.flags.extraordinary)){
-                str += " (Ex)";
+        public string FullName{
+            get{
+                string str = this.name;
+                if(this.getFlag(Ability.flags.extraordinary)){
+                    str += " (Ex)";
+                }
+                if(this.getFlag(Ability.flags.spellLike)){
+                    str += " (Sl)";
+                }
+                if(this.getFlag(Ability.flags.psiLike)){
+                    str += " (Pl)";
+                }
+                if(this.getFlag(Ability.flags.supernatural)){
+                    str += " (Sn)";
+                }
+                return str;
             }
-            if(this.getFlag(Ability.flags.spellLike)){
-                str += " (Sl)";
+            set{
+                this.name = value;
             }
-            if(this.getFlag(Ability.flags.psiLike)){
-                str += " (Pl)";
-            }
-            if(this.getFlag(Ability.flags.supernatural)){
-                str += " (Sn)";
-            }
-            return str;
         }
 
-        public string getNotes(){
-            const string a = "-{0}\n";
-            string c = "";
-            foreach(string b in notes){
-                c += String.Format(a,b);
+        public string AllNotes{
+            get{
+                const string a = "-{0}\n";
+                string c = "";
+                foreach(string b in notes){
+                    c += String.Format(a,b);
+                }
+                return c.Substring(0,c.Length-1);
             }
-            return c.Substring(0,c.Length-1);
         }
+
+    }
+
+    public class Job{
+
+        public class Growth{
+            
+
+        }
+
+    }
+
+    public class Player{
+
+        private uint id;
+
+        public string name;
+        public uint Id{
+            get {
+                return this.id;
+            }
+        }
+        public List<Entity> entities;
+        public List<Character> characters;
+        public List<string> notes;
 
     }
 

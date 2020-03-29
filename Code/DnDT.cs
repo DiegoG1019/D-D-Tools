@@ -1,4 +1,7 @@
 using System;
+//using System.Text.Json;
+//using System.Text.Json.Serialization;
+using System.IO;
 
 namespace DnDTools{
 
@@ -16,8 +19,12 @@ namespace DnDTools{
         public static int statCount = Enum.GetNames(typeof(Stats)).Length;
         public static int schoolCount = Enum.GetNames(typeof(Schools)).Length;
 
-        public static Version version = new Version("Alpha",0,0,8,1);
+        public static Version version = new Version("Alpha",0,0,9,0);
         public const string author = "Diego Garcia";
+
+        /*public const JsonSerializerOptions JSONOptions = new JsonSerializerOptions{
+            WriteIndented = true,
+        };/**/
        
         static void Main(string[] args){
 
@@ -83,6 +90,11 @@ namespace DnDTools{
             Console.WriteLine(" *** {0}: {1}",Stats.strength,tchar.getMod(Stats.strength));
             Console.WriteLine(" *** {0}: {1}",Stats.intelligence,tchar.getMod(Stats.intelligence));
             Console.WriteLine(" *** {0}: {1}",Stats.wisdom,tchar.getMod(Stats.wisdom));
+
+            /*FileStream fileOut = new FileStream("Tchar2.character.json", FileMode.OpenOrCreate, 
+            FileAccess.ReadWrite);
+
+            File.WriteAllText("Tchar2.character", JsonSerializer.Serialize(tchar, JSONOptions));/**/
 
             /*---------------------------------------Finalization--------------------------------------*/
 
