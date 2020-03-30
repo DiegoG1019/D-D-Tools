@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace DnDTools{
+namespace DMTools{
     
     public static class Cf{
 

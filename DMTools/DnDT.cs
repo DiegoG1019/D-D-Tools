@@ -2,8 +2,14 @@ using System;
 //using System.Text.Json;
 //using System.Text.Json.Serialization;
 using System.IO;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
-namespace DnDTools{
+
+namespace DMTools
+{
 
     public enum Stats {
         strength,   constitution,   dexterity,   wisdom,   intelligence,   charisma,            
@@ -14,7 +20,7 @@ namespace DnDTools{
         abjuration, divination, conjuration, enchantment, evocation, illusion, necromancy, transmutation
     } //Perhaps both of these should be a configuration option
 
-    class App{
+    static class App{
 
         public static int statCount = Enum.GetNames(typeof(Stats)).Length;
         public static int schoolCount = Enum.GetNames(typeof(Schools)).Length;
@@ -25,13 +31,18 @@ namespace DnDTools{
         /*public const JsonSerializerOptions JSONOptions = new JsonSerializerOptions{
             WriteIndented = true,
         };/**/
-       
-        static void Main(string[] args){
+
+        [STAThread]
+        static void Main()
+        {
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new MainMenu());
 
             /*--------------------------------------------  -------------------------------------------*/
 
             /*--------------------------------------Initialization-------------------------------------*/
-            
+
             Console.WriteLine("Running D&DTools version: {0}", App.version.get());
             Console.WriteLine("Program Author: {0}", App.author);
             Cf.loadLang();
@@ -48,10 +59,10 @@ namespace DnDTools{
             string tcskt = "{0}, ";
             string tcsk = "";
             for(int i = 0; i<tchar.abilities.Count; i++){
-                tcsk = tcsk + String.Format(tcskt, tchar.feats[i].name);
+                tcsk = tcsk + String.Format(tcskt, tchar.feats[i].FullName);
             }
             for(int i = 0; i<tchar.feats.Count; i++){
-                tcsk = tcsk + String.Format(tcskt, tchar.abilities[i].name);
+                tcsk = tcsk + String.Format(tcskt, tchar.abilities[i].FullName);
             }
 
             string tc = "---------------- \n {0}'s significant abilities and feats: {1}";
@@ -68,7 +79,7 @@ namespace DnDTools{
                     tchar.desc.name,
                     "Ability",
                     i+1,
-                    tchar.abilities[i].getName(),
+                    tchar.abilities[i].FullName,
                     tchar.abilities[i].description,
                     tchar.abilities[i].requirements
                 );
@@ -78,7 +89,7 @@ namespace DnDTools{
                     tchar.desc.name,
                     "Feat",
                     i+1,
-                    tchar.feats[i].getName(),
+                    tchar.feats[i].FullName,
                     tchar.feats[i].description,
                     tchar.feats[i].requirements
                 );

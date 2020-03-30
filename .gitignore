@@ -1,3 +1,9 @@
 *.code-workspace
 .~lock*
 changelog
+*.cache
+*.suo
+*/bin/*
+*/obj/*
+*/debug/*
+*/Debug/*

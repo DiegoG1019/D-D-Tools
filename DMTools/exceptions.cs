@@ -1,6 +1,6 @@
 using System;
 
-namespace DnDTools{
+namespace DMTools{
     public class TypeMismatchException: Exception{
         public TypeMismatchException(string message): base(message) {
         }

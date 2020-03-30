@@ -2,16 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 
-namespace DnDTools{
+namespace DMTools{
 
     public class Entity{
 
         protected int[] baseStats     = new int[App.statCount];
         protected int[] tempStats     = new int[App.statCount];
         protected int[] miscBuffs     = new int[App.statCount];
-        protected uint id;
 
-        protected uint pid; //player list id
+        protected int id;
+        protected int pid; //player list id
         protected Player player;
 
         public byte skillPointModifier; //Added to the class and race skill points for calculation
@@ -65,12 +65,12 @@ namespace DnDTools{
             return ((this.baseStats[i]+this.miscBuffs[i]+this.tempStats[i])/2)-5;
         }
 
-        public uint getId(){
-            return this.id;
-        }
-
-        public void setId(uint nid){
-            this.id = nid;
+        public int Id
+        {
+            get
+            {
+                return this.id;
+            }
         }
 
         public Player getPlayer(){
@@ -80,14 +80,37 @@ namespace DnDTools{
         virtual public void setPlayer(Player ply){
         }
 
-        public Entity(byte level, string name){
+        public void Unregister()
+        {
+            Loaded.Characters.Remove(this.id);
+        }
+
+        private void Register()
+        {
+            this.id = Loaded.Entities.Add(this);
+        }
+
+        public Entity(byte level, string name)
+        {
             this.level = level;
-            this.expgrant = new ExperienceGrant(this,69,120);
+            expgrant = new ExperienceGrant(this,69,120);
             this.health = new Health(this);
             this.armorC = new ArmorClass(this);
             this.health.setBaseHP();
             this.skills.Add(new Skill(this, "Lockpicking", Stats.dexterity, 0, 5, new bool[]{true,false,true}));
             this.skills.Add(new Skill(this, "Diplomacy", Stats.charisma, 3, 2, new bool[]{true,false,false}));
+            this.desc = new Description(name);
+            this.Register();
+        }
+        public Entity(byte level, string name, bool? hasParent)
+        {
+            this.level = level;
+            this.expgrant = new ExperienceGrant(this, 69, 120);
+            this.health = new Health(this);
+            this.armorC = new ArmorClass(this);
+            this.health.setBaseHP();
+            this.skills.Add(new Skill(this, "Lockpicking", Stats.dexterity, 0, 5, new bool[] { true, false, true }));
+            this.skills.Add(new Skill(this, "Diplomacy", Stats.charisma, 3, 2, new bool[] { true, false, false }));
             this.desc = new Description(name);
         }
 
@@ -101,10 +124,21 @@ namespace DnDTools{
         public List<Ability> abilities = new List<Ability>();
         new public List<Job> job;
 
-        public Character(byte level, string name): base(level,name){
+        public Character(byte level, string name): base(level,name,null){
             this.exp = new Experience(this);
             this.feats.Add(new Ability("Fleeting Presence", null, "This character can disappear from existence at will",new List<string>(),new int[App.statCount], new bool[]{true, false, false, true}));
             this.abilities.Add(new Ability("Power Surge", null, "Augments strength and constitution", new List<string>(), new int[]{2,4,0,0,0,0,0,0,0,0,0}));
+            this.Register();
+        }
+
+        public void Unregister()
+        {
+            Loaded.Characters.Remove(this.id);
+        }
+
+        private void Register()
+        {
+            this.id = Loaded.Characters.Add(this);
         }
 
         public int getAbilityBuffs(Stats ind){
@@ -183,7 +217,7 @@ namespace DnDTools{
 
         public uint Current{
             get{
-                this.current;
+                return this.current;
             }
         }
 
@@ -191,8 +225,11 @@ namespace DnDTools{
             return this.history[i];
         }
         
-        public int getItems(){
-            return this.history.Count;
+        public int HistoryEntries{
+            get
+            {
+                return this.history.Count;
+            }
         }
 
         public int Left{
@@ -257,11 +294,11 @@ namespace DnDTools{
 
         //More stuff happens when an entity levels up, but that requires the Job and Job.Growth structures
         public void levelUp(){
-            if(this.didLevel()){
+            if(this.didLevel){
                 this.current -= this.required;
                 this.parent.level++;
             }else{
-                throw new CantLevelUpYet(String.Format("The entity \"{0}\" of ID \"{1}\" attempted to level up without a right to", this.parent.desc.name, this.parent.getId()));
+                throw new CantLevelUpYet(String.Format("The entity \"{0}\" of ID \"{1}\" attempted to level up without a right to", this.parent.desc.name, this.parent.Id));
             }
         }
 
@@ -444,24 +481,25 @@ namespace DnDTools{
 
     }
 
-    public struct Hurt: Historied<uint, int>{
+    public struct Hurt : Historied<int> {
 
         private uint damage;
         private List<int> history;
 
-        public Hurt(byte a){
+        public Hurt(byte a) {
             this.damage = 0;
             this.history = new List<int>();
         }
 
-        public uint Damage{
-            get{
+        public uint Damage {
+            get {
                 return this.damage;
             }
         }
-        public int getHistory(int i){
+        public int getHistory(int i) {
             return this.history[i];
         }
+
         public int HistoryEntries{
             get{
                 return this.history.Count;
@@ -525,7 +563,7 @@ namespace DnDTools{
         }
         public uint BaseHP{
             set{
-                this.basehp = h;
+                this.basehp = value;
             }
             get{
                 return this.basehp;
@@ -534,43 +572,43 @@ namespace DnDTools{
 
         public int HP{
             get{
-                return (int)(this.basehp - (this.lethalDamage.get()+this.nonlethalDamage.get()));
+                return (int)(this.basehp - (this.lethalDamage.Damage+this.nonlethalDamage.Damage));
             }
         }
 
         public int NlHP{
             get{
-                return (int)(this.basehp - this.lethalDamage.get());
+                return (int)(this.basehp - this.lethalDamage.Damage);
             }
         }
 
-        public bool isDead{
+        public bool Dead{
             get{
-                return this.getHP() <= Cf.Options.EntityValues["dead"];
+                return this.HP <= Cf.Options.EntityValues["dead"];
             }
         }
 
-        public bool isBleedingOut{
+        public bool BleedingOut{
             get{
-                return this.getHP() <= Cf.Options.EntityValues["bleedingOut"];
+                return this.HP <= Cf.Options.EntityValues["bleedingOut"];
             }
         }
 
-        public bool isDown{
+        public bool Down{
             get{
-                return this.getHP() <= Cf.Options.EntityValues["down"];
+                return this.HP <= Cf.Options.EntityValues["down"];
             }
         }
 
         public string State{
             get{
-                if(this.isDead()){
+                if(this.Dead){
                     return "Dead";
                 }else{
-                    if(this.isBleedingOut()){
+                    if(this.BleedingOut){
                         return "Bleeding out";
                     }else{
-                        if(this.isDown()){
+                        if(this.Down){
                             return "Down";
                         }
                     }
@@ -581,7 +619,7 @@ namespace DnDTools{
 
         public string omaeWaMou{
             get{
-                if(this.isDead()){
+                if(this.Dead){
                     return "Shindeiru";
                 }else{
                     return "";
@@ -657,7 +695,7 @@ namespace DnDTools{
         public uint miscLevels;
 
         private bool[] flagsArr;
-        private Entity parent;
+        private readonly Entity parent;
 
         public Skill(Entity p, string name, Stats keyStat){
             this.parent = p;

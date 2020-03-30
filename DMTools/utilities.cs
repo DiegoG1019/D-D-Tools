@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 
 
-namespace DnDTools{
+namespace DMTools{
 
     public struct Version{
         
@@ -124,34 +124,32 @@ namespace DnDTools{
         
     }
 
-    public struct Wallet: Historied<ulong, int>{
+    public struct Wallet: Historied<int>{
 
         private ulong value;
         private List<int> history;
-        private float weight;
-
-        private void updateWeight(){
-            if(this.value > 0){
-                this.weight = this.value/50F;
-            }else{
-                this.weight = 0F;
-            }
-        }
 
         public Wallet(ulong value){
             this.history = new List<int>();
             this.value = value;
             this.history.Add((int)value);
-            if(this.value > 0){
-                this.weight = this.value/50F;
-            }else{
-                this.weight = 0F;
+        }
+
+        public float Weight{
+            get{
+                if (this.value > 0)
+                {
+                    return this.value / 50F;
+                }
+                else
+                {
+                    return 0F;
+                }
             }
         }
 
         public void add(ulong value){
             this.value += value;
-            this.updateWeight();
         }
 
         public void gain(ulong value){
@@ -169,7 +167,6 @@ namespace DnDTools{
                 throw new WalletOverDrawException(String.Format("Attempted to draw {0} over limit. W1:{1} ; w2:{2}",value-this.value,this.value,value));
             }else{
                 this.value -= value;
-                this.updateWeight();
             }
         }
 
@@ -186,15 +183,34 @@ namespace DnDTools{
             this.spend(this.value);
         }
 
-        public ulong get(){
-            return this.value;
+        public ulong Value{
+            get
+            {
+                return this.value;
+            }
+            set
+            {
+                if(this.value > value)
+                {
+                    this.spend(this.value - value);
+                }
+                else
+                {
+                    if(this.value < value) //I don't want it to be added to the History if they were the same
+                    {
+                        this.gain(value - this.value);
+                    }
+                }
+            }
         }
-        public int get(int i){
+        public int getHistory(int i){
             return this.history[i];
         }
 
-        public int getItems(){
-            return this.history.Count;
+        public int HistoryEntries{
+            get{
+                return this.history.Count;
+            }
         }
 
         public string toString(){
