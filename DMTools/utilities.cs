@@ -2,13 +2,16 @@ using System;
 using System.Collections.Generic;
 
 
-namespace DMTools{
+namespace DMTools
+{
 
-    public struct Version{
-        
-        private string preppendix;
-        private byte[] v;
-        public Version(string p, byte w, byte z, byte y, byte x){
+    public struct Version
+    {
+
+        private readonly string preppendix;
+        private readonly byte[] v;
+        public Version(string p, byte w, byte z, byte y, byte x)
+        {
             this.v = new byte[4];
             this.v[0] = w;
             this.v[1] = z;
@@ -16,81 +19,143 @@ namespace DMTools{
             this.v[3] = x;
             this.preppendix = p;
         }
-        public string get(){
-            return String.Format("{0}-{1}.{2}.{3}.{4}",this.preppendix, this.v[0], this.v[1], this.v[2], this.v[3]);
+        public string Full
+        {
+            get
+            {
+                return String.Format("{0}-{1}.{2}.{3}.{4}", this.preppendix, this.v[0], this.v[1], this.v[2], this.v[3]);
+            }
+        }
+        public string Preppendix
+        {
+            get
+            {
+                return preppendix;
+            }
+        }
+        public byte Major
+        {
+            get
+            {
+                return v[0];
+            }
+        }
+        public byte Release
+        {
+            get
+            {
+                return v[1];
+            }
+        }
+        public byte Addition
+        {
+            get
+            {
+                return v[2];
+            }
+        }
+        public byte Minor
+        {
+            get
+            {
+                return v[3];
+            }
         }
 
     }
 
-    public interface Historied<T>{
-        
-        T getHistory(int i);
-        int HistoryEntries{get;}
+    public interface IHistoried<T>
+    {
+
+        T GetHistory(int i);
+        int HistoryEntries { get; }
 
     }
 
-    public interface Flagged<T>{
-        
-        bool getFlag(T i);
+    public interface IFlagged<T>
+    {
+
+        bool GetFlag(T i);
 
     }
-    
-    public struct Dice{
+
+    public struct Dice
+    {
 
         private static dynamic rand = new Random();
         private byte throws;
         private byte type;
         private sbyte extra;
 
-        public Dice(byte throws, byte type){
+        public Dice(byte throws, byte type)
+        {
             this.throws = throws;
             this.type = type;
             this.extra = 0;
         }
-        public Dice(byte throws, byte type, sbyte extra){
+        public Dice(byte throws, byte type, sbyte extra)
+        {
             this.throws = throws;
             this.type = type;
             this.extra = extra;
         }
-        public int throwDice(){
+        public int throwDice()
+        {
 
             int total = 0;
 
-            for(byte i = this.throws; i > 0; i--){
-                total += Dice.rand.Next(1,this.type+1);
+            for (byte i = this.throws; i > 0; i--)
+            {
+                total += Dice.rand.Next(1, this.type + 1);
             };
 
-            return total+this.extra;
+            return total + this.extra;
 
         }
 
-        public Dice add(Dice other){
-            if(this.type == other.type){
-                return new Dice((byte)(this.throws+other.throws), this.type, this.extra);
-            }else{
-                throw new TypeMismatchException("Attempted to add two Die of different types");
+        public Dice Add(Dice other)
+        {
+            if (this.type == other.type)
+            {
+                return new Dice((byte)(this.throws + other.throws), this.type, this.extra);
+            }
+            else
+            {
+                throw new TypeMismatchException("Attempted to Add two Die of different types");
             }
         }
-        public Dice add(byte value){
-            return new Dice((byte)(this.throws+value), this.type, this.extra);
+        public Dice Add(byte value)
+        {
+            return new Dice((byte)(this.throws + value), this.type, this.extra);
         }
 
-        public Dice sub(byte value){
-            if(this.throws > value){
+        public Dice Sub(byte value)
+        {
+            if (this.throws > value)
+            {
                 return new Dice(1, this.type, this.extra);
-            }else{
-                return new Dice((byte)(this.throws-value), this.type, this.extra);
+            }
+            else
+            {
+                return new Dice((byte)(this.throws - value), this.type, this.extra);
             }
         }
 
-        public string toString(){
+        public string toString()
+        {
             const string str1 = "{0}d{1}+{2}", str2 = "{0}d{1}{2}", str3 = "{0}d{1}";
-            if(this.extra > 0){
-                return String.Format(str1,this.throws, this.type, this.extra);
-            }else{
-                if(this.extra < 0){
+            if (this.extra > 0)
+            {
+                return String.Format(str1, this.throws, this.type, this.extra);
+            }
+            else
+            {
+                if (this.extra < 0)
+                {
                     return String.Format(str2, this.throws, this.type, this.extra);
-                }else{
+                }
+                else
+                {
                     return String.Format(str3, this.throws, this.type);
                 }
             }
@@ -98,45 +163,55 @@ namespace DMTools{
 
     }
 
-    public struct PriceTag{
+    public struct PriceTag
+    {
         private ulong value;
 
-        public PriceTag(ulong v){
+        public PriceTag(ulong v)
+        {
             this.value = v;
         }
 
-        public ulong get(){
+        public ulong get()
+        {
             return this.value;
         }
 
-        public void set(ulong v){
+        public void set(ulong v)
+        {
             this.value = v;
         }
 
-        public void change(int v){
+        public void change(int v)
+        {
             this.value = (ulong)((int)this.value + v);
         }
 
         ///And finally, here's the reason I made this in the first place
-        public string toString(){
-            return String.Format("{0}{1}",Cf.Lang.util["currency"],this.value);
+        public string toString()
+        {
+            return String.Format("{0}{1}", Cf.Lang.util["currency"], this.value);
         }
-        
+
     }
 
-    public struct Wallet: Historied<int>{
+    public struct Wallet : IHistoried<int>
+    {
 
         private ulong value;
-        private List<int> history;
+        private readonly List<int> history;
 
-        public Wallet(ulong value){
+        public Wallet(ulong value)
+        {
             this.history = new List<int>();
             this.value = value;
             this.history.Add((int)value);
         }
 
-        public float Weight{
-            get{
+        public float Weight
+        {
+            get
+            {
                 if (this.value > 0)
                 {
                     return this.value / 50F;
@@ -148,80 +223,96 @@ namespace DMTools{
             }
         }
 
-        public void add(ulong value){
+        public void Add(ulong value)
+        {
             this.value += value;
         }
 
-        public void gain(ulong value){
-            this.add(value);
+        public void gain(ulong value)
+        {
+            this.Add(value);
             this.history.Add(((int)value));
         }
-        public void gain(Wallet other){
-            this.add(other.value);
+        public void gain(Wallet other)
+        {
+            this.Add(other.value);
             other.empty();
             this.history.Add(((int)value));
         }
 
-        public void sub(ulong value){
-            if(value > this.value){
-                throw new WalletOverDrawException(String.Format("Attempted to draw {0} over limit. W1:{1} ; w2:{2}",value-this.value,this.value,value));
-            }else{
+        public void Sub(ulong value)
+        {
+            if (value > this.value)
+            {
+                throw new WalletOverDrawException(String.Format("Attempted to draw {0} over limit. W1:{1} ; w2:{2}", value - this.value, this.value, value));
+            }
+            else
+            {
                 this.value -= value;
             }
         }
 
-        public void spend(ulong value){
-            this.sub(value);
+        public void spend(ulong value)
+        {
+            this.Sub(value);
             this.history.Add(-((int)value));
         }
-        public void spend(Wallet other){
-            this.sub(other.value);
+        public void spend(Wallet other)
+        {
+            this.Sub(other.value);
             this.history.Add(-((int)other.value));
         }
 
-        public void empty(){
+        public void empty()
+        {
             this.spend(this.value);
         }
 
-        public ulong Value{
+        public ulong Value
+        {
             get
             {
                 return this.value;
             }
             set
             {
-                if(this.value > value)
+                if (this.value > value)
                 {
                     this.spend(this.value - value);
                 }
                 else
                 {
-                    if(this.value < value) //I don't want it to be added to the History if they were the same
+                    if (this.value < value) //I don't want it to be added to the History if they were the same
                     {
                         this.gain(value - this.value);
                     }
                 }
             }
         }
-        public int getHistory(int i){
+        public int GetHistory(int i)
+        {
             return this.history[i];
         }
 
-        public int HistoryEntries{
-            get{
+        public int HistoryEntries
+        {
+            get
+            {
                 return this.history.Count;
             }
         }
 
-        public string toString(){
-            return String.Format("{0}{1}",Cf.Lang.util["currency"],this.value);
+        public string toString()
+        {
+            return String.Format("{0}{1}", Cf.Lang.util["currency"], this.value);
         }
 
-        public Wallet separate(ulong value){
+        public Wallet separate(ulong value)
+        {
             this.spend(value);
             return new Wallet(value);
         }
-        
+
     }
 
 }

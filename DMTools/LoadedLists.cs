@@ -8,27 +8,11 @@ namespace DMTools
 		public static LoadedList<Entity> Entities = new LoadedList<Entity>();
 		public static LoadedList<Character> Characters = new LoadedList<Character>();
 
-		public class LoadedList<T>
+		public class LoadedList<T> where T : class
 		{
-			private Queue<int> freeIDs;
-			private List<T> objects;
-			private List<int> ids;
-
-			public List<T> Objects
-			{
-				get
-				{
-					return objects;
-				}
-			}
-
-			public List<int> IDs
-			{
-				get
-				{
-					return ids;
-				}
-			}
+			private readonly Queue<int> freeIDs;
+			public readonly List<T> Objects;
+			public readonly List<int> IDs;
 
 			public int NextID
 			{
@@ -40,8 +24,8 @@ namespace DMTools
 					}
 					catch (InvalidOperationException) //This means the queue is empty
 					{
-						objects.Add(null);
-						return objects.Count;
+						Objects.Add(null);
+						return Objects.Count-1;
 					}
 				}
 			}
@@ -49,23 +33,23 @@ namespace DMTools
 			public LoadedList()
 			{
 				freeIDs = new Queue<int>();
-				objects = new List<T>();
-				ids = new List<int>();
+				Objects = new List<T>();
+				IDs = new List<int>();
 			}
 
 			public int Add(T v)
 			{
 				int a = NextID;
-				objects[a] = v;
-				ids.Add(a);
+				Objects[a] = v;
+				IDs.Add(a);
 				return a;
 			}
 
 			public void Remove(int id)
 			{
 				freeIDs.Enqueue(id);
-				objects[id] = null;
-				ids.Remove(id);
+				Objects[id] = null;
+				IDs.Remove(id);
 			}
 		}
 	}

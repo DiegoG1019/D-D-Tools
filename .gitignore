@@ -9,3 +9,4 @@ changelog
 */Debug/*
 /DMTools/obj/Debug/*
 *.cache
+*package*
