@@ -131,7 +131,7 @@ namespace DMTools{
             this.Register();
         }
 
-        public void Unregister()
+        new public void Unregister()
         {
             Loaded.Characters.Remove(this.id);
         }

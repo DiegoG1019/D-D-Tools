@@ -7,3 +7,5 @@ changelog
 */obj/*
 */debug/*
 */Debug/*
+/DMTools/obj/Debug/*
+*.cache
