@@ -25,7 +25,7 @@ namespace DMTools
         public static int statCount = Enum.GetNames(typeof(Stats)).Length;
         public static int schoolCount = Enum.GetNames(typeof(Schools)).Length;
 
-        public static Version version = new Version("Alpha",0,0,9,0);
+        public static Version version = new Version("Alpha",0,0,9,1);
         public const string author = "Diego Garcia";
 
         /*public const JsonSerializerOptions JSONOptions = new JsonSerializerOptions{
@@ -51,18 +51,18 @@ namespace DMTools
             /*-----------------------------------------Testing-----------------------------------------*/
             
             //test char
-            Character tchar = new Character(5, "Tchar");
-            tchar.armorC.armor = 5;
-            tchar.setBaseStats(Stats.dexterity, 14);
-            tchar.setBaseStats(Stats.charisma, 2);
+            int tchar = Character.Create(5, "Tchar");
+            Loaded.Characters.Objects[tchar].armorC.armor = 5;
+            Loaded.Characters.Objects[tchar].setBaseStats(Stats.dexterity, 14);
+            Loaded.Characters.Objects[tchar].setBaseStats(Stats.charisma, 2);
 
             string tcskt = "{0}, ";
             string tcsk = "";
-            for(int i = 0; i<tchar.abilities.Count; i++){
-                tcsk = tcsk + String.Format(tcskt, tchar.feats[i].FullName);
+            for(int i = 0; i< Loaded.Characters.Objects[tchar].abilities.Count; i++){
+                tcsk = tcsk + String.Format(tcskt, Loaded.Characters.Objects[tchar].feats[i].FullName);
             }
-            for(int i = 0; i<tchar.feats.Count; i++){
-                tcsk = tcsk + String.Format(tcskt, tchar.abilities[i].FullName);
+            for(int i = 0; i< Loaded.Characters.Objects[tchar].feats.Count; i++){
+                tcsk = tcsk + String.Format(tcskt, Loaded.Characters.Objects[tchar].abilities[i].FullName);
             }
 
             string tc = "---------------- \n {0}'s significant abilities and feats: {1}";

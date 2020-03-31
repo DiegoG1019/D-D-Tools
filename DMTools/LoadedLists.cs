@@ -3,49 +3,34 @@ using System.Collections.Generic;
 
 namespace DMTools
 {
-	namespace Loaded
+	public static class Loaded
 	{
-		
-		public static class Entities
+		public static LoadedList<Entity> Entities = new LoadedList<Entity>();
+		public static LoadedList<Character> Characters = new LoadedList<Character>();
+
+		public class LoadedList<T>
 		{
-			private static Queue<int> freeIDs;
-			public static List<Entity> objects;
-			public static List<int> loaded;
-			public static int NextID
-            {
-                get
-                {
-                    try
-                    {
-						return freeIDs.Dequeue();
-                    }
-                    catch(InvalidOperationException e) //This means the queue is empty
-                    {
-						objects.Add(null);
-						return objects.Count;
-                    }
-                }
-			}
-			public static int Add(Entity ent)
+			private Queue<int> freeIDs;
+			private List<T> objects;
+			private List<int> ids;
+
+			public List<T> Objects
 			{
-				int a = NextID;
-				objects[a] = ent;
-				loaded.Add(a);
-				return a;
+				get
+				{
+					return objects;
+				}
 			}
-			public static void Remove(int id)
+
+			public List<int> IDs
 			{
-				freeIDs.Enqueue(id);
-				objects[id] = null;
-				loaded.Remove(id);
+				get
+				{
+					return ids;
+				}
 			}
-		}
-		public static class Characters
-		{
-			private static Queue<int> freeIDs;
-			private static List<Entity> objects;
-			public static List<int> loaded;
-			public static int NextID
+
+			public int NextID
 			{
 				get
 				{
@@ -53,25 +38,34 @@ namespace DMTools
 					{
 						return freeIDs.Dequeue();
 					}
-					catch (InvalidOperationException e) //This means the queue is empty
+					catch (InvalidOperationException) //This means the queue is empty
 					{
 						objects.Add(null);
 						return objects.Count;
 					}
 				}
 			}
-			public static int Add(Entity ent)
+
+			public LoadedList()
+			{
+				freeIDs = new Queue<int>();
+				objects = new List<T>();
+				ids = new List<int>();
+			}
+
+			public int Add(T v)
 			{
 				int a = NextID;
-				objects[a] = ent;
-				loaded.Add(a);
+				objects[a] = v;
+				ids.Add(a);
 				return a;
 			}
-			public static void Remove(int id)
+
+			public void Remove(int id)
 			{
 				freeIDs.Enqueue(id);
 				objects[id] = null;
-				loaded.Remove(id);
+				ids.Remove(id);
 			}
 		}
 	}

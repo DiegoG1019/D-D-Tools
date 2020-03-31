@@ -80,17 +80,23 @@ namespace DMTools{
         virtual public void setPlayer(Player ply){
         }
 
+        public static int Create(byte level, string name)
+        {
+            return new Entity(level, name).Register();
+        }
+
         public void Unregister()
         {
-            Loaded.Characters.Remove(this.id);
+            Loaded.Entities.Remove(this.id);
         }
 
-        private void Register()
+        private int Register()
         {
             this.id = Loaded.Entities.Add(this);
+            return id;
         }
 
-        public Entity(byte level, string name)
+        private Entity(byte level, string name)
         {
             this.level = level;
             expgrant = new ExperienceGrant(this,69,120);
@@ -124,11 +130,16 @@ namespace DMTools{
         public List<Ability> abilities = new List<Ability>();
         new public List<Job> job;
 
-        public Character(byte level, string name): base(level,name,null){
+        private Character(byte level, string name): base(level,name,null){
             this.exp = new Experience(this);
             this.feats.Add(new Ability("Fleeting Presence", null, "This character can disappear from existence at will",new List<string>(),new int[App.statCount], new bool[]{true, false, false, true}));
             this.abilities.Add(new Ability("Power Surge", null, "Augments strength and constitution", new List<string>(), new int[]{2,4,0,0,0,0,0,0,0,0,0}));
             this.Register();
+        }
+
+        new public static int Create(byte level, string name)
+        {
+            return new Character(level, name).Register();
         }
 
         new public void Unregister()
@@ -136,9 +147,10 @@ namespace DMTools{
             Loaded.Characters.Remove(this.id);
         }
 
-        private void Register()
+        private int Register()
         {
             this.id = Loaded.Characters.Add(this);
+            return this.id;
         }
 
         public int getAbilityBuffs(Stats ind){
