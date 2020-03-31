@@ -25,8 +25,12 @@ namespace DMTools
         public static int statCount = Enum.GetNames(typeof(Stats)).Length;
         public static int schoolCount = Enum.GetNames(typeof(Schools)).Length;
 
-        public static Version version = new Version("Alpha", 0, 0, 9, 2);
+        public static readonly Version version = new Version("Alpha", 0, 0, 9, 2);
         public const string author = "Diego Garcia";
+
+        public const string WriteDir = "C:/Users/%USERNAME%/Documents/DnDT/";
+
+        public static int tchar = Character.Create(5, "Tchar");
 
         public static JsonSerializerOptions JSONOptions = new JsonSerializerOptions{
             WriteIndented = true,
@@ -35,9 +39,6 @@ namespace DMTools
         [STAThread]
         static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainMenu());
 
             /*--------------------------------------------  -------------------------------------------*/
 
@@ -51,7 +52,6 @@ namespace DMTools
             /*-----------------------------------------Testing-----------------------------------------*/
 
             //test char
-            int tchar = Character.Create(5, "Tchar");
             Loaded.Characters.Objects[tchar].armorC.armor = 5;
             Loaded.Characters.Objects[tchar].SetBaseStats(Stats.dexterity, 14);
             Loaded.Characters.Objects[tchar].SetBaseStats(Stats.charisma, 2);
@@ -106,14 +106,11 @@ namespace DMTools
             Console.WriteLine(" *** {0}: {1}", Stats.intelligence, Loaded.Characters.Objects[tchar].GetMod(Stats.intelligence));
             Console.WriteLine(" *** {0}: {1}", Stats.wisdom, Loaded.Characters.Objects[tchar].GetMod(Stats.wisdom));
 
-            /*FileStream fileOut = new FileStream("Tchar2.character.json", FileMode.OpenOrCreate, 
-            FileAccess.ReadWrite);/**/
-
-            File.WriteAllText("Tchar2.character", JsonSerializer.Serialize(Loaded.Characters.Objects[tchar], JSONOptions));/**/
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new MainMenu());
 
             /*---------------------------------------Finalization--------------------------------------*/
-
-            Console.ReadKey();
 
         }
 

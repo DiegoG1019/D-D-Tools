@@ -214,7 +214,7 @@ namespace DMTools
         public uint baseexp;
         public uint extra;
 
-        private Entity parent;
+        private readonly Entity parent;
 
         public ExperienceGrant(Entity parent)
         {
