@@ -1,11 +1,18 @@
+#define DEBUG
+#define VERBOSE
+//#define CONSOLE
+
 using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Linq;
 using System.Windows.Forms;
+using Serilog;
+using Serilog.Sinks.File;
+using Serilog.Sinks.SystemConsole;
 using System.IO;
 
-namespace DMTools
+namespace DnDTDesktop
 {
 
     public enum Stats
@@ -22,15 +29,29 @@ namespace DMTools
     static class App
     {
 
+        public static readonly Version version = new Version("Alpha", 0, 0, 17, 0);
         public static int statCount = Enum.GetNames(typeof(Stats)).Length;
         public static int schoolCount = Enum.GetNames(typeof(Schools)).Length;
 
-        public static readonly Version version = new Version("Alpha", 0, 0, 9, 2);
         public const string author = "Diego Garcia";
+        public const string appname = "D&DTools Windows";
 
-        public const string WriteDir = "C:/Users/%USERNAME%/Documents/DnDT/";
+        public static class Directories
+        {
+            public static string DataOut = Path.Combine("DnDT");
+            public static string Characters = Path.Combine(DataOut, "Characters");
+            public static string Entities = Path.Combine(DataOut, "Entities");
+            public static string Temp = Path.GetTempPath();
+            public static string Working = Path.GetFullPath(Directory.GetCurrentDirectory());
+            public static void InitDirectories()
+            {
+                Directory.CreateDirectory(DataOut);
+                Directory.CreateDirectory(Characters);
+                Directory.CreateDirectory(Entities);
+            }
+        }
 
-        public static int tchar = Character.Create(5, "Tchar");
+        public static int tchar;
 
         public static JsonSerializerOptions JSONOptions = new JsonSerializerOptions{
             WriteIndented = true,
@@ -44,14 +65,46 @@ namespace DMTools
 
             /*--------------------------------------Initialization-------------------------------------*/
 
-            Console.WriteLine("Running D&DTools version: {0}", App.version.Full);
-            Console.WriteLine("Program Author: {0}", App.author);
-            Cf.loadLang();
-            Cf.loadOptions();
+            Log.Logger = new LoggerConfiguration()
+#if (DEBUG && !VERBOSE)
+                .MinimumLevel.Debug()
+#endif
+#if (VERBOSE)
+                .MinimumLevel.Verbose()
+#endif
+                .WriteTo.Console()
+                .WriteTo.File(Path.Combine(Directories.Working,"log-.txt"), rollingInterval: RollingInterval.Day)
+                .CreateLogger();
+
+            Log.Debug("Succesfully started logger with a mimum level of {0}",
+#if (DEBUG && !VERBOSE)
+                "DEBUG"
+#endif
+#if (VERBOSE)
+                "VERBOSE"
+#endif
+                );
+
+            Log.Information("Program Author: {0}", App.author);
+            Log.Information("Running D&DTools version: {0}", App.version.Full);
+
+            Cf.LoadLang();
+            Cf.LoadOptions();
+            App.Directories.InitDirectories();
+            Log.Information("Finished Initializing all Application directories");
+            Log.Information("DataOut Directory: {0}", Path.GetFullPath(Directories.DataOut));
+            Log.Information("Characters storage Directory: {0}", Path.GetFullPath(Directories.Characters));
+            Log.Information("Entities storage Directory: {0}", Path.GetFullPath(Directories.Entities));
+            Log.Information("Temp Directory: {0}", Path.GetFullPath(Directories.Temp));
+            Log.Information("Working Directory: {0}", Path.GetFullPath(Directories.Working));
+
+            Log.Information("Finished the Initialization of the Application");
 
             /*-----------------------------------------Testing-----------------------------------------*/
 
             //test char
+            tchar = Character.Create(5, "Tchar");
+            /*
             Loaded.Characters.Objects[tchar].armorC.armor = 5;
             Loaded.Characters.Objects[tchar].SetBaseStats(Stats.dexterity, 14);
             Loaded.Characters.Objects[tchar].SetBaseStats(Stats.charisma, 2);
@@ -105,6 +158,7 @@ namespace DMTools
             Console.WriteLine(" *** {0}: {1}", Stats.strength, Loaded.Characters.Objects[tchar].GetMod(Stats.strength));
             Console.WriteLine(" *** {0}: {1}", Stats.intelligence, Loaded.Characters.Objects[tchar].GetMod(Stats.intelligence));
             Console.WriteLine(" *** {0}: {1}", Stats.wisdom, Loaded.Characters.Objects[tchar].GetMod(Stats.wisdom));
+            /**/
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

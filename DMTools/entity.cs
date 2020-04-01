@@ -1,31 +1,73 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Text.Json.Serialization;
+using System.Runtime.Serialization;
 
-namespace DMTools
+namespace DnDTDesktop
 {
 
     public class Entity
     {
-
+        [IgnoreDataMember]
         protected int[] baseStats = new int[App.statCount];
         protected int[] tempStats = new int[App.statCount];
         protected int[] miscBuffs = new int[App.statCount];
 
+        [IgnoreDataMember]
         protected int id;
+        [IgnoreDataMember]
         protected int pid; //player list id
         protected Player player;
+        protected byte level = 1;
+        protected List<Skill> skills = new List<Skill>();
+        protected uint[] spentSpells = new uint[Cf.Options.EntityValues["maxSpellLevel"]];
 
-        public byte skillPointModifier; //Added to the class and race skill points for calculation
-        public byte extraSkillPoints; //Added to the final calculation of skill points
-        public byte level = 1;
-        public ExperienceGrant expgrant;
-        public ArmorClass armorC;
-        public Health health;
-        public Description desc;
-        public List<Skill> skills = new List<Skill>();
-        public Job job;
-        public uint[] spentSpells = new uint[Cf.Options.EntityValues["maxSpellLevel"]];
+        public byte SkillPointModifier { get; set; } //Added to the class and race skill points for calculation
+        public byte ExtraSkillPoints { get; set; }  //Added to the final calculation of skill points
+        public ExperienceGrant Expgrant { get; set; }
+        public ArmorClass ArmorC { get; set; }
+        public Health Health { get; set; }
+        public Description Desc { get; set; }
+        public Job Job { get; set; }
+
+        public uint[] SpentSpells
+        {
+            get
+            {
+                return spentSpells;
+            }
+        }
+
+        public List<Skill> Skills
+        {
+            get
+            {
+                return skills;
+            }
+        }
+
+        public byte Level
+        {
+            get
+            {
+                return level;
+            }
+            set
+            {
+                level = value;
+            }
+        }
+
+        [IgnoreDataMember]
+        [JsonIgnore]
+        public int Id
+        {
+            get
+            {
+                return this.id;
+            }
+        }
 
         public int GetBaseStats(Stats ind)
         {
@@ -77,23 +119,15 @@ namespace DMTools
             return (GetBaseMod(b) + (GetBaseMod(a) * 2)) / 2;
         }
 
-        virtual public int GetMod(Stats stat)
+        public int GetMod(Stats stat)
         {
             byte i = (byte)stat;
             return ((this.baseStats[i] + this.miscBuffs[i] + this.tempStats[i]) / 2) - 5;
         }
 
-        virtual public int GetMod(Stats a, Stats b)
+        public int GetMod(Stats a, Stats b)
         {
             return (GetMod(b) + (GetMod(a) * 2)) / 2;
-        }
-
-        public int Id
-        {
-            get
-            {
-                return this.id;
-            }
         }
 
         public Player GetPlayer()
@@ -101,7 +135,7 @@ namespace DMTools
             return this.player;
         }
 
-        virtual public void SetPlayer(Player ply)
+        public void SetPlayer(Player ply)
         {
         }
 
@@ -121,28 +155,16 @@ namespace DMTools
             return id;
         }
 
-        private Entity(byte level, string name)
+        protected Entity(byte level, string name)
         {
             this.level = level;
-            expgrant = new ExperienceGrant(this, 69, 120);
-            this.health = new Health(this);
-            this.armorC = new ArmorClass(this);
-            this.health.SetBaseHP();
+            this.Expgrant = new ExperienceGrant(this, 69, 120);
+            this.Health = new Health(this);
+            this.ArmorC = new ArmorClass(this,null,null,null,null,null,null,null);
+            this.Health.SetBaseHP();
             this.skills.Add(new Skill(this, "Lockpicking", Stats.dexterity, 0, 5, new bool[] { true, false, true }));
             this.skills.Add(new Skill(this, "Diplomacy", Stats.charisma, 3, 2, new bool[] { true, false, false }));
-            this.desc = new Description(name);
-            this.Register();
-        }
-        public Entity(byte level, string name, bool? hasParent)
-        {
-            this.level = level;
-            this.expgrant = new ExperienceGrant(this, 69, 120);
-            this.health = new Health(this);
-            this.armorC = new ArmorClass(this);
-            this.health.SetBaseHP();
-            this.skills.Add(new Skill(this, "Lockpicking", Stats.dexterity, 0, 5, new bool[] { true, false, true }));
-            this.skills.Add(new Skill(this, "Diplomacy", Stats.charisma, 3, 2, new bool[] { true, false, false }));
-            this.desc = new Description(name);
+            this.Desc = new Description(name);
         }
 
     }
@@ -150,23 +172,38 @@ namespace DMTools
     public class Character : Entity
     {
 
-        public byte freeLevels;
-        public Experience exp;
-        public List<Ability> feats = new List<Ability>();
-        public List<Ability> abilities = new List<Ability>();
-        new public List<Job> job;
+        protected List<Ability> feats = new List<Ability>();
+        protected List<Ability> abilities = new List<Ability>();
 
-        private Character(byte level, string name) : base(level, name, null)
+        public byte FreeLevels { get; set; }
+        public Experience Exp { get; set; }
+        public List<Job> Jobs { get; set; }
+        public List<Ability> Feats
         {
-            this.exp = new Experience(this);
+            get
+            {
+                return feats;
+            }
+        }
+        public List<Ability> Abilities
+        {
+            get
+            {
+                return abilities;
+            }
+        }
+
+        protected Character(byte level, string name) : base(level, name)
+        {
+            this.Exp = new Experience(this);
             this.feats.Add(new Ability("Fleeting Presence", null, "This character can disappear from existence at will", new List<string>(), new int[App.statCount], new bool[] { true, false, false, true }));
             this.abilities.Add(new Ability("Power Surge", null, "Augments strength and constitution", new List<string>(), new int[] { 2, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0 }));
-            this.Register();
         }
 
         new public static int Create(byte level, string name)
         {
-            return new Character(level, name).Register();
+            Character newchar = new Character(level, name);
+            return newchar.Register();
         }
 
         new public void Unregister()
@@ -185,7 +222,7 @@ namespace DMTools
             int total = 0;
             foreach (Ability abi in this.abilities)
             {
-                total += abi.buffs[(byte)ind];
+                total += abi.Buffs[(byte)ind];
             }
             return total;
         }
@@ -195,12 +232,12 @@ namespace DMTools
             int total = 0;
             foreach (Ability abi in this.feats)
             {
-                total += abi.buffs[(byte)ind];
+                total += abi.Buffs[(byte)ind];
             }
             return total;
         }
 
-        override public int GetMod(Stats stat)
+        new public int GetMod(Stats stat)
         {
             byte i = (byte)stat;
             return ((this.baseStats[i] + this.miscBuffs[i] + this.tempStats[i] + this.GetAbilityBuffs(stat) + this.GetFeatBuffs(stat)) / 2) - 5;
@@ -211,36 +248,38 @@ namespace DMTools
     public struct ExperienceGrant
     {
 
-        public uint baseexp;
-        public uint extra;
+        public uint Baseexp { get; set; }
+        public uint Extra { get; set; }
 
         private readonly Entity parent;
 
         public ExperienceGrant(Entity parent)
         {
             this.parent = parent;
-            this.baseexp = 1;
-            this.extra = 0;
+            this.Baseexp = 1;
+            this.Extra = 0;
         }
         public ExperienceGrant(Entity parent, uint b)
         {
             this.parent = parent;
-            this.baseexp = b;
-            this.extra = 0;
+            this.Baseexp = b;
+            this.Extra = 0;
         }
         public ExperienceGrant(Entity parent, uint b, uint e)
         {
             this.parent = parent;
-            this.baseexp = b;
-            this.extra = e;
+            this.Baseexp = b;
+            this.Extra = e;
         }
 
+        [IgnoreDataMember]
+        [JsonIgnore]
         public uint Grant
         {
             get
             {
-                byte l = this.parent.level;
-                return (uint)(((l * (l - 1) * 500) + (this.baseexp * l)) + this.extra);
+                byte l = parent.Level;
+                return (uint)(((l * (l - 1) * 500) + (this.Baseexp * l)) + this.Extra);
             }
         }
 
@@ -249,10 +288,9 @@ namespace DMTools
     public struct Experience : IHistoried<int>
     {
 
-        public float multiplier;
-
-        private uint current;
-        private uint required;
+        public float Multiplier { get; set; }
+        public uint Current { get; private set; }
+        public uint Required { get; private set; }
 
         private readonly List<int> history;
         private readonly Character parent;
@@ -260,19 +298,11 @@ namespace DMTools
         public Experience(Character p)
         {
             this.parent = p;
-            this.current = 0;
-            this.multiplier = 1F;
-            this.required = 0;
+            this.Current = 0;
+            this.Multiplier = 1F;
+            this.Required = 0;
             this.history = new List<int>();
             this.SetRequired();
-        }
-
-        public uint Current
-        {
-            get
-            {
-                return this.current;
-            }
         }
 
         public int GetHistory(int i)
@@ -280,6 +310,8 @@ namespace DMTools
             return this.history[i];
         }
 
+        [IgnoreDataMember]
+        [JsonIgnore]
         public int HistoryEntries
         {
             get
@@ -288,61 +320,62 @@ namespace DMTools
             }
         }
 
+        [IgnoreDataMember]
+        [JsonIgnore]
         public int Left
         {
             get
             {
-                return (int)(this.required - this.current);
+                return (int)(this.Required - this.Current);
             }
         }
 
+        [IgnoreDataMember]
+        [JsonIgnore]
         public int Progress
         {
             get
             {
-                return (int)(((float)(this.current) / (float)(this.required)) * 100f);
+                return (int)(((float)(this.Current) / (float)(this.Required)) * 100f);
             }
         }
 
         public void Add(uint v)
         {
-            this.current += v;
+            this.Current += v;
         }
 
         public void Sub(uint v)
         {
-            if (v > this.current)
+            if (v > this.Current)
             {
-                this.current = 0;
+                this.Current = 0;
             }
             else
             {
-                this.current -= v;
+                this.Current -= v;
             }
         }
 
         ///<summary><c>SetFreeLevel</c> This method picks between the four available free level choices to set the multiplier. The range is 0-3.
+        [IgnoreDataMember]
+        [JsonIgnore]
         public float FreeLevelmultiplier
         {
             get
             {
-                switch (this.parent.freeLevels)
+                switch (this.parent.FreeLevels)
                 {
                     case 0:
                         return 1F;
-                        break;
                     case 1:
                         return 0.75F;
-                        break;
                     case 2:
                         return 0.5F;
-                        break;
                     case 3:
                         return 0.25F;
-                        break;
                     default:
-                        throw new TooManyFreeLevels(String.Format("The entity \"{0}\" of ID \"{1}\" has too many free levels", this.parent.desc.name, this.parent.Id));
-                        break;
+                        throw new TooManyFreeLevels(String.Format("The entity \"{0}\" of ID \"{1}\" has too many free levels", this.parent.Desc.Name, this.parent.Id));
                 }
             }
         }
@@ -351,15 +384,17 @@ namespace DMTools
 
         public void Gain(uint v)
         {
-            this.Add((uint)(v * (this.multiplier * this.FreeLevelmultiplier)));
+            this.Add((uint)(v * (this.Multiplier * this.FreeLevelmultiplier)));
             this.history.Add((int)v);
         }
 
+        [IgnoreDataMember]
+        [JsonIgnore]
         public bool DidLevel
         {
             get
             {
-                return this.current >= this.required;
+                return this.Current >= this.Required;
             }
         }
 
@@ -368,36 +403,24 @@ namespace DMTools
         {
             if (this.DidLevel)
             {
-                this.current -= this.required;
-                this.parent.level++;
+                this.Current -= this.Required;
+                this.parent.Level++;
             }
             else
             {
-                throw new CantLevelUpYet(String.Format("The entity \"{0}\" of ID \"{1}\" attempted to level up without a right to", this.parent.desc.name, this.parent.Id));
+                throw new CantLevelUpYet(String.Format("The entity \"{0}\" of ID \"{1}\" attempted to level up without a right to", this.parent.Desc.Name, parent.Id));
             }
         }
 
         public void SetRequired()
         {
-            byte l = this.parent.level;
-            this.required = (uint)((l + 1) * (l) * 500);
-        }
-
-        public uint Required
-        {
-            get
-            {
-                return this.required;
-            }
-            set
-            {
-                this.required = value;
-            }
+            byte l = this.parent.Level;
+            this.Required = (uint)((l + 1) * (l) * 500);
         }
 
     }
 
-    public struct ArmorClass
+    public struct ArmorClass: IFlagged<ArmorClass.Flags>
     {
 
         public enum Flags
@@ -405,133 +428,99 @@ namespace DMTools
             featDex
         }
 
-        public int baseac; //base armor class
-        public int armor;
-        public int size;
-        public int natural;
-        public int deflex;
-        public int temporary;
-        public int misc;
-        private int featDex; //A variable to use in case the character has a feat that enables dexterity to always be used
-        private readonly Entity parent;
-        private readonly bool[] flagsArr;
+        public int Baseac { get; set; } //base armor class
+        public int Armor { get; set; }
+        public int Size { get; set; }
+        public int Natural { get; set; }
+        public int Deflex { get; set; }
+        public int Temporary { get; set; }
+        public int Misc { get; set; }
 
-        public bool GetFlag(byte i)
+        private readonly Entity parent;
+        public bool[] FlagsArr { get; set; }
+
+        public bool GetFlag(Flags i)
         {
-            return flagsArr[i];
+            return FlagsArr[(byte)i];
         }
 
         ///----------------------------  armor,  size, natural, deflex, temporary,     misc, baseac
-        public ArmorClass(Entity parent, int a, int s, int n, int d, int temp, int misc, int b)
+        public ArmorClass(Entity parent, int? a, int? s, int? n, int? d, int? temp, int? misc, int? b)
         {
             this.parent = parent;
-            this.baseac = b;
-            this.armor = a;
-            this.size = s;
-            this.natural = n;
-            this.deflex = d;
-            this.temporary = temp;
-            this.misc = misc;
-            this.featDex = 0;
-            this.flagsArr = new bool[1];
-        }
-        public ArmorClass(Entity parent, int a, int s, int n, int d, int temp, int misc)
-        {
-            this.parent = parent;
-            this.baseac = 10;
-            this.armor = a;
-            this.size = s;
-            this.natural = n;
-            this.deflex = d;
-            this.temporary = temp;
-            this.misc = misc;
-            this.featDex = 0;
-            this.flagsArr = new bool[1];
-        }
-        public ArmorClass(Entity parent, int a, int s, int n, int d, int temp)
-        {
-            this.parent = parent;
-            this.baseac = 10;
-            this.armor = a;
-            this.size = s;
-            this.natural = n;
-            this.deflex = d;
-            this.temporary = temp;
-            this.misc = 0;
-            this.featDex = 0;
-            this.flagsArr = new bool[1];
-        }
-        public ArmorClass(Entity parent, int a, int s, int n, int d)
-        {
-            this.parent = parent;
-            this.baseac = 10;
-            this.armor = a;
-            this.size = s;
-            this.natural = n;
-            this.deflex = d;
-            this.temporary = 0;
-            this.misc = 0;
-            this.featDex = 0;
-            this.flagsArr = new bool[1];
-        }
-        public ArmorClass(Entity parent, int a, int s, int n)
-        {
-            this.parent = parent;
-            this.baseac = 10;
-            this.armor = a;
-            this.size = s;
-            this.natural = n;
-            this.deflex = 0;
-            this.temporary = 0;
-            this.misc = 0;
-            this.featDex = 0;
-            this.flagsArr = new bool[1];
-        }
-        public ArmorClass(Entity parent, int a, int s)
-        {
-            this.parent = parent;
-            this.baseac = 10;
-            this.armor = a;
-            this.size = s;
-            this.natural = 0;
-            this.deflex = 0;
-            this.temporary = 0;
-            this.misc = 0;
-            this.featDex = 0;
-            this.flagsArr = new bool[1];
-        }
-        public ArmorClass(Entity parent, int a)
-        {
-            this.parent = parent;
-            this.baseac = 10;
-            this.armor = a;
-            this.size = 0;
-            this.natural = 0;
-            this.deflex = 0;
-            this.temporary = 0;
-            this.misc = 0;
-            this.featDex = 0;
-            this.flagsArr = new bool[1];
-        }
-        public ArmorClass(Entity parent)
-        {
-            this.parent = parent;
-            this.baseac = 10;
-            this.armor = 0;
-            this.size = 0;
-            this.natural = 0;
-            this.deflex = 0;
-            this.temporary = 0;
-            this.misc = 0;
-            this.featDex = 0;
-            this.flagsArr = new bool[1];
+            if(a == null)
+            {
+                Baseac = 0;
+            }
+            else
+            {
+                Baseac = (int)b;
+            }
+
+            if (s == null)
+            {
+                Size = 0;
+            }
+            else
+            {
+                Size = (int)s;
+            }
+
+            if (n == null)
+            {
+                Natural = 0;
+            }
+            else
+            {
+                Natural = (int)n;
+            }
+
+            if (d == null)
+            {
+                Deflex = 0;
+            }
+            else
+            {
+                Deflex = (int)d;
+            }
+
+            if (temp == null)
+            {
+                Temporary = 0;
+            }
+            else
+            {
+                Temporary = (int)temp;
+            }
+
+            if (misc == null)
+            {
+                Misc = 0;
+            }
+            else
+            {
+                Misc = (int)misc;
+            }
+
+            if (a == null)
+            {
+                Armor = 0;
+            }
+            else
+            {
+                Armor = (int)a;
+            }
+
+            this.FlagsArr = new bool[1];
         }
 
+        [IgnoreDataMember]
+        [JsonIgnore]
         public uint AC
         {
             get
             {
-                int a = (this.baseac + this.armor + this.size + this.natural + this.deflex + this.temporary + this.misc + this.parent.GetMod(Stats.dexterity));
+                int a = (this.Baseac + this.Armor + this.Size + this.Natural + this.Deflex + this.Temporary + this.Misc + this.parent.GetMod(Stats.dexterity));
                 if (a > 0)
                 {
                     return (uint)a;
@@ -543,11 +532,13 @@ namespace DMTools
             }
         }
 
+        [IgnoreDataMember]
+        [JsonIgnore]
         public uint TouchAC
         {
             get
             {
-                int a = (this.baseac + this.size + this.misc + this.deflex + this.parent.GetMod(Stats.dexterity));
+                int a = (this.Baseac + this.Size + this.Misc + this.Deflex + this.parent.GetMod(Stats.dexterity));
                 if (a > 0)
                 {
                     return (uint)a;
@@ -559,11 +550,17 @@ namespace DMTools
             }
         }
 
+        [IgnoreDataMember]
+        [JsonIgnore]
         public uint UnawareAC
         {
             get
             {
-                int a = (this.baseac + this.armor + this.size + this.natural + this.misc + this.featDex);
+                int a = (this.Baseac + this.Armor + this.Size + this.Natural + this.Misc);
+                if (GetFlag(Flags.featDex))
+                {
+                    a += parent.GetMod(Stats.dexterity);
+                }
                 if (a > 0)
                 {
                     return (uint)a;
@@ -573,19 +570,6 @@ namespace DMTools
                     return 0u;
                 }
             }
-        }
-
-        public void EnableFeatDex(bool t)
-        {
-            if (t)
-            {
-                this.featDex = this.parent.GetMod(Stats.dexterity) + this.deflex;
-            }
-            else
-            {
-                this.featDex = 0;
-            }
-            this.flagsArr[(int)ArmorClass.Flags.featDex] = t;
         }
 
     }
@@ -593,27 +577,22 @@ namespace DMTools
     public struct Hurt : IHistoried<int>
     {
 
-        private uint damage;
+        public uint Damage { get; private set; }
         private readonly List<int> history;
 
         public Hurt(uint dmg)
         {
-            this.damage = dmg;
+            this.Damage = dmg;
             this.history = new List<int>();
         }
 
-        public uint Damage
-        {
-            get
-            {
-                return this.damage;
-            }
-        }
         public int GetHistory(int i)
         {
             return this.history[i];
         }
 
+        [IgnoreDataMember]
+        [JsonIgnore]
         public int HistoryEntries
         {
             get
@@ -624,26 +603,26 @@ namespace DMTools
 
         public void Harm(int d)
         {
-            if ((d < 0) && (Math.Abs(d) > this.damage))
+            if ((d < 0) && (Math.Abs(d) > this.Damage))
             {
-                this.damage = 0u;
+                this.Damage = 0u;
             }
             else
             {
-                this.damage = (uint)(this.damage + d);
+                this.Damage = (uint)(this.Damage + d);
             }
             this.history.Add(d);
         }
 
         public void Heal(int h)
         {
-            if (h > this.damage)
+            if (h > this.Damage)
             {
-                this.damage = 0u;
+                this.Damage = 0u;
             }
             else
             {
-                this.damage = (uint)(this.damage - h);
+                this.Damage = (uint)(this.Damage - h);
             }
             this.history.Add(-h);
         }
@@ -653,43 +632,49 @@ namespace DMTools
     public struct Health
     {
 
-        private uint basehp;
-        public Hurt lethalDamage;
-        public Hurt nonlethalDamage;
-        public List<uint> hpthrows; //This is a List, as opposed to a simple Array, because while usually levels cap out at 20, this is D&D we're talking about. I want the user to be able to expand it as necessary.
+        public uint Basehp { get; private set; }
+
+        [IgnoreDataMember]
+        [JsonIgnore]
+        public Hurt LethalDamage { get; }
+        [IgnoreDataMember]
+        [JsonIgnore]
+        public Hurt NonlethalDamage { get; }
+
+        public List<uint> HpThrows { get; set; } //This is a List, as opposed to a simple Array, because while usually levels cap out at 20, this is D&D we're talking about. I want the user to be able to expand it as necessary.
         //This list will have to be displayed and handled with this in mind.
         private readonly Entity parent;
 
         public Health(Entity p)
         {
-            this.basehp = 0;
+            this.Basehp = 0;
             this.parent = p;
-            this.lethalDamage = new Hurt(0);
-            this.nonlethalDamage = new Hurt(0);
-            this.hpthrows = new List<uint>(new uint[20]);
+            this.LethalDamage = new Hurt(0);
+            this.NonlethalDamage = new Hurt(0);
+            this.HpThrows = new List<uint>(new uint[20]);
         }
         public Health(Entity p, uint h)
         {
-            this.basehp = h;
+            this.Basehp = h;
             this.parent = p;
-            this.lethalDamage = new Hurt(0);
-            this.nonlethalDamage = new Hurt(0);
-            this.hpthrows = new List<uint>(new uint[20]);
+            this.LethalDamage = new Hurt(0);
+            this.NonlethalDamage = new Hurt(0);
+            this.HpThrows = new List<uint>(new uint[20]);
 
         }
 
         public void SetBaseHP()
         {
-            for (byte i = 0; i <= this.parent.level; i++)
+            for (byte i = 0; i <= this.parent.Level; i++)
             {
-                int n = (int)(this.hpthrows[i] + this.parent.GetMod(Stats.constitution));
+                int n = (int)(this.HpThrows[i] + this.parent.GetMod(Stats.constitution));
                 if (n > 1)
                 {
-                    this.basehp = (uint)(this.basehp + n);
+                    this.Basehp = (uint)(this.Basehp + n);
                 }
                 else
                 {
-                    this.basehp++;
+                    this.Basehp++;
                 }
             }
         }
@@ -697,30 +682,36 @@ namespace DMTools
         {
             set
             {
-                this.basehp = value;
+                this.Basehp = value;
             }
             get
             {
-                return this.basehp;
+                return this.Basehp;
             }
         }
 
+        [IgnoreDataMember]
+        [JsonIgnore]
         public int HP
         {
             get
             {
-                return (int)(this.basehp - (this.lethalDamage.Damage + this.nonlethalDamage.Damage));
+                return (int)(this.Basehp - (this.LethalDamage.Damage + this.NonlethalDamage.Damage));
             }
         }
 
+        [IgnoreDataMember]
+        [JsonIgnore]
         public int NlHP
         {
             get
             {
-                return (int)(this.basehp - this.lethalDamage.Damage);
+                return (int)(this.Basehp - this.LethalDamage.Damage);
             }
         }
 
+        [IgnoreDataMember]
+        [JsonIgnore]
         public bool Dead
         {
             get
@@ -729,6 +720,8 @@ namespace DMTools
             }
         }
 
+        [IgnoreDataMember]
+        [JsonIgnore]
         public bool BleedingOut
         {
             get
@@ -737,6 +730,8 @@ namespace DMTools
             }
         }
 
+        [IgnoreDataMember]
+        [JsonIgnore]
         public bool Down
         {
             get
@@ -745,6 +740,8 @@ namespace DMTools
             }
         }
 
+        [IgnoreDataMember]
+        [JsonIgnore]
         public string State
         {
             get
@@ -771,6 +768,8 @@ namespace DMTools
             }
         }
 
+        [IgnoreDataMember]
+        [JsonIgnore]
         public string OmaeWaMou
         {
             get
@@ -791,55 +790,55 @@ namespace DMTools
     public struct Description
     {
 
-        public string name;
-        public string fullname;
-        public string race;
-        public string alignment;
-        public string deity;
-        public string bodyType;
-        public string size;
-        public string bio;
-        public string intro;
-        public string personality;
-        public string gender;
-        public List<string> notes;
-        public ulong age;
-        public uint height; //cm
-        public float weight; //kg
-        public Color eyes;
-        public Color hair;
-        public Color skin;
-        public Color? bgcolor;
-        public Color? bannerColor;
-        public Image mugshot;
-        public Image fullBody;
-        public List<Image> arcaneMarks;
+        public string Name { get; set; }
+        public string Fullname { get; set; }
+        public string Race { get; set; }
+        public string Alignment { get; set; }
+        public string Deity { get; set; }
+        public string BodyType { get; set; }
+        public string Size { get; set; }
+        public string Bio { get; set; }
+        public string Intro { get; set; }
+        public string Personality { get; set; }
+        public string Gender { get; set; }
+        public List<string> Notes { get; set; }
+        public ulong Age { get; set; }
+        public uint Height { get; set; } //cm
+        public float Weight { get; set; } //kg
+        public Color Eyes { get; set; }
+        public Color Hair { get; set; }
+        public Color Skin { get; set; }
+        public Color? Bgcolor { get; set; }
+        public Color? BannerColor { get; set; }
+        public Image Mugshot { get; set; }
+        public Image FullBody { get; set; }
+        public List<Image> ArcaneMarks { get; set; }
 
         public Description(string name)
         {
-            this.name = name;
-            this.fullname = name;
-            this.race = "Human";
-            this.alignment = "True Neutral";
-            this.deity = "None";
-            this.bodyType = "Humanoid";
-            this.size = "Medium";
-            this.bio = "None";
-            this.intro = "No intro";
-            this.personality = "Blank";
-            this.gender = "Unknown";
-            this.notes = new List<string>();
-            this.age = 0;
-            this.height = 0;
-            this.weight = 0;
-            this.eyes = Color.FromName("White");
-            this.hair = Color.FromName("Black");
-            this.skin = Color.FromName("Bisque");
-            this.bgcolor = null;
-            this.bannerColor = null;
-            this.mugshot = null;
-            this.fullBody = null;
-            this.arcaneMarks = new List<Image>();
+            this.Name = name;
+            this.Fullname = name;
+            this.Race = "Human";
+            this.Alignment = "True Neutral";
+            this.Deity = "None";
+            this.BodyType = "Humanoid";
+            this.Size = "Medium";
+            this.Bio = "None";
+            this.Intro = "No intro";
+            this.Personality = "Blank";
+            this.Gender = "Unknown";
+            this.Notes = new List<string>();
+            this.Age = 0;
+            this.Height = 0;
+            this.Weight = 0;
+            this.Eyes = Color.FromName("White");
+            this.Hair = Color.FromName("Black");
+            this.Skin = Color.FromName("Bisque");
+            this.Bgcolor = null;
+            this.BannerColor = null;
+            this.Mugshot = null;
+            this.FullBody = null;
+            this.ArcaneMarks = new List<Image>();
         }
 
     }
@@ -852,71 +851,71 @@ namespace DMTools
             trainedOnly, penalizedByArmor, JobSkill
         };
 
-        public string name;
-        public Stats keyStat;
-        public uint level;
-        public uint miscLevels;
+        public string Name { get; set; }
+        public Stats KeyStat { get; set; }
+        public uint Level { get; set; }
+        public uint MiscLevels { get; set; }
 
-        private bool[] flagsArr;
+        private bool[] FlagsArr { get; }
         private readonly Entity parent;
 
         public Skill(Entity p, string name, Stats keyStat)
         {
             this.parent = p;
-            this.name = name;
-            this.keyStat = keyStat;
-            this.miscLevels = 0;
-            this.level = 0;
-            this.flagsArr = new bool[Enum.GetNames(typeof(Skill.Flags)).Length];
+            this.Name = name;
+            this.KeyStat = keyStat;
+            this.MiscLevels = 0;
+            this.Level = 0;
+            this.FlagsArr = new bool[Enum.GetNames(typeof(Skill.Flags)).Length];
         }
         public Skill(Entity p, string name, Stats keyStat, uint miscLevels)
         {
             this.parent = p;
-            this.name = name;
-            this.keyStat = keyStat;
-            this.miscLevels = miscLevels;
-            this.level = 0;
-            this.flagsArr = new bool[Enum.GetNames(typeof(Skill.Flags)).Length];
+            this.Name = name;
+            this.KeyStat = keyStat;
+            this.MiscLevels = miscLevels;
+            this.Level = 0;
+            this.FlagsArr = new bool[Enum.GetNames(typeof(Skill.Flags)).Length];
         }
         public Skill(Entity p, string name, Stats keyStat, uint miscLevels, uint level)
         {
             this.parent = p;
-            this.name = name;
-            this.keyStat = keyStat;
-            this.miscLevels = miscLevels;
-            this.level = level;
-            this.flagsArr = new bool[Enum.GetNames(typeof(Skill.Flags)).Length];
+            this.Name = name;
+            this.KeyStat = keyStat;
+            this.MiscLevels = miscLevels;
+            this.Level = level;
+            this.FlagsArr = new bool[Enum.GetNames(typeof(Skill.Flags)).Length];
         }
         public Skill(Entity p, string name, Stats keyStat, uint miscLevels, uint level, bool[] flg)
         {
             this.parent = p;
-            this.name = name;
-            this.keyStat = keyStat;
-            this.miscLevels = miscLevels;
-            this.level = level;
-            this.flagsArr = flg;
+            this.Name = name;
+            this.KeyStat = keyStat;
+            this.MiscLevels = miscLevels;
+            this.Level = level;
+            this.FlagsArr = flg;
         }
 
         public bool GetFlag(Skill.Flags i)
         {
-            return this.flagsArr[(byte)i];
+            return this.FlagsArr[(byte)i];
         }
         public void Train(uint l)
         {
-            this.level += l;
+            this.Level += l;
         }
         public long Mod
         {
             get
             {
-                int val = (int)(this.parent.GetMod(this.keyStat) + this.miscLevels);
+                int val = (int)(this.parent.GetMod(this.KeyStat) + this.MiscLevels);
                 if (this.GetFlag(Flags.JobSkill))
                 {
-                    return val + this.level;
+                    return val + this.Level;
                 }
                 else
                 {
-                    return val + (this.level / 2);
+                    return val + (this.Level / 2);
                 }
             }
         }
@@ -931,82 +930,82 @@ namespace DMTools
             extraordinary, spellLike, psiLike, supernatural
         };
 
-        private string name;
-        public string requirements;
-        public string description;
-        public List<string> notes;
-        private bool[] flagsArr;
-        public int[] buffs;
+        public string Name { get; set; }
+        public string Requirements { get; set; }
+        public string Description { get; set; }
+        public List<string> Notes { get; set; }
+        public bool[] FlagsArr { get; }
+        public int[] Buffs { get; }
 
         public Ability(string n, string re, string de)
         {
-            this.name = n;
-            this.description = de;
-            this.notes = new List<string>();
-            this.buffs = new int[Enum.GetNames(typeof(Stats)).Length];
-            this.flagsArr = new bool[Enum.GetNames(typeof(Ability.Flags)).Length];
+            this.Name = n;
+            this.Description = de;
+            this.Notes = new List<string>();
+            this.Buffs = new int[Enum.GetNames(typeof(Stats)).Length];
+            this.FlagsArr = new bool[Enum.GetNames(typeof(Ability.Flags)).Length];
 
             if (re == "null" || re == "" || re == null)
             {
-                this.requirements = Cf.Lang.ent["noRequirements"];
+                this.Requirements = Cf.Lang.ent["noRequirements"];
             }
             else
             {
-                this.requirements = re;
+                this.Requirements = re;
             }
 
         }
         public Ability(string n, string re, string de, List<string> notes)
         {
-            this.name = n;
-            this.description = de;
-            this.notes = notes;
-            this.buffs = new int[Enum.GetNames(typeof(Stats)).Length];
-            this.flagsArr = new bool[Enum.GetNames(typeof(Ability.Flags)).Length];
+            this.Name = n;
+            this.Description = de;
+            this.Notes = notes;
+            this.Buffs = new int[Enum.GetNames(typeof(Stats)).Length];
+            this.FlagsArr = new bool[Enum.GetNames(typeof(Ability.Flags)).Length];
 
             if (re == "null" || re == "" || re == null)
             {
-                this.requirements = Cf.Lang.ent["noRequirements"];
+                this.Requirements = Cf.Lang.ent["noRequirements"];
             }
             else
             {
-                this.requirements = re;
+                this.Requirements = re;
             }
 
         }
         public Ability(string n, string re, string de, List<string> nts, int[] bfs)
         {
-            this.name = n;
-            this.description = de;
-            this.notes = nts;
-            this.buffs = bfs;
-            this.flagsArr = new bool[Enum.GetNames(typeof(Ability.Flags)).Length];
+            this.Name = n;
+            this.Description = de;
+            this.Notes = nts;
+            this.Buffs = bfs;
+            this.FlagsArr = new bool[Enum.GetNames(typeof(Ability.Flags)).Length];
 
             if (re == "null" || re == "" || re == null)
             {
-                this.requirements = Cf.Lang.ent["noRequirements"];
+                this.Requirements = Cf.Lang.ent["noRequirements"];
             }
             else
             {
-                this.requirements = re;
+                this.Requirements = re;
             }
 
         }
         public Ability(string n, string re, string de, List<string> nts, int[] bfs, bool[] flg)
         {
-            this.name = n;
-            this.description = de;
-            this.notes = nts;
-            this.buffs = bfs;
-            this.flagsArr = flg;
+            this.Name = n;
+            this.Description = de;
+            this.Notes = nts;
+            this.Buffs = bfs;
+            this.FlagsArr = flg;
 
             if (re == "null" || re == "" || re == null)
             {
-                this.requirements = Cf.Lang.ent["noRequirements"];
+                this.Requirements = Cf.Lang.ent["noRequirements"];
             }
             else
             {
-                this.requirements = re;
+                this.Requirements = re;
             }
 
         }
@@ -1014,14 +1013,16 @@ namespace DMTools
 
         public bool GetFlag(Ability.Flags ind)
         {
-            return this.flagsArr[(byte)ind];
+            return this.FlagsArr[(byte)ind];
         }
 
+        [IgnoreDataMember]
+        [JsonIgnore]
         public string FullName
         {
             get
             {
-                string str = this.name;
+                string str = this.Name;
                 if (this.GetFlag(Ability.Flags.extraordinary))
                 {
                     str += " (Ex)";
@@ -1042,21 +1043,30 @@ namespace DMTools
             }
             set
             {
-                this.name = value;
+                this.Name = value;
             }
         }
 
+        [IgnoreDataMember]
+        [JsonIgnore]
         public string AllNotes
         {
             get
             {
                 const string a = "-{0}\n";
                 string c = "";
-                foreach (string b in notes)
+                foreach (string b in Notes)
                 {
                     c += String.Format(a, b);
                 }
-                return c.Substring(0, c.Length - 1);
+                if(c.Length > 0)
+                {
+                    return c.Substring(0, c.Length - 1);
+                }
+                else
+                {
+                    return c;
+                }
             }
         }
 

@@ -1,6 +1,6 @@
 using System;
 
-namespace DMTools
+namespace DnDTDesktop
 {
     public class TypeMismatchException : Exception
     {

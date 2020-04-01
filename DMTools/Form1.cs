@@ -2,9 +2,8 @@
 using System.Windows.Forms;
 using System.IO;
 using System.Text.Json;
-using System.Runtime.InteropServices;
 
-namespace DMTools
+namespace DnDTDesktop
 {
     public partial class MainMenu : Form
     {
@@ -16,12 +15,7 @@ namespace DMTools
         private void Form1_Load(object sender, EventArgs e)
         {
             label1.Text = App.version.Full;
-            AllocConsole();
         }
-
-        [DllImport("kernel32.dll", SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        static extern bool AllocConsole();
 
         private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)
         {
@@ -45,11 +39,22 @@ namespace DMTools
 
         private void button1_Click(object sender, EventArgs e)
         {
-            /*
-            FileStream fileOut = new FileStream(App.WriteDir + "Tchar.character.json", FileMode.OpenOrCreate, FileAccess.ReadWrite);
-            StreamWriter writer = new StreamWriter(fileOut);
-            writer.Write(JsonSerializer.Serialize(Loaded.Characters.Objects[App.tchar], App.JSONOptions));
+
+            string jsonstring = JsonSerializer.Serialize(Loaded.Characters.Objects[App.tchar], App.JSONOptions);
+
+            using (StreamWriter OutFile = new StreamWriter(new FileStream(Path.Combine(App.Directories.Characters, "Tchar.character.json"), FileMode.Create, FileAccess.Write, FileShare.Read)))
+            {
+                OutFile.WriteLine(jsonstring);
+            }
             /**/
+
+            label2.Text = "Character serialized";
+
+        }
+
+        private void label2_Click_1(object sender, EventArgs e)
+        {
+
         }
     }
 }

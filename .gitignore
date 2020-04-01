@@ -10,3 +10,4 @@ changelog
 /DMTools/obj/Debug/*
 *.cache
 *package*
+*log*

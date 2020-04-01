@@ -1,6 +1,7 @@
 using System.Collections.Generic;
+using Serilog;
 
-namespace DMTools
+namespace DnDTDesktop
 {
 
     public static class Cf
@@ -21,18 +22,25 @@ namespace DMTools
             public static Dictionary<string, int> EntityValues = new Dictionary<string, int>();
         }
 
-        public static void loadLang()
+        public static void LoadLang()
         {
             Lang.util.Add("currency", "P.");
             Lang.ent.Add("noRequirements", "Nothing");
+            Log.Information("Loaded Language Data");
         }
 
-        public static void loadOptions()
+        public static void LoadOptions()
         {
+
             Options.EntityValues.Add("dead", -10);
             Options.EntityValues.Add("bleedingOut", -1);
             Options.EntityValues.Add("down", 0);
             Options.EntityValues.Add("maxSpellLevel", 9);
+            Log.Information("Loaded EntityValues Data");
+
+            /*--------------------------------------*/
+
+            Log.Information("Loaded Options");
         }
 
     }

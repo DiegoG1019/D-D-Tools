@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
+using System.Runtime.Serialization;
 
-
-namespace DMTools
+namespace DnDTDesktop
 {
 
     public struct Version
@@ -26,6 +27,13 @@ namespace DMTools
                 return String.Format("{0}-{1}.{2}.{3}.{4}", this.preppendix, this.v[0], this.v[1], this.v[2], this.v[3]);
             }
         }
+        public string Short
+        {
+            get
+            {
+                return String.Format("{0}.{1}.{2}.{3}",v[0],v[1],v[2],v[3]);
+            }
+        }
         public string Preppendix
         {
             get
@@ -47,18 +55,18 @@ namespace DMTools
                 return v[1];
             }
         }
-        public byte Addition
+        public byte Minor
         {
             get
             {
                 return v[2];
             }
         }
-        public byte Minor
+        public byte Addition
         {
             get
             {
-                return v[3];
+                return v[1];
             }
         }
 
@@ -82,42 +90,52 @@ namespace DMTools
     public struct Dice
     {
 
-        private static dynamic rand = new Random();
-        private byte throws;
-        private byte type;
-        private sbyte extra;
+        [IgnoreDataMember]
+        private readonly static dynamic rand = new Random();
+
+        [IgnoreDataMember]
+        [JsonIgnore]
+        public byte Throws { get; private set; }
+
+        [IgnoreDataMember]
+        [JsonIgnore]
+        public byte Type { get; private set; }
+
+        [IgnoreDataMember]
+        [JsonIgnore]
+        public sbyte Extra { get; private set; }
 
         public Dice(byte throws, byte type)
         {
-            this.throws = throws;
-            this.type = type;
-            this.extra = 0;
+            this.Throws = throws;
+            this.Type = type;
+            this.Extra = 0;
         }
         public Dice(byte throws, byte type, sbyte extra)
         {
-            this.throws = throws;
-            this.type = type;
-            this.extra = extra;
+            this.Throws = throws;
+            this.Type = type;
+            this.Extra = extra;
         }
-        public int throwDice()
+        public int ThrowDice()
         {
 
             int total = 0;
 
-            for (byte i = this.throws; i > 0; i--)
+            for (byte i = this.Throws; i > 0; i--)
             {
-                total += Dice.rand.Next(1, this.type + 1);
+                total += Dice.rand.Next(1, this.Type + 1);
             };
 
-            return total + this.extra;
+            return total + this.Extra;
 
         }
 
         public Dice Add(Dice other)
         {
-            if (this.type == other.type)
+            if (this.Type == other.Type)
             {
-                return new Dice((byte)(this.throws + other.throws), this.type, this.extra);
+                return new Dice((byte)(this.Throws + other.Throws), this.Type, this.Extra);
             }
             else
             {
@@ -126,37 +144,37 @@ namespace DMTools
         }
         public Dice Add(byte value)
         {
-            return new Dice((byte)(this.throws + value), this.type, this.extra);
+            return new Dice((byte)(this.Throws + value), this.Type, this.Extra);
         }
 
         public Dice Sub(byte value)
         {
-            if (this.throws > value)
+            if (this.Throws > value)
             {
-                return new Dice(1, this.type, this.extra);
+                return new Dice(1, this.Type, this.Extra);
             }
             else
             {
-                return new Dice((byte)(this.throws - value), this.type, this.extra);
+                return new Dice((byte)(this.Throws - value), this.Type, this.Extra);
             }
         }
 
-        public string toString()
+        new public string ToString()
         {
             const string str1 = "{0}d{1}+{2}", str2 = "{0}d{1}{2}", str3 = "{0}d{1}";
-            if (this.extra > 0)
+            if (this.Extra > 0)
             {
-                return String.Format(str1, this.throws, this.type, this.extra);
+                return String.Format(str1, this.Throws, this.Type, this.Extra);
             }
             else
             {
-                if (this.extra < 0)
+                if (this.Extra < 0)
                 {
-                    return String.Format(str2, this.throws, this.type, this.extra);
+                    return String.Format(str2, this.Throws, this.Type, this.Extra);
                 }
                 else
                 {
-                    return String.Format(str3, this.throws, this.type);
+                    return String.Format(str3, this.Throws, this.Type);
                 }
             }
         }
@@ -165,32 +183,24 @@ namespace DMTools
 
     public struct PriceTag
     {
-        private ulong value;
+        [IgnoreDataMember]
+        [JsonIgnore]
+        public ulong Value { get; set; }
 
         public PriceTag(ulong v)
         {
-            this.value = v;
+            this.Value = v;
         }
 
-        public ulong get()
+        public void Add(int v)
         {
-            return this.value;
-        }
-
-        public void set(ulong v)
-        {
-            this.value = v;
-        }
-
-        public void change(int v)
-        {
-            this.value = (ulong)((int)this.value + v);
+            Value = (ulong)((long)Value + v);
         }
 
         ///And finally, here's the reason I made this in the first place
-        public string toString()
+        new public string ToString()
         {
-            return String.Format("{0}{1}", Cf.Lang.util["currency"], this.value);
+            return String.Format("{0}{1}", Cf.Lang.util["currency"], this.Value);
         }
 
     }
@@ -212,9 +222,9 @@ namespace DMTools
         {
             get
             {
-                if (this.value > 0)
+                if (this.Value > 0)
                 {
-                    return this.value / 50F;
+                    return this.Value / 50F;
                 }
                 else
                 {
@@ -228,15 +238,15 @@ namespace DMTools
             this.value += value;
         }
 
-        public void gain(ulong value)
+        public void Gain(ulong value)
         {
             this.Add(value);
             this.history.Add(((int)value));
         }
-        public void gain(Wallet other)
+        public void Gain(Wallet other)
         {
-            this.Add(other.value);
-            other.empty();
+            this.Add(other.Value);
+            other.Empty();
             this.history.Add(((int)value));
         }
 
@@ -244,7 +254,7 @@ namespace DMTools
         {
             if (value > this.value)
             {
-                throw new WalletOverDrawException(String.Format("Attempted to draw {0} over limit. W1:{1} ; w2:{2}", value - this.value, this.value, value));
+                throw new WalletOverDrawException(String.Format("Attempted to draw {0} over limit. W1:{1} ; w2:{2}", value - this.Value, this.Value, value));
             }
             else
             {
@@ -252,20 +262,20 @@ namespace DMTools
             }
         }
 
-        public void spend(ulong value)
+        public void Spend(ulong value)
         {
             this.Sub(value);
             this.history.Add(-((int)value));
         }
-        public void spend(Wallet other)
+        public void Spend(Wallet other)
         {
             this.Sub(other.value);
             this.history.Add(-((int)other.value));
         }
 
-        public void empty()
+        public void Empty()
         {
-            this.spend(this.value);
+            Value = 0;
         }
 
         public ulong Value
@@ -278,13 +288,13 @@ namespace DMTools
             {
                 if (this.value > value)
                 {
-                    this.spend(this.value - value);
+                    this.Spend(this.value - value);
                 }
                 else
                 {
                     if (this.value < value) //I don't want it to be added to the History if they were the same
                     {
-                        this.gain(value - this.value);
+                        this.Gain(value - this.value);
                     }
                 }
             }
@@ -302,14 +312,14 @@ namespace DMTools
             }
         }
 
-        public string toString()
+        new public string ToString()
         {
-            return String.Format("{0}{1}", Cf.Lang.util["currency"], this.value);
+            return String.Format("{0}{1}", Cf.Lang.util["currency"], this.Value);
         }
 
-        public Wallet separate(ulong value)
+        public Wallet Separate(ulong value)
         {
-            this.spend(value);
+            this.Spend(value);
             return new Wallet(value);
         }
 
