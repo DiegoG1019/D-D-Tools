@@ -18,11 +18,12 @@ S-W.Z.Y.X
 
 ### Dependencies
 Use NuGet to add these into the project
-- System.Text.Json
-- Serilog
-- Serilog.Sinks.Console
-- Serilog.Sinks.File
-
+```bash
+install-Package System.Text.Json
+install-Package Serilog
+install-Package Serilog.Sinks.Console
+install-Package Serilog.Sinks.File
+```
 ## Usage
 
 ## Contributing
