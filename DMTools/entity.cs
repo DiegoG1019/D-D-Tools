@@ -22,7 +22,7 @@ namespace DnDTDesktop
         protected Player player;
         protected byte level = 1;
         protected List<Skill> skills = new List<Skill>();
-        protected uint[] spentSpells = new uint[Cf.Options.EntityValues["maxSpellLevel"]];
+        protected uint[] spentSpells = new uint[App.Cf.Options.EntityValues["maxSpellLevel"]];
 
         protected ExperienceGrant expgrant;
         protected ArmorClass armorclass;
@@ -212,8 +212,8 @@ namespace DnDTDesktop
         public static int Create(string name)
         {
             Entity newent = DeserializeFromFile.Json<Entity>(App.Directories.Entities, name + ".entity");
-            newent.RenovateParenthood();
             int newentid = newent.Register();
+            newent.RenovateParenthood();
 
             Log.Debug("Creating new entity out of a Json file. Entity name: {0}; Entity ID: {1}", name, newentid);
 
@@ -333,8 +333,8 @@ namespace DnDTDesktop
         new public static int Create(string name)
         {
             Character newchar = DeserializeFromFile.Json<Character>(App.Directories.Characters, name + ".character");
-            newchar.RenovateParenthood();
             int newcharid = newchar.Register();
+            newchar.RenovateParenthood();
 
             Log.Debug("Creating new character out of a Json file. Character name: {0}; Character ID: {1}",name, newcharid);
 
@@ -853,7 +853,7 @@ namespace DnDTDesktop
         {
             get
             {
-                return this.HP <= Cf.Options.EntityValues["dead"];
+                return this.HP <= App.Cf.Options.EntityValues["dead"];
             }
         }
 
@@ -863,7 +863,7 @@ namespace DnDTDesktop
         {
             get
             {
-                return this.HP <= Cf.Options.EntityValues["bleedingOut"];
+                return this.HP <= App.Cf.Options.EntityValues["bleedingOut"];
             }
         }
 
@@ -873,7 +873,7 @@ namespace DnDTDesktop
         {
             get
             {
-                return this.HP <= Cf.Options.EntityValues["down"];
+                return this.HP <= App.Cf.Options.EntityValues["down"];
             }
         }
 
@@ -1098,7 +1098,7 @@ namespace DnDTDesktop
 
             if (re == "null" || re == "" || re == null)
             {
-                this.Requirements = Cf.Lang.ent["noRequirements"];
+                this.Requirements = App.Cf.Lang.Ent["noRequirements"];
             }
             else
             {
@@ -1116,7 +1116,7 @@ namespace DnDTDesktop
 
             if (re == "null" || re == "" || re == null)
             {
-                this.Requirements = Cf.Lang.ent["noRequirements"];
+                this.Requirements = App.Cf.Lang.Ent["noRequirements"];
             }
             else
             {
@@ -1134,7 +1134,7 @@ namespace DnDTDesktop
 
             if (re == "null" || re == "" || re == null)
             {
-                this.Requirements = Cf.Lang.ent["noRequirements"];
+                this.Requirements = App.Cf.Lang.Ent["noRequirements"];
             }
             else
             {
@@ -1152,7 +1152,7 @@ namespace DnDTDesktop
 
             if (re == "null" || re == "" || re == null)
             {
-                this.Requirements = Cf.Lang.ent["noRequirements"];
+                this.Requirements = App.Cf.Lang.Ent["noRequirements"];
             }
             else
             {

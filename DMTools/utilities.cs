@@ -11,9 +11,10 @@ namespace DnDTDesktop
 
     public static class SerializeToFile
     {
+        public static string JsonFileExtension = ".json";
         public static void Json<T>(T obj, string path, string filename)
         {
-            string fullpath = Path.Combine(path, filename + ".json");
+            string fullpath = Path.Combine(path, filename + JsonFileExtension);
 
             Log.Verbose("Attempting to serialize Object of type {0} to JSON file {1}", typeof(T).ToString(), fullpath);
 
@@ -32,7 +33,7 @@ namespace DnDTDesktop
     {
         public static T Json<T>(string path, string filename)
         {
-            string fullpath = Path.Combine(path, filename + ".json");
+            string fullpath = Path.Combine(path, filename + SerializeToFile.JsonFileExtension);
 
             Log.Verbose("Attempting to deserialize Object of type {0} from JSON file {1}", typeof(T).ToString(), fullpath);
 
@@ -239,7 +240,7 @@ namespace DnDTDesktop
         ///And finally, here's the reason I made this in the first place
         new public string ToString()
         {
-            return String.Format("{0}{1}", Cf.Lang.util["currency"], this.Value);
+            return String.Format("{0}{1}", App.Cf.Lang.Util["currency"], this.Value);
         }
 
     }
@@ -341,7 +342,7 @@ namespace DnDTDesktop
 
         new public string ToString()
         {
-            return String.Format("{0}{1}", Cf.Lang.util["currency"], this.Value);
+            return String.Format("{0}{1}", App.Cf.Lang.Util["currency"], this.Value);
         }
 
         public Wallet Separate(ulong value)

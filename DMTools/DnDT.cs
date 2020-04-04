@@ -35,27 +35,31 @@ namespace DnDTDesktop
         [return: MarshalAs(UnmanagedType.Bool)]
         static extern bool AllocConsole();
 
-        public static readonly Version version = new Version("Alpha", 0, 0, 18, 1);
+        public static readonly Version version = new Version("Alpha", 0, 0, 19, 0);
         public static int statCount = Enum.GetNames(typeof(Stats)).Length;
         public static int schoolCount = Enum.GetNames(typeof(Schools)).Length;
 
         public const string author = "Diego Garcia";
         public const string appname = "D&DTools Windows";
 
+        public static Configurations Cf = Configurations.Instance;
+
         public static class Directories
         {
             public static string DataOut = Path.Combine("DnDT");
-            public static string Logging = Path.Combine(DataOut, "Logs");
             public static string Characters = Path.Combine(DataOut, "Characters");
             public static string Entities = Path.Combine(DataOut, "Entities");
             public static string Temp = Path.GetTempPath();
             public static string Working = Path.GetFullPath(Directory.GetCurrentDirectory());
+            public static string Logging = Path.Combine(Working, "Logs");
+            public static string Settings = Path.Combine(Working, "Settings");
             public static void InitDirectories()
             {
                 Directory.CreateDirectory(DataOut);
-                Directory.CreateDirectory(Logging);
                 Directory.CreateDirectory(Characters);
                 Directory.CreateDirectory(Entities);
+                Directory.CreateDirectory(Logging);
+                Directory.CreateDirectory(Settings);
             }
         }
 
@@ -63,7 +67,7 @@ namespace DnDTDesktop
 
         public static JsonSerializerOptions JSONOptions = new JsonSerializerOptions{
             WriteIndented = true,
-        };/**/
+        };
 
         /*-------------- Test fields --------------*/
         public static int tchar;
@@ -75,24 +79,34 @@ namespace DnDTDesktop
 
             /*--------------------------------------------  -------------------------------------------*/
 
-        /*--------------------------------------Initialization-------------------------------------*/
+            /*--------------------------------------Initialization-------------------------------------*/
 
-        Cf.LoadSystemOptions();
+            App.Directories.InitDirectories();
 
-            if (Cf.System.Flags["console"])
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Information()
+                .WriteTo.Console()
+                .WriteTo.File(Path.Combine(Directories.Logging, String.Format("pre-startup log - {0} - .txt", version.Full)), rollingInterval: RollingInterval.Hour)
+                .CreateLogger();
+
+            App.Cf.LoadSystemOptions();
+
+            if (App.Cf.System.Flags["console"])
             {
+                Log.Information("Opening console");
                 AllocConsole();
+                Log.Information("Console opened");
             }
 
             LoggerConfiguration loggerconfig = new LoggerConfiguration();
-            if (Cf.System.Flags["verbose"])
+            if (App.Cf.System.Flags["verbose"])
             {
                 loggerconfig.MinimumLevel.Verbose();
                 MinimumLoggerLevel = "Verbose";
             }
             else
             {
-                if (Cf.System.Flags["debug"])
+                if (App.Cf.System.Flags["debug"])
                 {
                     loggerconfig.MinimumLevel.Debug();
                     MinimumLoggerLevel = "Debug";
@@ -111,7 +125,7 @@ namespace DnDTDesktop
 
             Log.Debug("Succesfully started logger with a mimum level of {0}", MinimumLoggerLevel);
 
-            foreach (KeyValuePair<string, bool> ind in Cf.System.Flags)
+            foreach (KeyValuePair<string, bool> ind in App.Cf.System.Flags)
             {
                 Log.Information("System Setting: {0} :: {1}",ind.Key, ind.Value);
             }
@@ -119,11 +133,9 @@ namespace DnDTDesktop
             Log.Information("Program Author: {0}", App.author);
             Log.Information("Running D&DTools version: {0}", App.version.Full);
 
-            Cf.LoadLang();
-            Cf.LoadOptions();
+            App.Cf.LoadOptions();
+            App.Cf.LoadLang();
 
-            App.Directories.InitDirectories();
-            Log.Information("Finished Initializing all Application directories");
             Log.Information("DataOut Directory: {0}", Path.GetFullPath(Directories.DataOut));
             Log.Information("Logging Directory: {0}", Path.GetFullPath(Directories.Logging));
             Log.Information("Characters storage Directory: {0}", Path.GetFullPath(Directories.Characters));
@@ -149,6 +161,10 @@ namespace DnDTDesktop
             Application.Run(new MainMenu());
 
             /*---------------------------------------Finalization--------------------------------------*/
+
+            Log.Information("All windows closed, tidying up and closing the program.");
+            App.Cf.SaveOptions();
+            App.Cf.SaveSystemOptions();
 
         }
 
