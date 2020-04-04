@@ -22,6 +22,18 @@ namespace DnDTDesktop
             public static Dictionary<string, int> EntityValues = new Dictionary<string, int>();
         }
 
+        public static class System
+        {
+            public static Dictionary<string, bool> Flags = new Dictionary<string, bool>();
+        }
+
+        public static void LoadSystemOptions()
+        {
+            System.Flags.Add("console", true);
+            System.Flags.Add("debug", true);
+            System.Flags.Add("verbose", System.Flags["debug"]&&(true)); //Both need to be true
+        }
+
         public static void LoadLang()
         {
             Lang.util.Add("currency", "P.");

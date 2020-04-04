@@ -17,6 +17,18 @@ namespace DnDTDesktop
 
 			private readonly string typeofT = typeof(T).ToString();
 
+			public T this[int index]
+			{
+				get
+				{
+					return Objects[index];
+				}
+				set
+				{
+					Objects[index] = value;
+				}
+			}
+
 			public int NextID
 			{
 				get

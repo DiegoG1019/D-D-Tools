@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Text.Json.Serialization;
 using System.Runtime.Serialization;
+using Serilog;
 
 namespace DnDTDesktop
 {
@@ -23,13 +24,14 @@ namespace DnDTDesktop
         protected List<Skill> skills = new List<Skill>();
         protected uint[] spentSpells = new uint[Cf.Options.EntityValues["maxSpellLevel"]];
 
+        protected ExperienceGrant expgrant;
+        protected ArmorClass armorclass;
+        protected Health health;
+        protected Job job;
+
         public byte SkillPointModifier { get; set; } //Added to the class and race skill points for calculation
         public byte ExtraSkillPoints { get; set; }  //Added to the final calculation of skill points
-        public ExperienceGrant Expgrant { get; set; }
-        public ArmorClass ArmorC { get; set; }
-        public Health Health { get; set; }
         public Description Desc { get; set; }
-        public Job Job { get; set; }
 
         public uint[] SpentSpells
         {
@@ -39,6 +41,50 @@ namespace DnDTDesktop
             }
         }
 
+        public ExperienceGrant Expgrant
+        {
+            get
+            {
+                return expgrant;
+            }
+            set
+            {
+                expgrant = value;
+            }
+        }
+        public ArmorClass ArmorC
+        {
+            get
+            {
+                return armorclass;
+            }
+            set
+            {
+                armorclass = value;
+            }
+        }
+        public Health Health
+        {
+            get
+            {
+                return health;
+            }
+            set
+            {
+                health = value;
+            }
+        }
+        public Job Job
+        {
+            get
+            {
+                return job;
+            }
+            set
+            {
+                job = value;
+            }
+        }
         public List<Skill> Skills
         {
             get
@@ -119,13 +165,13 @@ namespace DnDTDesktop
             return (GetBaseMod(b) + (GetBaseMod(a) * 2)) / 2;
         }
 
-        public int GetMod(Stats stat)
+        public virtual int GetMod(Stats stat)
         {
             byte i = (byte)stat;
             return ((this.baseStats[i] + this.miscBuffs[i] + this.tempStats[i]) / 2) - 5;
         }
 
-        public int GetMod(Stats a, Stats b)
+        public virtual int GetMod(Stats a, Stats b)
         {
             return (GetMod(b) + (GetMod(a) * 2)) / 2;
         }
@@ -141,12 +187,43 @@ namespace DnDTDesktop
 
         public static int Create(byte level, string name)
         {
-            return new Entity(level, name).Register();
+            Entity newent = new Entity(level, name);
+            int newentid = newent.Register();
+
+            Log.Debug("Creating new entity from scratch. Entity name: {0}; Entity ID: {1}", name, newentid);
+
+            return newentid;
         }
 
-        public void Unregister()
+        public void RenovateParenthood()
         {
-            Loaded.Entities.Remove(this.id);
+            const string logstring = "Renovated the reference of object: {0} as a child of {1}. ID: {3} ||| {4}";
+            expgrant.parent = this; Log.Verbose(logstring, expgrant.GetType(), this.GetType(), this.Id, expgrant.parent == this);
+            armorclass.parent = this; Log.Verbose(logstring, armorclass.GetType(), this.GetType(), this.Id, armorclass.parent == this);
+            health.parent = this; Log.Verbose(logstring, health.GetType(), this.GetType(), this.Id, health.parent == this);
+            for (int ind = 0; ind < Skills.Count; ind++)
+            {
+                Skill skl = Skills[ind];
+                skl.parent = this;
+                Skills[ind] = skl; Log.Verbose(logstring, Skills[ind].GetType(), this.GetType(), this.Id, Skills[ind].parent == this);
+            }
+        }
+
+        public static int Create(string name)
+        {
+            Entity newent = DeserializeFromFile.Json<Entity>(App.Directories.Entities, name + ".entity");
+            newent.RenovateParenthood();
+            int newentid = newent.Register();
+
+            Log.Debug("Creating new entity out of a Json file. Entity name: {0}; Entity ID: {1}", name, newentid);
+
+            return newentid;
+        }
+
+        public virtual void Unregister()
+        {
+            Log.Debug("Unregistering Entity {0} of Id {1}", this.Desc.Name, this.Id);
+            Loaded.Entities.Remove(this.Id);
         }
 
         private int Register()
@@ -155,12 +232,21 @@ namespace DnDTDesktop
             return id;
         }
 
+        public virtual void Serialize()
+        {
+            SerializeToFile.Json(this, App.Directories.Entities, this.Desc.Name + ".entity");
+        }
+        
+        public Entity()
+        {
+        }
+
         protected Entity(byte level, string name)
         {
             this.level = level;
             this.Expgrant = new ExperienceGrant(this, 69, 120);
             this.Health = new Health(this);
-            this.ArmorC = new ArmorClass(this,null,null,null,null,null,null,null);
+            this.ArmorC = new ArmorClass(this,0,0,0,0,0,0,0);
             this.Health.SetBaseHP();
             this.skills.Add(new Skill(this, "Lockpicking", Stats.dexterity, 0, 5, new bool[] { true, false, true }));
             this.skills.Add(new Skill(this, "Diplomacy", Stats.charisma, 3, 2, new bool[] { true, false, false }));
@@ -174,15 +260,30 @@ namespace DnDTDesktop
 
         protected List<Ability> feats = new List<Ability>();
         protected List<Ability> abilities = new List<Ability>();
+        protected Experience exp;
 
         public byte FreeLevels { get; set; }
-        public Experience Exp { get; set; }
         public List<Job> Jobs { get; set; }
+        public Experience Exp
+        {
+            get
+            {
+                return exp;
+            }
+            set
+            {
+                exp = value;
+            }
+        }
         public List<Ability> Feats
         {
             get
             {
                 return feats;
+            }
+            set
+            {
+                feats = value;
             }
         }
         public List<Ability> Abilities
@@ -191,6 +292,26 @@ namespace DnDTDesktop
             {
                 return abilities;
             }
+            set
+            {
+                abilities = value;
+            }
+        }
+
+        new public void RenovateParenthood()
+        {
+            const string logstring = "Renovated the reference of object: {0} as a child of {1}. ID: {3} ||| {4}";
+            base.RenovateParenthood();
+            exp.parent = this; Log.Verbose(logstring, exp.GetType(), this.GetType(), this.Id, exp.parent == this);
+        }
+
+        public override void Serialize()
+        {
+            SerializeToFile.Json(this, App.Directories.Characters, this.Desc.Name + ".character");
+        }
+
+        public Character()
+        {
         }
 
         protected Character(byte level, string name) : base(level, name)
@@ -203,12 +324,27 @@ namespace DnDTDesktop
         new public static int Create(byte level, string name)
         {
             Character newchar = new Character(level, name);
-            return newchar.Register();
+            int newcharid = newchar.Register();
+
+            Log.Debug("Creating new character from scratch. Character name: {0}; Character ID: {1}", name, newcharid);
+
+            return newcharid;
+        }
+        new public static int Create(string name)
+        {
+            Character newchar = DeserializeFromFile.Json<Character>(App.Directories.Characters, name + ".character");
+            newchar.RenovateParenthood();
+            int newcharid = newchar.Register();
+
+            Log.Debug("Creating new character out of a Json file. Character name: {0}; Character ID: {1}",name, newcharid);
+
+            return newcharid;
         }
 
-        new public void Unregister()
+        public override void Unregister()
         {
-            Loaded.Characters.Remove(this.id);
+            Log.Debug("Unregistering Character {0} of Id {1}",this.Desc.Name, this.Id);
+            Loaded.Characters.Remove(this.Id);
         }
 
         private int Register()
@@ -237,10 +373,14 @@ namespace DnDTDesktop
             return total;
         }
 
-        new public int GetMod(Stats stat)
+        public override int GetMod(Stats stat)
         {
             byte i = (byte)stat;
             return ((this.baseStats[i] + this.miscBuffs[i] + this.tempStats[i] + this.GetAbilityBuffs(stat) + this.GetFeatBuffs(stat)) / 2) - 5;
+        }
+        public override int GetMod(Stats a, Stats b)
+        {
+            return (GetMod(b) + (GetMod(a) * 2)) / 2;
         }
 
     }
@@ -251,25 +391,35 @@ namespace DnDTDesktop
         public uint Baseexp { get; set; }
         public uint Extra { get; set; }
 
-        private readonly Entity parent;
+        [IgnoreDataMember]
+        public Entity parent;
 
         public ExperienceGrant(Entity parent)
         {
             this.parent = parent;
             this.Baseexp = 1;
             this.Extra = 0;
+
+            Log.Verbose("Created new {0} object for {1} {2} of ID {3}", this.GetType().ToString(), parent.GetType().ToString(), this.parent.Desc.Name, this.parent.Id);
+
         }
         public ExperienceGrant(Entity parent, uint b)
         {
             this.parent = parent;
             this.Baseexp = b;
             this.Extra = 0;
+
+            Log.Verbose("Created new {0} object for {1} {2} of ID {3}", this.GetType().ToString(), parent.GetType().ToString(), this.parent.Desc.Name, this.parent.Id);
+
         }
         public ExperienceGrant(Entity parent, uint b, uint e)
         {
             this.parent = parent;
             this.Baseexp = b;
             this.Extra = e;
+
+            Log.Verbose("Created new {0} object for {1} {2} of ID {3}", GetType().ToString(), this.parent.GetType().ToString(), this.parent.Desc.Name, this.parent.Id);
+
         }
 
         [IgnoreDataMember]
@@ -289,25 +439,44 @@ namespace DnDTDesktop
     {
 
         public float Multiplier { get; set; }
-        public uint Current { get; private set; }
-        public uint Required { get; private set; }
+        public uint crt;
+        public uint Required { get; set; }
+        public List<int> History { get; set; }
+        public uint Current
+        {
+            get
+            {
+                return crt;
+            }
+            set
+            {
+                if(this.parent != null)
+                {
+                    this.Gain((uint)Math.Abs(this.crt - value));
+                }
+                else
+                {
+                    Add(value);
+                    this.History.Add((int)value);
+                }
+            }
+        }
 
-        private readonly List<int> history;
-        private readonly Character parent;
+
+        [IgnoreDataMember]
+        public Character parent;
 
         public Experience(Character p)
         {
             this.parent = p;
-            this.Current = 0;
+            this.crt = 0;
             this.Multiplier = 1F;
             this.Required = 0;
-            this.history = new List<int>();
+            this.History = new List<int>();
             this.SetRequired();
-        }
 
-        public int GetHistory(int i)
-        {
-            return this.history[i];
+            Log.Verbose("Created new {0} object for {1} {2} of ID {3}", this.GetType().ToString(), parent.GetType().ToString(), this.parent.Desc.Name, this.parent.Id);
+
         }
 
         [IgnoreDataMember]
@@ -316,7 +485,7 @@ namespace DnDTDesktop
         {
             get
             {
-                return this.history.Count;
+                return this.History.Count;
             }
         }
 
@@ -342,18 +511,18 @@ namespace DnDTDesktop
 
         public void Add(uint v)
         {
-            this.Current += v;
+            this.crt += v;
         }
 
         public void Sub(uint v)
         {
-            if (v > this.Current)
+            if (v > this.crt)
             {
-                this.Current = 0;
+                this.crt = 0;
             }
             else
             {
-                this.Current -= v;
+                this.crt -= v;
             }
         }
 
@@ -385,7 +554,7 @@ namespace DnDTDesktop
         public void Gain(uint v)
         {
             this.Add((uint)(v * (this.Multiplier * this.FreeLevelmultiplier)));
-            this.history.Add((int)v);
+            this.History.Add((int)v);
         }
 
         [IgnoreDataMember]
@@ -398,7 +567,7 @@ namespace DnDTDesktop
             }
         }
 
-        //More stuff happens when an entity levels up, but that requires the Job and Job.Growth structures
+        //More stuff happens when an entity levels up, but that requires the Job and Job.Growth classes
         public void LevelUp()
         {
             if (this.DidLevel)
@@ -420,7 +589,7 @@ namespace DnDTDesktop
 
     }
 
-    public struct ArmorClass: IFlagged<ArmorClass.Flags>
+    public struct ArmorClass : IFlagged<ArmorClass.Flags>
     {
 
         public enum Flags
@@ -435,9 +604,10 @@ namespace DnDTDesktop
         public int Deflex { get; set; }
         public int Temporary { get; set; }
         public int Misc { get; set; }
-
-        private readonly Entity parent;
         public bool[] FlagsArr { get; set; }
+
+        [IgnoreDataMember]
+        public Entity parent;
 
         public bool GetFlag(Flags i)
         {
@@ -445,73 +615,20 @@ namespace DnDTDesktop
         }
 
         ///----------------------------  armor,  size, natural, deflex, temporary,     misc, baseac
-        public ArmorClass(Entity parent, int? a, int? s, int? n, int? d, int? temp, int? misc, int? b)
+        public ArmorClass(Entity parent, int a, int s, int n, int d, int temp, int misc, int b)
         {
             this.parent = parent;
-            if(a == null)
-            {
-                Baseac = 0;
-            }
-            else
-            {
-                Baseac = (int)b;
-            }
-
-            if (s == null)
-            {
-                Size = 0;
-            }
-            else
-            {
-                Size = (int)s;
-            }
-
-            if (n == null)
-            {
-                Natural = 0;
-            }
-            else
-            {
-                Natural = (int)n;
-            }
-
-            if (d == null)
-            {
-                Deflex = 0;
-            }
-            else
-            {
-                Deflex = (int)d;
-            }
-
-            if (temp == null)
-            {
-                Temporary = 0;
-            }
-            else
-            {
-                Temporary = (int)temp;
-            }
-
-            if (misc == null)
-            {
-                Misc = 0;
-            }
-            else
-            {
-                Misc = (int)misc;
-            }
-
-            if (a == null)
-            {
-                Armor = 0;
-            }
-            else
-            {
-                Armor = (int)a;
-            }
-
+            Armor = a;
+            Size = s;
+            Natural = n;
+            Deflex = d;
+            Temporary = temp;
+            Misc = misc;
+            Baseac = b;
             this.FlagsArr = new bool[1];
+
+            Log.Verbose("Created new {0} object for {1} {2} of ID {3}", this.GetType().ToString(), parent.GetType().ToString(), this.parent.Desc.Name, this.parent.Id);
+
         }
 
         [IgnoreDataMember]
@@ -577,19 +694,36 @@ namespace DnDTDesktop
     public struct Hurt : IHistoried<int>
     {
 
-        public uint Damage { get; private set; }
-        private readonly List<int> history;
+        private uint dmg;
+        public uint Damage {
+            get
+            {
+                return dmg;
+            }
+            set
+            {
+                if (this.dmg > value)
+                {
+                    this.Harm((int)(this.dmg - value));
+                }
+                else
+                {
+                    if (this.dmg < value) //I don't want it to be added to the History if they were the same
+                    {
+                        this.Heal((int)(value - this.dmg));
+                    }
+                }
+            }
+        }
+        
+        public List<int> History { get; set; }
 
         public Hurt(uint dmg)
         {
-            this.Damage = dmg;
-            this.history = new List<int>();
+            this.dmg = dmg;
+            this.History = new List<int>();
         }
 
-        public int GetHistory(int i)
-        {
-            return this.history[i];
-        }
 
         [IgnoreDataMember]
         [JsonIgnore]
@@ -597,7 +731,7 @@ namespace DnDTDesktop
         {
             get
             {
-                return this.history.Count;
+                return this.History.Count;
             }
         }
 
@@ -605,26 +739,26 @@ namespace DnDTDesktop
         {
             if ((d < 0) && (Math.Abs(d) > this.Damage))
             {
-                this.Damage = 0u;
+                this.dmg = 0u;
             }
             else
             {
-                this.Damage = (uint)(this.Damage + d);
+                this.dmg = (uint)(this.dmg + d);
             }
-            this.history.Add(d);
+            this.History.Add(d);
         }
 
         public void Heal(int h)
         {
             if (h > this.Damage)
             {
-                this.Damage = 0u;
+                this.dmg = 0u;
             }
             else
             {
-                this.Damage = (uint)(this.Damage - h);
+                this.dmg = (uint)(this.dmg - h);
             }
-            this.history.Add(-h);
+            this.History.Add(-h);
         }
 
     }
@@ -632,18 +766,16 @@ namespace DnDTDesktop
     public struct Health
     {
 
-        public uint Basehp { get; private set; }
+        private uint Basehp;
 
-        [IgnoreDataMember]
-        [JsonIgnore]
-        public Hurt LethalDamage { get; }
-        [IgnoreDataMember]
-        [JsonIgnore]
-        public Hurt NonlethalDamage { get; }
+        public Hurt LethalDamage { get; set; }
+        public Hurt NonlethalDamage { get; set; }
 
         public List<uint> HpThrows { get; set; } //This is a List, as opposed to a simple Array, because while usually levels cap out at 20, this is D&D we're talking about. I want the user to be able to expand it as necessary.
         //This list will have to be displayed and handled with this in mind.
-        private readonly Entity parent;
+
+        [IgnoreDataMember]
+        public Entity parent;
 
         public Health(Entity p)
         {
@@ -652,6 +784,9 @@ namespace DnDTDesktop
             this.LethalDamage = new Hurt(0);
             this.NonlethalDamage = new Hurt(0);
             this.HpThrows = new List<uint>(new uint[20]);
+
+            Log.Verbose("Created new {0} object for {1} {2} of ID {3}", this.GetType().ToString(), parent.GetType().ToString(), this.parent.Desc.Name, this.parent.Id);
+
         }
         public Health(Entity p, uint h)
         {
@@ -660,6 +795,8 @@ namespace DnDTDesktop
             this.LethalDamage = new Hurt(0);
             this.NonlethalDamage = new Hurt(0);
             this.HpThrows = new List<uint>(new uint[20]);
+
+            Log.Verbose("Created new {0} object for {1} {2} of ID {3}", this.GetType().ToString(), parent.GetType().ToString(), this.parent.Desc.Name, this.parent.Id);
 
         }
 
@@ -856,8 +993,10 @@ namespace DnDTDesktop
         public uint Level { get; set; }
         public uint MiscLevels { get; set; }
 
-        private bool[] FlagsArr { get; }
-        private readonly Entity parent;
+        private bool[] FlagsArr { get; set; }
+
+        [IgnoreDataMember]
+        public Entity parent;
 
         public Skill(Entity p, string name, Stats keyStat)
         {
@@ -867,6 +1006,9 @@ namespace DnDTDesktop
             this.MiscLevels = 0;
             this.Level = 0;
             this.FlagsArr = new bool[Enum.GetNames(typeof(Skill.Flags)).Length];
+
+            Log.Verbose("Created new {0} object for {1} {2} of ID {3}", this.GetType().ToString(), parent.GetType().ToString(), this.parent.Desc.Name, this.parent.Id);
+
         }
         public Skill(Entity p, string name, Stats keyStat, uint miscLevels)
         {
@@ -876,6 +1018,9 @@ namespace DnDTDesktop
             this.MiscLevels = miscLevels;
             this.Level = 0;
             this.FlagsArr = new bool[Enum.GetNames(typeof(Skill.Flags)).Length];
+
+            Log.Verbose("Created new {0} object for {1} {2} of ID {3}", this.GetType().ToString(), parent.GetType().ToString(), this.parent.Desc.Name, this.parent.Id);
+
         }
         public Skill(Entity p, string name, Stats keyStat, uint miscLevels, uint level)
         {
@@ -885,6 +1030,9 @@ namespace DnDTDesktop
             this.MiscLevels = miscLevels;
             this.Level = level;
             this.FlagsArr = new bool[Enum.GetNames(typeof(Skill.Flags)).Length];
+
+            Log.Verbose("Created new {0} object for {1} {2} of ID {3}", this.GetType().ToString(), parent.GetType().ToString(), this.parent.Desc.Name, this.parent.Id);
+
         }
         public Skill(Entity p, string name, Stats keyStat, uint miscLevels, uint level, bool[] flg)
         {
@@ -894,6 +1042,9 @@ namespace DnDTDesktop
             this.MiscLevels = miscLevels;
             this.Level = level;
             this.FlagsArr = flg;
+
+            Log.Verbose("Created new {0} object for {1} {2} of ID {3}", this.GetType().ToString(), parent.GetType().ToString(), this.parent.Desc.Name, this.parent.Id);
+
         }
 
         public bool GetFlag(Skill.Flags i)
@@ -934,8 +1085,8 @@ namespace DnDTDesktop
         public string Requirements { get; set; }
         public string Description { get; set; }
         public List<string> Notes { get; set; }
-        public bool[] FlagsArr { get; }
-        public int[] Buffs { get; }
+        public bool[] FlagsArr { get; set; }
+        public int[] Buffs { get; set; }
 
         public Ability(string n, string re, string de)
         {
@@ -1072,10 +1223,10 @@ namespace DnDTDesktop
 
     }
 
-    public class Job
+    public struct Job
     {
 
-        public class Growth
+        public struct Growth
         {
 
 

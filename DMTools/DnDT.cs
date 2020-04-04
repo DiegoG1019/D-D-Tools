@@ -1,6 +1,6 @@
-#define DEBUG
-#define VERBOSE
-//#define CONSOLE
+//#define DEBUG
+//#define VERBOSE
+#define CONSOLE
 
 using System;
 using System.Text.Json;
@@ -11,6 +11,8 @@ using Serilog;
 using Serilog.Sinks.File;
 using Serilog.Sinks.SystemConsole;
 using System.IO;
+using System.Runtime.InteropServices;
+using System.Collections.Generic;
 
 namespace DnDTDesktop
 {
@@ -29,7 +31,11 @@ namespace DnDTDesktop
     static class App
     {
 
-        public static readonly Version version = new Version("Alpha", 0, 0, 17, 0);
+        [DllImport("kernel32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        static extern bool AllocConsole();
+
+        public static readonly Version version = new Version("Alpha", 0, 0, 18, 0);
         public static int statCount = Enum.GetNames(typeof(Stats)).Length;
         public static int schoolCount = Enum.GetNames(typeof(Schools)).Length;
 
@@ -39,6 +45,7 @@ namespace DnDTDesktop
         public static class Directories
         {
             public static string DataOut = Path.Combine("DnDT");
+            public static string Logging = Path.Combine(DataOut, "Logs");
             public static string Characters = Path.Combine(DataOut, "Characters");
             public static string Entities = Path.Combine(DataOut, "Entities");
             public static string Temp = Path.GetTempPath();
@@ -46,16 +53,21 @@ namespace DnDTDesktop
             public static void InitDirectories()
             {
                 Directory.CreateDirectory(DataOut);
+                Directory.CreateDirectory(Logging);
                 Directory.CreateDirectory(Characters);
                 Directory.CreateDirectory(Entities);
             }
         }
 
-        public static int tchar;
+        public static string MinimumLoggerLevel;
 
         public static JsonSerializerOptions JSONOptions = new JsonSerializerOptions{
             WriteIndented = true,
         };/**/
+
+        /*-------------- Test fields --------------*/
+        public static int tchar;
+        /*-----------------------------------------*/
 
         [STAThread]
         static void Main()
@@ -63,36 +75,57 @@ namespace DnDTDesktop
 
             /*--------------------------------------------  -------------------------------------------*/
 
-            /*--------------------------------------Initialization-------------------------------------*/
+        /*--------------------------------------Initialization-------------------------------------*/
 
-            Log.Logger = new LoggerConfiguration()
-#if (DEBUG && !VERBOSE)
-                .MinimumLevel.Debug()
-#endif
-#if (VERBOSE)
-                .MinimumLevel.Verbose()
-#endif
+        Cf.LoadSystemOptions();
+
+            if (Cf.System.Flags["console"])
+            {
+                AllocConsole();
+            }
+
+            LoggerConfiguration loggerconfig = new LoggerConfiguration();
+            if (Cf.System.Flags["verbose"])
+            {
+                loggerconfig.MinimumLevel.Verbose();
+                MinimumLoggerLevel = "Verbose";
+            }
+            else
+            {
+                if (Cf.System.Flags["debug"])
+                {
+                    loggerconfig.MinimumLevel.Debug();
+                    MinimumLoggerLevel = "Debug";
+                }
+                else
+                {
+                    loggerconfig.MinimumLevel.Information();
+                    MinimumLoggerLevel = "Information";
+                }
+            }
+
+            Log.Logger = loggerconfig
                 .WriteTo.Console()
-                .WriteTo.File(Path.Combine(Directories.Working,"log-.txt"), rollingInterval: RollingInterval.Day)
+                .WriteTo.File(Path.Combine(Directories.Logging,"log-.txt"), rollingInterval: RollingInterval.Hour)
                 .CreateLogger();
 
-            Log.Debug("Succesfully started logger with a mimum level of {0}",
-#if (DEBUG && !VERBOSE)
-                "DEBUG"
-#endif
-#if (VERBOSE)
-                "VERBOSE"
-#endif
-                );
+            Log.Debug("Succesfully started logger with a mimum level of {0}", MinimumLoggerLevel);
+
+            foreach (KeyValuePair<string, bool> ind in Cf.System.Flags)
+            {
+                Log.Information("System Setting: {0} :: {1}",ind.Key, ind.Value);
+            }
 
             Log.Information("Program Author: {0}", App.author);
             Log.Information("Running D&DTools version: {0}", App.version.Full);
 
             Cf.LoadLang();
             Cf.LoadOptions();
+
             App.Directories.InitDirectories();
             Log.Information("Finished Initializing all Application directories");
             Log.Information("DataOut Directory: {0}", Path.GetFullPath(Directories.DataOut));
+            Log.Information("Logging Directory: {0}", Path.GetFullPath(Directories.Logging));
             Log.Information("Characters storage Directory: {0}", Path.GetFullPath(Directories.Characters));
             Log.Information("Entities storage Directory: {0}", Path.GetFullPath(Directories.Entities));
             Log.Information("Temp Directory: {0}", Path.GetFullPath(Directories.Temp));
@@ -103,62 +136,13 @@ namespace DnDTDesktop
             /*-----------------------------------------Testing-----------------------------------------*/
 
             //test char
-            tchar = Character.Create(5, "Tchar");
-            /*
-            Loaded.Characters.Objects[tchar].armorC.armor = 5;
-            Loaded.Characters.Objects[tchar].SetBaseStats(Stats.dexterity, 14);
-            Loaded.Characters.Objects[tchar].SetBaseStats(Stats.charisma, 2);
-
-            string tcskt = "{0}, ";
-            string tcsk = "";
-            for (int i = 0; i < Loaded.Characters.Objects[tchar].abilities.Count; i++)
-            {
-                tcsk += String.Format(tcskt, Loaded.Characters.Objects[tchar].feats[i].FullName);
-            }
-            for (int i = 0; i < Loaded.Characters.Objects[tchar].feats.Count; i++)
-            {
-                tcsk += String.Format(tcskt, Loaded.Characters.Objects[tchar].abilities[i].FullName);
-            }
-
-            string tc = "---------------- \n {0}'s significant abilities and feats: {1}";
-            string tcs = "-----***----- \n {0}'s {1} #{2}: {3}\n  -{4}\n  Requires: {5}";
-
-            Console.WriteLine(
-                tc,
-                Loaded.Characters.Objects[tchar].desc.name,
-                tcsk.Substring(0, tcsk.Length - 2)
-            );
-
-            for (int i = 0; i < Loaded.Characters.Objects[tchar].abilities.Count; i++)
-            {
-                Console.WriteLine(tcs,
-                    Loaded.Characters.Objects[tchar].desc.name,
-                    "Ability",
-                    i + 1,
-                    Loaded.Characters.Objects[tchar].abilities[i].FullName,
-                    Loaded.Characters.Objects[tchar].abilities[i].description,
-                    Loaded.Characters.Objects[tchar].abilities[i].requirements
-                );
-            }
-            for (int i = 0; i < Loaded.Characters.Objects[tchar].feats.Count; i++)
-            {
-                Console.WriteLine(tcs,
-                    Loaded.Characters.Objects[tchar].desc.name,
-                    "Feat",
-                    i + 1,
-                    Loaded.Characters.Objects[tchar].feats[i].FullName,
-                    Loaded.Characters.Objects[tchar].feats[i].description,
-                    Loaded.Characters.Objects[tchar].feats[i].requirements
-                );
-            }
-
-            Console.WriteLine(" *** {0}: {1}", Stats.charisma, Loaded.Characters.Objects[tchar].GetMod(Stats.charisma));
-            Console.WriteLine(" *** {0}: {1}", Stats.constitution, Loaded.Characters.Objects[tchar].GetMod(Stats.constitution));
-            Console.WriteLine(" *** {0}: {1}", Stats.dexterity, Loaded.Characters.Objects[tchar].GetMod(Stats.dexterity));
-            Console.WriteLine(" *** {0}: {1}", Stats.strength, Loaded.Characters.Objects[tchar].GetMod(Stats.strength));
-            Console.WriteLine(" *** {0}: {1}", Stats.intelligence, Loaded.Characters.Objects[tchar].GetMod(Stats.intelligence));
-            Console.WriteLine(" *** {0}: {1}", Stats.wisdom, Loaded.Characters.Objects[tchar].GetMod(Stats.wisdom));
-            /**/
+            int tchar1 = Character.Create(5, "Tchar");
+            Loaded.Characters[tchar1].Exp.Gain(573);
+            Loaded.Characters[tchar1].Serialize();
+            tchar = Character.Create("Tchar");
+            Loaded.Characters[tchar].Exp.Gain(69);
+            Loaded.Characters[tchar].Health.LethalDamage.Harm(69);
+            Loaded.Characters[tchar].Serialize();
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Windows.Forms;
-using System.IO;
-using System.Text.Json;
 
 namespace DnDTDesktop
 {
@@ -37,18 +35,12 @@ namespace DnDTDesktop
 
         }
 
+        private int CharacterSerializationsCounter = 0;
         private void button1_Click(object sender, EventArgs e)
         {
-
-            string jsonstring = JsonSerializer.Serialize(Loaded.Characters.Objects[App.tchar], App.JSONOptions);
-
-            using (StreamWriter OutFile = new StreamWriter(new FileStream(Path.Combine(App.Directories.Characters, "Tchar.character.json"), FileMode.Create, FileAccess.Write, FileShare.Read)))
-            {
-                OutFile.WriteLine(jsonstring);
-            }
-            /**/
-
-            label2.Text = "Character serialized";
+            Loaded.Characters.Objects[App.tchar].Serialize();
+            label2.Text = "Character serialized: " + CharacterSerializationsCounter;
+            CharacterSerializationsCounter++;
 
         }
 

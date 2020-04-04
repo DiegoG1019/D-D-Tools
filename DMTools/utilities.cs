@@ -2,9 +2,50 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 using System.Runtime.Serialization;
+using System.IO;
+using System.Text.Json;
+using Serilog;
 
 namespace DnDTDesktop
 {
+
+    public static class SerializeToFile
+    {
+        public static void Json<T>(T obj, string path, string filename)
+        {
+            string fullpath = Path.Combine(path, filename + ".json");
+
+            Log.Verbose("Attempting to serialize Object of type {0} to JSON file {1}", typeof(T).ToString(), fullpath);
+
+            string jsonstring = JsonSerializer.Serialize(obj, App.JSONOptions);
+
+            Log.Verbose("Wrote {0} characters", jsonstring.Length);
+
+            using (StreamWriter OutFile = new StreamWriter(new FileStream(fullpath, FileMode.Create, FileAccess.Write, FileShare.Read)))
+            {
+                OutFile.WriteLine(jsonstring);
+            }
+        }
+    }
+
+    public static class DeserializeFromFile
+    {
+        public static T Json<T>(string path, string filename)
+        {
+            string fullpath = Path.Combine(path, filename + ".json");
+
+            Log.Verbose("Attempting to deserialize Object of type {0} from JSON file {1}", typeof(T).ToString(), fullpath);
+
+            using (StreamReader InFile = new StreamReader(new FileStream(fullpath, FileMode.Open, FileAccess.Read, FileShare.Read)))
+            {
+                string jsonstring = InFile.ReadToEnd();
+
+                Log.Verbose("Read {0} characters", jsonstring.Length);
+
+                return JsonSerializer.Deserialize<T>(jsonstring);
+            }
+        }
+    }
 
     public struct Version
     {
@@ -74,9 +115,7 @@ namespace DnDTDesktop
 
     public interface IHistoried<T>
     {
-
-        T GetHistory(int i);
-        int HistoryEntries { get; }
+        List<T> History { get; set; }
 
     }
 
@@ -209,13 +248,13 @@ namespace DnDTDesktop
     {
 
         private ulong value;
-        private readonly List<int> history;
+        public List<int> History { get; set; }
 
         public Wallet(ulong value)
         {
-            this.history = new List<int>();
+            this.History = new List<int>();
             this.value = value;
-            this.history.Add((int)value);
+            this.History.Add((int)value);
         }
 
         public float Weight
@@ -241,13 +280,13 @@ namespace DnDTDesktop
         public void Gain(ulong value)
         {
             this.Add(value);
-            this.history.Add(((int)value));
+            this.History.Add(((int)value));
         }
         public void Gain(Wallet other)
         {
             this.Add(other.Value);
             other.Empty();
-            this.history.Add(((int)value));
+            this.History.Add(((int)value));
         }
 
         public void Sub(ulong value)
@@ -265,12 +304,12 @@ namespace DnDTDesktop
         public void Spend(ulong value)
         {
             this.Sub(value);
-            this.history.Add(-((int)value));
+            this.History.Add(-((int)value));
         }
         public void Spend(Wallet other)
         {
             this.Sub(other.value);
-            this.history.Add(-((int)other.value));
+            this.History.Add(-((int)other.value));
         }
 
         public void Empty()
@@ -297,18 +336,6 @@ namespace DnDTDesktop
                         this.Gain(value - this.value);
                     }
                 }
-            }
-        }
-        public int GetHistory(int i)
-        {
-            return this.history[i];
-        }
-
-        public int HistoryEntries
-        {
-            get
-            {
-                return this.history.Count;
             }
         }
 
