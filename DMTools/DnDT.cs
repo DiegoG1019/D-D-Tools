@@ -35,7 +35,7 @@ namespace DnDTDesktop
         [return: MarshalAs(UnmanagedType.Bool)]
         static extern bool AllocConsole();
 
-        public static readonly Version version = new Version("Alpha", 0, 0, 18, 0);
+        public static readonly Version version = new Version("Alpha", 0, 0, 18, 1);
         public static int statCount = Enum.GetNames(typeof(Stats)).Length;
         public static int schoolCount = Enum.GetNames(typeof(Schools)).Length;
 
@@ -106,7 +106,7 @@ namespace DnDTDesktop
 
             Log.Logger = loggerconfig
                 .WriteTo.Console()
-                .WriteTo.File(Path.Combine(Directories.Logging,"log-.txt"), rollingInterval: RollingInterval.Hour)
+                .WriteTo.File(Path.Combine(Directories.Logging, String.Format("log - {0} - .txt", version.Full)), rollingInterval: RollingInterval.Hour)
                 .CreateLogger();
 
             Log.Debug("Succesfully started logger with a mimum level of {0}", MinimumLoggerLevel);
