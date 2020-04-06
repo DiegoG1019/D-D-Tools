@@ -117,21 +117,24 @@ namespace DnDTDesktop
     public interface IHistoried<T>
     {
         List<T> History { get; set; }
-
     }
 
     public interface IFlagged<T>
     {
-
         bool GetFlag(T i);
+    }
 
+    public interface INoted
+    {
+        List<string> Notes { get; set; }
+        string AllNotes { get; }
     }
 
     public struct Dice
     {
 
         [IgnoreDataMember]
-        private readonly static dynamic rand = new Random();
+        private readonly static Random rand = new Random();
 
         [IgnoreDataMember]
         [JsonIgnore]
@@ -156,6 +159,13 @@ namespace DnDTDesktop
             this.Throws = throws;
             this.Type = type;
             this.Extra = extra;
+        }
+        public Dice(string th)
+        {
+            string[] separated = th.Split(new char[] { 'd', '+', '-' });
+            Throws = Byte.Parse(separated[0]);
+            Type = Byte.Parse(separated[1]);
+            Extra = SByte.Parse(separated[2]);
         }
         public int ThrowDice()
         {
@@ -199,25 +209,33 @@ namespace DnDTDesktop
             }
         }
 
-        new public string ToString()
-        {
-            const string str1 = "{0}d{1}+{2}", str2 = "{0}d{1}{2}", str3 = "{0}d{1}";
-            if (this.Extra > 0)
+
+        public string ThrowString {
+            get
             {
-                return String.Format(str1, this.Throws, this.Type, this.Extra);
-            }
-            else
-            {
-                if (this.Extra < 0)
+                const string str1 = "{0}d{1}+{2}", str2 = "{0}d{1}{2}", str3 = "{0}d{1}";
+                if (this.Extra > 0)
                 {
-                    return String.Format(str2, this.Throws, this.Type, this.Extra);
+                    return String.Format(str1, this.Throws, this.Type, this.Extra);
                 }
                 else
                 {
-                    return String.Format(str3, this.Throws, this.Type);
+                    if (this.Extra < 0)
+                    {
+                        return String.Format(str2, this.Throws, this.Type, this.Extra);
+                    }
+                    else
+                    {
+                        return String.Format(str3, this.Throws, this.Type);
+                    }
                 }
             }
+            set
+            {
+                this = new Dice(value);
+            }
         }
+        
 
     }
 

@@ -1,0 +1,11 @@
+{
+  "EntityValues": {
+    "dead": -10,
+    "bleedingOut": -1,
+    "down": 0,
+    "maxSpellLevel": 9
+  },
+  "General": {
+    "language": "eng"
+  }
+}

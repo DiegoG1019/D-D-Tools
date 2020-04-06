@@ -1,0 +1,10 @@
+{
+  "Util": {
+    "currency": "P."
+  },
+  "Gui": {},
+  "Ent": {
+    "noRequirements": "Nothing"
+  },
+  "Items": {}
+}

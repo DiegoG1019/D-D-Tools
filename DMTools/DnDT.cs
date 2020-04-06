@@ -19,14 +19,23 @@ namespace DnDTDesktop
 
     public enum Stats
     {
-        strength, constitution, dexterity, wisdom, intelligence, charisma,
-        fortitude, reflex, will, speed, initiative
+        strength, constitution, dexterity, wisdom, intelligence, charisma, speed, initiative
     }; //Is it possible to dynamically initialize an enum? Maybe I just need a new object type
+
+    public enum SavingThrows
+    {
+        fortitude, reflexes, will
+    }
 
     public enum Schools
     {
         abjuration, divination, conjuration, enchantment, evocation, illusion, necromancy, transmutation
     } //Perhaps both of these should be a configuration option
+
+    public enum Sizes
+    {
+        small, medium, big
+    }
 
     static class App
     {

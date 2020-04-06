@@ -1,11 +1,16 @@
 {
   "FreeLevels": 0,
+  "Jobs": null,
   "Exp": {
     "Multiplier": 1,
-    "Current": 0,
-    "Required": 15000
+    "Required": 15000,
+    "History": [
+      573,
+      573,
+      69
+    ],
+    "Current": 642
   },
-  "Jobs": null,
   "Feats": [
     {
       "Name": "Fleeting Presence",
@@ -19,9 +24,6 @@
         true
       ],
       "Buffs": [
-        0,
-        0,
-        0,
         0,
         0,
         0,
@@ -62,6 +64,73 @@
   ],
   "SkillPointModifier": 0,
   "ExtraSkillPoints": 0,
+  "Desc": {
+    "Name": "Tchar",
+    "Fullname": null,
+    "Race": null,
+    "Alignment": null,
+    "Deity": null,
+    "BodyType": null,
+    "Size": null,
+    "Bio": null,
+    "Intro": null,
+    "Personality": null,
+    "Gender": null,
+    "Notes": [],
+    "Age": 0,
+    "Height": 0,
+    "Weight": 0,
+    "Eyes": {
+      "R": 0,
+      "G": 0,
+      "B": 0,
+      "A": 0,
+      "IsKnownColor": false,
+      "IsEmpty": true,
+      "IsNamedColor": false,
+      "IsSystemColor": false,
+      "Name": "0"
+    },
+    "Hair": {
+      "R": 0,
+      "G": 0,
+      "B": 0,
+      "A": 0,
+      "IsKnownColor": false,
+      "IsEmpty": true,
+      "IsNamedColor": false,
+      "IsSystemColor": false,
+      "Name": "0"
+    },
+    "Skin": {
+      "R": 0,
+      "G": 0,
+      "B": 0,
+      "A": 0,
+      "IsKnownColor": false,
+      "IsEmpty": true,
+      "IsNamedColor": false,
+      "IsSystemColor": false,
+      "Name": "0"
+    },
+    "Bgcolor": null,
+    "BannerColor": null,
+    "Mugshot": null,
+    "FullBody": null,
+    "ArcaneMarks": null,
+    "AllNotes": ""
+  },
+  "SpentSpells": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
   "Expgrant": {
     "Baseexp": 69,
     "Extra": 120
@@ -79,7 +148,16 @@
     ]
   },
   "Health": {
-    "Basehp": 0,
+    "LethalDamage": {
+      "Damage": 69,
+      "History": [
+        69
+      ]
+    },
+    "NonlethalDamage": {
+      "Damage": 0,
+      "History": []
+    },
     "HpThrows": [
       0,
       0,
@@ -102,90 +180,9 @@
       0,
       0
     ],
-    "BaseHP": 0
-  },
-  "Desc": {
-    "Name": "Tchar",
-    "Fullname": "Tchar",
-    "Race": "Human",
-    "Alignment": "True Neutral",
-    "Deity": "None",
-    "BodyType": "Humanoid",
-    "Size": "Medium",
-    "Bio": "None",
-    "Intro": "No intro",
-    "Personality": "Blank",
-    "Gender": "Unknown",
-    "Notes": [],
-    "Age": 0,
-    "Height": 0,
-    "Weight": 0,
-    "Eyes": {
-      "R": 255,
-      "G": 255,
-      "B": 255,
-      "A": 255,
-      "IsKnownColor": true,
-      "IsEmpty": false,
-      "IsNamedColor": true,
-      "IsSystemColor": false,
-      "Name": "White"
-    },
-    "Hair": {
-      "R": 0,
-      "G": 0,
-      "B": 0,
-      "A": 255,
-      "IsKnownColor": true,
-      "IsEmpty": false,
-      "IsNamedColor": true,
-      "IsSystemColor": false,
-      "Name": "Black"
-    },
-    "Skin": {
-      "R": 255,
-      "G": 228,
-      "B": 196,
-      "A": 255,
-      "IsKnownColor": true,
-      "IsEmpty": false,
-      "IsNamedColor": true,
-      "IsSystemColor": false,
-      "Name": "Bisque"
-    },
-    "Bgcolor": null,
-    "BannerColor": null,
-    "Mugshot": null,
-    "FullBody": null,
-    "ArcaneMarks": []
+    "BaseHP": 6
   },
   "Job": null,
-  "SpentSpells": [
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0
-  ],
-  "Skills": [
-    {
-      "Name": "Lockpicking",
-      "KeyStat": 2,
-      "Level": 5,
-      "MiscLevels": 0,
-      "Mod": 0
-    },
-    {
-      "Name": "Diplomacy",
-      "KeyStat": 5,
-      "Level": 2,
-      "MiscLevels": 3,
-      "Mod": -1
-    }
-  ],
+  "Skills": [],
   "Level": 5
 }
