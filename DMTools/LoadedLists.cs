@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 using Serilog;
 
 namespace DnDTDesktop
@@ -9,7 +10,7 @@ namespace DnDTDesktop
 		public static LoadedList<Entity> Entities = new LoadedList<Entity>();
 		public static LoadedList<Character> Characters = new LoadedList<Character>();
 
-		public class LoadedList<T> where T : class
+		public class LoadedList<T> : IEnumerable<int> where T : class
 		{
 			private readonly Queue<int> freeIDs;
 			public readonly List<T> Objects;
@@ -69,11 +70,21 @@ namespace DnDTDesktop
 
 			public void Remove(int id)
 			{
-				Log.Debug("Removing object of ID 000{0} from {1} Loaded List, and adding its now released ID to the freeIDs Queue",id,typeofT);
+				Log.Debug("Removing object of ID {0} from {1} Loaded List, and adding its now released ID to the freeIDs Queue",id,typeofT);
 				freeIDs.Enqueue(id);
 				Objects[id] = null;
 				IDs.Remove(id);
 			}
+
+			public IEnumerator<int> GetEnumerator()
+			{
+				return IDs.GetEnumerator();
+			}
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return GetEnumerator();
+			}
+
 		}
 	}
 }

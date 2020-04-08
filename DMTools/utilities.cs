@@ -119,9 +119,30 @@ namespace DnDTDesktop
         List<T> History { get; set; }
     }
 
-    public interface IFlagged<T>
+    public interface IFlagged<T> where T :Enum
     {
-        bool GetFlag(T i);
+        FlagsArray<T> Flags { get; set; }
+    }
+
+    public class FlagsArray<T> where T : Enum
+    {
+        public int Size = Enum.GetNames(typeof(T)).Length;
+        private bool[] array;
+        public bool this[T ind]
+        {
+            get
+            {
+                return array[Convert.ToInt32(ind)];
+            }
+            set
+            {
+                array[Convert.ToInt32(ind)] = value;
+            }
+        }
+        public FlagsArray()
+        {
+            array = new bool[Size];
+        }
     }
 
     public interface INoted
@@ -241,24 +262,32 @@ namespace DnDTDesktop
 
     public struct PriceTag
     {
-        [IgnoreDataMember]
-        [JsonIgnore]
-        public ulong Value { get; set; }
+        public long basevalue;
 
-        public PriceTag(ulong v)
+        public PriceTag(long v)
         {
-            this.Value = v;
+            this.basevalue = v;
         }
 
         public void Add(int v)
         {
-            Value = (ulong)((long)Value + v);
+            basevalue += v;
+        }
+
+        public void Sub(int v)
+        {
+            basevalue -= v;
         }
 
         ///And finally, here's the reason I made this in the first place
-        new public string ToString()
+        [IgnoreDataMember]
+        [JsonIgnore]
+        public string Value
         {
-            return String.Format("{0}{1}", App.Cf.Lang.Util["currency"], this.Value);
+            get
+            {
+                return String.Format("{0}{1}", App.Cf.Lang.Util["currency"], this.basevalue);
+            }
         }
 
     }
