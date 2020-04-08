@@ -44,7 +44,7 @@ namespace DnDTDesktop
         [return: MarshalAs(UnmanagedType.Bool)]
         static extern bool AllocConsole();
 
-        public static readonly Version version = new Version("Alpha", 0, 0, 22, 0);
+        public static readonly Version version = new Version("Alpha", 0, 0, 23, 0);
         public static int statCount = Enum.GetNames(typeof(Stats)).Length;
         public static int schoolCount = Enum.GetNames(typeof(Schools)).Length;
 
@@ -163,9 +163,9 @@ namespace DnDTDesktop
             tchar = Character.Create("Tchar");
             Loaded.Characters[tchar].Exp.Gain(69);
             Loaded.Characters[tchar].HP.LethalDamage.Harm(69);
-            Loaded.Characters[tchar].Serialize();
-
             Loaded.Characters[tchar].Inventory.Armors.Add(new Item.Armor());
+            Loaded.Characters[tchar].Abilities[0].Tags.Add(new Entity.Ability.AbilityTag());
+            Loaded.Characters[tchar].Serialize();
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

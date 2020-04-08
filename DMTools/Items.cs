@@ -250,7 +250,7 @@ namespace DnDTDesktop
         {
             get
             {
-                return Flags[FlagList.QuantityLocked] ? Convert.ToInt32(quant) : quant;
+                return Flags[FlagList.QuantityLocked] ? Convert.ToUInt32(quant) : (uint)quant;
             }
             set
             {

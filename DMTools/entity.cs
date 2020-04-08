@@ -527,24 +527,26 @@ namespace DnDTDesktop
 
 		}
 
-		public sealed class Ability : IFlagged<Ability.FlagList>, INoted
+		public sealed class Ability : INoted
 		{
-
-			public enum FlagList
+			public struct AbilityTag
 			{
-				extraordinary, spellLike, psiLike, supernatural
-			};
+				public string Name { get; set; }
+				public string ShortenedName { get; set; }
+				public string Description { get; set; }
+			}
 
 			public string Name { get; set; }
 			public string Requirements { get; set; }
 			public string Description { get; set; }
 			public List<string> Notes { get; set; }
 			public int[] Buffs { get; set; }
+			public List<AbilityTag> Tags { get; set; }
 
 			public Ability()
 			{
 				Notes = new List<string>();
-				Flags = new FlagsArray<FlagList>();
+				Tags = new List<AbilityTag>();
 			}
 
 			public Ability(string n, string re, string de)
@@ -553,6 +555,7 @@ namespace DnDTDesktop
 				this.Description = de;
 				this.Notes = new List<string>();
 				this.Buffs = new int[App.statCount];
+				Tags = new List<AbilityTag>();
 
 				if (re == "null" || re == "" || re == null)
 				{
@@ -570,6 +573,7 @@ namespace DnDTDesktop
 				this.Description = de;
 				this.Notes = notes;
 				this.Buffs = new int[App.statCount];
+				Tags = new List<AbilityTag>();
 
 				if (re == "null" || re == "" || re == null)
 				{
@@ -587,8 +591,9 @@ namespace DnDTDesktop
 				this.Description = de;
 				this.Notes = nts;
 				this.Buffs = bfs;
+				Tags = new List<AbilityTag>();
 
-				if (re == "null" || re == "" || re == null)
+				if (re == String.Empty || re == null)
 				{
 					this.Requirements = App.Cf.Lang.Ent["noRequirements"];
 				}
@@ -599,30 +604,17 @@ namespace DnDTDesktop
 
 			}
 
-			public FlagsArray<FlagList> Flags { get; set; }
-
 			[IgnoreDataMember]
 			[JsonIgnore]
 			public string FullName
 			{
 				get
 				{
-					string str = this.Name;
-					if (this.Flags[Ability.FlagList.extraordinary])
+					const string s = " ({0})";
+					string str = String.Empty;
+					foreach(Ability.AbilityTag tag in Tags)
 					{
-						str += " (Ex)";
-					}
-					if (this.Flags[Ability.FlagList.spellLike])
-					{
-						str += " (Sl)";
-					}
-					if (this.Flags[Ability.FlagList.psiLike])
-					{
-						str += " (Pl)";
-					}
-					if (this.Flags[Ability.FlagList.supernatural])
-					{
-						str += " (Sn)";
+						str += String.Format(s, tag.ShortenedName);
 					}
 					return str;
 				}
