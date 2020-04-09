@@ -323,59 +323,72 @@ namespace DnDTDesktop
 			}
 
 			public List<Effect> Effects { get; set; }
-			public byte Fill { get; set; } //Percentage
+			public Percentage Fill { get; set; }
+			public Percentage Solvent { get; set; }
 
 			public Potion(Potion other) :
-				this(new List<Effect>(other.Effects), other.Fill, other)
+				this(new List<Effect>(other.Effects), other.Fill, other.Solvent, other)
 			{ }
 			public Potion() :
-				this(new List<Effect>(), 100, 0)
+				this(new List<Effect>())
 			{ }
-			public Potion(List<Effect> Fx, byte fill, long v) :
-				this(Fx, fill, new Item("", "", new Mass(1M, Mass.Units.Pound), v))
+			public Potion(List<Effect> Fx) :
+				this(Fx, 100f)
 			{ }
-			public Potion(List<Effect> Fx, byte fill, Item obj) : base(obj)
+			public Potion(List<Effect> Fx, float fill) :
+				this(Fx, fill, 0f)
+			{ }
+			public Potion(List<Effect> Fx, float fill, float solvent) :
+				this(Fx, fill, solvent, new Item("", "", new Mass(1M, Mass.Units.Pound)))
+			{ }
+			public Potion(List<Effect> Fx, float fill, float solvent, ulong v) :
+				this(Fx, fill, solvent, new Item("", "", new Mass(1M, Mass.Units.Pound), v))
+			{ }
+			public Potion(List<Effect> Fx, float fill, float solvent, Item obj) :
+				this(Fx, new Percentage(fill), new Percentage(solvent), obj)
+			{ }
+			public Potion(List<Effect> Fx, Percentage fill, Percentage solvent, Item obj) : base(obj)
 			{
 				LockQuantity();
 				Effects = Fx;
 				Fill = fill;
+				Solvent = solvent;
 			}
 
-			private int[] AdjustBonus(byte OtherFill, int[] OtherBonus)
+			private int[] AdjustBonus(Percentage OtherFill, int[] OtherBonus)
 			{
-				float newfill = OtherFill / 100f;
 				for (int i = 0; i < OtherBonus.Length; i++)
 				{
-					OtherBonus[i] = (int)(OtherBonus[i] * newfill);
+					OtherBonus[i] = (int)(OtherBonus[i] * OtherFill.Percent);
 				}
 				return OtherBonus;
 			}
 
-			private int AdjustDuration(byte OtherFill, int Duration)
+			private int AdjustDuration(Percentage OtherFill, int Duration)
 			{
-				return (int)(Duration * (OtherFill / 100f));
+				return (int)(Duration * OtherFill.Percent);
 			}
 
-			private long AdjustValue(byte OtherFill, long value)
+			private ulong AdjustValue(Percentage OtherFill, ulong value)
 			{
-				return (long)(value * (OtherFill / 100f));
+				return (ulong)(value * OtherFill.Percent);
 			}
 
-			public Potion Separate(byte OtherFill) {
+			public Potion Separate(Percentage OtherFill) {
 
-				if (OtherFill > Fill)
+				if (OtherFill.Value > Fill.Value)
 				{
 					throw new InvalidOperationException("Cannot separate a potion by taking more than what it currently holds");
 				}
 				else
 				{
-					if (OtherFill == Fill)
+					if (OtherFill.Value == Fill.Value)
 					{
 						throw new InvalidOperationException("Cannot separate a potion by taking the same amount that it currently holds. (Just take the potion itself.)");
 					}
 				}
 
-				Fill -= OtherFill;
+				Fill = new Percentage(Fill.Value - OtherFill.Value);
 
 				List<Effect> fx = new List<Effect>();
 				List<Effect> tfx = new List<Effect>();
@@ -386,16 +399,17 @@ namespace DnDTDesktop
 				}
 
 				Effects = tfx;
-				Value = new PriceTag(AdjustValue(Fill, Value.basevalue));
+				Value = new PriceTag(AdjustValue(Fill, Value.basevalue.v));
 
-				return new Potion(fx, OtherFill, AdjustValue(OtherFill, Value.basevalue));
+				return new Potion(fx, OtherFill.Value, AdjustValue(OtherFill, Value.basevalue.v));
 
 			}
 
-			public void Dilute(byte fill)
+			public void Dilute(Percentage newfill)
 			{
-				Value = new PriceTag((long)(Value.basevalue * (fill * 0.002f)));
-				Fill += fill;
+				Solvent = new Percentage(Solvent.Value + newfill.Value);
+				Value = new PriceTag((ulong)(Value.basevalue.v * (Fill.Percent - Solvent.Percent)));
+				Fill = new Percentage(Fill.Value + newfill.Value);
 			}
 
 		}
@@ -475,19 +489,19 @@ namespace DnDTDesktop
 		public Item(string name, string description, Mass weight) :
 			this(name, description, weight, 1)
 		{ }
-		public Item(string name, string description, Mass weight, long value) :
+		public Item(string name, string description, Mass weight, ulong value) :
 			this(name, description, weight, value, 1)
 		{ }
-		public Item(string name, string description, Mass weight, long value, uint quantity) :
+		public Item(string name, string description, Mass weight, ulong value, uint quantity) :
 			this(name, description, weight, value, quantity, new List<string>())
 		{ }
-		public Item(string name, string description, Mass weight, long value, uint quantity, List<string> notes) :
+		public Item(string name, string description, Mass weight, ulong value, uint quantity, List<string> notes) :
 			this(name, description, weight, value, quantity, notes, new Length(1M, Length.Units.Foot))
 		{ }
-		public Item(string name, string description, Mass weight, long value, uint quantity, List<string> notes, Length rangeincrement) :
+		public Item(string name, string description, Mass weight, ulong value, uint quantity, List<string> notes, Length rangeincrement) :
 			this(name, description, weight, value, quantity, notes, rangeincrement, new FlagsArray<FlagList>())
 		{ }
-		public Item(string name, string description, Mass weight, long value, uint quantity, List<string> notes, Length rangeincrement, FlagsArray<FlagList> flg) :
+		public Item(string name, string description, Mass weight, ulong value, uint quantity, List<string> notes, Length rangeincrement, FlagsArray<FlagList> flg) :
 			this(name, description, weight, new PriceTag(value), quantity, notes, rangeincrement, flg)
 		{ }
 		public Item(string name, string description, Mass weight, PriceTag value, uint quantity, List<string> notes, Length rangeincrement, FlagsArray<FlagList> flg)
@@ -559,11 +573,15 @@ namespace DnDTDesktop
 				}
 				return false;
 			}
-
-			public Bag() : base()
+			protected bool Baseremove(T item)
 			{
+				return base.Remove(item);
 			}
 
+			public Bag() : base() { }
+			public Bag(Bag<T> other) :
+				base(other)
+			{ }
 		}
 
 		public class Slot<T> : Bag<T> where T : Item
@@ -573,6 +591,14 @@ namespace DnDTDesktop
 				item.LockQuantity();
 				base.Add(item);
 			}
+			new public bool Remove(T item) 
+			{
+				return Baseremove(item);
+			}
+			public Slot() : base() { }
+			public Slot(Slot<T> other) :
+				base(other)
+			{ }
 		}
 
 		public class Equipped : Inventory
@@ -580,15 +606,21 @@ namespace DnDTDesktop
 			[JsonPropertyName("EquippedArmor")]
 			new public Slot<Item.Armor> Armors { get; set; }
 
-			[JsonPropertyName("EquippedWeapons")]
-			new public Slot<Item.Weapon>[] Weapons { get; set; }
+			[JsonPropertyName("EquippedMeleeWeapons")]
+			public Slot<Item.Weapon.Melee> MeleeWeapons { get; set; }
+
+			[JsonPropertyName("EquippedAmmunition")]
+			public Bag<Item.Weapon.Ammo> Ammunition { get; set; }
+
+			[JsonPropertyName("EquippedRangedWeapons")]
+			public Slot<Item.Weapon.Ranged> RangedWeapons { get; set; }
 			public List<Inventory> Bags { get; set; }
 
 			public int MaximumDexterity
 			{
 				get
 				{
-					int v = 2_147_483_647;
+					int v = int.MaxValue;
 					foreach(Item.Armor a in Armors)
 					{
 						if(v > a.MaximumDeterity)
@@ -600,17 +632,22 @@ namespace DnDTDesktop
 				}
 			}
 
-			public Equipped()
+			public Equipped(Equipped other) :
+				this(new Slot<Item.Armor>(other.Armors), new Slot<Item.Weapon.Melee>(other.MeleeWeapons), new Bag<Item.Weapon.Ammo>(other.Ammunition), new Slot<Item.Weapon.Ranged>(other.RangedWeapons), new List<Inventory>(other.Bags))
+			{ }
+			private Equipped(Slot<Item.Armor> armors, Slot<Item.Weapon.Melee> melees, Bag<Item.Weapon.Ammo> ammos, Slot<Item.Weapon.Ranged> rangewpns, List<Inventory> bags) :
+				base()
 			{
-				Armors = new Slot<Item.Armor>();
-				Weapons = new Slot<Item.Weapon>[3];
-				for(int i = 0; i < Weapons.Length; i++)
-				{
-					Weapons[i] = new Slot<Item.Weapon>();
-				}
-				Other = new Slot<Item>();
-				Keychain = new Slot<Item.Key>();
-				Bags = new List<Inventory>();
+				Armors = armors;
+				MeleeWeapons = melees;
+				Ammunition = ammos;
+				RangedWeapons = rangewpns;
+				Bags = bags;
+			}
+			public Equipped() :
+				this(new Slot < Item.Armor >(), new Slot< Item.Weapon.Melee >(), new Bag< Item.Weapon.Ammo >(), new Slot< Item.Weapon.Ranged >(), new List< Inventory >())
+			{
+
 			}
 
 		}
@@ -677,41 +714,53 @@ namespace DnDTDesktop
 		{
 			get
 			{
-				long v = 0;
+				ulong v = 0;
 				foreach (Item i in Armors)
 				{
-					v += i.Value.basevalue * i.Quantity;
+					v += i.Value.basevalue.v * i.Quantity;
 				}
 				foreach (Bag<Item.Weapon> list in Weapons) //But a Slot inherits a Bag so it's okay to not hide this
 				{
 					foreach (Item i in list)
 					{
-						v += i.Value.basevalue * i.Quantity;
+						v += i.Value.basevalue.v * i.Quantity;
 					}
 				}
 				foreach (Item i in Other)
 				{
-					v += i.Value.basevalue * i.Quantity;
+					v += i.Value.basevalue.v * i.Quantity;
 				}
 				foreach (Item i in Keychain)
 				{
-					v += i.Value.basevalue * i.Quantity;
+					v += i.Value.basevalue.v * i.Quantity;
 				}
 				return new PriceTag(v);
 			}
 		}
 
-		public Inventory()
+		public Inventory(Inventory other) :
+			//this(other.Armors, other.Weapons, other.Other, other.Keychain, other.Potions)
+			this(new Bag<Item.Armor>(other.Armors), new Bag<Item.Weapon>[3], new Bag<Item>(other.Other), new Bag<Item.Key>(other.Keychain), new Slot<Item.Potion>(other.Potions))
 		{
-			Armors = new Bag<Item.Armor>();
-			Weapons = new Bag<Item.Weapon>[3];
+			for (int i = 0; i < Weapons.Length; i++)
+			{
+				Weapons[i] = new Bag<Item.Weapon>(other.Weapons[i]);
+			}
+		}
+		private Inventory(Bag<Item.Armor> armors, Bag<Item.Weapon>[] weapons, Bag<Item> other, Bag<Item.Key> keychain, Slot<Item.Potion> potions){
+			Armors = armors;
+			Weapons = weapons;
+			Other = other;
+			Keychain = keychain;
+			Potions = potions;
+		}
+		public Inventory() :
+			this(new Bag<Item.Armor>(), new Bag<Item.Weapon>[3], new Bag<Item>(), new Bag<Item.Key>(), new Slot<Item.Potion>())
+		{
 			for(int i = 0; i < Weapons.Length; i++)
 			{
 				Weapons[i] = new Bag<Item.Weapon>();
 			}
-			Other = new Bag<Item>();
-			Keychain = new Bag<Item.Key>();
-			Potions = new Slot<Item.Potion>();
 		}
 
 	}

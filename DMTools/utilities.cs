@@ -271,21 +271,22 @@ namespace DnDTDesktop
 
     public struct PriceTag
     {
-        public long basevalue;
+        public CUInt64 basevalue;
 
-        public PriceTag(long v)
+        public PriceTag(ulong v) :
+            this()
         {
-            this.basevalue = v;
+            this.basevalue.v = v;
         }
 
-        public void Add(int v)
+        public void Add(uint v)
         {
-            basevalue += v;
+            basevalue.v += v;
         }
 
-        public void Sub(int v)
+        public void Sub(uint v)
         {
-            basevalue -= v;
+            basevalue.v -= v;
         }
 
         ///And finally, here's the reason I made this in the first place
@@ -299,7 +300,7 @@ namespace DnDTDesktop
             }
             set
             {
-                basevalue = Int64.Parse(value.Split(new string[] { App.Cf.Lang.Util["currency"] }, StringSplitOptions.RemoveEmptyEntries)[1]);
+                basevalue.v = UInt64.Parse(value.Split(new string[] { App.Cf.Lang.Util["currency"] }, StringSplitOptions.RemoveEmptyEntries)[1]);
             }
         }
 
@@ -308,17 +309,8 @@ namespace DnDTDesktop
     public class Wallet : IHistoried<int>
     {
 
-        private ulong value;
+        private CUInt64 value;
         public List<int> History { get; set; }
-
-        public Wallet(ulong value)
-        {
-            this.History = new List<int>();
-            this.value = value;
-            this.History.Add((int)value);
-            weight = new Mass();
-            weight.Pound = Value * (ulong)App.Cf.Options.EntityValues["coinWeight"];
-        }
 
         private Mass weight;
         public Mass Weight
@@ -331,8 +323,8 @@ namespace DnDTDesktop
 
         public void Add(ulong value)
         {
-            this.value += value;
-            weight.Pound = this.value * (ulong)App.Cf.Options.EntityValues["coinWeight"];
+            this.value.v += value;
+            weight.Pound = this.value.v * (ulong)App.Cf.Options.EntityValues["coinWeight"];
         }
 
         public void Gain(ulong value)
@@ -344,20 +336,20 @@ namespace DnDTDesktop
         {
             this.Add(other.Value);
             other.Empty();
-            this.History.Add(((int)value));
+            this.History.Add(((int)value.v));
         }
 
         public void Sub(ulong value)
         {
-            if (value > this.value)
+            if (value > this.value.v)
             {
                 throw new WalletOverDrawException(String.Format("Attempted to draw {0} over limit. W1:{1} ; w2:{2}", value - this.Value, this.Value, value));
             }
             else
             {
-                this.value -= value;
+                this.value.v -= value;
             }
-            weight.Pound = this.value * (ulong)App.Cf.Options.EntityValues["coinWeight"];
+            weight.Pound = this.value.v * (ulong)App.Cf.Options.EntityValues["coinWeight"];
         }
 
         public void Spend(ulong value)
@@ -367,8 +359,8 @@ namespace DnDTDesktop
         }
         public void Spend(Wallet other)
         {
-            this.Sub(other.value);
-            this.History.Add(-((int)other.value));
+            this.Sub(other.value.v);
+            this.History.Add(-((int)other.value.v));
         }
 
         public void Empty()
@@ -380,19 +372,19 @@ namespace DnDTDesktop
         {
             get
             {
-                return this.value;
+                return this.value.v;
             }
             set
             {
-                if (this.value > value)
+                if (this.value.v > value)
                 {
-                    this.Spend(this.value - value);
+                    this.Spend(this.value.v - value);
                 }
                 else
                 {
-                    if (this.value < value) //I don't want it to be added to the History if they were the same
+                    if (this.value.v < value) //I don't want it to be added to the History if they were the same
                     {
-                        this.Gain(value - this.value);
+                        this.Gain(value - this.value.v);
                     }
                 }
             }
@@ -407,6 +399,26 @@ namespace DnDTDesktop
         {
             this.Spend(value);
             return new Wallet(value);
+        }
+        
+        public Wallet(Wallet other) :
+            this(other.value, other.History)
+        { }
+        public Wallet() :
+            this(0)
+        { }
+        public Wallet(ulong value) :
+            this(value, new List<int>(new int[] { (int)value }))
+        { }
+        public Wallet(ulong value, List<int> h) :
+            this(new CUInt64(value), h)
+        { }
+        public Wallet(CUInt64 value, List<int> h)
+        {
+            this.value = value;
+            History = h;
+            weight = new Mass();
+            weight.Pound = Value * (ulong)App.Cf.Options.EntityValues["coinWeight"];
         }
 
     }
@@ -459,8 +471,6 @@ namespace DnDTDesktop
         public const decimal CmM = 0.01M; //Centimeter to Meter
         public const decimal FtM = 0.3048M; //Foot to Meter
         public const decimal InM = 0.0254M; //Inch to Meter
-        //
-        public const decimal FtSq = 30; //Feet to Squares
 
         public decimal Meter { get; set; }
         public decimal Foot
@@ -489,11 +499,11 @@ namespace DnDTDesktop
         {
             get
             {
-                return (int)(Foot / FtSq);
+                return (int)(Foot / App.Cf.Options.OtherValues["squareSize"]);
             }
             set
             {
-                Foot = value * FtSq;
+                Foot = value * App.Cf.Options.OtherValues["squareSize"];
             }
         }
 
@@ -676,12 +686,19 @@ namespace DnDTDesktop
                 }
             }
         }
+
+        public CUInt64(ulong v) :
+            this()
+        {
+            this.v = v;
+        }
+
     }
 
     public struct Percentage
     {
-        private const float _max = 100;
-        private const float _min = 0;
+        public const float _max = 100;
+        public const float _min = 0;
         private float v;
         public float Value
         {
@@ -702,6 +719,15 @@ namespace DnDTDesktop
                     return;
                 }
                 v += value;
+            }
+        }
+        [IgnoreDataMember]
+        [JsonIgnore]
+        public double Percent
+        {
+            get
+            {
+                return Value / 100f;
             }
         }
 

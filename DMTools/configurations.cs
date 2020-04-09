@@ -60,6 +60,7 @@ namespace DnDTDesktop
         public class options
         {
             public Dictionary<string, int> EntityValues { get; set; }
+            public Dictionary<string, decimal> OtherValues { get; set; }
             public Dictionary<string, string> General { get; set; }
 
             [IgnoreDataMember]
@@ -269,6 +270,8 @@ namespace DnDTDesktop
             Options.EntityValues.Add("down", 0);
             Options.EntityValues.Add("maxSpellLevel", 9);
             Options.General.Add("language", "eng");
+            Options.OtherValues.Add("coinWeight", 0.02M);
+            Options.OtherValues.Add("squareSize", 5M);
         }
 
         public void SaveOptions()
