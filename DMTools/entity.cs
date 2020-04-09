@@ -267,7 +267,7 @@ namespace DnDTDesktop
 				this(bhp, new Hurt(), new Hurt())
 			{ }
 			public Health(uint bhp, Hurt ld, Hurt nld):
-				this(bhp, ld, nld, new List<uint>())
+				this(bhp, ld, nld, new List<uint>(new uint[30]))
 			{ }
 			public Health(uint bhp, Hurt ld, Hurt nld, List<uint> hpt)
 			{
@@ -392,7 +392,6 @@ namespace DnDTDesktop
 
 		public sealed class Description : INoted
 		{
-
 			public string Name { get; set; }
 			public string Fullname { get; set; }
 			public string Race { get; set; }
@@ -406,8 +405,8 @@ namespace DnDTDesktop
 			public string Gender { get; set; }
 			public List<string> Notes { get; set; }
 			public ulong Age { get; set; }
-			public uint Height { get; set; } //cm
-			public float Weight { get; set; } //kg
+			public Length Height { get; set; }
+			public Mass Weight { get; set; }
 			public Color Eyes { get; set; }
 			public Color Hair { get; set; }
 			public Color Skin { get; set; }
@@ -460,36 +459,36 @@ namespace DnDTDesktop
 				this(name, fullname, race, alignment, deity, bodytype, size, bio, intro, personality, gender, notes, 0)
 			{ }
 			public Description(string name, string fullname, string race, string alignment, string deity, string bodytype, Sizes size, string bio, string intro, string personality, string gender, List<string> notes, ulong age) :
-				this(name, fullname, race, alignment, deity, bodytype, size, bio, intro, personality, gender, notes, age, 1)
+				this(name, fullname, race, alignment, deity, bodytype, size, bio, intro, personality, gender, notes, age, new Length(1M, Length.Units.Meter))
 			{ }
-			public Description(string name, string fullname, string race, string alignment, string deity, string bodytype, Sizes size, string bio, string intro, string personality, string gender, List<string> notes, ulong age, uint height) :
-				this(name, fullname, race, alignment, deity, bodytype, size, bio, intro, personality, gender, notes, age, height, 0)
+			public Description(string name, string fullname, string race, string alignment, string deity, string bodytype, Sizes size, string bio, string intro, string personality, string gender, List<string> notes, ulong age, Length height) :
+				this(name, fullname, race, alignment, deity, bodytype, size, bio, intro, personality, gender, notes, age, height, new Mass(1M, Mass.Units.Kilogram))
 			{ }
-			public Description(string name, string fullname, string race, string alignment, string deity, string bodytype, Sizes size, string bio, string intro, string personality, string gender, List<string> notes, ulong age, uint height, float weight) :
+			public Description(string name, string fullname, string race, string alignment, string deity, string bodytype, Sizes size, string bio, string intro, string personality, string gender, List<string> notes, ulong age, Length height, Mass weight) :
 				this(name, fullname, race, alignment, deity, bodytype, size, bio, intro, personality, gender, notes, age, height, weight, null)
 			{ }
-			public Description(string name, string fullname, string race, string alignment, string deity, string bodytype, Sizes size, string bio, string intro, string personality, string gender, List<string> notes, ulong age, uint height, float weight, Color? eyes) :
+			public Description(string name, string fullname, string race, string alignment, string deity, string bodytype, Sizes size, string bio, string intro, string personality, string gender, List<string> notes, ulong age, Length height, Mass weight, Color? eyes) :
 				this(name, fullname, race, alignment, deity, bodytype, size, bio, intro, personality, gender, notes, age, height, weight, eyes, null)
 			{ }
-			public Description(string name, string fullname, string race, string alignment, string deity, string bodytype, Sizes size, string bio, string intro, string personality, string gender, List<string> notes, ulong age, uint height, float weight, Color? eyes, Color? hair) :
+			public Description(string name, string fullname, string race, string alignment, string deity, string bodytype, Sizes size, string bio, string intro, string personality, string gender, List<string> notes, ulong age, Length height, Mass weight, Color? eyes, Color? hair) :
 				this(name, fullname, race, alignment, deity, bodytype, size, bio, intro, personality, gender, notes, age, height, weight, eyes, hair, null)
 			{ }
-			public Description(string name, string fullname, string race, string alignment, string deity, string bodytype, Sizes size, string bio, string intro, string personality, string gender, List<string> notes, ulong age, uint height, float weight, Color? eyes, Color? hair, Color? skin) :
+			public Description(string name, string fullname, string race, string alignment, string deity, string bodytype, Sizes size, string bio, string intro, string personality, string gender, List<string> notes, ulong age, Length height, Mass weight, Color? eyes, Color? hair, Color? skin) :
 				this(name, fullname, race, alignment, deity, bodytype, size, bio, intro, personality, gender, notes, age, height, weight, eyes, hair, skin, null)
 			{ }
-			public Description(string name, string fullname, string race, string alignment, string deity, string bodytype, Sizes size, string bio, string intro, string personality, string gender, List<string> notes, ulong age, uint height, float weight, Color? eyes, Color? hair, Color? skin, Color? bgcolor) :
+			public Description(string name, string fullname, string race, string alignment, string deity, string bodytype, Sizes size, string bio, string intro, string personality, string gender, List<string> notes, ulong age, Length height, Mass weight, Color? eyes, Color? hair, Color? skin, Color? bgcolor) :
 				this(name, fullname, race, alignment, deity, bodytype, size, bio, intro, personality, gender, notes, age, height, weight, eyes, hair, skin, bgcolor, null)
 			{ }
-			public Description(string name, string fullname, string race, string alignment, string deity, string bodytype, Sizes size, string bio, string intro, string personality, string gender, List<string> notes, ulong age, uint height, float weight, Color? eyes, Color? hair, Color? skin, Color? bgcolor, Color? bannercolor) :
+			public Description(string name, string fullname, string race, string alignment, string deity, string bodytype, Sizes size, string bio, string intro, string personality, string gender, List<string> notes, ulong age, Length height, Mass weight, Color? eyes, Color? hair, Color? skin, Color? bgcolor, Color? bannercolor) :
 				this(name, fullname, race, alignment, deity, bodytype, size, bio, intro, personality, gender, notes, age, height, weight, eyes, hair, skin, bgcolor, bannercolor, null)
 			{ }
-			public Description(string name, string fullname, string race, string alignment, string deity, string bodytype, Sizes size, string bio, string intro, string personality, string gender, List<string> notes, ulong age, uint height, float weight, Color? eyes, Color? hair, Color? skin, Color? bgcolor, Color? bannercolor, Bitmap mugshot) :
+			public Description(string name, string fullname, string race, string alignment, string deity, string bodytype, Sizes size, string bio, string intro, string personality, string gender, List<string> notes, ulong age, Length height, Mass weight, Color? eyes, Color? hair, Color? skin, Color? bgcolor, Color? bannercolor, Bitmap mugshot) :
 				this(name, fullname, race, alignment, deity, bodytype, size, bio, intro, personality, gender, notes, age, height, weight, eyes, hair, skin, bgcolor, bannercolor, mugshot, null)
 			{ }
-			public Description(string name, string fullname, string race, string alignment, string deity, string bodytype, Sizes size, string bio, string intro, string personality, string gender, List<string> notes, ulong age, uint height, float weight, Color? eyes, Color? hair, Color? skin, Color? bgcolor, Color? bannercolor, Bitmap mugshot, Bitmap fullbody):
+			public Description(string name, string fullname, string race, string alignment, string deity, string bodytype, Sizes size, string bio, string intro, string personality, string gender, List<string> notes, ulong age, Length height, Mass weight, Color? eyes, Color? hair, Color? skin, Color? bgcolor, Color? bannercolor, Bitmap mugshot, Bitmap fullbody):
 				this(name, fullname, race, alignment, deity, bodytype, size, bio, intro, personality, gender, notes, age, height, weight, eyes, hair, skin, bgcolor, bannercolor, mugshot, fullbody, new List<Bitmap>())
 			{ }
-			public Description(string name, string fullname, string race, string alignment, string deity, string bodytype, Sizes size, string bio, string intro, string personality, string gender, List<string> notes, ulong age, uint height, float weight, Color? eyes, Color? hair, Color? skin, Color? bgcolor, Color? bannercolor, Bitmap mugshot, Bitmap fullbody, List<Bitmap> arcanemarks)
+			public Description(string name, string fullname, string race, string alignment, string deity, string bodytype, Sizes size, string bio, string intro, string personality, string gender, List<string> notes, ulong age, Length height, Mass weight, Color? eyes, Color? hair, Color? skin, Color? bgcolor, Color? bannercolor, Bitmap mugshot, Bitmap fullbody, List<Bitmap> arcanemarks)
 			{
 				Name = name;
 				Fullname = fullname;

@@ -297,6 +297,10 @@ namespace DnDTDesktop
             {
                 return String.Format("{0}{1}", App.Cf.Lang.Util["currency"], this.basevalue);
             }
+            set
+            {
+                basevalue = Int64.Parse(value.Split(new string[] { App.Cf.Lang.Util["currency"] }, StringSplitOptions.RemoveEmptyEntries)[1]);
+            }
         }
 
     }
@@ -312,26 +316,23 @@ namespace DnDTDesktop
             this.History = new List<int>();
             this.value = value;
             this.History.Add((int)value);
+            weight = new Mass();
+            weight.Pound = Value * (ulong)App.Cf.Options.EntityValues["coinWeight"];
         }
 
-        public float Weight
+        private Mass weight;
+        public Mass Weight
         {
             get
             {
-                if (this.Value > 0)
-                {
-                    return this.Value / 50F;
-                }
-                else
-                {
-                    return 0F;
-                }
+                return weight;
             }
         }
 
         public void Add(ulong value)
         {
             this.value += value;
+            weight.Pound = this.value * (ulong)App.Cf.Options.EntityValues["coinWeight"];
         }
 
         public void Gain(ulong value)
@@ -356,6 +357,7 @@ namespace DnDTDesktop
             {
                 this.value -= value;
             }
+            weight.Pound = this.value * (ulong)App.Cf.Options.EntityValues["coinWeight"];
         }
 
         public void Spend(ulong value)
@@ -440,6 +442,173 @@ namespace DnDTDesktop
                 }
             }
         }
+    }
+
+    public struct Length
+    {
+
+        public enum Units
+        {
+            Meter, Foot, Inch
+        }
+
+        public const decimal MCm = 100M; //Meter to Centimeter
+        public const decimal MFt = 3.28084M; //Meter to Foot
+        public const decimal MIn = 39.37008M; //Meter to Inch
+        //
+        public const decimal CmM = 0.01M; //Centimeter to Meter
+        public const decimal FtM = 0.3048M; //Foot to Meter
+        public const decimal InM = 0.0254M; //Inch to Meter
+
+        public decimal Meter { get; set; }
+        public decimal Foot
+        {
+            get
+            {
+                return Meter * MFt;
+            }
+            set
+            {
+                Meter = value * FtM;
+            }
+        }
+        public decimal Inch
+        {
+            get
+            {
+                return Meter * MIn;
+            }
+            set
+            {
+                Meter = value * InM;
+            }
+        }
+
+        public Length(decimal V, Units a) :
+            this()
+        {
+            if(a == Units.Foot)
+            {
+                Foot = V;
+                return;
+            }
+            if(a == Units.Meter)
+            {
+                Meter = V;
+                return;
+            }
+            if(a == Units.Inch)
+            {
+                Inch = V;
+                return;
+            }
+        }
+
+
+        public static bool operator >(Length A, Length B)
+        {
+            return A.Meter > B.Meter;
+        }
+        public static bool operator <(Length A, Length B)
+        {
+            return !(A > B);
+        }
+        public static bool operator >=(Length A, Length B)
+        {
+            return A.Meter >= B.Meter;
+        }
+        public static bool operator <=(Length A, Length B)
+        {
+            return !(A >= B);
+        }
+        public static bool operator ==(Length A, Length B)
+        {
+            return A.Meter == B.Meter;
+        }
+        public static bool operator !=(Length A, Length B)
+        {
+            return !(A == B);
+        }
+        public override bool Equals(object obj)
+        {
+            return base.Equals(obj);
+        }
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
+    }
+
+    public struct Mass
+    {
+        public enum Units
+        {
+            Kilogram, Pound
+        }
+        public const decimal KgLb = 2.20462M;
+        public const decimal LbKg = 0.453592M;
+
+        public decimal Kilogram { get; set; }
+        public decimal Pound
+        {
+            get
+            {
+                return Kilogram * KgLb;
+            }
+            set
+            {
+                Kilogram = value * LbKg;
+            }
+        }
+        public Mass(decimal V, Units i) :
+            this()
+        {
+            if (i == Units.Kilogram)
+            {
+                Kilogram = V;
+                return;
+            }
+            if (i == Units.Pound)
+            {
+                Pound = V;
+                return;
+            }
+        }
+
+        public static bool operator>(Mass A, Mass B)
+        {
+            return A.Kilogram > B.Kilogram;
+        }
+        public static bool operator<(Mass A, Mass B)
+        {
+            return !(A > B);
+        }
+        public static bool operator>=(Mass A, Mass B)
+        {
+            return A.Kilogram >= B.Kilogram;
+        }
+        public static bool operator<=(Mass A, Mass B)
+        {
+            return !(A >= B);
+        }
+        public static bool operator==(Mass A, Mass B)
+        {
+            return A.Kilogram == B.Kilogram;
+        }
+        public static bool operator!=(Mass A, Mass B)
+        {
+            return !(A == B);
+        }
+        public override bool Equals(object obj)
+        {
+            return base.Equals(obj);
+        }
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
     }
 
     public struct CUInt64

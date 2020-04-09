@@ -193,14 +193,13 @@ namespace DnDTDesktop
             public List<Effect> Effects { get; set; }
             public byte Fill { get; set; } //Percentage
 
-            public Potion() : base()
-            {
-                LockQuantity();
-                Effects = new List<Effect>();
-                Fill = 100;
-            }
-
-            public Potion(List<Effect> Fx, byte fill, long v) : base(v)
+            public Potion(Potion other) :
+                this(new List<Effect>(other.Effects), other.Fill, other.Value.basevalue)
+            { }
+            public Potion() :
+                this(new List<Effect>(), 100, 0)
+            { }
+            public Potion(List<Effect> Fx, byte fill, long v) : base("","",new Mass(1M, Mass.Units.Pound),v)
             {
                 LockQuantity();
                 Effects = Fx;
@@ -247,8 +246,8 @@ namespace DnDTDesktop
                 List<Effect> tfx = new List<Effect>();
                 foreach (Effect e in this.Effects)
                 {
-                    fx.Add(new Effect(AdjustBonus(OtherFill, e.Bonus), e.Description, AdjustDuration(OtherFill, e.Duration)));
-                    tfx.Add(new Effect(AdjustBonus(Fill, e.Bonus), e.Description, AdjustDuration(Fill, e.Duration)));
+                    fx.Add(new Effect(e.Description, AdjustDuration(OtherFill, e.Duration), AdjustBonus(OtherFill, e.Bonus)));
+                    tfx.Add(new Effect( e.Description, AdjustDuration(Fill, e.Duration), AdjustBonus(Fill, e.Bonus)));
                 }
 
                 Effects = tfx;
@@ -278,7 +277,7 @@ namespace DnDTDesktop
         public string Name { get; set; }
         public string Description { get; set; }
         public PriceTag Value { get; set; }
-        public float Weight { get; set; }
+        public Mass Weight { get; set; }
         public List<string> Notes { get; set; }
         public float RangeIncrement { get; set; }
         public uint Quantity
@@ -336,27 +335,27 @@ namespace DnDTDesktop
             this(name, String.Empty)
         { }
         public Item(string name, string description) :
-            this(name, description, 1F)
+            this(name, description, new Mass(1M, Mass.Units.Pound))
         { }
-        public Item(string name, string description, float weight) :
+        public Item(string name, string description, Mass weight) :
             this(name, description, weight, 1)
         { }
-        public Item(string name, string description, float weight, long value) :
+        public Item(string name, string description, Mass weight, long value) :
             this(name, description, weight, value, 1)
         { }
-        public Item(string name, string description, float weight, long value, uint quantity) :
+        public Item(string name, string description, Mass weight, long value, uint quantity) :
             this(name, description, weight, value, quantity, new List<string>())
         { }
-        public Item(string name, string description, float weight, long value, uint quantity, List<string> notes) :
+        public Item(string name, string description, Mass weight, long value, uint quantity, List<string> notes) :
             this(name, description, weight, value, quantity, notes, 1F)
         { }
-        public Item(string name, string description, float weight, long value, uint quantity, List<string> notes, float rangeincrement) :
+        public Item(string name, string description, Mass weight, long value, uint quantity, List<string> notes, float rangeincrement) :
             this(name, description, weight, value, quantity, notes, rangeincrement, new FlagsArray<FlagList>())
         { }
-        public Item(string name, string description, float weight, long value, uint quantity, List<string> notes, float rangeincrement, FlagsArray<FlagList> flg) :
+        public Item(string name, string description, Mass weight, long value, uint quantity, List<string> notes, float rangeincrement, FlagsArray<FlagList> flg) :
             this(name, description, weight, new PriceTag(value), quantity, notes, rangeincrement, flg)
         { }
-        public Item(string name, string description, float weight, PriceTag value, uint quantity, List<string> notes, float rangeincrement, FlagsArray<FlagList> flg)
+        public Item(string name, string description, Mass weight, PriceTag value, uint quantity, List<string> notes, float rangeincrement, FlagsArray<FlagList> flg)
          {
             Name = name;
             Description = description;
@@ -449,31 +448,6 @@ namespace DnDTDesktop
             [JsonPropertyName("EquippedWeapons")]
             new public Slot<Item.Weapon>[] Weapons { get; set; }
             public List<Inventory> Bags { get; set; }
-            
-            new public float Weight
-            {
-                get
-                {
-                    float v = 0;
-                    foreach(Item.Armor i in Armors)
-                    {
-                        v += i.Weight;
-                    }
-                    foreach(Slot<Item.Weapon> S in Weapons)
-                    {
-                        foreach(Item.Weapon i in S)
-                        {
-                            v += i.Weight;
-                        }
-                    }
-                    foreach(Inventory i in Bags)
-                    {
-                        v += i.Weight;
-                    }
-                    v += base.Weight;
-                    return v;
-                }
-            }
 
             public int MaximumDexterity
             {
@@ -516,7 +490,7 @@ namespace DnDTDesktop
         public Bag<Item.Key> Keychain { get; set; }
         public Slot<Item.Potion> Potions { get; set; }
         public string Name { get; set; }
-        public float MaximumWeight { get; set; }
+        public Mass MaximumWeight { get; set; }
 
         [IgnoreDataMember]
         [JsonIgnore]
@@ -530,35 +504,35 @@ namespace DnDTDesktop
         
         [IgnoreDataMember]
         [JsonIgnore]
-        public float Weight
+        public Mass Weight
         {
             get
             {
-                float v = 0;
+                decimal v = 0;
                 foreach(Item i in Armors)
                 {
-                    v += i.Weight * i.Quantity;
+                    v = i.Weight.Kilogram * i.Quantity;
                 }
                 foreach(Bag<Item.Weapon> list in Weapons) //But a Slot inherits a Bag so it's okay to not hide this
                 {
                     foreach(Item i in list)
                     {
-                        v += i.Weight * i.Quantity;
+                        v += i.Weight.Kilogram * i.Quantity;
                     }
                 }
                 foreach(Item i in Other)
                 {
-                    v += i.Weight * i.Quantity;
+                    v += i.Weight.Kilogram * i.Quantity;
                 }
                 foreach(Item i in Keychain)
                 {
-                    v += i.Weight * i.Quantity;
+                    v += i.Weight.Kilogram * i.Quantity;
                 }
                 foreach(Item i in Potions)
                 {
-                    v += i.Weight;
+                    v += i.Weight.Kilogram;
                 }
-                return v;
+                return new Mass(v, Mass.Units.Kilogram);
             }
         }
 
