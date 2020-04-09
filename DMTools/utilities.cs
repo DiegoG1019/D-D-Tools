@@ -409,4 +409,70 @@ namespace DnDTDesktop
 
     }
 
+    public struct CUInt32
+    {
+        private uint _uint32;
+        private const byte _lower = 0;
+        private const uint _upper = 4_294_967_295;
+        public uint v
+        {
+            get
+            {
+                return _uint32;
+            }
+            set
+            {
+                long a = _uint32 + value;
+                if (a > _upper)
+                {
+                    _uint32 = _upper;
+                    return;
+                }
+                else
+                {
+                    if(a < _lower)
+                    {
+                        _uint32 = _lower;
+                        return;
+                    }
+                    _uint32 = (uint)a;
+                    return;
+                }
+            }
+        }
+    }
+
+    public struct CUInt64
+    {
+        private ulong _uint64;
+        private const byte _lower = 0;
+        private const ulong _upper = 18_446_744_073_709_551_615;
+        public ulong v
+        {
+            get
+            {
+                return _uint64;
+            }
+            set
+            {
+                decimal a = _uint64 + value;
+                if (a > _uint64)
+                {
+                    _uint64 = _upper;
+                    return;
+                }
+                else
+                {
+                    if (a < _lower)
+                    {
+                        _uint64 = _lower;
+                        return;
+                    }
+                    _uint64 = (ulong)a;
+                    return;
+                }
+            }
+        }
+    }
+
 }

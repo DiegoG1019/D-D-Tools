@@ -6,7 +6,7 @@ using System.Collections;
 
 namespace DnDTDesktop
 {
-    public class Item: INoted, IFlagged<Item.FlagList>
+    public class Item : INoted, IFlagged<Item.FlagList>
     {
         /*-------------------------Sub Class Declaration-------------------------*/
         public class ItemDamage
@@ -24,13 +24,13 @@ namespace DnDTDesktop
                 }
             }
 
-            public ItemDamage(ItemDamage other):
+            public ItemDamage(ItemDamage other) :
                 this(other.die)
             { }
             public ItemDamage()
             {
                 die = new Dice[App.SizeCount];
-                for(int i = 0; i < App.SizeCount; i++)
+                for (int i = 0; i < App.SizeCount; i++)
                 {
                     die[i] = new Dice();
                 }
@@ -140,7 +140,7 @@ namespace DnDTDesktop
             {
                 get
                 {
-                    return String.Join("",Pins);
+                    return String.Join("", Pins);
                 }
             }
 
@@ -155,7 +155,6 @@ namespace DnDTDesktop
         {
             public class Effect
             {
-                private readonly int[] bonus = new int[App.StatCount];
                 public string Description { get; set; }
                 public int Duration { get; set; }  //Seconds
                 public int[] Bonus { get; set; }
@@ -163,18 +162,29 @@ namespace DnDTDesktop
                 {
                     get
                     {
-                        return bonus[(int)index];
+                        return Bonus[(int)index];
                     }
                     set
                     {
-                        bonus[(int)index] = value;
+                        Bonus[(int)index] = value;
                     }
                 }
 
-                public Effect() { }
-                public Effect(int[] b, string d, int dur)
+                public Effect(Effect other) :
+                    this(other.Description, other.Duration, other.Bonus)
+                { }
+                public Effect() :
+                    this(String.Empty)
+                { }
+                public Effect(string d) :
+                    this(d, 0)
+                { }
+                public Effect(string d, int dur) :
+                    this(d, dur, new int[App.StatCount])
+                { }
+                public Effect(string d, int dur, int[] b)
                 {
-                    bonus = b;
+                    Bonus = b;
                     Description = d;
                     Duration = dur;
                 }
@@ -200,7 +210,7 @@ namespace DnDTDesktop
             private int[] AdjustBonus(byte OtherFill, int[] OtherBonus)
             {
                 float newfill = OtherFill / 100f;
-                for(int i = 0; i < OtherBonus.Length; i++)
+                for (int i = 0; i < OtherBonus.Length; i++)
                 {
                     OtherBonus[i] = (int)(OtherBonus[i] * newfill);
                 }
@@ -250,7 +260,7 @@ namespace DnDTDesktop
 
             public void Dilute(byte fill)
             {
-                Value = new PriceTag((long)(Value.basevalue * (fill*0.002f)));
+                Value = new PriceTag((long)(Value.basevalue * (fill * 0.002f)));
                 Fill += fill;
             }
 
@@ -263,7 +273,7 @@ namespace DnDTDesktop
             QuantityLocked
         }
 
-        private dynamic quant = 0; //This value is ever either an uint or a bool
+        private uint quant = 0;
 
         public string Name { get; set; }
         public string Description { get; set; }
@@ -275,18 +285,18 @@ namespace DnDTDesktop
         {
             get
             {
-                return Flags[FlagList.QuantityLocked] ? Convert.ToUInt32(quant) : (uint)quant;
+                return quant;
             }
             set
             {
                 if (Flags[FlagList.QuantityLocked])
                 {
-                    if(value.GetType() == true.GetType()) //If it's a boolean
+                    if (value.GetType() == true.GetType()) //If it's a boolean
                     {
                         quant = value;
                         return;
                     }
-                    quant = (value > 0) ? true : false;
+                    quant = (value > 0U) ? 1U : 0U;
                 }
                 else
                 {
@@ -316,24 +326,47 @@ namespace DnDTDesktop
             }
         }
 
-        public Item()
-        {
-            Flags = new FlagsArray<FlagList>();
-            Value = new PriceTag();
-            Notes = new List<string>();
-        }
-        public Item(long v)
-        {
-            Flags = new FlagsArray<FlagList>();
-            Value = new PriceTag(v);
-            Notes = new List<string>();
-        }
-        public Item(PriceTag v)
-        {
-            Flags = new FlagsArray<FlagList>();
-            Value = v;
-            Notes = new List<string>();
-        }
+        public Item(Item other) :
+            this(other.Name, other.Description, other.Weight, other.Value, other.Quantity, other.Notes, other.RangeIncrement, other.Flags)
+        { }
+        public Item() :
+            this(String.Empty)
+        { }
+        public Item(string name) :
+            this(name, String.Empty)
+        { }
+        public Item(string name, string description) :
+            this(name, description, 1F)
+        { }
+        public Item(string name, string description, float weight) :
+            this(name, description, weight, 1)
+        { }
+        public Item(string name, string description, float weight, long value) :
+            this(name, description, weight, value, 1)
+        { }
+        public Item(string name, string description, float weight, long value, uint quantity) :
+            this(name, description, weight, value, quantity, new List<string>())
+        { }
+        public Item(string name, string description, float weight, long value, uint quantity, List<string> notes) :
+            this(name, description, weight, value, quantity, notes, 1F)
+        { }
+        public Item(string name, string description, float weight, long value, uint quantity, List<string> notes, float rangeincrement) :
+            this(name, description, weight, value, quantity, notes, rangeincrement, new FlagsArray<FlagList>())
+        { }
+        public Item(string name, string description, float weight, long value, uint quantity, List<string> notes, float rangeincrement, FlagsArray<FlagList> flg) :
+            this(name, description, weight, new PriceTag(value), quantity, notes, rangeincrement, flg)
+        { }
+        public Item(string name, string description, float weight, PriceTag value, uint quantity, List<string> notes, float rangeincrement, FlagsArray<FlagList> flg)
+         {
+            Name = name;
+            Description = description;
+            Weight = weight;
+            Value = value;
+            Notes = notes;
+            RangeIncrement = rangeincrement;
+            Flags = flg;
+            Quantity = quantity;
+         }
 
         public FlagsArray<FlagList> Flags { get; set; }
 
