@@ -178,12 +178,12 @@ namespace DnDTDesktop
         [JsonIgnore]
         public sbyte Extra { get; private set; }
 
-        public Dice(byte throws, byte type)
-        {
-            this.Throws = throws;
-            this.Type = type;
-            this.Extra = 0;
-        }
+        public Dice(Dice other) :
+            this(other.Throws, other.Type, other.Extra)
+        { }
+        public Dice(byte throws, byte type) :
+            this(throws, type, 0)
+        { }
         public Dice(byte throws, byte type, sbyte extra)
         {
             this.Throws = throws;
@@ -202,9 +202,9 @@ namespace DnDTDesktop
 
             int total = 0;
 
-            for (byte i = this.Throws; i > 0; i--)
+            for (byte i = this.Throws; i >= 0; i--)
             {
-                total += Dice.rand.Next(1, this.Type + 1);
+                total += Dice.rand.Next(1, this.Type);
             };
 
             return total + this.Extra;
@@ -305,7 +305,7 @@ namespace DnDTDesktop
 
     }
 
-    public struct Wallet : IHistoried<int>
+    public class Wallet : IHistoried<int>
     {
 
         private ulong value;
@@ -415,7 +415,7 @@ namespace DnDTDesktop
     {
         private uint _uint32;
         private const byte _lower = 0;
-        private const uint _upper = 4_294_967_295;
+        private const uint _upper = UInt32.MaxValue;
         public uint v
         {
             get
@@ -449,7 +449,7 @@ namespace DnDTDesktop
 
         public enum Units
         {
-            Meter, Foot, Inch
+            Meter, Foot, Inch, Square
         }
 
         public const decimal MCm = 100M; //Meter to Centimeter
@@ -459,6 +459,8 @@ namespace DnDTDesktop
         public const decimal CmM = 0.01M; //Centimeter to Meter
         public const decimal FtM = 0.3048M; //Foot to Meter
         public const decimal InM = 0.0254M; //Inch to Meter
+        //
+        public const decimal FtSq = 30; //Feet to Squares
 
         public decimal Meter { get; set; }
         public decimal Foot
@@ -483,6 +485,17 @@ namespace DnDTDesktop
                 Meter = value * InM;
             }
         }
+        public int Square
+        {
+            get
+            {
+                return (int)(Foot / FtSq);
+            }
+            set
+            {
+                Foot = value * FtSq;
+            }
+        }
 
         public Length(decimal V, Units a) :
             this()
@@ -500,6 +513,11 @@ namespace DnDTDesktop
             if(a == Units.Inch)
             {
                 Inch = V;
+                return;
+            }
+            if(a == Units.Square)
+            {
+                Square = (int)V;
                 return;
             }
         }
@@ -536,6 +554,22 @@ namespace DnDTDesktop
         public override int GetHashCode()
         {
             return base.GetHashCode();
+        }
+        public static Length operator +(Length A, Length B)
+        {
+            return new Length(A.Meter + B.Meter, Units.Meter);
+        }
+        public static Length operator -(Length A, Length B)
+        {
+            return new Length(A.Meter - B.Meter, Units.Meter);
+        }
+        public static Length operator /(Length A, Length B)
+        {
+            return new Length(A.Meter / B.Meter, Units.Meter);
+        }
+        public static Length operator %(Length A, Length B)
+        {
+            return new Length(A.Meter % B.Meter, Units.Meter);
         }
 
     }
@@ -615,7 +649,7 @@ namespace DnDTDesktop
     {
         private ulong _uint64;
         private const byte _lower = 0;
-        private const ulong _upper = 18_446_744_073_709_551_615;
+        private const ulong _upper = UInt64.MaxValue;
         public ulong v
         {
             get
@@ -642,6 +676,51 @@ namespace DnDTDesktop
                 }
             }
         }
+    }
+
+    public struct Percentage
+    {
+        private const float _max = 100;
+        private const float _min = 0;
+        private float v;
+        public float Value
+        {
+            get
+            {
+                return v;
+            }
+            set
+            {
+                double a = 0;
+                if((value + a) > _max){
+                    v = _max;
+                    return;
+                }
+                if((value + a) < _min)
+                {
+                    v = _min;
+                    return;
+                }
+                v += value;
+            }
+        }
+
+        [IgnoreDataMember]
+        [JsonIgnore]
+        public string String
+        {
+            get
+            {
+                return String.Format("{0}%", v);
+            }
+        }
+        
+        public Percentage(float v) :
+            this()
+        {
+            this.v = v;
+        }
+
     }
 
 }
