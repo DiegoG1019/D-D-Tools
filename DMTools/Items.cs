@@ -9,11 +9,36 @@ namespace DnDTDesktop
     public class Item: INoted, IFlagged<Item.FlagList>
     {
         /*-------------------------Sub Class Declaration-------------------------*/
-        public struct ItemDamage
+        public class ItemDamage
         {
-            public Dice Small { get; set; }
-            public Dice Medium { get; set; }
-            public Dice Big { get; set; }
+            private Dice[] die;
+            public Dice this[Sizes ind]
+            {
+                get
+                {
+                    return die[(int)ind];
+                }
+                set
+                {
+                    die[(int)ind] = value;
+                }
+            }
+
+            public ItemDamage(ItemDamage other):
+                this(other.die)
+            { }
+            public ItemDamage()
+            {
+                die = new Dice[App.SizeCount];
+                for(int i = 0; i < App.SizeCount; i++)
+                {
+                    die[i] = new Dice();
+                }
+            }
+            public ItemDamage(Dice[] die)
+            {
+                this.die = die;
+            }
         }
 
         public struct ItemAttackThrow
@@ -130,7 +155,7 @@ namespace DnDTDesktop
         {
             public class Effect
             {
-                private readonly int[] bonus = new int[App.statCount];
+                private readonly int[] bonus = new int[App.StatCount];
                 public string Description { get; set; }
                 public int Duration { get; set; }  //Seconds
                 public int[] Bonus { get; set; }

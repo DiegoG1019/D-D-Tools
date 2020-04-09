@@ -127,7 +127,7 @@ namespace DnDTDesktop
     public class FlagsArray<T> where T : Enum
     {
         public int Size = Enum.GetNames(typeof(T)).Length;
-        private bool[] array;
+        public bool[] array;
         public bool this[T ind]
         {
             get
@@ -143,6 +143,15 @@ namespace DnDTDesktop
         {
             array = new bool[Size];
         }
+        public FlagsArray(bool[] a)
+        {
+            if(a.Length != Size)
+            {
+                throw new ObjectCopyMismatch("array is a different size than its associated Enum");
+            }
+            array = a;
+        }
+        public FlagsArray(FlagsArray<T> Other) : this(Other.array) { }
     }
 
     public interface INoted

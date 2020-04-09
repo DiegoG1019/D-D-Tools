@@ -34,8 +34,9 @@ namespace DnDTDesktop
 
     public enum Sizes
     {
-        small, medium, big
+        Fine, Diminutive, Tiny, Small, Medium, Large, Huge, Gargantuan, Colossal
     }
+
 
     static class App
     {
@@ -44,9 +45,10 @@ namespace DnDTDesktop
         [return: MarshalAs(UnmanagedType.Bool)]
         static extern bool AllocConsole();
 
-        public static readonly Version version = new Version("Alpha", 0, 0, 23, 0);
-        public static int statCount = Enum.GetNames(typeof(Stats)).Length;
-        public static int schoolCount = Enum.GetNames(typeof(Schools)).Length;
+        public static readonly Version version = new Version("Alpha", 0, 0, 24, 0);
+        public static int StatCount = Enum.GetNames(typeof(Stats)).Length;
+        public static int SchoolCount = Enum.GetNames(typeof(Schools)).Length;
+        public static int SizeCount = Enum.GetNames(typeof(Sizes)).Length;
 
         public const string author = "Diego Garcia";
         public const string appname = "D&DTools Windows";

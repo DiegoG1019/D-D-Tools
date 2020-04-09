@@ -9,6 +9,13 @@ namespace DnDTDesktop
         }
     }
 
+    public class ObjectCopyMismatch : Exception
+    {
+        public ObjectCopyMismatch(string message) : base(message)
+        {
+        }
+    }
+
     public class WalletOverDrawException : Exception
     {
         public WalletOverDrawException(string message) : base(message)

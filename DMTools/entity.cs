@@ -10,6 +10,7 @@ namespace DnDTDesktop
 
 	public class Entity
 	{
+		public static readonly Entity _NULL = null;
 		/*-------------------------Sub Class Declaration-------------------------*/
 		public struct ExperienceGrant
 		{
@@ -68,17 +69,17 @@ namespace DnDTDesktop
 			public int Deflex { get; set; }
 			public int Temporary { get; set; }
 			public int Misc { get; set; }
-			public bool[] FlagsArr { get; set; }
+			public FlagsArray<Entity.ArmorClass.FlagList> Flags { get; set; }
 
 			[IgnoreDataMember]
 			public Entity parent;
 
-			public FlagsArray<Entity.ArmorClass.FlagList> Flags { get; set; }
-
-			///----------------------------  armor,  size, natural, deflex, temporary,     misc, baseac
-			public ArmorClass(Entity parent, int a, int s, int n, int d, int temp, int misc, int b)
+			public ArmorClass(ArmorClass Other) :
+				this(Other.Armor, Other.Size, Other.Natural, Other.Deflex, Other.Temporary, Other.Misc, Other.Baseac, new FlagsArray<FlagList>(Other.Flags))
+			{ }
+			///-----------    armor,  size, natural, deflex, temporary,     misc, baseac
+			public ArmorClass(int a, int s, int n, int d, int temp, int misc, int b, FlagsArray<FlagList> fl)
 			{
-				this.parent = parent;
 				Armor = a;
 				Size = s;
 				Natural = n;
@@ -86,9 +87,12 @@ namespace DnDTDesktop
 				Temporary = temp;
 				Misc = misc;
 				Baseac = b;
-				this.FlagsArr = new bool[1];
+				Flags = fl;
 			}
-
+			public ArmorClass(Entity parent, int a, int s, int n, int d, int temp, int misc, int b) : this(a,s,n,d,temp,misc,b, new FlagsArray<FlagList>())
+			{
+				this.parent = parent;
+			}
 			public ArmorClass() 
 			{
 				Flags = new FlagsArray<Entity.ArmorClass.FlagList>();
@@ -153,88 +157,91 @@ namespace DnDTDesktop
 			}
 
 		}
-
-		public sealed class Hurt : IHistoried<int>
+		
+		public sealed class Health
 		{
-
-			private uint dmg;
-			public uint Damage
+			public sealed class Hurt : IHistoried<int>
 			{
-				get
+				private uint dmg;
+				public uint Damage
 				{
-					return dmg;
-				}
-				set
-				{
-					if (this.dmg > value)
+					get
 					{
-						this.Harm((int)(this.dmg - value));
+						return dmg;
 					}
-					else
+					set
 					{
-						if (this.dmg < value) //I don't want it to be added to the History if they were the same
+						if (this.dmg > value)
 						{
-							this.Heal((int)(value - this.dmg));
+							this.Harm((int)(this.dmg - value));
+						}
+						else
+						{
+							if (this.dmg < value) //I don't want it to be added to the History if they were the same
+							{
+								this.Heal((int)(value - this.dmg));
+							}
 						}
 					}
 				}
-			}
 
-			public List<int> History { get; set; }
+				public List<int> History { get; set; }
 
-			public Hurt(uint dmg)
-			{
-				this.dmg = dmg;
-				this.History = new List<int>();
-			}
-
-			public Hurt()
-			{
-				History = new List<int>();
-			}
-
-			[IgnoreDataMember]
-			[JsonIgnore]
-			public int HistoryEntries
-			{
-				get
+				public Hurt(Hurt other):
+					this(other.dmg, other.History)
+				{ }
+				public Hurt() :
+					this(0)
+				{ }
+				public Hurt(uint dmg) :
+					this(dmg, new List<int>())
+				{ }
+				public Hurt(uint dmg, List<int> Hst)
 				{
-					return this.History.Count;
+					this.dmg = dmg;
+					this.History = Hst;
 				}
+
+
+				[IgnoreDataMember]
+				[JsonIgnore]
+				public int HistoryEntries
+				{
+					get
+					{
+						return this.History.Count;
+					}
+				}
+
+				public void Harm(int d)
+				{
+					if ((d < 0) && (Math.Abs(d) > this.Damage))
+					{
+						this.dmg = 0u;
+					}
+					else
+					{
+						this.dmg = (uint)(this.dmg + d);
+					}
+					this.History.Add(d);
+				}
+
+				public void Heal(int h)
+				{
+					if (h > this.Damage)
+					{
+						this.dmg = 0u;
+					}
+					else
+					{
+						this.dmg = (uint)(this.dmg - h);
+					}
+					this.History.Add(-h);
+				}
+
 			}
 
-			public void Harm(int d)
-			{
-				if ((d < 0) && (Math.Abs(d) > this.Damage))
-				{
-					this.dmg = 0u;
-				}
-				else
-				{
-					this.dmg = (uint)(this.dmg + d);
-				}
-				this.History.Add(d);
-			}
-
-			public void Heal(int h)
-			{
-				if (h > this.Damage)
-				{
-					this.dmg = 0u;
-				}
-				else
-				{
-					this.dmg = (uint)(this.dmg - h);
-				}
-				this.History.Add(-h);
-			}
-
-		}
-
-		public sealed class Health
-		{
-
-			private uint Basehp;
+			private uint BaseHP { get; set; }
 
 			public Hurt LethalDamage { get; set; }
 			public Hurt NonlethalDamage { get; set; }
@@ -245,27 +252,29 @@ namespace DnDTDesktop
 			[IgnoreDataMember]
 			public Entity parent;
 
-			public Health(Entity p)
+			public Health(Health Other):
+				this(Other.BaseHP, Other.LethalDamage, Other.NonlethalDamage, Other.HpThrows)
+			{ }
+			public Health(Entity p):
+				this()
 			{
-				this.parent = p;
-				this.LethalDamage = new Hurt();
-				this.NonlethalDamage = new Hurt();
-				this.HpThrows = new List<uint>(new uint[20]);
+				parent = p;
 			}
-			public Health(Entity p, uint h)
+			public Health():
+				this(1)
+			{ }
+			public Health(uint bhp) :
+				this(bhp, new Hurt(), new Hurt())
+			{ }
+			public Health(uint bhp, Hurt ld, Hurt nld):
+				this(bhp, ld, nld, new List<uint>())
+			{ }
+			public Health(uint bhp, Hurt ld, Hurt nld, List<uint> hpt)
 			{
-				this.Basehp = h;
-				this.parent = p;
-				this.LethalDamage = new Hurt();
-				this.NonlethalDamage = new Hurt();
-				this.HpThrows = new List<uint>(new uint[20]);
-			}
-
-			public Health()
-			{
-				LethalDamage = new Hurt();
-				NonlethalDamage = new Hurt();
-				HpThrows = new List<uint>(new uint[20]);
+				BaseHP = bhp;
+				LethalDamage = ld;
+				NonlethalDamage = nld;
+				HpThrows = hpt;
 			}
 
 			public void SetBaseHP()
@@ -275,23 +284,12 @@ namespace DnDTDesktop
 					int n = (int)(this.HpThrows[i] + this.parent.GetMod(Stats.constitution));
 					if (n > 1)
 					{
-						this.Basehp = (uint)(this.Basehp + n);
+						this.BaseHP = (uint)(this.BaseHP + n);
 					}
 					else
 					{
-						this.Basehp++;
+						this.BaseHP++;
 					}
-				}
-			}
-			public uint BaseHP
-			{
-				set
-				{
-					this.Basehp = value;
-				}
-				get
-				{
-					return this.Basehp;
 				}
 			}
 
@@ -301,7 +299,7 @@ namespace DnDTDesktop
 			{
 				get
 				{
-					return (int)(this.Basehp - (this.LethalDamage.Damage + this.NonlethalDamage.Damage));
+					return (int)(this.BaseHP - (this.LethalDamage.Damage + this.NonlethalDamage.Damage));
 				}
 			}
 
@@ -311,7 +309,7 @@ namespace DnDTDesktop
 			{
 				get
 				{
-					return (int)(this.Basehp - this.LethalDamage.Damage);
+					return (int)(this.BaseHP - this.LethalDamage.Damage);
 				}
 			}
 
@@ -401,7 +399,7 @@ namespace DnDTDesktop
 			public string Alignment { get; set; }
 			public string Deity { get; set; }
 			public string BodyType { get; set; }
-			public string Size { get; set; }
+			public Sizes Size { get; set; }
 			public string Bio { get; set; }
 			public string Intro { get; set; }
 			public string Personality { get; set; }
@@ -413,18 +411,109 @@ namespace DnDTDesktop
 			public Color Eyes { get; set; }
 			public Color Hair { get; set; }
 			public Color Skin { get; set; }
-			public Color? Bgcolor { get; set; }
-			public Color? BannerColor { get; set; }
-			public Image Mugshot { get; set; }
-			public Image FullBody { get; set; }
-			public List<Image> ArcaneMarks { get; set; }
+			public Color Bgcolor { get; set; }
+			public Color BannerColor { get; set; }
+			public Bitmap Mugshot { get; set; }
+			public Bitmap FullBody { get; set; }
+			public List<Bitmap> ArcaneMarks { get; set; }
 
-			public Description()
+			public Description(Description other) :
+				this(other.Name, other.Fullname, other.Race, other.Alignment, other.Deity, other.BodyType, other.Size, other.Bio, other.Intro, other.Personality, other.Gender, other.Notes, other.Age, other.Height, other.Weight, other.Eyes, other.Hair, other.Skin, other.Bgcolor, other.BannerColor, other.Mugshot, other.FullBody, other.ArcaneMarks)
+			{ }
+			public Description() :
+				this(String.Empty)
+			{ }
+			public Description(string name) :
+				this(name, String.Empty)
+			{ }
+			public Description(string name, string fullname) :
+				this(name, fullname, String.Empty)
+			{ }
+			public Description(string name, string fullname, string race) :
+				this(name, fullname, race, String.Empty)
+			{ }
+			public Description(string name, string fullname, string race, string alignment) :
+				this(name, fullname, race, alignment, String.Empty)
+			{ }
+			public Description(string name, string fullname, string race, string alignment, string deity) :
+				this(name, fullname, race, alignment, deity, String.Empty)
+			{ }
+			public Description(string name, string fullname, string race, string alignment, string deity, string bodytype) :
+				this(name, fullname, race, alignment, deity, bodytype, Sizes.Medium)
+			{ }
+			public Description(string name, string fullname, string race, string alignment, string deity, string bodytype, Sizes size) :
+				this(name, fullname, race, alignment, deity, bodytype, size, String.Empty)
+			{ }
+			public Description(string name, string fullname, string race, string alignment, string deity, string bodytype, Sizes size, string bio) :
+				this(name, fullname, race, alignment, deity, bodytype, size, bio, String.Empty)
+			{ }
+			public Description(string name, string fullname, string race, string alignment, string deity, string bodytype, Sizes size, string bio, string intro) :
+				this(name, fullname, race, alignment, deity, bodytype, size, bio, intro, String.Empty)
+			{ }
+			public Description(string name, string fullname, string race, string alignment, string deity, string bodytype, Sizes size, string bio, string intro, string personality) :
+				this(name, fullname, race, alignment, deity, bodytype, size, bio, intro, personality, String.Empty)
+			{ }
+			public Description(string name, string fullname, string race, string alignment, string deity, string bodytype, Sizes size, string bio, string intro, string personality, string gender) :
+				this(name, fullname, race, alignment, deity, bodytype, size, bio, intro, personality, gender, new List<string>())
+			{ }
+			public Description(string name, string fullname, string race, string alignment, string deity, string bodytype, Sizes size, string bio, string intro, string personality, string gender, List<string> notes) :
+				this(name, fullname, race, alignment, deity, bodytype, size, bio, intro, personality, gender, notes, 0)
+			{ }
+			public Description(string name, string fullname, string race, string alignment, string deity, string bodytype, Sizes size, string bio, string intro, string personality, string gender, List<string> notes, ulong age) :
+				this(name, fullname, race, alignment, deity, bodytype, size, bio, intro, personality, gender, notes, age, 1)
+			{ }
+			public Description(string name, string fullname, string race, string alignment, string deity, string bodytype, Sizes size, string bio, string intro, string personality, string gender, List<string> notes, ulong age, uint height) :
+				this(name, fullname, race, alignment, deity, bodytype, size, bio, intro, personality, gender, notes, age, height, 0)
+			{ }
+			public Description(string name, string fullname, string race, string alignment, string deity, string bodytype, Sizes size, string bio, string intro, string personality, string gender, List<string> notes, ulong age, uint height, float weight) :
+				this(name, fullname, race, alignment, deity, bodytype, size, bio, intro, personality, gender, notes, age, height, weight, null)
+			{ }
+			public Description(string name, string fullname, string race, string alignment, string deity, string bodytype, Sizes size, string bio, string intro, string personality, string gender, List<string> notes, ulong age, uint height, float weight, Color? eyes) :
+				this(name, fullname, race, alignment, deity, bodytype, size, bio, intro, personality, gender, notes, age, height, weight, eyes, null)
+			{ }
+			public Description(string name, string fullname, string race, string alignment, string deity, string bodytype, Sizes size, string bio, string intro, string personality, string gender, List<string> notes, ulong age, uint height, float weight, Color? eyes, Color? hair) :
+				this(name, fullname, race, alignment, deity, bodytype, size, bio, intro, personality, gender, notes, age, height, weight, eyes, hair, null)
+			{ }
+			public Description(string name, string fullname, string race, string alignment, string deity, string bodytype, Sizes size, string bio, string intro, string personality, string gender, List<string> notes, ulong age, uint height, float weight, Color? eyes, Color? hair, Color? skin) :
+				this(name, fullname, race, alignment, deity, bodytype, size, bio, intro, personality, gender, notes, age, height, weight, eyes, hair, skin, null)
+			{ }
+			public Description(string name, string fullname, string race, string alignment, string deity, string bodytype, Sizes size, string bio, string intro, string personality, string gender, List<string> notes, ulong age, uint height, float weight, Color? eyes, Color? hair, Color? skin, Color? bgcolor) :
+				this(name, fullname, race, alignment, deity, bodytype, size, bio, intro, personality, gender, notes, age, height, weight, eyes, hair, skin, bgcolor, null)
+			{ }
+			public Description(string name, string fullname, string race, string alignment, string deity, string bodytype, Sizes size, string bio, string intro, string personality, string gender, List<string> notes, ulong age, uint height, float weight, Color? eyes, Color? hair, Color? skin, Color? bgcolor, Color? bannercolor) :
+				this(name, fullname, race, alignment, deity, bodytype, size, bio, intro, personality, gender, notes, age, height, weight, eyes, hair, skin, bgcolor, bannercolor, null)
+			{ }
+			public Description(string name, string fullname, string race, string alignment, string deity, string bodytype, Sizes size, string bio, string intro, string personality, string gender, List<string> notes, ulong age, uint height, float weight, Color? eyes, Color? hair, Color? skin, Color? bgcolor, Color? bannercolor, Bitmap mugshot) :
+				this(name, fullname, race, alignment, deity, bodytype, size, bio, intro, personality, gender, notes, age, height, weight, eyes, hair, skin, bgcolor, bannercolor, mugshot, null)
+			{ }
+			public Description(string name, string fullname, string race, string alignment, string deity, string bodytype, Sizes size, string bio, string intro, string personality, string gender, List<string> notes, ulong age, uint height, float weight, Color? eyes, Color? hair, Color? skin, Color? bgcolor, Color? bannercolor, Bitmap mugshot, Bitmap fullbody):
+				this(name, fullname, race, alignment, deity, bodytype, size, bio, intro, personality, gender, notes, age, height, weight, eyes, hair, skin, bgcolor, bannercolor, mugshot, fullbody, new List<Bitmap>())
+			{ }
+			public Description(string name, string fullname, string race, string alignment, string deity, string bodytype, Sizes size, string bio, string intro, string personality, string gender, List<string> notes, ulong age, uint height, float weight, Color? eyes, Color? hair, Color? skin, Color? bgcolor, Color? bannercolor, Bitmap mugshot, Bitmap fullbody, List<Bitmap> arcanemarks)
 			{
-				Notes = new List<string>();
-				Eyes = new Color();
-				Hair = new Color();
-				Skin = new Color();
+				Name = name;
+				Fullname = fullname;
+				Race = race;
+				Alignment = alignment;
+				Deity = deity;
+				BodyType = bodytype;
+				Size = size;
+				Bio = bio;
+				Intro = intro;
+				Personality = personality;
+				Gender = gender;
+				Notes = notes;
+				Age = age;
+				Height = height;
+				Weight = weight;
+				Eyes = eyes == null ? Color.SandyBrown : (Color)eyes;
+				Hair = hair == null ? Color.Black : (Color)hair;
+				Skin = skin == null ? Color.Beige : (Color)skin;
+				Bgcolor = bgcolor == null ? Color.Transparent : (Color)bgcolor;
+				BannerColor = bannercolor == null ? Color.Transparent : (Color)bannercolor;
+				Mugshot = mugshot;
+				FullBody = fullbody;
+				ArcaneMarks = arcanemarks;
 			}
 
 			public string AllNotes
@@ -466,41 +555,35 @@ namespace DnDTDesktop
 			[IgnoreDataMember]
 			public Entity parent;
 
-			public Skill(Entity p, string name, Stats keyStat)
-			{
-				this.parent = p;
-				this.Name = name;
-				this.KeyStat = keyStat;
-				this.MiscLevels = 0;
-				this.Level = 0;
-				Flags = new FlagsArray<FlagList>();
-			}
-			public Skill(Entity p, string name, Stats keyStat, uint miscLevels)
-			{
-				this.parent = p;
-				this.Name = name;
-				this.KeyStat = keyStat;
-				this.MiscLevels = miscLevels;
-				this.Level = 0;
-				Flags = new FlagsArray<FlagList>();
-			}
-			public Skill(Entity p, string name, Stats keyStat, uint miscLevels, uint level)
-			{
-				this.parent = p;
-				this.Name = name;
-				this.KeyStat = keyStat;
-				this.MiscLevels = miscLevels;
-				this.Level = level;
-				Flags = new FlagsArray<FlagList>();
-			}
-			public Skill(Entity p, string name, Stats keyStat, uint miscLevels, uint level, bool[] flg)
+			public Skill(Skill other):
+				this(null, other.Name, other.KeyStat, other.MiscLevels, other.Level, other.Flags)
+			{ }
+			public Skill() :
+				this(Entity._NULL)
+			{ }
+			public Skill(Entity p) :
+				this(p, String.Empty)
+			{ }
+			public Skill(Entity p, string name) :
+				this(p, name, Stats.charisma)
+			{ }
+			public Skill(Entity p, string name, Stats keyStat) :
+				this(p, name, keyStat, 0)
+			{ }
+			public Skill(Entity p, string name, Stats keyStat, uint miscLevels) :
+				this(p, name, keyStat, miscLevels, 0)
+			{ }
+			public Skill(Entity p, string name, Stats keyStat, uint miscLevels, uint level) :
+				this(p, name, keyStat, miscLevels, 0, new FlagsArray<FlagList>())
+			{ }
+			public Skill(Entity p, string name, Stats keyStat, uint miscLevels, uint level, FlagsArray<FlagList> flg)
 			{
 				this.parent = p;
 				this.Name = name;
 				this.KeyStat = keyStat;
 				this.MiscLevels = miscLevels;
 				this.Level = level;
-				Flags = new FlagsArray<FlagList>();
+				Flags = flg;
 			}
 
 			public FlagsArray<FlagList> Flags { get; set; }
@@ -543,55 +626,27 @@ namespace DnDTDesktop
 			public int[] Buffs { get; set; }
 			public List<AbilityTag> Tags { get; set; }
 
+			public Ability(Ability Other) :
+				this(Other.Name, Other.Requirements, Other.Description, Other.Notes, Other.Buffs, Other.Tags)
+			{ }
 			public Ability()
-			{
-				Notes = new List<string>();
-				Tags = new List<AbilityTag>();
-			}
-
-			public Ability(string n, string re, string de)
-			{
-				this.Name = n;
-				this.Description = de;
-				this.Notes = new List<string>();
-				this.Buffs = new int[App.statCount];
-				Tags = new List<AbilityTag>();
-
-				if (re == "null" || re == "" || re == null)
-				{
-					this.Requirements = App.Cf.Lang.Ent["noRequirements"];
-				}
-				else
-				{
-					this.Requirements = re;
-				}
-
-			}
-			public Ability(string n, string re, string de, List<string> notes)
-			{
-				this.Name = n;
-				this.Description = de;
-				this.Notes = notes;
-				this.Buffs = new int[App.statCount];
-				Tags = new List<AbilityTag>();
-
-				if (re == "null" || re == "" || re == null)
-				{
-					this.Requirements = App.Cf.Lang.Ent["noRequirements"];
-				}
-				else
-				{
-					this.Requirements = re;
-				}
-
-			}
-			public Ability(string n, string re, string de, List<string> nts, int[] bfs)
+			{ }
+			public Ability(string n, string re, string de) :
+				this(n, re, de, new List<string>())
+			{ }
+			public Ability(string n, string re, string de, List<string> nts) :
+				this(n,re,de,nts,new int[App.StatCount])
+			{ }
+			public Ability(string n, string re, string de, List<string> nts, int[] bfs) :
+				this(n,re,de,nts,bfs,new List<AbilityTag>())
+			{ }
+			public Ability(string n, string re, string de, List<string> nts, int[] bfs, List<AbilityTag> tgs)
 			{
 				this.Name = n;
 				this.Description = de;
 				this.Notes = nts;
 				this.Buffs = bfs;
-				Tags = new List<AbilityTag>();
+				Tags = tgs;
 
 				if (re == String.Empty || re == null)
 				{
@@ -667,13 +722,43 @@ namespace DnDTDesktop
 			public List<string> Competence { get; set; }
 			public Dice HPDice { get; set; }
 			public int SkillPoints { get; set; }
-			public JobGrowth growth;
+			public JobGrowth Growth { get; set; }
 			private Entity parent;
 
-			public Job(Entity parent)
+			public Job(Job other) :
+				this(other.Name, other.Level, other.Competence, other.HPDice, other.SkillPoints, other.Growth)
+			{ }
+			public Job(Entity parent) :
+				this()
 			{
 				this.parent = parent;
-				HPDice = new Dice("1d6");
+			}
+			public Job() :
+				this("")
+			{ }
+			public Job(string name) :
+				this(name, 1)
+			{ }
+			public Job(string name, byte level) :
+				this(name, level, new List<string>())
+			{ }
+			public Job(string name, byte level, List<string> competence) :
+				this(name, level, competence, new Dice(1, 6))
+			{ }
+			public Job(string name, byte level, List<string> competence, Dice hpd) :
+				this(name, level, competence, hpd, 1)
+			{ }
+			public Job(string name, byte level, List<string> competence, Dice hpd, int skillpoints) :
+				this(name, level, competence, hpd, skillpoints, new JobGrowth())
+			{ }
+			public Job(string name, byte level, List<string> competence, Dice hpd, int skillpoints, JobGrowth gr)
+			{
+				Name = name;
+				Level = level;
+				Competence = competence;
+				HPDice = hpd;
+				SkillPoints = skillpoints;
+				Growth = gr;
 			}
 
 			public List<string> Notes { get; set; }
@@ -703,8 +788,8 @@ namespace DnDTDesktop
 		/*------------------------- Field and Property Declaration -------------------------*/
 
 		[IgnoreDataMember]
-		protected int[] baseStats = new int[App.statCount];
-		protected int[] miscBuffs = new int[App.statCount];
+		protected int[] baseStats = new int[App.StatCount];
+		protected int[] miscBuffs = new int[App.StatCount];
 
 		[IgnoreDataMember]
 		protected int id;
@@ -973,8 +1058,8 @@ namespace DnDTDesktop
 			this.HP = new Health(this);
 			this.ArmorC = new ArmorClass(this,0,0,0,0,0,0,0);
 			this.HP.SetBaseHP();
-			this.skills.Add(new Skill(this, "Lockpicking", Stats.dexterity, 0, 5, new bool[] { true, false, true }));
-			this.skills.Add(new Skill(this, "Diplomacy", Stats.charisma, 3, 2, new bool[] { true, false, false }));
+			this.skills.Add(new Skill(this, "Lockpicking", Stats.dexterity, 0, 5, new FlagsArray<Skill.FlagList>(new bool[] { true, false, true })));
+			this.skills.Add(new Skill(this, "Diplomacy", Stats.charisma, 3, 2, new FlagsArray<Skill.FlagList>(new bool[] { true, false, false })));
 			this.Desc = new Description();
 			this.Desc.Name = name;
 		}
@@ -983,28 +1068,28 @@ namespace DnDTDesktop
 
 	public class Character : Entity
 	{
-		public sealed class Experience : IHistoried<int>
+		public sealed class Experience : IHistoried<long>
 		{
 			public float Multiplier { get; set; }
-			public uint crt;
-			public uint Required { get; set; }
-			public List<int> History { get; set; }
-			public uint Current
+			public long current;
+			public long Required { get; set; }
+			public List<long> History { get; set; }
+			public long Current
 			{
 				get
 				{
-					return crt;
+					return current;
 				}
 				set
 				{
 					if (this.parent != null)
 					{
-						this.Gain((uint)Math.Abs(this.crt - value));
+						this.Gain(Math.Abs(this.current - value));
 					}
 					else
 					{
 						Add(value);
-						this.History.Add((int)value);
+						this.History.Add(value);
 					}
 				}
 			}
@@ -1013,20 +1098,32 @@ namespace DnDTDesktop
 			[IgnoreDataMember]
 			public Character parent;
 
-			public Experience(Character p)
+			public Experience(Experience other) :
+				this(other.Multiplier, other.Current, other.Required, other.History)
+			{ }
+			public Experience(Character parent) :
+				this()
 			{
-				this.parent = p;
-				this.crt = 0;
-				this.Multiplier = 1F;
-				this.Required = 0;
-				this.History = new List<int>();
-				this.SetRequired();
+				this.parent = parent;
 			}
-
-			public Experience()
+			public Experience() :
+				this(1F)
+			{ }
+			public Experience(float mult) :
+				this(mult, 0)
+			{ }
+			public Experience(float mult, long current) :
+				this(mult, current, 10)
+			{ }
+			public Experience(float mult, long current, long required) :
+				this(mult, current, required, new List<long>())
+			{ }
+			public Experience(float mult, long current, long required, List<long> history)
 			{
-				Multiplier = 1F;
-				History = new List<int>();
+				Multiplier = mult;
+				this.current = current;
+				Required = required;
+				History = history;
 			}
 
 			[IgnoreDataMember]
@@ -1059,20 +1156,20 @@ namespace DnDTDesktop
 				}
 			}
 
-			public void Add(uint v)
+			public void Add(long v)
 			{
-				this.crt += v;
+				this.current += v;
 			}
 
-			public void Sub(uint v)
+			public void Sub(long v)
 			{
-				if (v > this.crt)
+				if (v > this.current)
 				{
-					this.crt = 0;
+					this.current = 0;
 				}
 				else
 				{
-					this.crt -= v;
+					this.current -= v;
 				}
 			}
 
@@ -1099,10 +1196,10 @@ namespace DnDTDesktop
 				}
 			}
 
-			public void Gain(uint v)
+			public void Gain(long v)
 			{
-				this.Add((uint)(v * (this.Multiplier * this.FreeLevelmultiplier)));
-				this.History.Add((int)v);
+				this.Add((int)(v * (Multiplier * FreeLevelmultiplier)));
+				this.History.Add(v);
 			}
 
 			[IgnoreDataMember]
@@ -1132,7 +1229,7 @@ namespace DnDTDesktop
 			public void SetRequired()
 			{
 				byte l = this.parent.Level;
-				this.Required = (uint)((l + 1) * (l) * 500);
+				this.Required = (l + 1) * (l) * 500;
 			}
 
 		}
@@ -1196,7 +1293,7 @@ namespace DnDTDesktop
 		protected Character(byte level, string name) : base(level, name)
 		{
 			this.Exp = new Experience(this);
-			this.feats.Add(new Ability("Fleeting Presence", null, "This character can disappear from existence at will", new List<string>(), new int[App.statCount]));
+			this.feats.Add(new Ability("Fleeting Presence", null, "This character can disappear from existence at will", new List<string>(), new int[App.StatCount]));
 			this.abilities.Add(new Ability("Power Surge", null, "Augments strength and constitution", new List<string>(), new int[] { 2, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0 }));
 		}
 
