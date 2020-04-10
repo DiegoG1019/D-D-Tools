@@ -536,7 +536,7 @@ namespace DnDTDesktop
 
 	}
 
-	public class Inventory
+	public class Inventory : Item
 	{
 		public class Bag<T> : List<T> where T : Item
 		{
@@ -661,7 +661,6 @@ namespace DnDTDesktop
 		public Bag<Item> Other { get; set; }
 		public Bag<Item.Key> Keychain { get; set; }
 		public Slot<Item.Potion> Potions { get; set; }
-		public string Name { get; set; }
 		public Mass MaximumWeight { get; set; }
 
 		[IgnoreDataMember]
@@ -673,14 +672,13 @@ namespace DnDTDesktop
 				return Weight > MaximumWeight;
 			}
 		}
-		
 		[IgnoreDataMember]
 		[JsonIgnore]
-		public Mass Weight
+		public Mass FullWeight
 		{
 			get
 			{
-				decimal v = 0;
+				decimal v = Weight.Kilogram;
 				foreach(Item i in Armors)
 				{
 					v = i.Weight.Kilogram * i.Quantity;
@@ -710,52 +708,55 @@ namespace DnDTDesktop
 
 		[IgnoreDataMember]
 		[JsonIgnore]
-		public PriceTag Value
+		public PriceTag FullValue
 		{
 			get
 			{
-				ulong v = 0;
+				CUInt64 v = Value.basevalue;
 				foreach (Item i in Armors)
 				{
-					v += i.Value.basevalue.v * i.Quantity;
+					v.v += i.Value.basevalue.v * i.Quantity;
 				}
 				foreach (Bag<Item.Weapon> list in Weapons) //But a Slot inherits a Bag so it's okay to not hide this
 				{
 					foreach (Item i in list)
 					{
-						v += i.Value.basevalue.v * i.Quantity;
+						v.v += i.Value.basevalue.v * i.Quantity;
 					}
 				}
 				foreach (Item i in Other)
 				{
-					v += i.Value.basevalue.v * i.Quantity;
+					v.v += i.Value.basevalue.v * i.Quantity;
 				}
 				foreach (Item i in Keychain)
 				{
-					v += i.Value.basevalue.v * i.Quantity;
+					v.v += i.Value.basevalue.v * i.Quantity;
 				}
-				return new PriceTag(v);
+				return new PriceTag(v.v);
 			}
 		}
 
 		public Inventory(Inventory other) :
 			//this(other.Armors, other.Weapons, other.Other, other.Keychain, other.Potions)
-			this(new Bag<Item.Armor>(other.Armors), new Bag<Item.Weapon>[3], new Bag<Item>(other.Other), new Bag<Item.Key>(other.Keychain), new Slot<Item.Potion>(other.Potions))
+			this(new Bag<Item.Armor>(other.Armors), new Bag<Item.Weapon>[3], new Bag<Item>(other.Other), new Bag<Item.Key>(other.Keychain), new Slot<Item.Potion>(other.Potions), other)
 		{
 			for (int i = 0; i < Weapons.Length; i++)
 			{
 				Weapons[i] = new Bag<Item.Weapon>(other.Weapons[i]);
 			}
 		}
-		private Inventory(Bag<Item.Armor> armors, Bag<Item.Weapon>[] weapons, Bag<Item> other, Bag<Item.Key> keychain, Slot<Item.Potion> potions){
+		private Inventory(Bag<Item.Armor> armors, Bag<Item.Weapon>[] weapons, Bag<Item> other, Bag<Item.Key> keychain, Slot<Item.Potion> potions, Item obj) :
+			base(obj)
+		{
 			Armors = armors;
 			Weapons = weapons;
 			Other = other;
 			Keychain = keychain;
 			Potions = potions;
+			LockQuantity();
 		}
 		public Inventory() :
-			this(new Bag<Item.Armor>(), new Bag<Item.Weapon>[3], new Bag<Item>(), new Bag<Item.Key>(), new Slot<Item.Potion>())
+			this(new Bag<Item.Armor>(), new Bag<Item.Weapon>[3], new Bag<Item>(), new Bag<Item.Key>(), new Slot<Item.Potion>(), new Item())
 		{
 			for(int i = 0; i < Weapons.Length; i++)
 			{
