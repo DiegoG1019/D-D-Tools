@@ -45,7 +45,7 @@ namespace DnDTDesktop
         [return: MarshalAs(UnmanagedType.Bool)]
         static extern bool AllocConsole();
 
-        public static readonly Version version = new Version("Alpha", 0, 0, 25, 0);
+        public static readonly Version version = new Version("Alpha", 0, 0, 25, 1);
         public static int StatCount = Enum.GetNames(typeof(Stats)).Length;
         public static int SchoolCount = Enum.GetNames(typeof(Schools)).Length;
         public static int SizeCount = Enum.GetNames(typeof(Sizes)).Length;

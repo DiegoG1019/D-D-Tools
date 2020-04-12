@@ -1,3 +1,6 @@
+#define NOLOAD
+#define VERBOSE
+
 using System;
 using System.Collections.Generic;
 using Serilog;
@@ -79,6 +82,9 @@ namespace DnDTDesktop
                         {
                             instance = new options();
                             Log.Verbose("Creating a new instance of {0}", typeof(options));
+#if NOLOAD
+                            Log.Warning("NOLOAD is defined. Configuration files will be ignored, and created anew.");
+#endif
                         }
                         Log.Verbose("Returning instace of {0}", typeof(options));
                         return instance;
@@ -152,9 +158,15 @@ namespace DnDTDesktop
 
             System.Flags = new Dictionary<string, bool>();
 
+#if !NOLOAD
             if (File.Exists(Path.Combine(App.Directories.Settings, systemfile + SerializeToFile.JsonFileExtension)))
+#else
+            if(false)
+#endif
             {
+#pragma warning disable CS0162 // Unreachable code detected
                 try
+#pragma warning restore CS0162 // Unreachable code detected
                 {
                     Log.Information("Loading System configurations");
                     System = DeserializeFromFile.Json<system>(App.Directories.Settings, systemfile);
@@ -177,9 +189,15 @@ namespace DnDTDesktop
         private void CreateSystemOptions()
         {
             Log.Information("Creating a new System configurations file with default values");
+#if VERBOSE
+            System.Flags.Add("console", true);
+            System.Flags.Add("debug", true);
+            System.Flags.Add("verbose", System.Flags["debug"] && (true)); //Both need to be true
+#else
             System.Flags.Add("console", false);
             System.Flags.Add("debug", false);
             System.Flags.Add("verbose", System.Flags["debug"] && (false)); //Both need to be true
+#endif
         }
 
         public void SaveSystemOptions()
@@ -201,9 +219,15 @@ namespace DnDTDesktop
             Lang.Ent = new Dictionary<string, string>();
             Lang.Items = new Dictionary<string, string>();
 
+#if !NOLOAD
             if (File.Exists(Path.Combine(App.Directories.Settings, langfile + SerializeToFile.JsonFileExtension)))
+#else
+            if (false)
+#endif
             {
+#pragma warning disable CS0162 // Unreachable code detected
                 try
+#pragma warning restore CS0162 // Unreachable code detected
                 {
                     Log.Information("Loading Set Language");
                     Lang = DeserializeFromFile.Json<lang>(App.Directories.Settings, langfile);
@@ -229,6 +253,7 @@ namespace DnDTDesktop
             Log.Information("Using default language settings");
             Lang.Util.Add("currency", "P.");
             Lang.Ent.Add("noRequirements", "Nothing");
+            Lang.Gui.Add("jobListMainLabel", "Classes");
             SerializeToFile.Json<lang>(Lang, App.Directories.Settings, langfile);
         }
 
@@ -238,10 +263,17 @@ namespace DnDTDesktop
 
             Options.EntityValues = new Dictionary<string, int>();
             Options.General = new Dictionary<string, string>();
+            Options.OtherValues = new Dictionary<string, decimal>();
 
+#if !NOLOAD
             if (File.Exists(Path.Combine(App.Directories.Settings, optionsfile + SerializeToFile.JsonFileExtension)))
+#else
+            if (false)
+#endif
             {
+#pragma warning disable CS0162 // Unreachable code detected
                 try
+#pragma warning restore CS0162 // Unreachable code detected
                 {
                     Log.Information("Loading Configurations");
                     Options = DeserializeFromFile.Json<options>(App.Directories.Settings, optionsfile);
