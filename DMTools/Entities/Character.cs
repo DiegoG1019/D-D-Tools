@@ -13,7 +13,7 @@ namespace DnDTDesktop
 		public List<Ability> Abilities { get; set; }
 		public Experience Exp { get; set; }
 		public byte FreeLevels { get; set; }
-		public List<Job> Jobs { get; set; }
+		public List<EntityJob> Jobs { get; set; }
 
 		new public void RenovateParenthood()
 		{
@@ -33,7 +33,7 @@ namespace DnDTDesktop
 			Feats = new List<Ability>();
 			Abilities = new List<Ability>();
 			Exp = new Experience();
-			Jobs = new List<Job>();
+			Jobs = new List<EntityJob>();
 		}
 
 		protected Character(byte level, string name) : base(level, name)
@@ -41,13 +41,13 @@ namespace DnDTDesktop
 			Feats = new List<Ability>();
 			Abilities = new List<Ability>();
 			Exp = new Experience();
-			Jobs = new List<Job>();
+			Jobs = new List<EntityJob>();
 			this.Exp = new Experience(this);
 			this.Feats.Add(new Ability("Fleeting Presence", null, "This character can disappear from existence at will", new List<string>(), new int[App.StatCount]));
 			this.Abilities.Add(new Ability("Power Surge", null, "Augments strength and constitution", new List<string>(), new int[] { 2, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0 }));
 		}
 
-		new public static int Create(byte level, string name)
+		new public static int Create(string name)
 		{
 			Character newchar = new Character(level, name);
 			int newcharid = newchar.Register();

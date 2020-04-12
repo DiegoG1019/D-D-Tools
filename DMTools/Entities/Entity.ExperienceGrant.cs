@@ -10,33 +10,53 @@ namespace DnDTDesktop
 {
 	public partial class Entity
 	{
-		public struct ExperienceGrant
+		public class ExperienceGrant
 		{
-
-			public uint Baseexp { get; set; }
-			public uint Extra { get; set; }
+			private CUInt32 bse;
+			private CUInt32 ex;
+			public uint Baseexp
+			{
+				get
+				{
+					return bse.v;
+				}
+				set
+				{
+					bse.v = value;
+				}
+			}
+			public uint Extra
+			{
+				get
+				{
+					return ex.v;
+				}
+				set
+				{
+					ex.v = value;
+				}
+			}
 
 			[IgnoreDataMember]
 			public Entity parent;
 
-			public ExperienceGrant(Entity parent)
+			public ExperienceGrant()
 			{
-				this.parent = parent;
-				this.Baseexp = 1;
-				this.Extra = 0;
+				bse = new CUInt32();
+				ex = new CUInt32();
 			}
-			public ExperienceGrant(Entity parent, uint b)
+			public ExperienceGrant(Entity parent) :
+				this(parent, 10)
+			{ }
+			public ExperienceGrant(Entity parent, uint bse) :
+				this(parent, bse, 0)
+			{ }
+			public ExperienceGrant(Entity parent, uint bse, uint ex) :
+				this()
 			{
 				this.parent = parent;
-				this.Baseexp = b;
-				this.Extra = 0;
-			}
-			public ExperienceGrant(Entity parent, uint b, uint e)
-			{
-				this.parent = parent;
-				this.Baseexp = b;
-				this.Extra = e;
-
+				this.Baseexp = bse;
+				this.Extra = ex;
 			}
 
 			[IgnoreDataMember]
