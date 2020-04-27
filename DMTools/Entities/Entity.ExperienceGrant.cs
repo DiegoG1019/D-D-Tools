@@ -12,17 +12,17 @@ namespace DnDTDesktop
 	{
 		public class ExperienceGrant
 		{
-			private CUInt32 bse;
+			private CUInt32 bsexp;
 			private CUInt32 ex;
 			public uint Baseexp
 			{
 				get
 				{
-					return bse.v;
+					return bsexp.v;
 				}
 				set
 				{
-					bse.v = value;
+					bsexp.v = value;
 				}
 			}
 			public uint Extra
@@ -42,7 +42,7 @@ namespace DnDTDesktop
 
 			public ExperienceGrant()
 			{
-				bse = new CUInt32();
+				bsexp = new CUInt32();
 				ex = new CUInt32();
 			}
 			public ExperienceGrant(Entity parent) :
