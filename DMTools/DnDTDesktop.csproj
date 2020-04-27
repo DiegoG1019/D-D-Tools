@@ -114,27 +114,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entities\Character.cs" />
-    <Compile Include="Entities\Character.Experience.cs" />
-    <Compile Include="Entities\Entity.Ability.cs" />
-    <Compile Include="Entities\Entity.Health.cs" />
-    <Compile Include="Entities\Entity.ArmorClass.cs" />
-    <Compile Include="Entities\Entity.ExperienceGrant.cs" />
-    <Compile Include="Entities\Entity.Job.cs" />
-    <Compile Include="Entities\Entity.Skill.cs" />
-    <Compile Include="Entities\Player.cs" />
-    <Compile Include="Enums.cs" />
-    <Compile Include="Items\Items.Armor.cs" />
-    <Compile Include="Items\Items.InformationClasses.cs" />
-    <Compile Include="Items\Items.Inventory.cs" />
-    <Compile Include="Items\Items.Potion.cs" />
-    <Compile Include="Items\Items.Weapons.cs" />
-    <Compile Include="Items\Items.cs" />
-    <Compile Include="Items\Items.Key.cs" />
+    <Compile Include="Items.cs" />
     <Compile Include="Visualizer.cs" />
     <Compile Include="Configurations.cs" />
     <Compile Include="DnDT.cs" />
-    <Compile Include="Entities\Entity.cs" />
+    <Compile Include="Entity.cs" />
     <Compile Include="Exceptions.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
@@ -159,7 +143,6 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <None Include="DnDTDesktop_TemporaryKey.pfx" />
-    <Compile Include="Entities\Entity.Description.cs" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -189,6 +172,5 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

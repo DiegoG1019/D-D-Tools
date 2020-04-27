@@ -8,7 +8,7 @@ namespace DnDTDesktop
 {
 	public partial class Entity
 	{
-		public sealed class EntityJob : INoted
+		public sealed class Job : INoted
 		{
 			public struct JobGrowth
 			{
@@ -28,33 +28,33 @@ namespace DnDTDesktop
 			public JobGrowth Growth { get; set; }
 			private Entity parent;
 
-			public EntityJob(EntityJob other) :
+			public Job(Job other) :
 				this(other.Name, other.Level, other.Competence, other.HPDice, other.SkillPoints, other.Growth)
 			{ }
-			public EntityJob(Entity parent) :
+			public Job(Entity parent) :
 				this()
 			{
 				this.parent = parent;
 			}
-			public EntityJob() :
+			public Job() :
 				this("")
 			{ }
-			public EntityJob(string name) :
+			public Job(string name) :
 				this(name, 1)
 			{ }
-			public EntityJob(string name, byte level) :
+			public Job(string name, byte level) :
 				this(name, level, new List<string>())
 			{ }
-			public EntityJob(string name, byte level, List<string> competence) :
+			public Job(string name, byte level, List<string> competence) :
 				this(name, level, competence, new Dice(1, 6))
 			{ }
-			public EntityJob(string name, byte level, List<string> competence, Dice hpd) :
+			public Job(string name, byte level, List<string> competence, Dice hpd) :
 				this(name, level, competence, hpd, 1)
 			{ }
-			public EntityJob(string name, byte level, List<string> competence, Dice hpd, int skillpoints) :
+			public Job(string name, byte level, List<string> competence, Dice hpd, int skillpoints) :
 				this(name, level, competence, hpd, skillpoints, new JobGrowth())
 			{ }
-			public EntityJob(string name, byte level, List<string> competence, Dice hpd, int skillpoints, JobGrowth gr)
+			public Job(string name, byte level, List<string> competence, Dice hpd, int skillpoints, JobGrowth gr)
 			{
 				Name = name;
 				Level = level;
