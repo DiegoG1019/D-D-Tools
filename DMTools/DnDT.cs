@@ -1,13 +1,43 @@
+//#define DEBUG
+//#define VERBOSE
+#define CONSOLE
+
 using System;
 using System.Text.Json;
+using System.Text.Json.Serialization;
+using System.Linq;
 using System.Windows.Forms;
 using Serilog;
+using Serilog.Sinks.File;
+using Serilog.Sinks.SystemConsole;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Collections.Generic;
 
 namespace DnDTDesktop
 {
+
+    public enum Stats
+    {
+        strength, constitution, dexterity, wisdom, intelligence, charisma, speed, initiative
+    }; //Is it possible to dynamically initialize an enum? Maybe I just need a new object type
+
+    public enum SavingThrows
+    {
+        fortitude, reflexes, will
+    }
+
+    public enum Schools
+    {
+        abjuration, divination, conjuration, enchantment, evocation, illusion, necromancy, transmutation
+    } //Perhaps both of these should be a configuration option
+
+    public enum Sizes
+    {
+        Fine, Diminutive, Tiny, Small, Medium, Large, Huge, Gargantuan, Colossal
+    }
+
+
     static class App
     {
 
@@ -129,6 +159,9 @@ namespace DnDTDesktop
             /*-----------------------------------------Testing-----------------------------------------*/
 
             //test char
+            int tchar1 = Character.Create(5, "Tchar");
+            Loaded.Characters[tchar1].Exp.Gain(573);
+            Loaded.Characters[tchar1].Serialize();
             tchar = Character.Create("Tchar");
             Loaded.Characters[tchar].Exp.Gain(69);
             Loaded.Characters[tchar].HP.LethalDamage.Harm(69);
