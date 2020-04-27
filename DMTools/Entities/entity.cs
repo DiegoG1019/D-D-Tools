@@ -20,127 +20,21 @@ namespace DnDTDesktop
 		[IgnoreDataMember]
 		protected int pid; //player list id
 		protected Player player;
-		protected byte level = 1;
-		protected List<Skill> skills = new List<Skill>();
-		protected uint[] spentSpells = new uint[App.Cf.Options.EntityValues["maxSpellLevel"]];
 
-		protected ExperienceGrant expgrant = new ExperienceGrant();
-		protected ArmorClass armorclass = new ArmorClass();
-		protected Health health = new Health();
-		protected Job job = new Job();
-		protected Inventory inventory = new Inventory();
-		protected Inventory.Equipped equipped = new Inventory.Equipped();
-		protected List<Item.Potion.Effect> activeeffects = new List<Item.Potion.Effect>();
-
+		public uint[] SpentSpells { get; set; }
+		public byte Level { get; set; }
+		public ExperienceGrant Expgrant { get; set; }
+		public ArmorClass ArmorC { get; set; }
+		public Health HP { get; set; }
+		public EntityJob Job { get; set; }
+		public Item.Inventory Inventory { get; set; }
+		public Item.Inventory.Equipped Equipped { get; set; }
+		public List<Item.Potion.Effect> ActiveEffects { get; set; }
+		public List<Skill> Skills { get; set; }
 
 		public byte SkillPointModifier { get; set; } //Added to the class and race skill points for calculation
 		public byte ExtraSkillPoints { get; set; }  //Added to the final calculation of skill points
 		public Description Desc { get; set; }
-
-		public List<Item.Potion.Effect> ActiveEffects
-		{
-			get
-			{
-				return activeeffects;
-			}
-			set
-			{
-				activeeffects = value;
-			}
-		}
-		public Inventory Inventory
-		{
-			get
-			{
-				return inventory;
-			}
-			set
-			{
-				inventory = value;
-			}
-		}
-		public Inventory.Equipped Equipped
-		{
-			get
-			{
-				return equipped;
-			}
-			set
-			{
-				inventory = value;
-			}
-		}
-		public uint[] SpentSpells
-		{
-			get
-			{
-				return spentSpells;
-			}
-		}
-
-		public ExperienceGrant Expgrant
-		{
-			get
-			{
-				return expgrant;
-			}
-			set
-			{
-				expgrant = value;
-			}
-		}
-		public ArmorClass ArmorC
-		{
-			get
-			{
-				return armorclass;
-			}
-			set
-			{
-				armorclass = value;
-			}
-		}
-		public Health HP
-		{
-			get
-			{
-				return health;
-			}
-			set
-			{
-				health = value;
-			}
-		}
-		public Job Class
-		{
-			get
-			{
-				return job;
-			}
-			set
-			{
-				job = value;
-			}
-		}
-		public List<Skill> Skills
-		{
-			get
-			{
-				return skills;
-			}
-		}
-
-		public byte Level
-		{
-			get
-			{
-				return level;
-			}
-			set
-			{
-				level = value;
-			}
-		}
 
 		[IgnoreDataMember]
 		[JsonIgnore]
@@ -219,9 +113,9 @@ namespace DnDTDesktop
 		{
 		}
 
-		public static int Create(byte level, string name)
+		public static int Create(string name)
 		{
-			Entity newent = new Entity(level, name);
+			Entity newent = new Entity(name);
 			int newentid = newent.Register();
 
 			Log.Debug("Creating new entity from scratch. Entity name: {0}; Entity ID: {1}", name, newentid);
@@ -231,10 +125,10 @@ namespace DnDTDesktop
 
 		public void RenovateParenthood()
 		{
-			const string logstring = "Renovated the reference of object: {0} as a child of {1}. ID: {3} ||| {4}";
-			expgrant.parent = this; Log.Verbose(logstring, expgrant.GetType(), this.GetType(), this.Id.ToString(), expgrant.parent == this);
-			armorclass.parent = this; Log.Verbose(logstring, armorclass.GetType(), this.GetType(), this.Id.ToString(), armorclass.parent == this);
-			health.parent = this; Log.Verbose(logstring, health.GetType(), this.GetType(), this.Id.ToString(), health.parent == this);
+			const string logstring = "Renovated the reference of object: {0} as a child of {1}. ID: {3} / {4}";
+			Expgrant.parent = this; Log.Verbose(logstring, Expgrant.GetType(), this.GetType(), this.Id.ToString(), Expgrant.parent == this);
+			ArmorC.parent = this; Log.Verbose(logstring, ArmorC.GetType(), this.GetType(), this.Id.ToString(), ArmorC.parent == this);
+			HP.parent = this; Log.Verbose(logstring, HP.GetType(), this.GetType(), this.Id.ToString(), HP.parent == this);
 			for (int ind = 0; ind < Skills.Count; ind++)
 			{
 				Skill skl = Skills[ind];
@@ -271,20 +165,28 @@ namespace DnDTDesktop
 			SerializeToFile.Json(this, App.Directories.Entities, this.Desc.Name + ".entity");
 		}
 
-		public Entity()
+		public Entity() :
+			this(new ExperienceGrant(), new Health(), new ArmorClass(), new Description(), new List<Skill>(), new EntityJob(), new Item.Inventory(), new Item.Inventory.Equipped(), new List<Item.Potion.Effect>(), new uint[App.Cf.Options.EntityValues["maxSpellLevel"]], 1)
+		{ }
+		public Entity(ExperienceGrant expg, Health hp, ArmorClass ac, Description desc, List<Skill> skls, EntityJob jb, Item.Inventory inv, Item.Inventory.Equipped eqp, List<Item.Potion.Effect> activefx, uint[] spentspells, byte level)
 		{
+			Expgrant = expg;
+			HP = hp;
+			ArmorC = ac;
+			Desc = desc;
+			Skills = skls;
+			SpentSpells = spentspells;
+			Level = level;
+			Job = jb;
+			Inventory = inv;
+			Equipped = eqp;
+			ActiveEffects = activefx;
+			HP.SetBaseHP();
 		}
 
-		protected Entity(byte level, string name)
+		protected Entity(string name) :
+			this()
 		{
-			this.level = level;
-			this.Expgrant = new ExperienceGrant(this, 69, 120);
-			this.HP = new Health(this);
-			this.ArmorC = new ArmorClass(this, 0, 0, 0, 0, 0, 0, 0);
-			this.HP.SetBaseHP();
-			this.skills.Add(new Skill(this, "Lockpicking", Stats.dexterity, 0, 5, new FlagsArray<Skill.FlagList>(new bool[] { true, false, true })));
-			this.skills.Add(new Skill(this, "Diplomacy", Stats.charisma, 3, 2, new FlagsArray<Skill.FlagList>(new bool[] { true, false, false })));
-			this.Desc = new Description();
 			this.Desc.Name = name;
 		}
 

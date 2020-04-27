@@ -29,62 +29,67 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainMenu));
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.button1 = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.flowLayoutPanel1.SuspendLayout();
+            this.versionLabel = new System.Windows.Forms.Label();
+            this.jobListFlowLayout = new System.Windows.Forms.FlowLayoutPanel();
+            this.jobListMainLabel = new System.Windows.Forms.Label();
+            this.jobListFlowLayoutLevel = new System.Windows.Forms.FlowLayoutPanel();
+            this.jobListLevelLabel = new System.Windows.Forms.Label();
+            this.jobListFlowLayout.SuspendLayout();
+            this.jobListFlowLayoutLevel.SuspendLayout();
             this.SuspendLayout();
             // 
-            // flowLayoutPanel1
+            // versionLabel
             // 
-            resources.ApplyResources(this.flowLayoutPanel1, "flowLayoutPanel1");
-            this.flowLayoutPanel1.Controls.Add(this.button1);
-            this.flowLayoutPanel1.Controls.Add(this.label2);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.flowLayoutPanel1_Paint);
+            resources.ApplyResources(this.versionLabel, "versionLabel");
+            this.versionLabel.Name = "versionLabel";
+            this.versionLabel.Click += new System.EventHandler(this.label1_Click_1);
             // 
-            // button1
+            // jobListFlowLayout
             // 
-            resources.ApplyResources(this.button1, "button1");
-            this.button1.Name = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.jobListFlowLayout.Controls.Add(this.jobListMainLabel);
+            resources.ApplyResources(this.jobListFlowLayout, "jobListFlowLayout");
+            this.jobListFlowLayout.Name = "jobListFlowLayout";
             // 
-            // label1
+            // jobListMainLabel
             // 
-            resources.ApplyResources(this.label1, "label1");
-            this.label1.Name = "label1";
-            this.label1.Click += new System.EventHandler(this.label1_Click_1);
+            resources.ApplyResources(this.jobListMainLabel, "jobListMainLabel");
+            this.jobListMainLabel.Name = "jobListMainLabel";
+            this.jobListMainLabel.Click += new System.EventHandler(this.jobListMainLabel_Click);
             // 
-            // label2
+            // jobListFlowLayoutLevel
             // 
-            resources.ApplyResources(this.label2, "label2");
-            this.label2.Name = "label2";
-            this.label2.Click += new System.EventHandler(this.label2_Click_1);
+            this.jobListFlowLayoutLevel.Controls.Add(this.jobListLevelLabel);
+            resources.ApplyResources(this.jobListFlowLayoutLevel, "jobListFlowLayoutLevel");
+            this.jobListFlowLayoutLevel.Name = "jobListFlowLayoutLevel";
+            // 
+            // jobListLevelLabel
+            // 
+            resources.ApplyResources(this.jobListLevelLabel, "label1");
+            this.jobListLevelLabel.Name = "label1";
             // 
             // MainMenu
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.flowLayoutPanel1);
+            this.Controls.Add(this.jobListFlowLayout);
+            this.Controls.Add(this.versionLabel);
+            this.Controls.Add(this.jobListFlowLayoutLevel);
             this.Name = "MainMenu";
             this.Load += new System.EventHandler(this.Form1_Load);
-            this.flowLayoutPanel1.ResumeLayout(false);
-            this.flowLayoutPanel1.PerformLayout();
+            this.jobListFlowLayout.ResumeLayout(false);
+            this.jobListFlowLayoutLevel.ResumeLayout(false);
+            this.jobListFlowLayoutLevel.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Label label2;
-
+        private System.Windows.Forms.Label versionLabel;
+        private System.Windows.Forms.FlowLayoutPanel jobListFlowLayout;
+        private System.Windows.Forms.Label jobListMainLabel;
+        private System.Windows.Forms.FlowLayoutPanel jobListFlowLayoutLevel;
+        private System.Windows.Forms.Label jobListLevelLabel;
     }
 }
 
