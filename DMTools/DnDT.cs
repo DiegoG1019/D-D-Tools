@@ -1,29 +1,26 @@
-using System;
-using System.Text.Json;
-using System.Windows.Forms;
+using DiegoG.DnDTDesktop.Properties;
 using Serilog;
+using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
-using System.Collections.Generic;
+using System.Windows.Forms;
+using static DiegoG.DnDTDesktop.Enums;
+using Version = DiegoG.Utilities.Version;
+using DiegoG.DnDTDesktop.Characters;
 
-namespace DnDTDesktop
+namespace DiegoG.DnDTDesktop
 {
-    static class App
+    static class Program
     {
-
         [DllImport("kernel32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         static extern bool AllocConsole();
 
-        public static readonly Version version = new Version("Alpha", 0, 0, 25, 1);
-        public static int StatCount = Enum.GetNames(typeof(Stats)).Length;
-        public static int SchoolCount = Enum.GetNames(typeof(Schools)).Length;
-        public static int SizeCount = Enum.GetNames(typeof(Sizes)).Length;
+        public static readonly Version Version = new Version("Alpha", 0, 0, 26, 0);
 
-        public const string author = "Diego Garcia";
+        public const string Author = "Diego Garcia";
         public const string appname = "D&DTools Windows";
-
-        public static Configurations Cf = Configurations.Instance;
 
         public static class Directories
         {
@@ -44,35 +41,25 @@ namespace DnDTDesktop
             }
         }
 
+        public static CharacterList Characters { get; } = new CharacterList();
         public static string MinimumLoggerLevel;
-
-        public static JsonSerializerOptions JSONOptions = new JsonSerializerOptions{
-            WriteIndented = true,
-        };
-
-        /*-------------- Test fields --------------*/
-        public static int tchar;
+        
         /*-----------------------------------------*/
 
         [STAThread]
-        static void Main()
+        static async void Main()
         {
-
-            /*--------------------------------------------  -------------------------------------------*/
-
             /*--------------------------------------Initialization-------------------------------------*/
 
-            App.Directories.InitDirectories();
+            Program.Directories.InitDirectories();
 
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Information()
                 .WriteTo.Console()
-                .WriteTo.File(Path.Combine(Directories.Logging, String.Format("pre-startup log - {0} - .txt", version.Full)), rollingInterval: RollingInterval.Hour)
+                .WriteTo.File(Path.Combine(Directories.Logging, String.Format("pre-startup log - {0} - .txt", Version.Full)), rollingInterval: RollingInterval.Hour)
                 .CreateLogger();
 
-            App.Cf.LoadSystemOptions();
-
-            if (App.Cf.System.Flags["console"])
+            if (Settings.Default.Console)
             {
                 Log.Information("Opening console");
                 AllocConsole();
@@ -80,14 +67,14 @@ namespace DnDTDesktop
             }
 
             LoggerConfiguration loggerconfig = new LoggerConfiguration();
-            if (App.Cf.System.Flags["verbose"])
+            if ((Verbosity)Settings.Default.Verbosity == Verbosity.Verbose)
             {
                 loggerconfig.MinimumLevel.Verbose();
                 MinimumLoggerLevel = "Verbose";
             }
             else
             {
-                if (App.Cf.System.Flags["debug"])
+                if ((Verbosity)Settings.Default.Verbosity == Verbosity.Debug)
                 {
                     loggerconfig.MinimumLevel.Debug();
                     MinimumLoggerLevel = "Debug";
@@ -101,21 +88,17 @@ namespace DnDTDesktop
 
             Log.Logger = loggerconfig
                 .WriteTo.Console()
-                .WriteTo.File(Path.Combine(Directories.Logging, String.Format("log - {0} - .txt", version.Full)), rollingInterval: RollingInterval.Hour)
+                .WriteTo.File(Path.Combine(Directories.Logging, String.Format("log - {0} - .txt", Version.Full)), rollingInterval: RollingInterval.Hour)
                 .CreateLogger();
 
             Log.Debug("Succesfully started logger with a mimum level of {0}", MinimumLoggerLevel);
 
-            foreach (KeyValuePair<string, bool> ind in App.Cf.System.Flags)
+            foreach (var p in Settings.Default.Properties)
             {
-                Log.Information("System Setting: {0} :: {1}",ind.Key, ind.Value);
+                Log.Debug($"Setting \"{p}\" = {Settings.Default.Properties[p.ToString()]}");
             }
 
-            Log.Information("Program Author: {0}", App.author);
-            Log.Information("Running D&DTools version: {0}", App.version.Full);
-
-            App.Cf.LoadOptions();
-            App.Cf.LoadLang();
+            Log.Information("Running D&DTools version: {0}", Program.Version.Full);
 
             Log.Information("DataOut Directory: {0}", Path.GetFullPath(Directories.DataOut));
             Log.Information("Logging Directory: {0}", Path.GetFullPath(Directories.Logging));
@@ -128,24 +111,9 @@ namespace DnDTDesktop
 
             /*-----------------------------------------Testing-----------------------------------------*/
 
-            //test char
-            tchar = Character.Create("Tchar");
-            Loaded.Characters[tchar].Exp.Gain(69);
-            Loaded.Characters[tchar].HP.LethalDamage.Harm(69);
-            Loaded.Characters[tchar].Inventory.Armors.Add(new Item.Armor());
-            Loaded.Characters[tchar].Abilities[0].Tags.Add(new Entity.Ability.AbilityTag());
-            Loaded.Characters[tchar].Serialize();
-
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainMenu());
-
-            /*---------------------------------------Finalization--------------------------------------*/
-
-            Log.Information("All windows closed, tidying up and closing the program.");
-            App.Cf.SaveOptions();
-            App.Cf.SaveSystemOptions();
-
+            //Application.Run(new GUI.MainMenu());
         }
 
     }

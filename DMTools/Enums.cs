@@ -1,28 +1,52 @@
-﻿namespace DnDTDesktop
+﻿using System;
+
+namespace DiegoG.DnDTDesktop
 {
-    public enum Stats
+    public class Enums
     {
-        strength, constitution, dexterity, wisdom, intelligence, charisma
-    } //Is it possible to dynamically initialize an enum? Maybe I just need a new object type
+        public enum Alignments
+        {
+            ChaoticEvil, NeutralEvil, LawfulEvil,
+            ChaoticNeutral, TrueNeutral, LawfulNeutral,
+            ChaoticGood, NeutralGood, LawfulGood
+        }
+        public enum BodyTypes
+        {
+            Aberration, Animal, Construct, Dragon, Elemental, Fey, Giant, Humanoid,
+            MagicalBeast, MonstrousHumanoid, Ooze, Outsider, Plant, Undead, Vermin
+        }
+        public enum CombatState
+        {
+            Active, Incapacitated, BleedingOut, Deceased
+        }
+        public enum Verbosity
+        {
+            None, Debug, Verbose
+        }
 
-    public enum Other
-    {
-        speed, initiative
+        public enum Stats
+        {
+            Strength, Constitution, Dexterity, Wisdom, Intelligence, Charisma,
+            Speed, Initiative
+        }
+        public static int StatCount { get; } = Enum.GetNames(typeof(Stats)).Length;
+
+        public enum SavingThrows
+        {
+            Fortitude, Reflexes, Willpower
+        }
+        public static int SavingThrowCount { get; } = Enum.GetNames(typeof(SavingThrows)).Length;
+
+        public enum Schools
+        {
+            Abjuration, Divination, Conjuration, Enchantment, Evocation, Illusion, Necromancy, Transmutation
+        }
+        public static int SchoolCount { get; } = Enum.GetNames(typeof(Schools)).Length;
+
+        public enum Sizes
+        {
+            Fine, Diminutive, Tiny, Small, Medium, Large, Huge, Gargantuan, Colossal
+        }
+        public static int SizeCount { get; } = Enum.GetNames(typeof(Sizes)).Length;
     }
-
-    public enum SavingThrows
-    {
-        fortitude, reflexes, will
-    }
-
-    public enum Schools
-    {
-        abjuration, divination, conjuration, enchantment, evocation, illusion, necromancy, transmutation
-    } //Perhaps all of these should be a configurations option?
-
-    public enum Sizes
-    {
-        Fine, Diminutive, Tiny, Small, Medium, Large, Huge, Gargantuan, Colossal
-    }
-
 }

@@ -1,7 +1,27 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)">
-  <Profiles>
-    <Profile Name="(Default)" />
-  </Profiles>
-  <Settings />
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="DiegoG.DnDTDesktop.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="Console" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="Verbosity" Type="System.Byte" Scope="Application">
+      <Value Profile="(Default)">2</Value>
+    </Setting>
+    <Setting Name="CoinWeight" Type="System.Decimal" Scope="Application">
+      <Value Profile="(Default)">0.01</Value>
+    </Setting>
+    <Setting Name="SquareSize" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">5</Value>
+    </Setting>
+    <Setting Name="IncapacitatedHP" Type="System.Single" Scope="Application">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="BleedingOutHP" Type="System.Single" Scope="Application">
+      <Value Profile="(Default)">-5</Value>
+    </Setting>
+    <Setting Name="DeceasedHP" Type="System.Single" Scope="Application">
+      <Value Profile="(Default)">-10</Value>
+    </Setting>
+  </Settings>
 </SettingsFile>
