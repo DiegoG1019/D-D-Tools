@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using DiegoG.Utilities;
+using System;
 using System.Runtime.Serialization;
-using System.Text;
 using System.Text.Json.Serialization;
 using System.Xml.Serialization;
-using System.Threading.Tasks;
-using DiegoG.Utilities;
 
-namespace DiegoG.DnDTDesktop.Characters
+namespace DiegoG.DnDTDesktop.Characters.Complements
 {
     [Serializable]
     public abstract class CharacterTrait<T> where T : class

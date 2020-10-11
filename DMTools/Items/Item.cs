@@ -45,7 +45,10 @@ namespace DiegoG.DnDTDesktop.Items
             set
             {
                 if (Flags[FlagList.QuantityCap] && value >= QuantityCap)
+                {
                     throw new InvalidOperationException($"Attempted to stack items beyond the cap. Item: {Name}, Value: {value}, Cap: {QuantityCap}");
+                }
+
                 quant = value;
             }
         }

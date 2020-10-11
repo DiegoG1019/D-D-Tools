@@ -1,4 +1,5 @@
-﻿using DiegoG.DnDTDesktop.Other;
+﻿using DiegoG.DnDTDesktop.Characters.Complements;
+using DiegoG.DnDTDesktop.Other;
 using DiegoG.Utilities;
 using System;
 using System.Collections.Generic;

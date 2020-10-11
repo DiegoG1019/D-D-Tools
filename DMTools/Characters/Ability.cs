@@ -1,5 +1,5 @@
-﻿using DiegoG.DnDTDesktop.Other;
-using DiegoG.DnDTDesktop.Properties;
+﻿using DiegoG.DnDTDesktop.Characters.Complements;
+using DiegoG.DnDTDesktop.Other;
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
@@ -37,10 +37,6 @@ namespace DiegoG.DnDTDesktop.Characters
                     str += String.Format(s, tag.ShortenedName);
                 }
                 return str;
-            }
-            set
-            {
-                Name = value;
             }
         }
 

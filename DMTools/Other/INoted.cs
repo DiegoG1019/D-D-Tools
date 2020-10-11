@@ -41,7 +41,7 @@ namespace DiegoG.DnDTDesktop.Other
                 NotesChanged();
             }
         }
-        
+
         public NoteList() : base()
         {
             NotesChanged += NoteList_NotesChanged;

@@ -57,9 +57,14 @@ namespace DiegoG.DnDTDesktop.Items
         {
 
             if (OtherFill.Value > Fill.Value)
+            {
                 throw new InvalidOperationException("Cannot separate a potion by taking more than what it currently holds");
+            }
+
             if (OtherFill.Value == Fill.Value)
+            {
                 throw new InvalidOperationException("Cannot separate a potion by taking the same amount that it currently holds. (Just take the potion itself.)");
+            }
 
             Fill = new Percentage(Fill.Value - OtherFill.Value);
 
@@ -69,11 +74,11 @@ namespace DiegoG.DnDTDesktop.Items
             {
                 fx.Add(
                     new Effect()
-                        {
-                            Description = e.Description,
-                            Duration = AdjustDuration(OtherFill, e.Duration),
-                            Bonus = AdjustBonus(OtherFill, e.Bonus)
-                        }
+                    {
+                        Description = e.Description,
+                        Duration = AdjustDuration(OtherFill, e.Duration),
+                        Bonus = AdjustBonus(OtherFill, e.Bonus)
+                    }
                     );
                 tfx.Add(
                     new Effect()

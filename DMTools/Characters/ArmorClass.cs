@@ -1,4 +1,5 @@
-﻿using DiegoG.DnDTDesktop.Other;
+﻿using DiegoG.DnDTDesktop.Characters.Complements;
+using DiegoG.DnDTDesktop.Other;
 using System;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
@@ -25,13 +26,13 @@ namespace DiegoG.DnDTDesktop.Characters
         public FlagsArray<FlagList> Flags { get; set; } = new FlagsArray<FlagList>();
 
         [JsonIgnore, IgnoreDataMember, XmlIgnore]
-        public int AC => BaseAC + Armor + Size + Natural + Deflex + Temporary + Misc + Parent.GetModifier(Stats.Dexterity);
+        public int AC => BaseAC + Armor + Size + Natural + Deflex + Temporary + Misc + Parent.Stats.Modifier[Stats.Dexterity];
 
         [JsonIgnore, IgnoreDataMember, XmlIgnore]
-        public int TouchAC => BaseAC + Size + Misc + Deflex + Parent.GetModifier(Stats.Dexterity);
+        public int TouchAC => BaseAC + Size + Misc + Deflex + Parent.Stats.Modifier[Stats.Dexterity];
 
         [JsonIgnore, IgnoreDataMember, XmlIgnore]
-        public int UnawareAC => BaseAC + Armor + Size + Natural + Misc + (Flags[FlagList.FeatDex] ? Parent.GetModifier(Stats.Dexterity) : 0);
+        public int UnawareAC => BaseAC + Armor + Size + Natural + Misc + (Flags[FlagList.FeatDex] ? Parent.Stats.Modifier[Stats.Dexterity] : 0);
 
     }
 }

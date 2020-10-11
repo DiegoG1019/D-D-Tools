@@ -102,45 +102,48 @@ namespace DiegoG.DnDTDesktop.Items
         }
 
         private async void Inventory_InventoryChanged()
-        { await Task.Run(delegate {
-            decimal weight = 0;
-            int value = 0;
-            foreach (Item item in Armors)
+        {
+            await Task.Run(delegate
             {
-                weight += item.Weight.Kilogram;
-                value += item.Value.NumericalValue;
-            }
-            foreach (Item item in Other)
-            {
-                weight += item.Weight.Kilogram;
-                value += item.Value.NumericalValue;
-            }
-            foreach (Item item in Keychain)
-            {
-                weight += item.Weight.Kilogram;
-                value += item.Value.NumericalValue;
-            }
-            foreach (Item item in MeleeWeapons)
-            {
-                weight += item.Weight.Kilogram;
-                value += item.Value.NumericalValue;
-            }
-            foreach (Item item in RangedWeapons)
-            {
-                weight += item.Weight.Kilogram;
-                value += item.Value.NumericalValue;
-            }
-            foreach (Item item in Ammunitions)
-            {
-                weight += item.Weight.Kilogram;
-                value += item.Value.NumericalValue;
-            }
-            foreach (Item item in Potions)
-            {
-                weight += item.Weight.Kilogram;
-                value += item.Value.NumericalValue;
-            }
-        });}
+                decimal weight = 0;
+                int value = 0;
+                foreach (Item item in Armors)
+                {
+                    weight += item.Weight.Kilogram;
+                    value += item.Value.NumericalValue;
+                }
+                foreach (Item item in Other)
+                {
+                    weight += item.Weight.Kilogram;
+                    value += item.Value.NumericalValue;
+                }
+                foreach (Item item in Keychain)
+                {
+                    weight += item.Weight.Kilogram;
+                    value += item.Value.NumericalValue;
+                }
+                foreach (Item item in MeleeWeapons)
+                {
+                    weight += item.Weight.Kilogram;
+                    value += item.Value.NumericalValue;
+                }
+                foreach (Item item in RangedWeapons)
+                {
+                    weight += item.Weight.Kilogram;
+                    value += item.Value.NumericalValue;
+                }
+                foreach (Item item in Ammunitions)
+                {
+                    weight += item.Weight.Kilogram;
+                    value += item.Value.NumericalValue;
+                }
+                foreach (Item item in Potions)
+                {
+                    weight += item.Weight.Kilogram;
+                    value += item.Value.NumericalValue;
+                }
+            });
+        }
     }
 }
 

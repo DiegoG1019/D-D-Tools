@@ -1,13 +1,11 @@
 using DiegoG.DnDTDesktop.Properties;
 using Serilog;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using static DiegoG.DnDTDesktop.Enums;
 using Version = DiegoG.Utilities.Version;
-using DiegoG.DnDTDesktop.Characters;
 
 namespace DiegoG.DnDTDesktop
 {
@@ -43,7 +41,7 @@ namespace DiegoG.DnDTDesktop
 
         public static CharacterList Characters { get; } = new CharacterList();
         public static string MinimumLoggerLevel;
-        
+
         /*-----------------------------------------*/
 
         [STAThread]
@@ -115,7 +113,5 @@ namespace DiegoG.DnDTDesktop
             Application.SetCompatibleTextRenderingDefault(false);
             //Application.Run(new GUI.MainMenu());
         }
-
     }
-
 }

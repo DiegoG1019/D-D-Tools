@@ -1,4 +1,5 @@
-﻿using DiegoG.DnDTDesktop.Other;
+﻿using DiegoG.DnDTDesktop.Characters.Complements;
+using DiegoG.DnDTDesktop.Other;
 using System;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
@@ -41,11 +42,17 @@ namespace DiegoG.DnDTDesktop.Characters
         {
             get
             {
-                var val = Parent.GetModifier(KeyStat) + MiscLevels;
+                var val = Parent.Stats.Modifier[KeyStat] + MiscLevels;
                 if (Flags[FlagList.TrainedOnly] && Level <= 0)
-                    return Parent.GetModifier(KeyStat) + MiscLevels - 2;
+                {
+                    return Parent.Stats.Modifier[KeyStat] + MiscLevels - 2;
+                }
+
                 if (Flags[FlagList.JobSkill])
+                {
                     return val + Level;
+                }
+
                 return val + (Level / 2);
             }
         }

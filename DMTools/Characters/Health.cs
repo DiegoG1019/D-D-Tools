@@ -1,4 +1,5 @@
-﻿using DiegoG.DnDTDesktop.Other;
+﻿using DiegoG.DnDTDesktop.Characters.Complements;
+using DiegoG.DnDTDesktop.Other;
 using DiegoG.DnDTDesktop.Properties;
 using System;
 using System.Collections.Generic;
@@ -29,10 +30,10 @@ namespace DiegoG.DnDTDesktop.Characters
                         Harm(dmg - value);
                         return;
                     }
-                        if (dmg < value) //I don't want it to be added to the History if they were the same
-                        {
-                            Heal(value - dmg);
-                        }
+                    if (dmg < value) //I don't want it to be added to the History if they were the same
+                    {
+                        Heal(value - dmg);
+                    }
                 }
             }
 
@@ -75,7 +76,7 @@ namespace DiegoG.DnDTDesktop.Characters
         {
             for (byte i = 0; i <= Parent.Experience.Level; i++)
             {
-                var n = HpThrows[i] + Parent.GetModifier(Stats.Constitution);
+                var n = HpThrows[i] + Parent.Stats.Modifier[Stats.Constitution];
                 if (n > 1)
                 {
                     BaseHP += n;
@@ -106,11 +107,20 @@ namespace DiegoG.DnDTDesktop.Characters
             get
             {
                 if (HP <= Settings.Default.DeceasedHP)
+                {
                     return CombatState.Deceased;
+                }
+
                 if (HP <= Settings.Default.BleedingOutHP)
+                {
                     return CombatState.BleedingOut;
+                }
+
                 if (HP <= Settings.Default.IncapacitatedHP)
+                {
                     return CombatState.Incapacitated;
+                }
+
                 return CombatState.Active;
             }
         }

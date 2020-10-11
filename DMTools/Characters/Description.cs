@@ -1,10 +1,9 @@
-﻿using DiegoG.DnDTDesktop.Other;
+﻿using DiegoG.DnDTDesktop.Characters.Complements;
+using DiegoG.DnDTDesktop.Other;
 using DiegoG.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Runtime.Serialization;
-using System.Text.Json.Serialization;
 using static DiegoG.DnDTDesktop.Enums;
 
 namespace DiegoG.DnDTDesktop.Characters
