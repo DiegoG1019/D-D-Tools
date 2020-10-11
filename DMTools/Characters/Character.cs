@@ -1,6 +1,8 @@
 ﻿using DiegoG.DnDTDesktop.Characters.Complements;
+using DiegoG.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using static DiegoG.DnDTDesktop.Enums;
 
 namespace DiegoG.DnDTDesktop.Characters
@@ -32,6 +34,15 @@ namespace DiegoG.DnDTDesktop.Characters
             Description = new Description() { ParentName = CharacterFileName };
             Health = new Health() { ParentName = CharacterFileName };
             Jobs = new JobList() { ParentName = CharacterFileName };
+        }
+
+        public async Task SerializeAsync() => await Serialization.Serialize.JsonAsync(this, Program.Directories.Characters, CharacterFileName);
+        public static Character Deserialize(string characterFileName) => Serialization.Deserialize<Character>.Json(Program.Directories.Characters, characterFileName);
+        public static async Task<Character> DeserializeAndRegisterAsync(string characterFileName)
+        {
+            var chara = await Serialization.Deserialize<Character>.JsonAsync(Program.Directories.Characters, characterFileName);
+            Program.Characters.Register(chara);
+            return chara;
         }
     }
 }
