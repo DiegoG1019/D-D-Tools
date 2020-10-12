@@ -15,7 +15,7 @@ namespace DiegoG.DnDTDesktop.Items
         public event Action InventoryChanged;
         public class Bag<T> : List<T> where T : Item
         {
-            new public void Add(T item)
+            public new void Add(T item)
             {
                 if (Contains(item))
                 {
@@ -28,7 +28,7 @@ namespace DiegoG.DnDTDesktop.Items
                 }
                 base.Add(item);
             }
-            new public bool Remove(T item)
+            public new bool Remove(T item)
             {
                 for (int i = 0; i < Count; i++)
                 {
@@ -61,12 +61,12 @@ namespace DiegoG.DnDTDesktop.Items
 
         public class Slot<T> : Bag<T> where T : Item
         {
-            new public void Add(T item)
+            public new void Add(T item)
             {
                 item.LockQuantity();
                 base.Add(item);
             }
-            new public bool Remove(T item) => Baseremove(item);
+            public new bool Remove(T item) => Baseremove(item);
         }
 
         public enum WeaponIndex

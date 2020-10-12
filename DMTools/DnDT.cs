@@ -15,7 +15,7 @@ namespace DiegoG.DnDTDesktop
         [return: MarshalAs(UnmanagedType.Bool)]
         static extern bool AllocConsole();
 
-        public static readonly Version Version = new Version("Alpha", 0, 0, 27, 1);
+        public static readonly Version Version = new Version("Alpha", 0, 0, 27, 3);
 
         public const string Author = "Diego Garcia";
         public const string appname = "D&DTools Windows";
@@ -45,11 +45,11 @@ namespace DiegoG.DnDTDesktop
         /*-----------------------------------------*/
 
         [STAThread]
-        static async void Main()
+        static void Main()
         {
             /*--------------------------------------Initialization-------------------------------------*/
 
-            Program.Directories.InitDirectories();
+            Directories.InitDirectories();
 
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Information()
@@ -65,14 +65,14 @@ namespace DiegoG.DnDTDesktop
             }
 
             LoggerConfiguration loggerconfig = new LoggerConfiguration();
-            if ((Verbosity)Settings.Default.Verbosity == Verbosity.Verbose)
+            if (Settings.Default.Verbosity == Verbosity.Verbose)
             {
                 loggerconfig.MinimumLevel.Verbose();
                 MinimumLoggerLevel = "Verbose";
             }
             else
             {
-                if ((Verbosity)Settings.Default.Verbosity == Verbosity.Debug)
+                if (Settings.Default.Verbosity == Verbosity.Debug)
                 {
                     loggerconfig.MinimumLevel.Debug();
                     MinimumLoggerLevel = "Debug";

@@ -80,7 +80,7 @@ namespace DiegoG.DnDTDesktop.Other
             }
         }
 
-        new public string ToString()
+        public new string ToString()
         {
             return String.Format("{0}{1}", Resources.Currency, Value);
         }

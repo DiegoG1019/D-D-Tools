@@ -31,7 +31,9 @@ namespace DiegoG.DnDTDesktop.Characters
         public Color Bgcolor { get; set; } = Color.Transparent;
         public Color BannerColor { get; set; } = Color.Transparent;
         public Bitmap Mugshot { get; set; }
-        public Bitmap FullBody { get; set; }
+        public Bitmap FullBodyImage { get; set; }
+        public bool HasMugshot => Mugshot != null;
+        public bool HasFullBodyImage => FullBodyImage != null;
         public List<Bitmap> ArcaneMarks { get; set; } = new List<Bitmap>();
         public NoteList Notes { get; set; } = new NoteList();
     }

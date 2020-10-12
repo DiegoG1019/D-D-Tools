@@ -10,7 +10,12 @@ namespace DiegoG.DnDTDesktop.Characters
     [Serializable]
     public class Character
     {
-        public string CharacterFileName { get; set; }
+        private string _CFN;
+        public string CharacterFileName
+        {
+            get => _CFN;
+            set { Program.Characters.ChangeCharacterRegistrationKey(_CFN, value); _CFN = value; }
+        }
         public CharacterStat<Stats> Stats { get; set; } = new CharacterStat<Stats>(StatCount);
         public CharacterStat<SavingThrows> SavingThrows { get; set; } = new CharacterStat<SavingThrows>(SavingThrowCount);
         public Experience Experience { get; set; }
@@ -23,7 +28,7 @@ namespace DiegoG.DnDTDesktop.Characters
         public List<Skill> Skills { get; set; } = new List<Skill>();
 
         /// <summary>
-        /// Don't use this one
+        /// Don't use this one, this is for serialization, and lacks any initialization. (The serializer is supposed to take care of that)
         /// </summary>
         public Character() { }
         public Character(string characterFileName)
