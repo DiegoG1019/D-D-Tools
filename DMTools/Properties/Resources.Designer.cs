@@ -61,6 +61,123 @@ namespace DiegoG.DnDTDesktop.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Aberration.
+        /// </summary>
+        internal static string Aberration {
+            get {
+                return ResourceManager.GetString("Aberration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Abjuration.
+        /// </summary>
+        internal static string Abjuration {
+            get {
+                return ResourceManager.GetString("Abjuration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Active.
+        /// </summary>
+        internal static string Active {
+            get {
+                return ResourceManager.GetString("Active", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Animal.
+        /// </summary>
+        internal static string Animal {
+            get {
+                return ResourceManager.GetString("Animal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bleeding out.
+        /// </summary>
+        internal static string BleedingOut {
+            get {
+                return ResourceManager.GetString("BleedingOut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Chaotic Evil.
+        /// </summary>
+        internal static string ChaoticEvil {
+            get {
+                return ResourceManager.GetString("ChaoticEvil", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Chaotic Good.
+        /// </summary>
+        internal static string ChaoticGood {
+            get {
+                return ResourceManager.GetString("ChaoticGood", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Chaotic Neutral.
+        /// </summary>
+        internal static string ChaoticNeutral {
+            get {
+                return ResourceManager.GetString("ChaoticNeutral", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Charisma.
+        /// </summary>
+        internal static string Charisma {
+            get {
+                return ResourceManager.GetString("Charisma", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Colossal.
+        /// </summary>
+        internal static string Colossal {
+            get {
+                return ResourceManager.GetString("Colossal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Conjuration.
+        /// </summary>
+        internal static string Conjuration {
+            get {
+                return ResourceManager.GetString("Conjuration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Constitution.
+        /// </summary>
+        internal static string Constitution {
+            get {
+                return ResourceManager.GetString("Constitution", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Construct.
+        /// </summary>
+        internal static string Construct {
+            get {
+                return ResourceManager.GetString("Construct", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to P.
         /// </summary>
         internal static string Currency {
@@ -70,11 +187,407 @@ namespace DiegoG.DnDTDesktop.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Deceased.
+        /// </summary>
+        internal static string Deceased {
+            get {
+                return ResourceManager.GetString("Deceased", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dexterity.
+        /// </summary>
+        internal static string Dexterity {
+            get {
+                return ResourceManager.GetString("Dexterity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Diminutive.
+        /// </summary>
+        internal static string Diminutive {
+            get {
+                return ResourceManager.GetString("Diminutive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Divination.
+        /// </summary>
+        internal static string Divination {
+            get {
+                return ResourceManager.GetString("Divination", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dragon.
+        /// </summary>
+        internal static string Dragon {
+            get {
+                return ResourceManager.GetString("Dragon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Elemental.
+        /// </summary>
+        internal static string Elemental {
+            get {
+                return ResourceManager.GetString("Elemental", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enchantment.
+        /// </summary>
+        internal static string Enchantment {
+            get {
+                return ResourceManager.GetString("Enchantment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Evocation.
+        /// </summary>
+        internal static string Evocation {
+            get {
+                return ResourceManager.GetString("Evocation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fey.
+        /// </summary>
+        internal static string Fey {
+            get {
+                return ResourceManager.GetString("Fey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fine.
+        /// </summary>
+        internal static string Fine {
+            get {
+                return ResourceManager.GetString("Fine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fortitude.
+        /// </summary>
+        internal static string Fortitude {
+            get {
+                return ResourceManager.GetString("Fortitude", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gargantuan.
+        /// </summary>
+        internal static string Gargantuan {
+            get {
+                return ResourceManager.GetString("Gargantuan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Giant.
+        /// </summary>
+        internal static string Giant {
+            get {
+                return ResourceManager.GetString("Giant", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Huge.
+        /// </summary>
+        internal static string Huge {
+            get {
+                return ResourceManager.GetString("Huge", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Humanoid.
+        /// </summary>
+        internal static string Humanoid {
+            get {
+                return ResourceManager.GetString("Humanoid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Illusion.
+        /// </summary>
+        internal static string Illusion {
+            get {
+                return ResourceManager.GetString("Illusion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Incapacitated.
+        /// </summary>
+        internal static string Incapacitated {
+            get {
+                return ResourceManager.GetString("Incapacitated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Initiative.
+        /// </summary>
+        internal static string Initiative {
+            get {
+                return ResourceManager.GetString("Initiative", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Intelligence.
+        /// </summary>
+        internal static string Intelligence {
+            get {
+                return ResourceManager.GetString("Intelligence", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Large.
+        /// </summary>
+        internal static string Large {
+            get {
+                return ResourceManager.GetString("Large", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lawful Evil.
+        /// </summary>
+        internal static string LawfulEvil {
+            get {
+                return ResourceManager.GetString("LawfulEvil", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lawful Good.
+        /// </summary>
+        internal static string LawfulGood {
+            get {
+                return ResourceManager.GetString("LawfulGood", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lawful Neutral.
+        /// </summary>
+        internal static string LawfulNeutral {
+            get {
+                return ResourceManager.GetString("LawfulNeutral", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Magical Beast.
+        /// </summary>
+        internal static string MagicalBeast {
+            get {
+                return ResourceManager.GetString("MagicalBeast", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Medium.
+        /// </summary>
+        internal static string Medium {
+            get {
+                return ResourceManager.GetString("Medium", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Monstrous Humanoid.
+        /// </summary>
+        internal static string MonstrousHumanoid {
+            get {
+                return ResourceManager.GetString("MonstrousHumanoid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Necromancy.
+        /// </summary>
+        internal static string Necromancy {
+            get {
+                return ResourceManager.GetString("Necromancy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Neutral Evil.
+        /// </summary>
+        internal static string NeutralEvil {
+            get {
+                return ResourceManager.GetString("NeutralEvil", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Neutral Good.
+        /// </summary>
+        internal static string NeutralGood {
+            get {
+                return ResourceManager.GetString("NeutralGood", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No Requirements.
         /// </summary>
         internal static string NoRequirements {
             get {
                 return ResourceManager.GetString("NoRequirements", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ooze.
+        /// </summary>
+        internal static string Ooze {
+            get {
+                return ResourceManager.GetString("Ooze", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Outsider.
+        /// </summary>
+        internal static string Outsider {
+            get {
+                return ResourceManager.GetString("Outsider", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Plant.
+        /// </summary>
+        internal static string Plant {
+            get {
+                return ResourceManager.GetString("Plant", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reflexes.
+        /// </summary>
+        internal static string Reflexes {
+            get {
+                return ResourceManager.GetString("Reflexes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Small.
+        /// </summary>
+        internal static string Small {
+            get {
+                return ResourceManager.GetString("Small", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Speed.
+        /// </summary>
+        internal static string Speed {
+            get {
+                return ResourceManager.GetString("Speed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Strength.
+        /// </summary>
+        internal static string Strength {
+            get {
+                return ResourceManager.GetString("Strength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tiny.
+        /// </summary>
+        internal static string Tiny {
+            get {
+                return ResourceManager.GetString("Tiny", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Transmutation.
+        /// </summary>
+        internal static string Transmutation {
+            get {
+                return ResourceManager.GetString("Transmutation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to True Neutral.
+        /// </summary>
+        internal static string TrueNeutral {
+            get {
+                return ResourceManager.GetString("TrueNeutral", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Undead.
+        /// </summary>
+        internal static string Undead {
+            get {
+                return ResourceManager.GetString("Undead", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Vermin.
+        /// </summary>
+        internal static string Vermin {
+            get {
+                return ResourceManager.GetString("Vermin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Willpower.
+        /// </summary>
+        internal static string Willpower {
+            get {
+                return ResourceManager.GetString("Willpower", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wisdom.
+        /// </summary>
+        internal static string Wisdom {
+            get {
+                return ResourceManager.GetString("Wisdom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to years.
+        /// </summary>
+        internal static string Years_word {
+            get {
+                return ResourceManager.GetString("Years_word", resourceCulture);
             }
         }
     }

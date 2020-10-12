@@ -32,57 +32,243 @@ namespace DiegoG.DnDTDesktop.Properties {
             }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("2")]
-        public byte Verbosity {
-            get {
-                return ((byte)(this["Verbosity"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0.01")]
         public decimal CoinWeight {
             get {
                 return ((decimal)(this["CoinWeight"]));
             }
+            set {
+                this["CoinWeight"] = value;
+            }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("5")]
         public int SquareSize {
             get {
                 return ((int)(this["SquareSize"]));
             }
+            set {
+                this["SquareSize"] = value;
+            }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public float IncapacitatedHP {
             get {
                 return ((float)(this["IncapacitatedHP"]));
             }
+            set {
+                this["IncapacitatedHP"] = value;
+            }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("-5")]
         public float BleedingOutHP {
             get {
                 return ((float)(this["BleedingOutHP"]));
             }
+            set {
+                this["BleedingOutHP"] = value;
+            }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("-10")]
         public float DeceasedHP {
             get {
                 return ((float)(this["DeceasedHP"]));
+            }
+            set {
+                this["DeceasedHP"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("White")]
+        public global::System.Drawing.Color InfoBoxColor {
+            get {
+                return ((global::System.Drawing.Color)(this["InfoBoxColor"]));
+            }
+            set {
+                this["InfoBoxColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Black")]
+        public global::System.Drawing.Color TextColor {
+            get {
+                return ((global::System.Drawing.Color)(this["TextColor"]));
+            }
+            set {
+                this["TextColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Black")]
+        public global::System.Drawing.Color BackgroundColor {
+            get {
+                return ((global::System.Drawing.Color)(this["BackgroundColor"]));
+            }
+            set {
+                this["BackgroundColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("LightGray")]
+        public global::System.Drawing.Color BackgroundTextColor {
+            get {
+                return ((global::System.Drawing.Color)(this["BackgroundTextColor"]));
+            }
+            set {
+                this["BackgroundTextColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("White")]
+        public global::System.Drawing.Color ModifierBoxColor {
+            get {
+                return ((global::System.Drawing.Color)(this["ModifierBoxColor"]));
+            }
+            set {
+                this["ModifierBoxColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("LightGray")]
+        public global::System.Drawing.Color ModifierBoxColor2 {
+            get {
+                return ((global::System.Drawing.Color)(this["ModifierBoxColor2"]));
+            }
+            set {
+                this["ModifierBoxColor2"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("LightBlue")]
+        public global::System.Drawing.Color TemporaryModifierBoxColor1 {
+            get {
+                return ((global::System.Drawing.Color)(this["TemporaryModifierBoxColor1"]));
+            }
+            set {
+                this["TemporaryModifierBoxColor1"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("PowderBlue")]
+        public global::System.Drawing.Color TemporaryModifierBoxColor2 {
+            get {
+                return ((global::System.Drawing.Color)(this["TemporaryModifierBoxColor2"]));
+            }
+            set {
+                this["TemporaryModifierBoxColor2"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("DeepSkyBlue")]
+        public global::System.Drawing.Color TemporaryModifierBoxColor3 {
+            get {
+                return ((global::System.Drawing.Color)(this["TemporaryModifierBoxColor3"]));
+            }
+            set {
+                this["TemporaryModifierBoxColor3"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Silver")]
+        public global::System.Drawing.Color AlternateInfoBoxColor {
+            get {
+                return ((global::System.Drawing.Color)(this["AlternateInfoBoxColor"]));
+            }
+            set {
+                this["AlternateInfoBoxColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("IndianRed")]
+        public global::System.Drawing.Color SavingThrowBoxColor1 {
+            get {
+                return ((global::System.Drawing.Color)(this["SavingThrowBoxColor1"]));
+            }
+            set {
+                this["SavingThrowBoxColor1"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Firebrick")]
+        public global::System.Drawing.Color SavingThrowBoxColor2 {
+            get {
+                return ((global::System.Drawing.Color)(this["SavingThrowBoxColor2"]));
+            }
+            set {
+                this["SavingThrowBoxColor2"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("DarkGray")]
+        public global::System.Drawing.Color InfoBoxColor2 {
+            get {
+                return ((global::System.Drawing.Color)(this["InfoBoxColor2"]));
+            }
+            set {
+                this["InfoBoxColor2"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("DimGray")]
+        public global::System.Drawing.Color HeaderBoxColor {
+            get {
+                return ((global::System.Drawing.Color)(this["HeaderBoxColor"]));
+            }
+            set {
+                this["HeaderBoxColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("2")]
+        public int ___Vb {
+            get {
+                return ((int)(this["___Vb"]));
+            }
+            set {
+                this["___Vb"] = value;
             }
         }
     }
