@@ -5,11 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DiegoG.DnDTDesktop.GUI.Elements
+namespace DiegoG.DnDTDesktop.GUI.Elements.Interfaces
 {
-    interface ICharacterGUIElement
+    public interface ICharacterHolderGUI
     {
-        ICharacterGUI ParentCharacterGUI { get; }
         Character HeldCharacter { get; }
     }
 }

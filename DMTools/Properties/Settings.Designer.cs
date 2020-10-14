@@ -271,5 +271,29 @@ namespace DiegoG.DnDTDesktop.Properties {
                 this["___Vb"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Arial, 8.25pt")]
+        public global::System.Drawing.Font MainFontSmall {
+            get {
+                return ((global::System.Drawing.Font)(this["MainFontSmall"]));
+            }
+            set {
+                this["MainFontSmall"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Arial, 18pt")]
+        public global::System.Drawing.Font MainFontBig {
+            get {
+                return ((global::System.Drawing.Font)(this["MainFontBig"]));
+            }
+            set {
+                this["MainFontBig"] = value;
+            }
+        }
     }
 }

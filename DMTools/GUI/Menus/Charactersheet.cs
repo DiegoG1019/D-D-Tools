@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using DiegoG.DnDTDesktop.GUI.Elements;
 using DiegoG.DnDTDesktop.Characters;
+using DiegoG.DnDTDesktop.GUI.Elements.Interfaces;
 
 namespace DiegoG.DnDTDesktop.GUI.Menus
 {

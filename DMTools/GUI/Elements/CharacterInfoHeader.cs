@@ -1,4 +1,6 @@
 ﻿using DiegoG.DnDTDesktop.Characters;
+using DiegoG.DnDTDesktop.GUI.Elements.Components;
+using DiegoG.DnDTDesktop.GUI.Elements.Interfaces;
 using DiegoG.DnDTDesktop.Properties;
 using DiegoG.Utilities;
 using System;
@@ -9,37 +11,15 @@ using static System.Windows.Forms.CheckedListBox;
 
 namespace DiegoG.DnDTDesktop.GUI.Elements
 {
-    public partial class CharacterInfoHeader : UserControl, ICharacterGUIElement
+    public partial class CharacterInfoHeader : CharacterUserControl
     {
-        public static ObjectCollection TypeList { get; private set; }
-        public static ObjectCollection SizeList { get; private set; }
-        public static ObjectCollection AlignmentList { get; private set; }
-
-        public ICharacterGUI ParentCharacterGUI => (ICharacterGUI) Parent;
-        public Character HeldCharacter => ParentCharacterGUI.HeldCharacter;
-
-        static CharacterInfoHeader()
-        {
-            foreach (var i in Enum.GetNames(typeof(BodyTypes)))
-                TypeList.Add(Resources.ResourceManager.GetString(i));
-            foreach (var i in Enum.GetNames(typeof(Sizes)))
-                SizeList.Add(Resources.ResourceManager.GetString(i));
-            foreach (var i in Enum.GetNames(typeof(Alignments)))
-                AlignmentList.Add(Resources.ResourceManager.GetString(i));
-        }
         public CharacterInfoHeader()
         {
             InitializeComponent();
 
-            if (!(Parent is ICharacterGUI) && !(Parent is ICharacterGUIElement))
-                throw new Exception("Parent must be implement ICharacterGUI");
-
-            ParentCharacterGUI.HeldCharacterChanged += CharacterInfoHeader_HeldCharacterChanged;
             TypeListBox.Items.AddRange(TypeList);
             SizeListBox.Items.AddRange(SizeList);
             AlignmentListBox.Items.AddRange(AlignmentList);
-
-            CharacterInfoHeader_HeldCharacterChanged();
 
             LevelTextBox.BackColor = Color.Black;
 
@@ -53,6 +33,11 @@ namespace DiegoG.DnDTDesktop.GUI.Elements
             AgeTextBox.TextChanged += AgeTextBox_TextChanged;
             HeightTextBox.TextChanged += HeightTextBox_TextChanged;
             WeightTextBox.TextChanged += WeightTextBox_TextChanged;
+        }
+
+        public override void Init()
+        {
+            base.Init();
         }
 
         private void WeightTextBox_TextChanged(object sender, EventArgs e)
@@ -78,7 +63,7 @@ namespace DiegoG.DnDTDesktop.GUI.Elements
         private void FullNameTextBox_TextChanged(object sender, EventArgs e) => HeldCharacter.Description.Fullname = FullNameTextBox.Text;
         private void NameTextBox_TextChanged(object sender, EventArgs e) => HeldCharacter.Description.Name = NameTextBox.Text;
 
-        private void CharacterInfoHeader_HeldCharacterChanged()
+        protected override void CharacterUserControl_HeldCharacterChanged()
         {
             NameTextBox.Text = HeldCharacter.Description.Name;
             FullNameTextBox.Text = HeldCharacter.Description.Fullname;

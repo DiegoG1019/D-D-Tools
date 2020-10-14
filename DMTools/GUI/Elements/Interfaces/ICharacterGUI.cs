@@ -6,11 +6,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace DiegoG.DnDTDesktop.GUI.Elements
+namespace DiegoG.DnDTDesktop.GUI.Elements.Interfaces
 {
-    public interface ICharacterGUI
+    public interface ICharacterGUI : ICharacterHolderGUI
     {
-        Character HeldCharacter { get; }
         event Action HeldCharacterChanged;
     }
 }
