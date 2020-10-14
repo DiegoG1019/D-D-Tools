@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace DiegoG.DnDTDesktop.GUI.Elements.Components
 {
-    public abstract class CharacterUserControl : UserControl, ICharacterGUI, ICharacterGUIElement
+    public class CharacterUserControl : UserControl, ICharacterGUI, ICharacterGUIElement
     {
         public ICharacterGUI ParentCharacterGUI => (ICharacterGUI)Parent;
         public Character HeldCharacter => ParentCharacterGUI.HeldCharacter;
@@ -21,6 +21,6 @@ namespace DiegoG.DnDTDesktop.GUI.Elements.Components
             ParentCharacterGUI.HeldCharacterChanged += CharacterUserControl_HeldCharacterChanged;
             CharacterUserControl_HeldCharacterChanged();
         }
-        protected abstract void CharacterUserControl_HeldCharacterChanged();
+        protected virtual void CharacterUserControl_HeldCharacterChanged() { }
     }
 }

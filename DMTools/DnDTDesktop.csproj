@@ -154,6 +154,12 @@
     <Compile Include="GUI\Elements\Components\CharacterUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="GUI\Elements\Components\LabeledTextbox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Elements\Components\LabeledTextbox.Designer.cs">
+      <DependentUpon>LabeledTextbox.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\Elements\Interfaces\ICharacterGUI.cs" />
     <Compile Include="GUI\Elements\CharacterInfoHeader.cs">
       <SubType>UserControl</SubType>
@@ -174,6 +180,18 @@
     </Compile>
     <Compile Include="GUI\Elements\SkillSheet.Designer.cs">
       <DependentUpon>SkillSheet.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Elements\StatDisplay.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Elements\StatDisplay.Designer.cs">
+      <DependentUpon>StatDisplay.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Elements\StatTab.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Elements\StatTab.Designer.cs">
+      <DependentUpon>StatTab.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\MainMenu.cs">
       <SubType>Form</SubType>
@@ -211,11 +229,20 @@
     <EmbeddedResource Include="GUI\Elements\CharacterInfoHeader.resx">
       <DependentUpon>CharacterInfoHeader.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Elements\Components\LabeledTextbox.resx">
+      <DependentUpon>LabeledTextbox.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\Elements\SkillColumn.resx">
       <DependentUpon>SkillColumn.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Elements\SkillSheet.resx">
       <DependentUpon>SkillSheet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Elements\StatDisplay.resx">
+      <DependentUpon>StatDisplay.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Elements\StatTab.resx">
+      <DependentUpon>StatTab.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
