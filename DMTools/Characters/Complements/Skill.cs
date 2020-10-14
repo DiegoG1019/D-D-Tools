@@ -1,12 +1,11 @@
-﻿using DiegoG.DnDTDesktop.Characters.Complements;
-using DiegoG.DnDTDesktop.Other;
+﻿using DiegoG.DnDTDesktop.Other;
 using System;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 using System.Xml.Serialization;
 using static DiegoG.DnDTDesktop.Enums;
 
-namespace DiegoG.DnDTDesktop.Characters
+namespace DiegoG.DnDTDesktop.Characters.Complements
 {
     [Serializable]
     public sealed class Skill : CharacterTrait<Skill>, IFlagged<Skill.FlagList>
@@ -54,12 +53,10 @@ namespace DiegoG.DnDTDesktop.Characters
                 {
                     return Parent.Stats.Modifier[KeyStat] + MiscRanks - 2;
                 }
-
                 if (Flags[FlagList.JobSkill])
                 {
                     return val + Rank;
                 }
-
                 return val + (Rank / 2);
             }
         }

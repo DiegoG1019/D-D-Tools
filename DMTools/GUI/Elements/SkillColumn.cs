@@ -12,6 +12,7 @@ using static DiegoG.DnDTDesktop.Enums;
 using static System.Windows.Forms.CheckedListBox;
 using DiegoG.DnDTDesktop.GUI.Elements.Interfaces;
 using DiegoG.DnDTDesktop.GUI.Elements.Components;
+using DiegoG.DnDTDesktop.Characters.Complements;
 
 namespace DiegoG.DnDTDesktop.GUI.Elements
 {

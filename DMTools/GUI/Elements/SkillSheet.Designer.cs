@@ -54,14 +54,14 @@
             this.MaxOtherSkillRankTextBox = new System.Windows.Forms.TextBox();
             this.MaxJobSkillRankTextBox = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
-            this.BaseSkillPointsTotalTextBox = new System.Windows.Forms.TextBox();
             this.AbilitySkillPointsTextBox = new System.Windows.Forms.TextBox();
-            this.BaseSkillPointsLabel = new System.Windows.Forms.Label();
+            this.ExtraSkillPointsLabel = new System.Windows.Forms.Label();
             this.OtherSkillPointsLabel = new System.Windows.Forms.Label();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
             this.MiscSkillPointsLabel = new System.Windows.Forms.Label();
             this.JobSkillPoints = new System.Windows.Forms.Label();
             this.BaseJobSkillPointsOpenButton = new System.Windows.Forms.Button();
+            this.MiscSkillPointsNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.tableLayoutPanel7 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel9 = new System.Windows.Forms.TableLayoutPanel();
             this.TotalSkillPointsTextBox = new System.Windows.Forms.TextBox();
@@ -70,7 +70,7 @@
             this.SpentSkillPointsTextBox = new System.Windows.Forms.TextBox();
             this.SpentSkillPointsLabel = new System.Windows.Forms.Label();
             this.AbilitySkillToolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.ExtraSkillPointsNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.PrimaryTableLayoutPanel.SuspendLayout();
             this.SkillListScrollingPanel.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -81,10 +81,11 @@
             this.tableLayoutPanel10.SuspendLayout();
             this.tableLayoutPanel6.SuspendLayout();
             this.tableLayoutPanel5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.MiscSkillPointsNumericUpDown)).BeginInit();
             this.tableLayoutPanel7.SuspendLayout();
             this.tableLayoutPanel9.SuspendLayout();
             this.tableLayoutPanel8.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ExtraSkillPointsNumericUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // PrimaryTableLayoutPanel
@@ -99,7 +100,7 @@
             this.PrimaryTableLayoutPanel.RowCount = 2;
             this.PrimaryTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.PrimaryTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.PrimaryTableLayoutPanel.Size = new System.Drawing.Size(790, 180);
+            this.PrimaryTableLayoutPanel.Size = new System.Drawing.Size(800, 500);
             this.PrimaryTableLayoutPanel.TabIndex = 0;
             // 
             // SkillListScrollingPanel
@@ -109,13 +110,14 @@
             this.SkillListScrollingPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.SkillListScrollingPanel.Location = new System.Drawing.Point(3, 139);
             this.SkillListScrollingPanel.Name = "SkillListScrollingPanel";
-            this.SkillListScrollingPanel.Size = new System.Drawing.Size(784, 175);
+            this.SkillListScrollingPanel.Size = new System.Drawing.Size(794, 358);
             this.SkillListScrollingPanel.TabIndex = 0;
             // 
             // SkillListTable
             // 
             this.SkillListTable.AutoSize = true;
             this.SkillListTable.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.SkillListTable.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.SkillListTable.ColumnCount = 1;
             this.SkillListTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.SkillListTable.Dock = System.Windows.Forms.DockStyle.Top;
@@ -124,7 +126,7 @@
             this.SkillListTable.RowCount = 1;
             this.SkillListTable.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.SkillListTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 1F));
-            this.SkillListTable.Size = new System.Drawing.Size(784, 0);
+            this.SkillListTable.Size = new System.Drawing.Size(794, 2);
             this.SkillListTable.TabIndex = 3;
             // 
             // tableLayoutPanel1
@@ -139,24 +141,24 @@
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(784, 130);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(794, 130);
             this.tableLayoutPanel1.TabIndex = 1;
             // 
             // tableLayoutPanel2
             // 
             this.tableLayoutPanel2.ColumnCount = 12;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 275F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 52F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 272F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 51F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 59F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 17F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 59F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 15F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 15F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 15F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 15F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 71F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 61F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 14F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 61F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 18F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 81F));
             this.tableLayoutPanel2.Controls.Add(this.ArmorPenalizerLabel, 11, 0);
             this.tableLayoutPanel2.Controls.Add(this.MiscRanksLabel, 9, 0);
             this.tableLayoutPanel2.Controls.Add(this.RanksLabel, 7, 0);
@@ -171,7 +173,7 @@
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 37F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(778, 37);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(788, 37);
             this.tableLayoutPanel2.TabIndex = 0;
             // 
             // ArmorPenalizerLabel
@@ -180,7 +182,7 @@
             this.ArmorPenalizerLabel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ArmorPenalizerLabel.Location = new System.Drawing.Point(710, 0);
             this.ArmorPenalizerLabel.Name = "ArmorPenalizerLabel";
-            this.ArmorPenalizerLabel.Size = new System.Drawing.Size(65, 37);
+            this.ArmorPenalizerLabel.Size = new System.Drawing.Size(75, 37);
             this.ArmorPenalizerLabel.TabIndex = 13;
             this.ArmorPenalizerLabel.Text = "Armor Penalizer";
             this.ArmorPenalizerLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -189,9 +191,9 @@
             // 
             this.MiscRanksLabel.AutoSize = true;
             this.MiscRanksLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.MiscRanksLabel.Location = new System.Drawing.Point(635, 0);
+            this.MiscRanksLabel.Location = new System.Drawing.Point(631, 0);
             this.MiscRanksLabel.Name = "MiscRanksLabel";
-            this.MiscRanksLabel.Size = new System.Drawing.Size(54, 37);
+            this.MiscRanksLabel.Size = new System.Drawing.Size(55, 37);
             this.MiscRanksLabel.TabIndex = 11;
             this.MiscRanksLabel.Text = "Misc. Ranks";
             this.MiscRanksLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -200,9 +202,9 @@
             // 
             this.RanksLabel.AutoSize = true;
             this.RanksLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.RanksLabel.Location = new System.Drawing.Point(560, 0);
+            this.RanksLabel.Location = new System.Drawing.Point(556, 0);
             this.RanksLabel.Name = "RanksLabel";
-            this.RanksLabel.Size = new System.Drawing.Size(54, 37);
+            this.RanksLabel.Size = new System.Drawing.Size(55, 37);
             this.RanksLabel.TabIndex = 9;
             this.RanksLabel.Text = "Ranks";
             this.RanksLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -211,9 +213,9 @@
             // 
             this.StatModifierLabel.AutoSize = true;
             this.StatModifierLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.StatModifierLabel.Location = new System.Drawing.Point(485, 0);
+            this.StatModifierLabel.Location = new System.Drawing.Point(482, 0);
             this.StatModifierLabel.Name = "StatModifierLabel";
-            this.StatModifierLabel.Size = new System.Drawing.Size(54, 37);
+            this.StatModifierLabel.Size = new System.Drawing.Size(53, 37);
             this.StatModifierLabel.TabIndex = 6;
             this.StatModifierLabel.Text = "Stat Modifier";
             this.StatModifierLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -222,9 +224,9 @@
             // 
             this.SkillModifierLabel.AutoSize = true;
             this.SkillModifierLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.SkillModifierLabel.Location = new System.Drawing.Point(410, 0);
+            this.SkillModifierLabel.Location = new System.Drawing.Point(406, 0);
             this.SkillModifierLabel.Name = "SkillModifierLabel";
-            this.SkillModifierLabel.Size = new System.Drawing.Size(54, 37);
+            this.SkillModifierLabel.Size = new System.Drawing.Size(53, 37);
             this.SkillModifierLabel.TabIndex = 4;
             this.SkillModifierLabel.Text = "Skill Modifier";
             this.SkillModifierLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -234,9 +236,9 @@
             // 
             this.KeyStatLabel.AutoSize = true;
             this.KeyStatLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.KeyStatLabel.Location = new System.Drawing.Point(358, 0);
+            this.KeyStatLabel.Location = new System.Drawing.Point(355, 0);
             this.KeyStatLabel.Name = "KeyStatLabel";
-            this.KeyStatLabel.Size = new System.Drawing.Size(46, 37);
+            this.KeyStatLabel.Size = new System.Drawing.Size(45, 37);
             this.KeyStatLabel.TabIndex = 3;
             this.KeyStatLabel.Text = "Key Stat";
             this.KeyStatLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -247,7 +249,7 @@
             this.SkillNameLabel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.SkillNameLabel.Location = new System.Drawing.Point(83, 0);
             this.SkillNameLabel.Name = "SkillNameLabel";
-            this.SkillNameLabel.Size = new System.Drawing.Size(269, 37);
+            this.SkillNameLabel.Size = new System.Drawing.Size(266, 37);
             this.SkillNameLabel.TabIndex = 2;
             this.SkillNameLabel.Text = "Skill Name";
             this.SkillNameLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -320,7 +322,7 @@
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
             this.tableLayoutPanel4.RowCount = 1;
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(778, 81);
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(788, 81);
             this.tableLayoutPanel4.TabIndex = 1;
             // 
             // tableLayoutPanel11
@@ -331,7 +333,7 @@
             this.tableLayoutPanel11.Controls.Add(this.LearnedLanguagesLabel, 1, 0);
             this.tableLayoutPanel11.Controls.Add(this.LearnedLanguagesOpenButton, 0, 0);
             this.tableLayoutPanel11.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.FixedSize;
-            this.tableLayoutPanel11.Location = new System.Drawing.Point(623, 3);
+            this.tableLayoutPanel11.Location = new System.Drawing.Point(631, 3);
             this.tableLayoutPanel11.Name = "tableLayoutPanel11";
             this.tableLayoutPanel11.RowCount = 2;
             this.tableLayoutPanel11.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
@@ -371,7 +373,7 @@
             this.tableLayoutPanel10.Controls.Add(this.MaxOtherSkillRankTextBox, 0, 1);
             this.tableLayoutPanel10.Controls.Add(this.MaxJobSkillRankTextBox, 0, 0);
             this.tableLayoutPanel10.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.FixedSize;
-            this.tableLayoutPanel10.Location = new System.Drawing.Point(468, 3);
+            this.tableLayoutPanel10.Location = new System.Drawing.Point(474, 3);
             this.tableLayoutPanel10.Name = "tableLayoutPanel10";
             this.tableLayoutPanel10.RowCount = 2;
             this.tableLayoutPanel10.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
@@ -427,28 +429,18 @@
             this.tableLayoutPanel6.ColumnCount = 2;
             this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 74F));
-            this.tableLayoutPanel6.Controls.Add(this.BaseSkillPointsTotalTextBox, 1, 1);
+            this.tableLayoutPanel6.Controls.Add(this.ExtraSkillPointsNumericUpDown, 1, 1);
             this.tableLayoutPanel6.Controls.Add(this.AbilitySkillPointsTextBox, 1, 0);
-            this.tableLayoutPanel6.Controls.Add(this.BaseSkillPointsLabel, 0, 1);
+            this.tableLayoutPanel6.Controls.Add(this.ExtraSkillPointsLabel, 0, 1);
             this.tableLayoutPanel6.Controls.Add(this.OtherSkillPointsLabel, 0, 0);
             this.tableLayoutPanel6.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.FixedSize;
-            this.tableLayoutPanel6.Location = new System.Drawing.Point(158, 3);
+            this.tableLayoutPanel6.Location = new System.Drawing.Point(160, 3);
             this.tableLayoutPanel6.Name = "tableLayoutPanel6";
             this.tableLayoutPanel6.RowCount = 2;
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel6.Size = new System.Drawing.Size(149, 75);
             this.tableLayoutPanel6.TabIndex = 1;
-            // 
-            // BaseSkillPointsTotalTextBox
-            // 
-            this.BaseSkillPointsTotalTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.BaseSkillPointsTotalTextBox.Location = new System.Drawing.Point(78, 40);
-            this.BaseSkillPointsTotalTextBox.Name = "BaseSkillPointsTotalTextBox";
-            this.BaseSkillPointsTotalTextBox.ReadOnly = true;
-            this.BaseSkillPointsTotalTextBox.Size = new System.Drawing.Size(68, 20);
-            this.BaseSkillPointsTotalTextBox.TabIndex = 14;
-            this.BaseSkillPointsTotalTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // AbilitySkillPointsTextBox
             // 
@@ -460,16 +452,16 @@
             this.AbilitySkillPointsTextBox.TabIndex = 13;
             this.AbilitySkillPointsTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // BaseSkillPointsLabel
+            // ExtraSkillPointsLabel
             // 
-            this.BaseSkillPointsLabel.AutoSize = true;
-            this.BaseSkillPointsLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.BaseSkillPointsLabel.Location = new System.Drawing.Point(3, 37);
-            this.BaseSkillPointsLabel.Name = "BaseSkillPointsLabel";
-            this.BaseSkillPointsLabel.Size = new System.Drawing.Size(69, 38);
-            this.BaseSkillPointsLabel.TabIndex = 2;
-            this.BaseSkillPointsLabel.Text = "Total Base SkillPoints";
-            this.BaseSkillPointsLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.ExtraSkillPointsLabel.AutoSize = true;
+            this.ExtraSkillPointsLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ExtraSkillPointsLabel.Location = new System.Drawing.Point(3, 37);
+            this.ExtraSkillPointsLabel.Name = "ExtraSkillPointsLabel";
+            this.ExtraSkillPointsLabel.Size = new System.Drawing.Size(69, 38);
+            this.ExtraSkillPointsLabel.TabIndex = 2;
+            this.ExtraSkillPointsLabel.Text = "Extra Skill Points";
+            this.ExtraSkillPointsLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // OtherSkillPointsLabel
             // 
@@ -491,7 +483,7 @@
             this.tableLayoutPanel5.Controls.Add(this.MiscSkillPointsLabel, 0, 1);
             this.tableLayoutPanel5.Controls.Add(this.JobSkillPoints, 0, 0);
             this.tableLayoutPanel5.Controls.Add(this.BaseJobSkillPointsOpenButton, 1, 0);
-            this.tableLayoutPanel5.Controls.Add(this.numericUpDown1, 1, 1);
+            this.tableLayoutPanel5.Controls.Add(this.MiscSkillPointsNumericUpDown, 1, 1);
             this.tableLayoutPanel5.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.FixedSize;
             this.tableLayoutPanel5.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel5.Name = "tableLayoutPanel5";
@@ -533,6 +525,21 @@
             this.BaseJobSkillPointsOpenButton.TabIndex = 11;
             this.BaseJobSkillPointsOpenButton.Text = "Open";
             this.BaseJobSkillPointsOpenButton.UseVisualStyleBackColor = true;
+            this.BaseJobSkillPointsOpenButton.Click += new System.EventHandler(this.BaseJobSkillPointsOpenButton_Click);
+            // 
+            // MiscSkillPointsNumericUpDown
+            // 
+            this.MiscSkillPointsNumericUpDown.Location = new System.Drawing.Point(78, 40);
+            this.MiscSkillPointsNumericUpDown.Maximum = new decimal(new int[] {
+            2147483647,
+            0,
+            0,
+            0});
+            this.MiscSkillPointsNumericUpDown.Name = "MiscSkillPointsNumericUpDown";
+            this.MiscSkillPointsNumericUpDown.Size = new System.Drawing.Size(68, 20);
+            this.MiscSkillPointsNumericUpDown.TabIndex = 12;
+            this.MiscSkillPointsNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.MiscSkillPointsNumericUpDown.ValueChanged += new System.EventHandler(this.MiscSkillPointsNumericUpDown_ValueChanged);
             // 
             // tableLayoutPanel7
             // 
@@ -543,7 +550,7 @@
             this.tableLayoutPanel7.Controls.Add(this.tableLayoutPanel9, 1, 0);
             this.tableLayoutPanel7.Controls.Add(this.tableLayoutPanel8, 0, 0);
             this.tableLayoutPanel7.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.FixedSize;
-            this.tableLayoutPanel7.Location = new System.Drawing.Point(313, 3);
+            this.tableLayoutPanel7.Location = new System.Drawing.Point(317, 3);
             this.tableLayoutPanel7.Name = "tableLayoutPanel7";
             this.tableLayoutPanel7.RowCount = 1;
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -626,27 +633,28 @@
             // 
             this.AbilitySkillToolTip.Popup += new System.Windows.Forms.PopupEventHandler(this.AbilitySkillToolTip_Popup);
             // 
-            // numericUpDown1
+            // ExtraSkillPointsNumericUpDown
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(78, 40);
-            this.numericUpDown1.Maximum = new decimal(new int[] {
-            49999,
+            this.ExtraSkillPointsNumericUpDown.Location = new System.Drawing.Point(78, 40);
+            this.ExtraSkillPointsNumericUpDown.Maximum = new decimal(new int[] {
+            2147483647,
             0,
             0,
             0});
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(68, 20);
-            this.numericUpDown1.TabIndex = 12;
+            this.ExtraSkillPointsNumericUpDown.Name = "ExtraSkillPointsNumericUpDown";
+            this.ExtraSkillPointsNumericUpDown.Size = new System.Drawing.Size(68, 20);
+            this.ExtraSkillPointsNumericUpDown.TabIndex = 14;
+            this.ExtraSkillPointsNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // SkillSheet
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.PrimaryTableLayoutPanel);
-            this.MaximumSize = new System.Drawing.Size(790, 0);
-            this.MinimumSize = new System.Drawing.Size(790, 180);
+            this.MaximumSize = new System.Drawing.Size(800, 0);
+            this.MinimumSize = new System.Drawing.Size(800, 500);
             this.Name = "SkillSheet";
-            this.Size = new System.Drawing.Size(790, 180);
+            this.Size = new System.Drawing.Size(800, 500);
             this.PrimaryTableLayoutPanel.ResumeLayout(false);
             this.SkillListScrollingPanel.ResumeLayout(false);
             this.SkillListScrollingPanel.PerformLayout();
@@ -664,12 +672,13 @@
             this.tableLayoutPanel6.PerformLayout();
             this.tableLayoutPanel5.ResumeLayout(false);
             this.tableLayoutPanel5.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.MiscSkillPointsNumericUpDown)).EndInit();
             this.tableLayoutPanel7.ResumeLayout(false);
             this.tableLayoutPanel9.ResumeLayout(false);
             this.tableLayoutPanel9.PerformLayout();
             this.tableLayoutPanel8.ResumeLayout(false);
             this.tableLayoutPanel8.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ExtraSkillPointsNumericUpDown)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -697,10 +706,9 @@
         private System.Windows.Forms.Label JobSkillPoints;
         private System.Windows.Forms.Button BaseJobSkillPointsOpenButton;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel6;
-        private System.Windows.Forms.Label BaseSkillPointsLabel;
+        private System.Windows.Forms.Label ExtraSkillPointsLabel;
         private System.Windows.Forms.Label OtherSkillPointsLabel;
         public System.Windows.Forms.ToolTip AbilitySkillToolTip;
-        private System.Windows.Forms.TextBox BaseSkillPointsTotalTextBox;
         private System.Windows.Forms.TextBox AbilitySkillPointsTextBox;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel7;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel9;
@@ -717,6 +725,7 @@
         private System.Windows.Forms.TextBox MaxJobSkillRankTextBox;
         private System.Windows.Forms.Label LearnedLanguagesLabel;
         private System.Windows.Forms.Button LearnedLanguagesOpenButton;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.NumericUpDown MiscSkillPointsNumericUpDown;
+        private System.Windows.Forms.NumericUpDown ExtraSkillPointsNumericUpDown;
     }
 }

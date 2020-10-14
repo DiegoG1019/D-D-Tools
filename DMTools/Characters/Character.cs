@@ -26,7 +26,7 @@ namespace DiegoG.DnDTDesktop.Characters
         public JobList Jobs { get; set; }
         public List<Ability> Abilities { get; set; } = new List<Ability>();
         public List<Ability> Feats { get; set; } = new List<Ability>();
-        public List<Skill> Skills { get; set; } = new List<Skill>();
+        public SkillList Skills { get; set; } = new SkillList();
         public List<Inventory> Bags { get; set; } = new List<Inventory>();
         public Inventory Equipped { get; set; } = new Inventory();
 

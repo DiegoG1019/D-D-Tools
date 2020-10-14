@@ -145,7 +145,8 @@
     <Compile Include="Characters\ArmorClass.cs" />
     <Compile Include="Characters\Complements\Job.cs" />
     <Compile Include="Characters\JobList.cs" />
-    <Compile Include="Characters\Skill.cs" />
+    <Compile Include="Characters\Complements\Skill.cs" />
+    <Compile Include="Characters\SkillList.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="GUI\Elements\Components\CharacterGUITableLayoutPanel.cs">
       <SubType>Component</SubType>
