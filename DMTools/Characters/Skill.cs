@@ -16,25 +16,32 @@ namespace DiegoG.DnDTDesktop.Characters
             TrainedOnly, PenalizedByArmor, JobSkill
         };
 
+        public bool TrainedOnlyFlag
+        {
+            get => Flags[FlagList.TrainedOnly];
+            set => Flags[FlagList.TrainedOnly] = value;
+        }
+        public bool PenalizedByArmorFlag
+        {
+            get => Flags[FlagList.PenalizedByArmor];
+            set => Flags[FlagList.PenalizedByArmor] = value;
+        }
+        public bool JobSkillFlag
+        {
+            get => Flags[FlagList.JobSkill];
+            set => Flags[FlagList.JobSkill] = value;
+        }
+
         public string Name { get; set; }
         public Stats KeyStat { get; set; }
-        public int Level { get; set; }
-        public int MiscLevels { get; set; }
-
-        public Skill(string name, Stats keyStat, int miscLevels, int level, FlagsArray<FlagList> flg)
-        {
-            Name = name;
-            KeyStat = keyStat;
-            MiscLevels = miscLevels;
-            Level = level;
-            Flags = flg;
-        }
+        public int Rank { get; set; }
+        public int MiscRanks { get; set; }
 
         public FlagsArray<FlagList> Flags { get; set; }
 
         public void Train(int l)
         {
-            Level += l;
+            Rank += l;
         }
 
         [IgnoreDataMember, JsonIgnore, XmlIgnore]
@@ -42,18 +49,18 @@ namespace DiegoG.DnDTDesktop.Characters
         {
             get
             {
-                var val = Parent.Stats.Modifier[KeyStat] + MiscLevels;
-                if (Flags[FlagList.TrainedOnly] && Level <= 0)
+                var val = Parent.Stats.Modifier[KeyStat] + MiscRanks;
+                if (Flags[FlagList.TrainedOnly] && Rank <= 0)
                 {
-                    return Parent.Stats.Modifier[KeyStat] + MiscLevels - 2;
+                    return Parent.Stats.Modifier[KeyStat] + MiscRanks - 2;
                 }
 
                 if (Flags[FlagList.JobSkill])
                 {
-                    return val + Level;
+                    return val + Rank;
                 }
 
-                return val + (Level / 2);
+                return val + (Rank / 2);
             }
         }
 

@@ -1,4 +1,5 @@
 ﻿using DiegoG.DnDTDesktop.Characters.Complements;
+using DiegoG.DnDTDesktop.Items;
 using DiegoG.Utilities;
 using System;
 using System.Collections.Generic;
@@ -26,6 +27,8 @@ namespace DiegoG.DnDTDesktop.Characters
         public List<Ability> Abilities { get; set; } = new List<Ability>();
         public List<Ability> Feats { get; set; } = new List<Ability>();
         public List<Skill> Skills { get; set; } = new List<Skill>();
+        public List<Inventory> Bags { get; set; } = new List<Inventory>();
+        public Inventory Equipped { get; set; } = new Inventory();
 
         /// <summary>
         /// Don't use this one, this is for serialization, and lacks any initialization. (The serializer is supposed to take care of that)

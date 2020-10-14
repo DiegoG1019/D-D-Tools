@@ -16,6 +16,7 @@ namespace DiegoG.DnDTDesktop.Characters
         private float _current;
         public float Required { get; set; }
         public int Level { get; set; }
+        public int UnspentLevels => Level - Parent.Jobs.AllLevels;
 
         public List<float> History { get; set; }
         public float Current

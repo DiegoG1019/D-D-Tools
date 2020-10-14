@@ -68,6 +68,17 @@
   <PropertyGroup>
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Design|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Design\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;DESIGN</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.1.1.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
@@ -136,14 +147,33 @@
     <Compile Include="Characters\JobList.cs" />
     <Compile Include="Characters\Skill.cs" />
     <Compile Include="Enums.cs" />
-    <Compile Include="GUI\Elements\ICharacterGUI.cs" />
+    <Compile Include="GUI\Elements\Components\CharacterGUITableLayoutPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="GUI\Elements\Components\CharacterUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Elements\Interfaces\ICharacterGUI.cs" />
     <Compile Include="GUI\Elements\CharacterInfoHeader.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="GUI\Elements\CharacterInfoHeader.Designer.cs">
       <DependentUpon>CharacterInfoHeader.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Elements\ICharacterGUIElement.cs" />
+    <Compile Include="GUI\Elements\Interfaces\ICharacterGUIElement.cs" />
+    <Compile Include="GUI\Elements\Interfaces\ICharacterHolderGUI.cs" />
+    <Compile Include="GUI\Elements\SkillColumn.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Elements\SkillColumn.Designer.cs">
+      <DependentUpon>SkillColumn.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Elements\SkillSheet.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Elements\SkillSheet.Designer.cs">
+      <DependentUpon>SkillSheet.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\MainMenu.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -180,6 +210,12 @@
     <EmbeddedResource Include="GUI\Elements\CharacterInfoHeader.resx">
       <DependentUpon>CharacterInfoHeader.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Elements\SkillColumn.resx">
+      <DependentUpon>SkillColumn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Elements\SkillSheet.resx">
+      <DependentUpon>SkillSheet.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -197,7 +233,6 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <Compile Include="Properties\Settings.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>

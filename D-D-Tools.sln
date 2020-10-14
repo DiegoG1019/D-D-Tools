@@ -14,11 +14,14 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Design|Any CPU = Design|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{F30213BB-263C-4759-86B1-0312A1796BEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F30213BB-263C-4759-86B1-0312A1796BEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F30213BB-263C-4759-86B1-0312A1796BEB}.Design|Any CPU.ActiveCfg = Design|Any CPU
+		{F30213BB-263C-4759-86B1-0312A1796BEB}.Design|Any CPU.Build.0 = Design|Any CPU
 		{F30213BB-263C-4759-86B1-0312A1796BEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F30213BB-263C-4759-86B1-0312A1796BEB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection

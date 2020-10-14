@@ -1,4 +1,7 @@
-﻿using System;
+﻿using DiegoG.DnDTDesktop.Properties;
+using System;
+using System.Collections.Immutable;
+using static System.Windows.Forms.CheckedListBox;
 
 namespace DiegoG.DnDTDesktop
 {
@@ -55,5 +58,34 @@ namespace DiegoG.DnDTDesktop
             Fine, Diminutive, Tiny, Small, Medium, Large, Huge, Gargantuan, Colossal
         }
         public static int SizeCount { get; } = Enum.GetNames(typeof(Sizes)).Length;
+
+
+        public static ImmutableDictionary<Stats, string> ShortStatNames { get; private set; }
+        public static ObjectCollection TypeList { get; private set; }
+        public static ObjectCollection SizeList { get; private set; }
+        public static ObjectCollection AlignmentList { get; private set; }
+        public static ObjectCollection StatList { get; private set; }
+
+        static Enums()
+        {
+            var builder = ImmutableDictionary.CreateBuilder<Stats, string>();
+            builder.Add(Stats.Charisma, "Cha");
+            builder.Add(Stats.Constitution, "Con");
+            builder.Add(Stats.Dexterity, "Dex");
+            builder.Add(Stats.Initiative, "Ini");
+            builder.Add(Stats.Intelligence, "Int");
+            builder.Add(Stats.Speed, "Spd");
+            builder.Add(Stats.Strength, "Str");
+            builder.Add(Stats.Wisdom, "Wis");
+            foreach (var i in Enum.GetNames(typeof(BodyTypes)))
+                TypeList.Add(Resources.ResourceManager.GetString(i));
+            foreach (var i in Enum.GetNames(typeof(Sizes)))
+                SizeList.Add(Resources.ResourceManager.GetString(i));
+            foreach (var i in Enum.GetNames(typeof(Alignments)))
+                AlignmentList.Add(Resources.ResourceManager.GetString(i));
+            foreach (var i in Enum.GetNames(typeof(Stats)))
+                StatList.Add(Resources.ResourceManager.GetString(i));
+        }
+
     }
 }
