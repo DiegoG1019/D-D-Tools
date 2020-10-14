@@ -154,6 +154,12 @@
     <Compile Include="GUI\Elements\Components\CharacterUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="GUI\Elements\Components\LabeledNumericBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Elements\Components\LabeledNumericBox.Designer.cs">
+      <DependentUpon>LabeledNumericBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\Elements\Components\LabeledTextbox.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -228,6 +234,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="GUI\Elements\CharacterInfoHeader.resx">
       <DependentUpon>CharacterInfoHeader.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Elements\Components\LabeledNumericBox.resx">
+      <DependentUpon>LabeledNumericBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Elements\Components\LabeledTextbox.resx">
       <DependentUpon>LabeledTextbox.cs</DependentUpon>
