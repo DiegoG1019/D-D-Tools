@@ -33,22 +33,22 @@ namespace DiegoG.DnDTDesktop.GUI.Elements
         protected override void CharacterUserControl_HeldCharacterChanged()
         {
             SelectedStatChanged();
-            BaseTotalNumericBox.Numeric.Value = HeldStats.BaseTotal[SelectedStat];
-            ExtraPointsLabeledNumeric.Numeric.Value = HeldStats.Bonus[SelectedStat];
-            BaseModifierLabeledTextBox.TextBoxText = HeldStats.BaseModifier[SelectedStat].ToString();
-            FullModifierLabeledTextBox.TextBoxText = HeldStats.Modifier[SelectedStat].ToString();
-            EffectPointsLabeledTextBox.TextBoxText = HeldStats.EffectPoints[SelectedStat].ToString();
-            TotalPointsLabeledTextBox.TextBoxText = HeldStats.Total[SelectedStat].ToString();
+            BaseTotalNumericBox.Numeric.Value = HeldStats[SelectedStat].BasePoints;
+            ExtraPointsLabeledNumeric.Numeric.Value = HeldStats[SelectedStat].Bonus;
+            BaseModifierLabeledTextBox.TextBoxText = HeldStats[SelectedStat].BaseModifier.ToString();
+            FullModifierLabeledTextBox.TextBoxText = HeldStats[SelectedStat].Modifier.ToString();
+            EffectPointsLabeledTextBox.TextBoxText = HeldStats[SelectedStat].EffectPoints.ToString();
+            TotalPointsLabeledTextBox.TextBoxText = $"{HeldStats[SelectedStat].BaseTotal} ({HeldStats[SelectedStat].Total})";
         }
 
         private void ExtraPointsNumeric_ValueChanged(object sender, EventArgs e)
         {
-            HeldStats.Bonus[SelectedStat] = (int)ExtraPointsLabeledNumeric.Numeric.Value;
+            HeldStats[SelectedStat].Bonus = (int)ExtraPointsLabeledNumeric.Numeric.Value;
         }
 
         private void BaseTotalNumeric_ValueChanged(object sender, EventArgs e)
         {
-            HeldStats.BaseTotal[SelectedStat] = (int)BaseTotalNumericBox.Numeric.Value;
+            HeldStats[SelectedStat].BasePoints = (int)BaseTotalNumericBox.Numeric.Value;
         }
     }
 }

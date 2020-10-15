@@ -76,7 +76,7 @@ namespace DiegoG.DnDTDesktop.Characters
         {
             for (byte i = 0; i <= Parent.Experience.Level; i++)
             {
-                var n = HpThrows[i] + Parent.Stats.Modifier[Stats.Constitution];
+                var n = HpThrows[i] + Parent.Stats[Stats.Constitution].Modifier;
                 if (n > 1)
                 {
                     BaseHP += n;

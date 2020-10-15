@@ -48,10 +48,10 @@ namespace DiegoG.DnDTDesktop.Characters.Complements
         {
             get
             {
-                var val = Parent.Stats.Modifier[KeyStat] + MiscRanks;
+                var val = Parent.Stats[KeyStat].Modifier + MiscRanks;
                 if (Flags[FlagList.TrainedOnly] && Rank <= 0)
                 {
-                    return Parent.Stats.Modifier[KeyStat] + MiscRanks - 2;
+                    return Parent.Stats[KeyStat].Modifier + MiscRanks - 2;
                 }
                 if (Flags[FlagList.JobSkill])
                 {

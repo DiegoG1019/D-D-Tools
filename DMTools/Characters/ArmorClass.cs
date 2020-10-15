@@ -26,13 +26,13 @@ namespace DiegoG.DnDTDesktop.Characters
         public FlagsArray<FlagList> Flags { get; set; } = new FlagsArray<FlagList>();
 
         [JsonIgnore, IgnoreDataMember, XmlIgnore]
-        public int AC => BaseAC + Armor + Size + Natural + Deflex + Temporary + Misc + Parent.Stats.Modifier[Stats.Dexterity];
+        public int AC => BaseAC + Armor + Size + Natural + Deflex + Temporary + Misc + Parent.Stats[Stats.Dexterity].Modifier;
 
         [JsonIgnore, IgnoreDataMember, XmlIgnore]
-        public int TouchAC => BaseAC + Size + Misc + Deflex + Parent.Stats.Modifier[Stats.Dexterity];
+        public int TouchAC => BaseAC + Size + Misc + Deflex + Parent.Stats[Stats.Dexterity].Modifier;
 
         [JsonIgnore, IgnoreDataMember, XmlIgnore]
-        public int UnawareAC => BaseAC + Armor + Size + Natural + Misc + (Flags[FlagList.FeatDex] ? Parent.Stats.Modifier[Stats.Dexterity] : 0);
+        public int UnawareAC => BaseAC + Armor + Size + Natural + Misc + (Flags[FlagList.FeatDex] ? Parent.Stats[Stats.Dexterity].Modifier : 0);
 
     }
 }

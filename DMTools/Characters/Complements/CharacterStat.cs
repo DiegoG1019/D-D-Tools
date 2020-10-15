@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 using System.Xml.Serialization;
@@ -6,31 +8,36 @@ using System.Xml.Serialization;
 namespace DiegoG.DnDTDesktop.Characters.Complements
 {
     [Serializable]
-    public class CharacterStat<TStat> where TStat : Enum
+    public class CharacterStat<TStat> : IEnumerable<CharacterStatProperty<TStat>> where TStat : Enum
     {
-        public CharacterStatProperty<TStat> BasePoints { get; } = new CharacterStatProperty<TStat>();
-        public CharacterStatProperty<TStat> Bonus { get; } = new CharacterStatProperty<TStat>();
-        public CharacterStatProperty<TStat> EffectPoints { get; } = new CharacterStatProperty<TStat>();
+        public CharacterStatProperty<TStat>[] StatsArray { get; set; }
 
-        [IgnoreDataMember, JsonIgnore, XmlIgnore]
-        public CharacterStatProperty<TStat> BaseTotal => BasePoints + Bonus;
-        [IgnoreDataMember, JsonIgnore, XmlIgnore]
-        public CharacterStatProperty<TStat> BaseModifier => (BaseTotal / 2) - 5;
-        [IgnoreDataMember, JsonIgnore, XmlIgnore]
-        public CharacterStatProperty<TStat> Total => BaseTotal + EffectPoints;
-        [IgnoreDataMember, JsonIgnore, XmlIgnore]
-        public CharacterStatProperty<TStat> Modifier => (Total / 2) - 5;
+        public CharacterStatProperty<TStat> this[TStat ind]
+        {
+            get => StatsArray[Convert.ToInt32(ind)];
+            set => StatsArray[Convert.ToInt32(ind)] = value;
+        }
+        public IEnumerator<CharacterStatProperty<TStat>> GetEnumerator()
+        {
+            foreach (var i in StatsArray)
+            {
+                yield return i;
+            }
+        }
 
-        [IgnoreDataMember, JsonIgnore, XmlIgnore]
-        private CharacterStatProperty<TStat>[] Collection => new CharacterStatProperty<TStat>[] { BasePoints, Bonus, EffectPoints };
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
         /// <summary>
         /// Don't use this one
         /// </summary>
         public CharacterStat() : this(1) { }
         public CharacterStat(int count)
         {
-            for (int i = 0; i < Collection.Length; i++)
-                Collection[i] = new CharacterStatProperty<TStat>(count);
+            StatsArray = new CharacterStatProperty<TStat>[count];
+            for(int i = 0; i < count; i++)
+            {
+                StatsArray[i] = new CharacterStatProperty<TStat>();
+            }
         }
     }
 }
