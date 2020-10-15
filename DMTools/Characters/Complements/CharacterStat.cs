@@ -26,13 +26,9 @@ namespace DiegoG.DnDTDesktop.Characters.Complements
         }
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-
-        /// <summary>
-        /// Don't use this one
-        /// </summary>
-        public CharacterStat() : this(1) { }
-        public CharacterStat(int count)
+        public CharacterStat()
         {
+            var count = Enum.GetNames(typeof(TStat)).Length;
             StatsArray = new CharacterStatProperty<TStat>[count];
             for(int i = 0; i < count; i++)
             {

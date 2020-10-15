@@ -17,8 +17,8 @@ namespace DiegoG.DnDTDesktop.Characters
             get => _CFN;
             set { Program.Characters.ChangeCharacterRegistrationKey(_CFN, value); _CFN = value; }
         }
-        public CharacterStat<Stats> Stats { get; set; } = new CharacterStat<Stats>(StatCount);
-        public CharacterStat<SavingThrows> SavingThrows { get; set; } = new CharacterStat<SavingThrows>(SavingThrowCount);
+        public CharacterStat<Stats> Stats { get; set; } = new CharacterStat<Stats>();
+        public CharacterStat<SavingThrows> SavingThrows { get; set; } = new CharacterStat<SavingThrows>();
         public Experience Experience { get; set; }
         public ArmorClass ArmorClass { get; set; }
         public Description Description { get; set; }
