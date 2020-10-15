@@ -154,6 +154,9 @@
     <Compile Include="GUI\Elements\ArmorClassCard.Designer.cs">
       <DependentUpon>ArmorClassCard.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\Elements\Components\CharacterGUIFlowPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="GUI\Elements\Components\CharacterGUITableLayoutPanel.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -193,6 +196,12 @@
     <Compile Include="GUI\Elements\JobTab.Designer.cs">
       <DependentUpon>JobTab.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\Elements\SavingThrowsDisplay.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Elements\SavingThrowsDisplay.Designer.cs">
+      <DependentUpon>SavingThrowsDisplay.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\Elements\SkillColumn.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -210,6 +219,12 @@
     </Compile>
     <Compile Include="GUI\Elements\StatDisplay.Designer.cs">
       <DependentUpon>StatDisplay.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Elements\SavingThrowTab.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Elements\SavingThrowTab.Designer.cs">
+      <DependentUpon>SavingThrowTab.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\Elements\StatTab.cs">
       <SubType>UserControl</SubType>
@@ -268,6 +283,9 @@
     <EmbeddedResource Include="GUI\Elements\JobTab.resx">
       <DependentUpon>JobTab.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Elements\SavingThrowsDisplay.resx">
+      <DependentUpon>SavingThrowsDisplay.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\Elements\SkillColumn.resx">
       <DependentUpon>SkillColumn.cs</DependentUpon>
     </EmbeddedResource>
@@ -276,6 +294,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Elements\StatDisplay.resx">
       <DependentUpon>StatDisplay.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Elements\SavingThrowTab.resx">
+      <DependentUpon>SavingThrowTab.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Elements\StatTab.resx">
       <DependentUpon>StatTab.cs</DependentUpon>

@@ -1,6 +1,6 @@
 ﻿namespace DiegoG.DnDTDesktop.GUI.Elements
 {
-    partial class StatCard
+    partial class SavingThrowTab
     {
         /// <summary> 
         /// Required designer variable.
@@ -134,6 +134,7 @@
             this.FullModifierLabeledTextBox.TextBoxReadOnly = true;
             this.FullModifierLabeledTextBox.TextBoxText = "";
             this.FullModifierLabeledTextBox.TextBoxTextAlignment = System.Windows.Forms.HorizontalAlignment.Center;
+            this.FullModifierLabeledTextBox.Load += new System.EventHandler(this.FullModifierLabeledTextBox_Load);
             // 
             // tableLayoutPanel3
             // 
@@ -189,6 +190,7 @@
             this.ExtraPointsLabeledNumeric.NumericValue = 0;
             this.ExtraPointsLabeledNumeric.Size = new System.Drawing.Size(86, 34);
             this.ExtraPointsLabeledNumeric.TabIndex = 3;
+            this.ExtraPointsLabeledNumeric.Load += new System.EventHandler(this.ExtraPointsLabeledNumeric_Load);
             // 
             // StatNameLabel
             // 
@@ -202,12 +204,12 @@
             this.StatNameLabel.Text = "StatName";
             this.StatNameLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
-            // StatCard
+            // SavingThrowTab
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.tableLayoutPanel1);
-            this.Name = "StatCard";
+            this.Name = "SavingThrowTab";
             this.Size = new System.Drawing.Size(198, 185);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();

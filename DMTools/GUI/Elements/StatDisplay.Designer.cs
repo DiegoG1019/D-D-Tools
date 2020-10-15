@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.flowLayoutPanel1 = new Components.CharacterGUIFlowPanel();
             this.StrengthStatCard = new DiegoG.DnDTDesktop.GUI.Elements.StatCard();
             this.ConstitutionStatCard = new DiegoG.DnDTDesktop.GUI.Elements.StatCard();
             this.DexterityStatCard = new DiegoG.DnDTDesktop.GUI.Elements.StatCard();
@@ -108,7 +108,7 @@
 
         #endregion
 
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private DiegoG.DnDTDesktop.GUI.Elements.Components.CharacterGUIFlowPanel flowLayoutPanel1;
         private StatCard StrengthStatCard;
         private StatCard ConstitutionStatCard;
         private StatCard DexterityStatCard;

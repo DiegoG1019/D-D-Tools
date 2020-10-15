@@ -7,17 +7,17 @@ using static DiegoG.DnDTDesktop.Enums;
 
 namespace DiegoG.DnDTDesktop.GUI.Elements
 {
-    public partial class StatCard : CharacterUserControl
+    public partial class SavingThrowTab : CharacterUserControl
     {
-        private Stats selectedstat;
-        public Stats SelectedStat
+        private SavingThrows selectedstat;
+        public SavingThrows SelectedStat
         {
             get => selectedstat;
             set { SelectedStatChanged(); selectedstat = value; }
         }
-        public CharacterStat<Stats> HeldStats => HeldCharacter.Stats;
+        public CharacterStat<SavingThrows> HeldStats => HeldCharacter.SavingThrows;
         public event Action SelectedStatChanged;
-        public StatCard()
+        public SavingThrowTab()
         {
             InitializeComponent();
             BaseTotalNumericBox.Numeric.ValueChanged += BaseTotalNumeric_ValueChanged;
@@ -52,6 +52,16 @@ namespace DiegoG.DnDTDesktop.GUI.Elements
         }
 
         private void EffectPointsLabeledTextBox_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void FullModifierLabeledTextBox_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ExtraPointsLabeledNumeric_Load(object sender, EventArgs e)
         {
 
         }
