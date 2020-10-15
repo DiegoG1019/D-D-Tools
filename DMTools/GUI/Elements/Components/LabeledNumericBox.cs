@@ -29,8 +29,8 @@ namespace DiegoG.DnDTDesktop.GUI.Elements.Components
         }
         public LabeledNumericBox()
         {
-            Numeric.Maximum = int.MaxValue;
             InitializeComponent();
+            Numeric.Maximum = int.MaxValue;
         }
     }
 }

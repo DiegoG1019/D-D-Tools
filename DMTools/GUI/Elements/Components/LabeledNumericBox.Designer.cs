@@ -84,8 +84,8 @@
 
         #endregion
 
-        private System.Windows.Forms.Label Label;
+        public System.Windows.Forms.Label Label;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.NumericUpDown Numeric;
+        public System.Windows.Forms.NumericUpDown Numeric;
     }
 }

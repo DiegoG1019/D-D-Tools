@@ -8,36 +8,29 @@ namespace DiegoG.DnDTDesktop.Characters.Complements
     [Serializable]
     public class CharacterStat<TStat> where TStat : Enum
     {
-        public CharacterStatProperty<TStat> Natural { get; set; }
-        public CharacterStatProperty<TStat> Bonus { get; set; }
-        public CharacterStatProperty<TStat> TemporaryPoints { get; set; }
+        public CharacterStatProperty<TStat> BasePoints { get; } = new CharacterStatProperty<TStat>();
+        public CharacterStatProperty<TStat> Bonus { get; } = new CharacterStatProperty<TStat>();
+        public CharacterStatProperty<TStat> EffectPoints { get; } = new CharacterStatProperty<TStat>();
 
         [IgnoreDataMember, JsonIgnore, XmlIgnore]
-        public CharacterStatProperty<TStat> NaturalSum => Natural + Bonus;
+        public CharacterStatProperty<TStat> BaseTotal => BasePoints + Bonus;
         [IgnoreDataMember, JsonIgnore, XmlIgnore]
-        public CharacterStatProperty<TStat> NaturalModifier => (NaturalSum / 2) - 5;
+        public CharacterStatProperty<TStat> BaseModifier => (BaseTotal / 2) - 5;
         [IgnoreDataMember, JsonIgnore, XmlIgnore]
-        public CharacterStatProperty<TStat> Sum => NaturalSum + TemporaryPoints;
+        public CharacterStatProperty<TStat> Total => BaseTotal + EffectPoints;
         [IgnoreDataMember, JsonIgnore, XmlIgnore]
-        public CharacterStatProperty<TStat> Modifier => (Sum / 2) - 5;
+        public CharacterStatProperty<TStat> Modifier => (Total / 2) - 5;
 
         [IgnoreDataMember, JsonIgnore, XmlIgnore]
-        public CharacterStatProperty<TStat>[] Basic => new CharacterStatProperty<TStat>[] { Natural, Bonus, TemporaryPoints };
-        [IgnoreDataMember, JsonIgnore, XmlIgnore]
-        public CharacterStatProperty<TStat>[] Compound => new CharacterStatProperty<TStat>[] { NaturalModifier, NaturalSum, Sum, Modifier };
-        [IgnoreDataMember, JsonIgnore, XmlIgnore]
-        public CharacterStatProperty<TStat>[] All => new CharacterStatProperty<TStat>[] { Natural, Bonus, TemporaryPoints, NaturalModifier, NaturalSum, Sum, Modifier };
-
+        private CharacterStatProperty<TStat>[] Collection => new CharacterStatProperty<TStat>[] { BasePoints, Bonus, EffectPoints };
         /// <summary>
         /// Don't use this one
         /// </summary>
         public CharacterStat() : this(1) { }
         public CharacterStat(int count)
         {
-            for (int i = 0; i < Basic.Length; i++)
-            {
-                Basic[i] = new CharacterStatProperty<TStat>(count);
-            }
+            for (int i = 0; i < Collection.Length; i++)
+                Collection[i] = new CharacterStatProperty<TStat>(count);
         }
     }
 }
