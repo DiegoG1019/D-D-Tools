@@ -16,7 +16,9 @@ namespace DiegoG.DnDTDesktop.GUI.Elements.Components
         }
         public CharacterUserControl()
         {
+#if !DESIGN
             Load += CharacterUserControl_Load;
+#endif
         }
 
         private void CharacterUserControl_Load(object sender, EventArgs e)

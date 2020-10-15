@@ -54,6 +54,7 @@
             this.MaxOtherSkillRankTextBox = new System.Windows.Forms.TextBox();
             this.MaxJobSkillRankTextBox = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
+            this.ExtraSkillPointsNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.AbilitySkillPointsTextBox = new System.Windows.Forms.TextBox();
             this.ExtraSkillPointsLabel = new System.Windows.Forms.Label();
             this.OtherSkillPointsLabel = new System.Windows.Forms.Label();
@@ -70,7 +71,6 @@
             this.SpentSkillPointsTextBox = new System.Windows.Forms.TextBox();
             this.SpentSkillPointsLabel = new System.Windows.Forms.Label();
             this.AbilitySkillToolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.ExtraSkillPointsNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.PrimaryTableLayoutPanel.SuspendLayout();
             this.SkillListScrollingPanel.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -80,12 +80,12 @@
             this.tableLayoutPanel11.SuspendLayout();
             this.tableLayoutPanel10.SuspendLayout();
             this.tableLayoutPanel6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ExtraSkillPointsNumericUpDown)).BeginInit();
             this.tableLayoutPanel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MiscSkillPointsNumericUpDown)).BeginInit();
             this.tableLayoutPanel7.SuspendLayout();
             this.tableLayoutPanel9.SuspendLayout();
             this.tableLayoutPanel8.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.ExtraSkillPointsNumericUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // PrimaryTableLayoutPanel
@@ -442,6 +442,19 @@
             this.tableLayoutPanel6.Size = new System.Drawing.Size(149, 75);
             this.tableLayoutPanel6.TabIndex = 1;
             // 
+            // ExtraSkillPointsNumericUpDown
+            // 
+            this.ExtraSkillPointsNumericUpDown.Location = new System.Drawing.Point(78, 40);
+            this.ExtraSkillPointsNumericUpDown.Maximum = new decimal(new int[] {
+            2147483647,
+            0,
+            0,
+            0});
+            this.ExtraSkillPointsNumericUpDown.Name = "ExtraSkillPointsNumericUpDown";
+            this.ExtraSkillPointsNumericUpDown.Size = new System.Drawing.Size(68, 20);
+            this.ExtraSkillPointsNumericUpDown.TabIndex = 14;
+            this.ExtraSkillPointsNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // AbilitySkillPointsTextBox
             // 
             this.AbilitySkillPointsTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -633,19 +646,6 @@
             // 
             this.AbilitySkillToolTip.Popup += new System.Windows.Forms.PopupEventHandler(this.AbilitySkillToolTip_Popup);
             // 
-            // ExtraSkillPointsNumericUpDown
-            // 
-            this.ExtraSkillPointsNumericUpDown.Location = new System.Drawing.Point(78, 40);
-            this.ExtraSkillPointsNumericUpDown.Maximum = new decimal(new int[] {
-            2147483647,
-            0,
-            0,
-            0});
-            this.ExtraSkillPointsNumericUpDown.Name = "ExtraSkillPointsNumericUpDown";
-            this.ExtraSkillPointsNumericUpDown.Size = new System.Drawing.Size(68, 20);
-            this.ExtraSkillPointsNumericUpDown.TabIndex = 14;
-            this.ExtraSkillPointsNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
             // SkillSheet
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -670,6 +670,7 @@
             this.tableLayoutPanel10.PerformLayout();
             this.tableLayoutPanel6.ResumeLayout(false);
             this.tableLayoutPanel6.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ExtraSkillPointsNumericUpDown)).EndInit();
             this.tableLayoutPanel5.ResumeLayout(false);
             this.tableLayoutPanel5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MiscSkillPointsNumericUpDown)).EndInit();
@@ -678,7 +679,6 @@
             this.tableLayoutPanel9.PerformLayout();
             this.tableLayoutPanel8.ResumeLayout(false);
             this.tableLayoutPanel8.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.ExtraSkillPointsNumericUpDown)).EndInit();
             this.ResumeLayout(false);
 
         }

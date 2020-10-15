@@ -21,8 +21,6 @@ namespace DiegoG.DnDTDesktop.GUI.Elements
             SizeListBox.Items.AddRange(SizeList);
             AlignmentListBox.Items.AddRange(AlignmentList);
 
-            LevelTextBox.BackColor = Color.Black;
-
             NameTextBox.TextChanged += NameTextBox_TextChanged;
             FullNameTextBox.TextChanged += FullNameTextBox_TextChanged;
             GenderTextBox.TextChanged += GenderTextBox_TextChanged;
@@ -92,6 +90,11 @@ namespace DiegoG.DnDTDesktop.GUI.Elements
             AlignmentListBox.SelectedIndex = Convert.ToInt32(HeldCharacter.Description.Alignment);
             SizeListBox.SelectedIndex = Convert.ToInt32(HeldCharacter.Description.Size);
             TypeListBox.SelectedIndex = Convert.ToInt32(HeldCharacter.Description.BodyType);
+        }
+
+        private void AgeTextBox_TextChanged_1(object sender, EventArgs e)
+        {
+
         }
     }
 }

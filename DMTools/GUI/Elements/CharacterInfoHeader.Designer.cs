@@ -214,6 +214,7 @@
             this.AgeTextBox.Name = "AgeTextBox";
             this.AgeTextBox.Size = new System.Drawing.Size(40, 20);
             this.AgeTextBox.TabIndex = 21;
+            this.AgeTextBox.TextChanged += new System.EventHandler(this.AgeTextBox_TextChanged_1);
             // 
             // DeityTextBox
             // 

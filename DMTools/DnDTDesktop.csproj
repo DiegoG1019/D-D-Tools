@@ -181,6 +181,18 @@
     </Compile>
     <Compile Include="GUI\Elements\Interfaces\ICharacterGUIElement.cs" />
     <Compile Include="GUI\Elements\Interfaces\ICharacterHolderGUI.cs" />
+    <Compile Include="GUI\Elements\JobColumn.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Elements\JobColumn.Designer.cs">
+      <DependentUpon>JobColumn.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Elements\JobTab.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Elements\JobTab.Designer.cs">
+      <DependentUpon>JobTab.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\Elements\SkillColumn.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -249,6 +261,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Elements\Components\LabeledTextbox.resx">
       <DependentUpon>LabeledTextbox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Elements\JobColumn.resx">
+      <DependentUpon>JobColumn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Elements\JobTab.resx">
+      <DependentUpon>JobTab.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Elements\SkillColumn.resx">
       <DependentUpon>SkillColumn.cs</DependentUpon>
