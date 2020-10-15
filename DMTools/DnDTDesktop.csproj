@@ -148,6 +148,12 @@
     <Compile Include="Characters\Complements\Skill.cs" />
     <Compile Include="Characters\SkillList.cs" />
     <Compile Include="Enums.cs" />
+    <Compile Include="GUI\Elements\ArmorClassCard.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Elements\ArmorClassCard.Designer.cs">
+      <DependentUpon>ArmorClassCard.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\Elements\Components\CharacterGUITableLayoutPanel.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -232,6 +238,9 @@
     <Compile Include="Other\PriceTag.cs" />
     <Compile Include="Other\Wallet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="GUI\Elements\ArmorClassCard.resx">
+      <DependentUpon>ArmorClassCard.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\Elements\CharacterInfoHeader.resx">
       <DependentUpon>CharacterInfoHeader.cs</DependentUpon>
     </EmbeddedResource>

@@ -14,6 +14,16 @@ namespace DiegoG.DnDTDesktop.GUI.Elements.Components
             add => ParentCharacterGUI.HeldCharacterChanged += value;
             remove => ParentCharacterGUI.HeldCharacterChanged -= value;
         }
+        public CharacterUserControl()
+        {
+            Load += CharacterUserControl_Load;
+        }
+
+        private void CharacterUserControl_Load(object sender, EventArgs e)
+        {
+            Init();
+        }
+
         public virtual void Init()
         {
             if (!(Parent is ICharacterGUI) && !(Parent is ICharacterGUIElement))

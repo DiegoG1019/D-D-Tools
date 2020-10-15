@@ -15,7 +15,6 @@ namespace DiegoG.DnDTDesktop.GUI.Elements
             {
                 var nsc = new SkillColumn() { SkillIndex = 0 };
                 SkillListTable.Controls.Add(nsc);
-                nsc.Init();
             }
             MiscSkillPointsNumericUpDown.Value = HeldSkillList.MiscSkillPoints;
             AbilitySkillPointsTextBox.Text = HeldSkillList.AbilitySkillPoints.ToString();
