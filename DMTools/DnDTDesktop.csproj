@@ -136,9 +136,12 @@
   <ItemGroup>
     <Compile Include="CharacterList.cs" />
     <Compile Include="Characters\Character.cs" />
+    <Compile Include="Characters\Complements\CharacterSavingThrowProperty.cs" />
+    <Compile Include="Characters\Complements\ICharacterProperty.cs" />
     <Compile Include="Characters\Complements\CharacterStat.cs" />
     <Compile Include="Characters\Complements\CharacterStatProperty.cs" />
     <Compile Include="Characters\Complements\CharacterTrait.cs" />
+    <Compile Include="Characters\Complements\SavingThrowStat.cs" />
     <Compile Include="Characters\Experience.cs" />
     <Compile Include="Characters\Ability.cs" />
     <Compile Include="Characters\Health.cs" />

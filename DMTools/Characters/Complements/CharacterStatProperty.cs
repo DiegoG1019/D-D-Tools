@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 using System.Xml.Serialization;
@@ -8,7 +6,7 @@ using System.Xml.Serialization;
 namespace DiegoG.DnDTDesktop.Characters.Complements
 {
     [Serializable]
-    public class CharacterStatProperty<TStat> where TStat : Enum
+    public class CharacterStatProperty : CharacterTrait<CharacterStatProperty>, ICharacterProperty
     {
         public int BasePoints { get; set; }
         public int Bonus { get; set; }

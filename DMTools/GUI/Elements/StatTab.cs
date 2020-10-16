@@ -15,7 +15,7 @@ namespace DiegoG.DnDTDesktop.GUI.Elements
             get => selectedstat;
             set { SelectedStatChanged(); selectedstat = value; }
         }
-        public CharacterStat<Stats> HeldStats => HeldCharacter.Stats;
+        public CharacterStat<Stats, CharacterStatProperty> HeldStats => HeldCharacter.Stats;
         public event Action SelectedStatChanged;
         public StatCard()
         {

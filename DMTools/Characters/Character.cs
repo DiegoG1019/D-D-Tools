@@ -17,8 +17,8 @@ namespace DiegoG.DnDTDesktop.Characters
             get => _CFN;
             set { Program.Characters.ChangeCharacterRegistrationKey(_CFN, value); _CFN = value; }
         }
-        public CharacterStat<Stats> Stats { get; set; } = new CharacterStat<Stats>();
-        public CharacterStat<SavingThrows> SavingThrows { get; set; } = new CharacterStat<SavingThrows>();
+        public CharacterStat<Stats, CharacterStatProperty> Stats { get; set; } = new CharacterStat<Stats, CharacterStatProperty>();
+        public CharacterStat<SavingThrows, CharacterSavingThrowProperty> SavingThrows { get; set; }
         public Experience Experience { get; set; }
         public ArmorClass ArmorClass { get; set; }
         public Description Description { get; set; }
@@ -42,6 +42,7 @@ namespace DiegoG.DnDTDesktop.Characters
             Description = new Description() { ParentName = CharacterFileName };
             Health = new Health() { ParentName = CharacterFileName };
             Jobs = new JobList() { ParentName = CharacterFileName };
+            SavingThrows = new CharacterStat<SavingThrows, CharacterSavingThrowProperty>() { ParentName = CharacterFileName };
         }
 
         public async Task SerializeAsync() => await Serialization.Serialize.JsonAsync(this, Program.Directories.Characters, CharacterFileName);

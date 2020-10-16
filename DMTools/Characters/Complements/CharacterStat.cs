@@ -8,16 +8,16 @@ using System.Xml.Serialization;
 namespace DiegoG.DnDTDesktop.Characters.Complements
 {
     [Serializable]
-    public class CharacterStat<TStat> : IEnumerable<CharacterStatProperty<TStat>> where TStat : Enum
+    public class CharacterStat<TStat, TProperty> : CharacterTrait<CharacterStat<TStat, TProperty>>, IEnumerable<TProperty> where TStat : Enum where TProperty : CharacterTrait<TProperty>, ICharacterProperty, new()
     {
-        public CharacterStatProperty<TStat>[] StatsArray { get; set; }
+        public TProperty[] StatsArray { get; set; }
 
-        public CharacterStatProperty<TStat> this[TStat ind]
+        public TProperty this[TStat ind]
         {
             get => StatsArray[Convert.ToInt32(ind)];
             set => StatsArray[Convert.ToInt32(ind)] = value;
         }
-        public IEnumerator<CharacterStatProperty<TStat>> GetEnumerator()
+        public IEnumerator<TProperty> GetEnumerator()
         {
             foreach (var i in StatsArray)
             {
@@ -29,10 +29,10 @@ namespace DiegoG.DnDTDesktop.Characters.Complements
         public CharacterStat()
         {
             var count = Enum.GetNames(typeof(TStat)).Length;
-            StatsArray = new CharacterStatProperty<TStat>[count];
+            StatsArray = new TProperty[count];
             for(int i = 0; i < count; i++)
             {
-                StatsArray[i] = new CharacterStatProperty<TStat>();
+                StatsArray[i] = new TProperty() { ParentName = ParentName };
             }
         }
     }

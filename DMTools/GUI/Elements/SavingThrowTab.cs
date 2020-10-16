@@ -15,7 +15,7 @@ namespace DiegoG.DnDTDesktop.GUI.Elements
             get => selectedstat;
             set { SelectedStatChanged(); selectedstat = value; }
         }
-        public CharacterStat<SavingThrows> HeldStats => HeldCharacter.SavingThrows;
+        public CharacterStat<SavingThrows, CharacterSavingThrowProperty> HeldStats => HeldCharacter.SavingThrows;
         public event Action SelectedStatChanged;
         public SavingThrowTab()
         {
@@ -35,8 +35,6 @@ namespace DiegoG.DnDTDesktop.GUI.Elements
             SelectedStatChanged();
             BaseTotalNumericBox.Numeric.Value = HeldStats[SelectedStat].BasePoints;
             ExtraPointsLabeledNumeric.Numeric.Value = HeldStats[SelectedStat].Bonus;
-            BaseModifierLabeledTextBox.TextBoxText = HeldStats[SelectedStat].BaseModifier.ToString();
-            FullModifierLabeledTextBox.TextBoxText = HeldStats[SelectedStat].Modifier.ToString();
             EffectPointsLabeledTextBox.TextBoxText = HeldStats[SelectedStat].EffectPoints.ToString();
             TotalPointsLabeledTextBox.TextBoxText = $"{HeldStats[SelectedStat].BaseTotal} ({HeldStats[SelectedStat].Total})";
         }
