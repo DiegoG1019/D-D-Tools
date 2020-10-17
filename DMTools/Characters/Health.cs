@@ -14,15 +14,12 @@ namespace DiegoG.DnDTDesktop.Characters
     public sealed class Health : CharacterTrait<Health>
     {
         [Serializable]
-        public sealed class Hurt : IHistoried<float>
+        public sealed class Hurt : IHistoried<int>
         {
-            private float dmg;
-            public float Damage
+            private int dmg;
+            public int Damage
             {
-                get
-                {
-                    return dmg;
-                }
+                get => dmg;
                 set
                 {
                     if (dmg > value)
@@ -37,12 +34,12 @@ namespace DiegoG.DnDTDesktop.Characters
                 }
             }
 
-            public List<float> History { get; set; } = new List<float>();
+            public List<int> History { get; set; } = new List<int>();
 
             [JsonIgnore, IgnoreDataMember, XmlIgnore]
             public int HistoryEntries => History.Count;
 
-            public void Harm(float d)
+            public void Harm(int d)
             {
                 History.Add(d);
                 if ((d < 0) && (Math.Abs(d) > Damage))
@@ -53,7 +50,7 @@ namespace DiegoG.DnDTDesktop.Characters
                 dmg += d;
             }
 
-            public void Heal(float h)
+            public void Heal(int h)
             {
                 History.Add(-h);
                 if (h > Damage)
@@ -66,12 +63,12 @@ namespace DiegoG.DnDTDesktop.Characters
 
         }
 
-        private float BaseHP { get; set; }
-
+        public int EffectHP { get; set; }
+        public int BaseHP { get; set; }
         public Hurt LethalDamage { get; set; } = new Hurt();
         public Hurt NonlethalDamage { get; set; } = new Hurt();
 
-        public List<float> HpThrows { get; set; } = new List<float>();
+        public List<int> HpThrows { get; set; } = new List<int>();
         public void SetBaseHP()
         {
             for (byte i = 0; i <= Parent.Experience.Level; i++)
@@ -87,10 +84,10 @@ namespace DiegoG.DnDTDesktop.Characters
         }
 
         [JsonIgnore, IgnoreDataMember, XmlIgnore]
-        public float HP => BaseHP - (LethalDamage.Damage + NonlethalDamage.Damage);
+        public int RemainingHP => EffectHP + BaseHP - (LethalDamage.Damage + NonlethalDamage.Damage);
 
         [JsonIgnore, IgnoreDataMember, XmlIgnore]
-        public float NlHP => BaseHP - NonlethalDamage.Damage;
+        public int NonLethalHP => EffectHP + BaseHP - NonlethalDamage.Damage;
 
         [JsonIgnore, IgnoreDataMember, XmlIgnore]
         public bool IsDeceased => State == CombatState.Deceased;
@@ -106,21 +103,18 @@ namespace DiegoG.DnDTDesktop.Characters
         {
             get
             {
-                if (HP <= Settings.Default.DeceasedHP)
+                if (RemainingHP <= Settings.Default.DeceasedHP)
                 {
                     return CombatState.Deceased;
                 }
-
-                if (HP <= Settings.Default.BleedingOutHP)
+                if (RemainingHP <= Settings.Default.BleedingOutHP)
                 {
                     return CombatState.BleedingOut;
                 }
-
-                if (HP <= Settings.Default.IncapacitatedHP)
+                if (RemainingHP <= Settings.Default.IncapacitatedHP)
                 {
                     return CombatState.Incapacitated;
                 }
-
                 return CombatState.Active;
             }
         }

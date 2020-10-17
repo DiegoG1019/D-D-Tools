@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
-using System.Text.Json.Serialization;
-using System.Xml.Serialization;
 
 namespace DiegoG.DnDTDesktop.Characters.Complements
 {
@@ -30,7 +27,7 @@ namespace DiegoG.DnDTDesktop.Characters.Complements
         {
             var count = Enum.GetNames(typeof(TStat)).Length;
             StatsArray = new TProperty[count];
-            for(int i = 0; i < count; i++)
+            for (int i = 0; i < count; i++)
             {
                 StatsArray[i] = new TProperty() { ParentName = ParentName };
             }

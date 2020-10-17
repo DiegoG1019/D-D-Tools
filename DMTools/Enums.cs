@@ -44,7 +44,7 @@ namespace DiegoG.DnDTDesktop
             Fortitude, Reflexes, Willpower
         }
         public static int SavingThrowCount { get; } = Enum.GetNames(typeof(SavingThrows)).Length;
-        
+
         [Serializable]
         public enum Schools
         {

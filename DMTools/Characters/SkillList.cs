@@ -4,10 +4,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
+using static DiegoG.DnDTDesktop.Enums;
 
 namespace DiegoG.DnDTDesktop.Characters
 {
@@ -26,8 +25,12 @@ namespace DiegoG.DnDTDesktop.Characters
         [JsonIgnore, IgnoreDataMember, XmlIgnore]
         public int this[Skill skill] => SkillListCollection.IndexOf(skill);
 
-        [JsonIgnore, IgnoreDataMember, XmlIgnore]
-        public int Count => SkillListCollection.Count;
+        private int calcSP(Job val)
+        {
+            int P = val.SkillPoints, I = Parent.Stats[Stats.Intelligence].BaseModifier, L = val.Level;
+            int r = ((P + I + 1) * 4) + ((P + I + 1) * (L - 1));
+            return Math.Max(r, val.Level);
+        }
 
         public void Add(Skill item) => SkillListCollection.Add(item);
         public void Remove(Skill item) => SkillListCollection.Remove(item);
@@ -35,6 +38,9 @@ namespace DiegoG.DnDTDesktop.Characters
         public void Remove(int skillindex) => SkillListCollection.RemoveAt(skillindex);
         public IEnumerator<Skill> GetEnumerator() => SkillListCollection.GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+        [JsonIgnore, IgnoreDataMember, XmlIgnore]
+        public int Count => SkillListCollection.Count;
         [JsonIgnore, IgnoreDataMember, XmlIgnore]
         public int[] JobBaseSkillPoints => (from val in Parent.Jobs select val.SkillPoints).ToArray();
         public int MiscSkillPoints { get; set; } = 0;
@@ -42,7 +48,7 @@ namespace DiegoG.DnDTDesktop.Characters
         public int ExtraAbilitySkillPoints { get; set; } = 0;
         public int ExtraSkillPoints { get; set; } = 0;
         [JsonIgnore, IgnoreDataMember, XmlIgnore]
-        public int JobSkillPoints => (from val in Parent.Jobs select val.SkillPoints * val.Level).Sum();
+        public int JobSkillPoints => (from val in Parent.Jobs select calcSP(val)).Sum();
         [JsonIgnore, IgnoreDataMember, XmlIgnore]
         public int SpentSkillPoints => (from val in this where val.JobSkillFlag select val.Rank).Sum();
         [JsonIgnore, IgnoreDataMember, XmlIgnore]

@@ -22,7 +22,7 @@ namespace DiegoG.DnDTDesktop
         /// <param name="newname"></param>
         public void ChangeCharacterFileName(Character chara, string newname)
         {
-            if(IsRegistered(chara))
+            if (IsRegistered(chara))
                 Unregister(chara);
             Characters.Add(newname, chara);
         }

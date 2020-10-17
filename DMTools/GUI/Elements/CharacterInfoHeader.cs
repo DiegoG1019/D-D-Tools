@@ -1,13 +1,8 @@
-﻿using DiegoG.DnDTDesktop.Characters;
-using DiegoG.DnDTDesktop.GUI.Elements.Components;
-using DiegoG.DnDTDesktop.GUI.Elements.Interfaces;
+﻿using DiegoG.DnDTDesktop.GUI.Elements.Components;
 using DiegoG.DnDTDesktop.Properties;
 using DiegoG.Utilities;
 using System;
-using System.Drawing;
-using System.Windows.Forms;
 using static DiegoG.DnDTDesktop.Enums;
-using static System.Windows.Forms.CheckedListBox;
 
 namespace DiegoG.DnDTDesktop.GUI.Elements
 {

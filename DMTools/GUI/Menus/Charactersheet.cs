@@ -1,15 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using DiegoG.DnDTDesktop.GUI.Elements;
-using DiegoG.DnDTDesktop.Characters;
+﻿using DiegoG.DnDTDesktop.Characters;
 using DiegoG.DnDTDesktop.GUI.Elements.Interfaces;
+using System;
+using System.Windows.Forms;
 
 namespace DiegoG.DnDTDesktop.GUI.Menus
 {

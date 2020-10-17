@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using DiegoG.DnDTDesktop.Characters;
 using DiegoG.DnDTDesktop.GUI.Elements.Components;
-using DiegoG.DnDTDesktop.Characters;
+using System;
+using System.Windows.Forms;
 using static DiegoG.DnDTDesktop.Enums;
 
 namespace DiegoG.DnDTDesktop.GUI.Elements

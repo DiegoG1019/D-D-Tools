@@ -1,18 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using DiegoG.DnDTDesktop.Characters;
-using static DiegoG.DnDTDesktop.Enums;
-using static System.Windows.Forms.CheckedListBox;
-using DiegoG.DnDTDesktop.GUI.Elements.Interfaces;
+﻿using DiegoG.DnDTDesktop.Characters.Complements;
 using DiegoG.DnDTDesktop.GUI.Elements.Components;
-using DiegoG.DnDTDesktop.Characters.Complements;
+using System;
+using System.Drawing;
+using static DiegoG.DnDTDesktop.Enums;
 
 namespace DiegoG.DnDTDesktop.GUI.Elements
 {

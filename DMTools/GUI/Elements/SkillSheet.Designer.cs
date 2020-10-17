@@ -253,6 +253,7 @@
             this.SkillNameLabel.TabIndex = 2;
             this.SkillNameLabel.Text = "Skill Name";
             this.SkillNameLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.SkillNameLabel.Click += new System.EventHandler(this.SkillNameLabel_Click);
             // 
             // tableLayoutPanel3
             // 

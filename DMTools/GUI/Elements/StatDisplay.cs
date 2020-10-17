@@ -1,20 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using DiegoG.DnDTDesktop.GUI.Elements.Components;
+using System;
 
 namespace DiegoG.DnDTDesktop.GUI.Elements
 {
-    public partial class StatDisplay : UserControl
+    public partial class StatDisplay : CharacterUserControl
     {
         public StatDisplay()
         {
             InitializeComponent();
+        }
+
+        protected override void CharacterUserControl_HeldCharacterChanged()
+        {
+        }
+
+        private void DexterityStatCard_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ConstitutionStatCard_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -3,9 +3,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using DiegoG.Utilities.Collections;
-using System.Text.Json.Serialization;
 using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 using System.Xml.Serialization;
 
 namespace DiegoG.DnDTDesktop.Characters

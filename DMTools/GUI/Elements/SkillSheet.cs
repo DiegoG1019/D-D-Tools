@@ -1,8 +1,8 @@
-﻿using System;
-using System.Windows.Forms;
-using DiegoG.DnDTDesktop.GUI.Elements.Interfaces;
+﻿using DiegoG.DnDTDesktop.Characters;
 using DiegoG.DnDTDesktop.GUI.Elements.Components;
-using DiegoG.DnDTDesktop.Characters;
+using DiegoG.DnDTDesktop.GUI.Elements.Interfaces;
+using System;
+using System.Windows.Forms;
 
 namespace DiegoG.DnDTDesktop.GUI.Elements
 {
@@ -52,6 +52,11 @@ namespace DiegoG.DnDTDesktop.GUI.Elements
         private void BaseJobSkillPointsOpenButton_Click(object sender, EventArgs e)
         {
             throw new NotImplementedException();
+        }
+
+        private void SkillNameLabel_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

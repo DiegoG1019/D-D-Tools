@@ -1,6 +1,6 @@
-﻿using System;
+﻿using DiegoG.DnDTDesktop.Characters.Complements;
 using DiegoG.DnDTDesktop.GUI.Elements.Components;
-using DiegoG.DnDTDesktop.Characters.Complements;
+using System;
 
 namespace DiegoG.DnDTDesktop.GUI.Elements
 {

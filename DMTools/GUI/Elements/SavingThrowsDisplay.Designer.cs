@@ -44,7 +44,7 @@
             this.characterGUIFlowPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.characterGUIFlowPanel1.Location = new System.Drawing.Point(0, 0);
             this.characterGUIFlowPanel1.Name = "characterGUIFlowPanel1";
-            this.characterGUIFlowPanel1.Size = new System.Drawing.Size(612, 190);
+            this.characterGUIFlowPanel1.Size = new System.Drawing.Size(612, 159);
             this.characterGUIFlowPanel1.TabIndex = 0;
             // 
             // FortitudeCard
@@ -77,7 +77,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.characterGUIFlowPanel1);
             this.Name = "SavingThrowsDisplay";
-            this.Size = new System.Drawing.Size(612, 190);
+            this.Size = new System.Drawing.Size(612, 159);
             this.characterGUIFlowPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
 

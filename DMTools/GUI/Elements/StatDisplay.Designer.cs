@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.flowLayoutPanel1 = new Components.CharacterGUIFlowPanel();
+            this.flowLayoutPanel1 = new DiegoG.DnDTDesktop.GUI.Elements.Components.CharacterGUIFlowPanel();
             this.StrengthStatCard = new DiegoG.DnDTDesktop.GUI.Elements.StatCard();
             this.ConstitutionStatCard = new DiegoG.DnDTDesktop.GUI.Elements.StatCard();
             this.DexterityStatCard = new DiegoG.DnDTDesktop.GUI.Elements.StatCard();
@@ -56,6 +56,7 @@
             // 
             this.StrengthStatCard.Location = new System.Drawing.Point(3, 3);
             this.StrengthStatCard.Name = "StrengthStatCard";
+            this.StrengthStatCard.SelectedStat = DiegoG.DnDTDesktop.Enums.Stats.Strength;
             this.StrengthStatCard.Size = new System.Drawing.Size(198, 185);
             this.StrengthStatCard.TabIndex = 0;
             // 
@@ -63,20 +64,25 @@
             // 
             this.ConstitutionStatCard.Location = new System.Drawing.Point(207, 3);
             this.ConstitutionStatCard.Name = "ConstitutionStatCard";
+            this.ConstitutionStatCard.SelectedStat = DiegoG.DnDTDesktop.Enums.Stats.Constitution;
             this.ConstitutionStatCard.Size = new System.Drawing.Size(198, 185);
             this.ConstitutionStatCard.TabIndex = 1;
+            this.ConstitutionStatCard.Load += new System.EventHandler(this.ConstitutionStatCard_Load);
             // 
             // DexterityStatCard
             // 
             this.DexterityStatCard.Location = new System.Drawing.Point(411, 3);
             this.DexterityStatCard.Name = "DexterityStatCard";
+            this.DexterityStatCard.SelectedStat = DiegoG.DnDTDesktop.Enums.Stats.Dexterity;
             this.DexterityStatCard.Size = new System.Drawing.Size(198, 185);
             this.DexterityStatCard.TabIndex = 2;
+            this.DexterityStatCard.Load += new System.EventHandler(this.DexterityStatCard_Load);
             // 
             // WisdomStatCard
             // 
             this.WisdomStatCard.Location = new System.Drawing.Point(3, 194);
             this.WisdomStatCard.Name = "WisdomStatCard";
+            this.WisdomStatCard.SelectedStat = DiegoG.DnDTDesktop.Enums.Stats.Wisdom;
             this.WisdomStatCard.Size = new System.Drawing.Size(198, 185);
             this.WisdomStatCard.TabIndex = 3;
             // 
@@ -84,6 +90,7 @@
             // 
             this.IntelligenceStatCard.Location = new System.Drawing.Point(207, 194);
             this.IntelligenceStatCard.Name = "IntelligenceStatCard";
+            this.IntelligenceStatCard.SelectedStat = DiegoG.DnDTDesktop.Enums.Stats.Intelligence;
             this.IntelligenceStatCard.Size = new System.Drawing.Size(198, 185);
             this.IntelligenceStatCard.TabIndex = 4;
             // 
@@ -91,6 +98,7 @@
             // 
             this.CharismaStatCard.Location = new System.Drawing.Point(411, 194);
             this.CharismaStatCard.Name = "CharismaStatCard";
+            this.CharismaStatCard.SelectedStat = DiegoG.DnDTDesktop.Enums.Stats.Charisma;
             this.CharismaStatCard.Size = new System.Drawing.Size(198, 185);
             this.CharismaStatCard.TabIndex = 5;
             // 
