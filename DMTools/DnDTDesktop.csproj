@@ -184,6 +184,12 @@
     <Compile Include="GUI\Elements\Components\LabeledTextbox.Designer.cs">
       <DependentUpon>LabeledTextbox.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\Elements\HealthHistoryDisplay.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Elements\HealthHistoryDisplay.Designer.cs">
+      <DependentUpon>HealthHistoryDisplay.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\Elements\HistoryDisplay.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -297,6 +303,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Elements\Components\LabeledTextbox.resx">
       <DependentUpon>LabeledTextbox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Elements\HealthHistoryDisplay.resx">
+      <DependentUpon>HealthHistoryDisplay.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Elements\HistoryDisplay.resx">
       <DependentUpon>HistoryDisplay.cs</DependentUpon>

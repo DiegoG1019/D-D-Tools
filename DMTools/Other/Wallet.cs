@@ -7,7 +7,7 @@ using System.Collections.ObjectModel;
 namespace DiegoG.DnDTDesktop.Other
 {
     [Serializable]
-    public class Wallet : IHistoried<int>
+    public class Wallet : IHistoried
     {
         private int _Value;
         public ObservableCollection<int> History { get; set; } = new ObservableCollection<int>();

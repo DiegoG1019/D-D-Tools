@@ -3,8 +3,8 @@ using System.Collections.ObjectModel;
 
 namespace DiegoG.DnDTDesktop.Other
 {
-    public interface IHistoried<T>
+    public interface IHistoried
     {
-        ObservableCollection<T> History { get; set; }
+        ObservableCollection<int> History { get; set; }
     }
 }

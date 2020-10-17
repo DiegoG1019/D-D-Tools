@@ -10,16 +10,16 @@ using System.Xml.Serialization;
 namespace DiegoG.DnDTDesktop.Characters
 {
     [Serializable]
-    public class Experience : CharacterTrait<Experience>, IHistoried<float>
+    public class Experience : CharacterTrait<Experience>, IHistoried
     {
         public float Multiplier { get; set; }
-        private float _current;
-        public float Required { get; set; }
+        private int _current;
+        public int Required { get; set; }
         public int Level { get; set; }
         public int UnspentLevels => Level - Parent.Jobs.AllLevels;
 
-        public ObservableCollection<float> History { get; set; }
-        public float Current
+        public ObservableCollection<int> History { get; set; }
+        public int Current
         {
             get
             {
@@ -40,18 +40,18 @@ namespace DiegoG.DnDTDesktop.Characters
         public int HistoryEntries => History.Count;
 
         [JsonIgnore, IgnoreDataMember, XmlIgnore]
-        public float Left => Required - Current;
+        public int Left => Required - Current;
 
         [JsonIgnore, IgnoreDataMember, XmlIgnore]
         public Percentage Progress => new Percentage((Current / Required) * 100f);
 
-        public void Add(float v)
+        public void Add(int v)
         {
             _current += v;
             History.Add(v);
         }
 
-        public void Sub(float v)
+        public void Sub(int v)
         {
             if (v > _current)
             {
@@ -62,9 +62,9 @@ namespace DiegoG.DnDTDesktop.Characters
             History.Add(-v);
         }
 
-        public void Gain(float v)
+        public void Gain(int v)
         {
-            Add(v * Multiplier);
+            Add((int)(v * Multiplier));
         }
 
         [JsonIgnore, IgnoreDataMember, XmlIgnore]

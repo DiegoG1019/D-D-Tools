@@ -15,7 +15,7 @@ namespace DiegoG.DnDTDesktop.Characters
     public sealed class Health : CharacterTrait<Health>
     {
         [Serializable]
-        public sealed class Hurt : IHistoried<int>
+        public sealed class Hurt : IHistoried
         {
             private int dmg;
             public int Damage
