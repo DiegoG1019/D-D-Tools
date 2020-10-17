@@ -157,12 +157,6 @@
     <Compile Include="GUI\Elements\ArmorClassCard.Designer.cs">
       <DependentUpon>ArmorClassCard.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Elements\BigHealthCard.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="GUI\Elements\BigHealthCard.Designer.cs">
-      <DependentUpon>BigHealthCard.cs</DependentUpon>
-    </Compile>
     <Compile Include="GUI\Elements\Components\CharacterGUIFlowPanel.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -183,18 +177,6 @@
     </Compile>
     <Compile Include="GUI\Elements\Components\LabeledTextbox.Designer.cs">
       <DependentUpon>LabeledTextbox.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GUI\Elements\HealthHistoryDisplay.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="GUI\Elements\HealthHistoryDisplay.Designer.cs">
-      <DependentUpon>HealthHistoryDisplay.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GUI\Elements\HistoryDisplay.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="GUI\Elements\HistoryDisplay.Designer.cs">
-      <DependentUpon>HistoryDisplay.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\Elements\Interfaces\ICharacterGUI.cs" />
     <Compile Include="GUI\Elements\CharacterInfoHeader.cs">
@@ -303,12 +285,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Elements\Components\LabeledTextbox.resx">
       <DependentUpon>LabeledTextbox.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Elements\HealthHistoryDisplay.resx">
-      <DependentUpon>HealthHistoryDisplay.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Elements\HistoryDisplay.resx">
-      <DependentUpon>HistoryDisplay.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Elements\JobColumn.resx">
       <DependentUpon>JobColumn.cs</DependentUpon>
