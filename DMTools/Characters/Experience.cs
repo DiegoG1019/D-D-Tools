@@ -2,7 +2,7 @@
 using DiegoG.DnDTDesktop.Other;
 using DiegoG.Utilities;
 using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 using System.Xml.Serialization;
@@ -10,7 +10,7 @@ using System.Xml.Serialization;
 namespace DiegoG.DnDTDesktop.Characters
 {
     [Serializable]
-    public sealed class Experience : CharacterTrait<Experience>, IHistoried<float>
+    public class Experience : CharacterTrait<Experience>, IHistoried<float>
     {
         public float Multiplier { get; set; }
         private float _current;
@@ -18,7 +18,7 @@ namespace DiegoG.DnDTDesktop.Characters
         public int Level { get; set; }
         public int UnspentLevels => Level - Parent.Jobs.AllLevels;
 
-        public List<float> History { get; set; }
+        public ObservableCollection<float> History { get; set; }
         public float Current
         {
             get

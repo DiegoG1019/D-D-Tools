@@ -2,23 +2,23 @@
 using DiegoG.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace DiegoG.DnDTDesktop.Other
 {
     [Serializable]
-    public class Wallet : IHistoried<long>
+    public class Wallet : IHistoried<int>
     {
-        private CUInt32 value;
-        public List<long> History { get; set; }
-
-        public Mass Weight { get; private set; }
-        public void Add(CUInt32 value)
+        private int _Value;
+        public ObservableCollection<int> History { get; set; } = new ObservableCollection<int>();
+        public Mass Weight { get; private set; } = new Mass(0, Mass.Units.Kilogram);
+        public void Add(int value)
         {
-            this.value += value;
-            Weight.Pound = this.value * Settings.Default.CoinWeight;
+            _Value += value;
+            Weight.Pound = _Value * Settings.Default.CoinWeight;
         }
 
-        public void Gain(CUInt32 value)
+        public void Gain(int value)
         {
             Add(value);
             History.Add(value);
@@ -27,31 +27,27 @@ namespace DiegoG.DnDTDesktop.Other
         {
             Add(other.Value);
             other.Empty();
-            History.Add(value);
+            History.Add(_Value);
         }
 
-        public void Sub(CUInt32 value)
+        public void Sub(int value)
         {
-            if (value > this.value)
-            {
-                throw new InvalidOperationException(String.Format("Attempted to draw {0} over limit. W1:{1} ; w2:{2}", value - Value, Value, value));
-            }
+            if (value > _Value)
+                throw new InvalidOperationException($"Attempted to draw {value - Value}, over limit. W1: {Value}; W2: {value}");
             else
-            {
-                this.value -= value;
-            }
+                _Value -= value;
             Weight.Pound = value * Settings.Default.CoinWeight;
         }
 
-        public void Spend(CUInt32 value)
+        public void Spend(int value)
         {
             Sub(value);
             History.Add(-value);
         }
         public void Spend(Wallet other)
         {
-            Sub(other.value);
-            History.Add(-other.value);
+            Sub(other._Value);
+            History.Add(-other._Value);
         }
 
         public void Empty()
@@ -60,38 +56,46 @@ namespace DiegoG.DnDTDesktop.Other
             Value = 0;
         }
 
-        public CUInt32 Value
+        public int Value
         {
-            get
-            {
-                return value;
-            }
+            get => _Value;
             set
             {
-                if (this.value > value)
+                if (Value > value)
                 {
-                    Spend(this.value - value);
+                    Spend(Value - value);
                     return;
                 }
-                if (this.value < value) //I don't want it to be added to the History if they were the same
-                {
-                    Gain(value - this.value);
-                }
+                if (Value < value) //I don't want it to be added to the History if they were the same
+                    Gain(value - Value);
             }
         }
 
-        public new string ToString()
-        {
-            return String.Format("{0}{1}", Resources.Currency, Value);
-        }
+        public PriceTag PriceTag => new PriceTag(Value);
 
-        public Wallet Separate(uint value)
+        public Wallet() { }
+        public Wallet(int value) => Value = value;
+
+        public new string ToString() => $"{Resources.Currency}{Value}";
+        public Wallet Separate(int value)
         {
             Spend(value);
-            return new Wallet()
-            {
-                Value = value
-            };
+            return new Wallet(value);
+        }
+        public (Wallet Wallet, bool Uneven) Divide()
+        {
+            bool uneven = (Value % 2) > 0;
+            int r = Value / 2;
+            return (Separate(r), uneven);
+        }
+        public (List<Wallet> Wallets, bool Uneven) Divide(int parts)
+        {
+            bool uneven = (Value % parts) > 0;
+            int val = Value / parts;
+            (List<Wallet> Wallets, bool Uneven) ret = (new List<Wallet>(), uneven);
+            for(; parts > 1; parts--)
+                ret.Wallets.Add(Separate(val));
+            return ret;
         }
     }
 }

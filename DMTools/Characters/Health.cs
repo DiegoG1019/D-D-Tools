@@ -3,6 +3,7 @@ using DiegoG.DnDTDesktop.Other;
 using DiegoG.DnDTDesktop.Properties;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 using System.Xml.Serialization;
@@ -34,7 +35,7 @@ namespace DiegoG.DnDTDesktop.Characters
                 }
             }
 
-            public List<int> History { get; set; } = new List<int>();
+            public ObservableCollection<int> History { get; set; } = new ObservableCollection<int>();
 
             [JsonIgnore, IgnoreDataMember, XmlIgnore]
             public int HistoryEntries => History.Count;
