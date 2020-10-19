@@ -30,9 +30,10 @@ namespace DiegoG.DnDTDesktop.GUI.Elements.Components
         {
             if (!(Parent is ICharacterGUI) && !(Parent is ICharacterGUIElement))
                 throw new Exception("Parent must be implement ICharacterGUI");
-            ParentCharacterGUI.HeldCharacterChanged += CharacterUserControl_HeldCharacterChanged;
-            CharacterUserControl_HeldCharacterChanged();
+            ParentCharacterGUI.HeldCharacterChanged += BaseCharacterUserControlChanged;
+            BaseCharacterUserControlChanged();
         }
+        private void BaseCharacterUserControlChanged() => Invoke(new Action(CharacterUserControl_HeldCharacterChanged));
         protected virtual void CharacterUserControl_HeldCharacterChanged() { }
     }
 }

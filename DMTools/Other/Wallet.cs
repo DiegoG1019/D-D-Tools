@@ -3,6 +3,7 @@ using DiegoG.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 
 namespace DiegoG.DnDTDesktop.Other
 {
@@ -72,11 +73,9 @@ namespace DiegoG.DnDTDesktop.Other
         }
 
         public PriceTag PriceTag => new PriceTag(Value);
-
         public Wallet() { }
-        public Wallet(int value) => Value = value;
-
-        public new string ToString() => $"{Resources.Currency}{Value}";
+        public Wallet(int value) : this() => Value = value;
+        public override string ToString() => $"{Resources.Currency}{Value}";
         public Wallet Separate(int value)
         {
             Spend(value);
