@@ -1,4 +1,4 @@
-﻿using DiegoG.Utilities;
+﻿using DiegoG.Utilities.IO;
 using System;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;

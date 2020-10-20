@@ -1,6 +1,6 @@
 ﻿using DiegoG.DnDTDesktop.Characters.Complements;
 using DiegoG.DnDTDesktop.Items;
-using DiegoG.Utilities;
+using DiegoG.Utilities.IO;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;

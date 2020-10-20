@@ -2,7 +2,6 @@
 using DiegoG.DnDTDesktop.GUI.Elements.Components;
 using DiegoG.DnDTDesktop.Other;
 using System;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace DiegoG.DnDTDesktop.GUI.Elements
@@ -32,11 +31,17 @@ namespace DiegoG.DnDTDesktop.GUI.Elements
             TouchACTextBox.TextBoxText = HeldCharacter.ArmorClass.TouchAC.ToString();
             UnawareACTextBox.TextBoxText = HeldCharacter.ArmorClass.UnawareAC.ToString();
             ACTextBox.TextBoxText = HeldCharacter.ArmorClass.AC.ToString();
-            StatusTextBox.TextBoxText = Convert.ToString(HeldHealth.State);
+            StatusTextBox.TextBoxText = HeldHealth.State.ToString();
+            RefreshAllBoards();
         }
 
         public void RefreshAllBoards()
         {
+            while (HpThrowsBoard.Controls.Count > 0)
+                HpThrowsBoard.Controls[0].Dispose();
+            HpThrowsBoard.Controls.Clear();
+            for(int i = 0; i < HeldHealth.HpThrows.Count; i++)
+                HpThrowsBoard.Controls.Add(MainMenu.IndexedNumericGen(HeldHealth.HpThrows[i], i, HeldHealth.HpThrows));
             NonLethalDamageHistory.RefreshBoard();
             LethalDamageHistory.RefreshBoard();
         }
@@ -52,6 +57,11 @@ namespace DiegoG.DnDTDesktop.GUI.Elements
         }
 
         private void NonLethalDamageHistory_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void HpThrowsBoard_Paint(object sender, PaintEventArgs e)
         {
 
         }

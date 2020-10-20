@@ -72,14 +72,12 @@ namespace DiegoG.DnDTDesktop.Characters
         public List<int> HpThrows { get; set; } = new List<int>();
         public void SetBaseHP()
         {
+            BaseHP = 0;
             for (byte i = 0; i <= Parent.Experience.Level; i++)
             {
                 var n = HpThrows[i] + Parent.Stats[Stats.Constitution].Modifier;
                 if (n > 1)
-                {
-                    BaseHP += n;
-                    return;
-                }
+                { BaseHP += n; continue; }
                 BaseHP++;
             }
         }

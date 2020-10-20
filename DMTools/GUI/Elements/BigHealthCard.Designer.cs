@@ -41,9 +41,13 @@
             this.EffectHealthTextBox = new DiegoG.DnDTDesktop.GUI.Elements.Components.LabeledTextbox();
             this.UnawareACTextBox = new DiegoG.DnDTDesktop.GUI.Elements.Components.LabeledTextbox();
             this.StatusTextBox = new DiegoG.DnDTDesktop.GUI.Elements.Components.LabeledTextbox();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.HpThrowsBoard = new System.Windows.Forms.TableLayoutPanel();
+            this.HpThrowsLabel = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel7.SuspendLayout();
+            this.tableLayoutPanel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -69,6 +73,7 @@
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tableLayoutPanel2.Controls.Add(this.NonLethalDamageHistory, 2, 0);
             this.tableLayoutPanel2.Controls.Add(this.LethalDamageHistory, 1, 0);
+            this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel3, 0, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
@@ -254,6 +259,47 @@
             this.StatusTextBox.TextBoxText = "";
             this.StatusTextBox.TextBoxTextAlignment = System.Windows.Forms.HorizontalAlignment.Center;
             // 
+            // tableLayoutPanel3
+            // 
+            this.tableLayoutPanel3.ColumnCount = 1;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel3.Controls.Add(this.HpThrowsBoard, 0, 0);
+            this.tableLayoutPanel3.Controls.Add(this.HpThrowsLabel, 0, 1);
+            this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            this.tableLayoutPanel3.RowCount = 2;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(211, 368);
+            this.tableLayoutPanel3.TabIndex = 3;
+            // 
+            // HpThrowsBoard
+            // 
+            this.HpThrowsBoard.AutoScroll = true;
+            this.HpThrowsBoard.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.HpThrowsBoard.ColumnCount = 1;
+            this.HpThrowsBoard.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.HpThrowsBoard.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.HpThrowsBoard.Location = new System.Drawing.Point(3, 3);
+            this.HpThrowsBoard.Name = "HpThrowsBoard";
+            this.HpThrowsBoard.RowCount = 1;
+            this.HpThrowsBoard.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.HpThrowsBoard.Size = new System.Drawing.Size(205, 349);
+            this.HpThrowsBoard.TabIndex = 4;
+            this.HpThrowsBoard.Paint += new System.Windows.Forms.PaintEventHandler(this.HpThrowsBoard_Paint);
+            // 
+            // HpThrowsLabel
+            // 
+            this.HpThrowsLabel.AutoSize = true;
+            this.HpThrowsLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.HpThrowsLabel.Location = new System.Drawing.Point(3, 355);
+            this.HpThrowsLabel.Name = "HpThrowsLabel";
+            this.HpThrowsLabel.Size = new System.Drawing.Size(205, 13);
+            this.HpThrowsLabel.TabIndex = 5;
+            this.HpThrowsLabel.Text = "HP Throws";
+            this.HpThrowsLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // BigHealthCard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -265,6 +311,8 @@
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel7.ResumeLayout(false);
+            this.tableLayoutPanel3.ResumeLayout(false);
+            this.tableLayoutPanel3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -284,5 +332,8 @@
         private Components.LabeledTextbox EffectHealthTextBox;
         private Components.LabeledTextbox StatusTextBox;
         private Components.LabeledTextbox UnawareACTextBox;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
+        private System.Windows.Forms.TableLayoutPanel HpThrowsBoard;
+        private System.Windows.Forms.Label HpThrowsLabel;
     }
 }

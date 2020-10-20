@@ -79,6 +79,8 @@ namespace DiegoG.DnDTDesktop.GUI.Elements
             = new Action<HistoryBoard>(
                  obj =>
                  {
+                     while (obj.Items.Count > 0)
+                         obj.Items[0].Dispose();
                      obj.Items.Clear();
                      foreach (var item in obj.HeldHistory.History)
                          obj.Items.Add(MainMenu.TextBoxGen(item.ToString()));
