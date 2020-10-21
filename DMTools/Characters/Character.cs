@@ -16,7 +16,7 @@ namespace DiegoG.DnDTDesktop.Characters
         /// <summary>
         /// Represents the Character Version that the program expects
         /// </summary>
-        public static Version WorkingVersion { get; } = new Version($"{Program.AuthorSignature}{Program.ShortAppName}", 0, 0, 1, 0);
+        public static Version WorkingVersion { get; } = new Version($"{Program.AuthorSignature}{Program.ShortAppName}", 0, 0, 2, 0);
         /// <summary>
         /// Represents the character's version, as defined by the 
         /// </summary>
@@ -36,8 +36,9 @@ namespace DiegoG.DnDTDesktop.Characters
                 _CFN = value;
             }
         }
-        public CharacterStat<Stats, CharacterStatProperty> Stats { get; set; } = new CharacterStat<Stats, CharacterStatProperty>();
+        public CharacterStat<Stats, CharacterStatProperty> Stats { get; set; }
         public CharacterStat<SavingThrows, CharacterSavingThrowProperty> SavingThrows { get; set; }
+        public CharacterStat<SecondaryStats, CharacterSecondaryStatProperty> SecondaryStats { get; set; }
         public Experience Experience { get; set; }
         public ArmorClass ArmorClass { get; set; }
         public Description Description { get; set; }
@@ -61,7 +62,9 @@ namespace DiegoG.DnDTDesktop.Characters
             Description = new Description() { ParentName = CharacterFileName };
             Health = new Health() { ParentName = CharacterFileName };
             Jobs = new JobList() { ParentName = CharacterFileName };
+            Stats = new CharacterStat<Stats, CharacterStatProperty>() { ParentName = CharacterFileName };
             SavingThrows = new CharacterStat<SavingThrows, CharacterSavingThrowProperty>() { ParentName = CharacterFileName };
+            SecondaryStats = new CharacterStat<SecondaryStats, CharacterSecondaryStatProperty>() { ParentName = CharacterFileName };
             Version = WorkingVersion;
             constructing = false;
         }

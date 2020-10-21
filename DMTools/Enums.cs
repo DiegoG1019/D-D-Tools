@@ -33,10 +33,14 @@ namespace DiegoG.DnDTDesktop
         [Serializable]
         public enum Stats
         {
-            Strength, Constitution, Dexterity, Wisdom, Intelligence, Charisma,
-            Speed, Initiative
+            Strength, Constitution, Dexterity, Wisdom, Intelligence, Charisma
         }
         public static int StatCount { get; } = Enum.GetNames(typeof(Stats)).Length;
+
+        public enum SecondaryStats
+        {
+            Speed, Initiative
+        }
 
         [Serializable]
         public enum SavingThrows
@@ -72,9 +76,7 @@ namespace DiegoG.DnDTDesktop
             builder.Add(Stats.Charisma, "Cha");
             builder.Add(Stats.Constitution, "Con");
             builder.Add(Stats.Dexterity, "Dex");
-            builder.Add(Stats.Initiative, "Ini");
             builder.Add(Stats.Intelligence, "Int");
-            builder.Add(Stats.Speed, "Spd");
             builder.Add(Stats.Strength, "Str");
             builder.Add(Stats.Wisdom, "Wis");
             foreach (var i in Enum.GetNames(typeof(BodyTypes)))
