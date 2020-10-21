@@ -15,10 +15,18 @@ namespace DiegoG.DnDTDesktop
         [return: MarshalAs(UnmanagedType.Bool)]
         static extern bool AllocConsole();
 
-        public static readonly Version Version = new Version("Alpha", 0, 0, 35, 0);
+        public static readonly Version Version = new Version("Alpha", 0, 0, 35, 1);
 
         public const string Author = "Diego Garcia";
-        public const string appname = "D&DTools Windows";
+        public const string AuthorSignature = "DG";
+        public const string ShortAppName = "DnDTools";
+#if NETFRAMEWORK
+        public const string FullAppName = "D&D Tools (.NET Framework)";
+#endif
+#if NETCORE
+        public const string FullAppName = "D&D Tools (.NET Core)";
+#endif
+        public const string AppName = "D&D Tools";
 
         public static class Directories
         {
