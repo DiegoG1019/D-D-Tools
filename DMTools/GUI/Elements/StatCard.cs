@@ -1,7 +1,7 @@
-﻿using DiegoG.DnDTDesktop.Characters.Complements;
+﻿using System;
 using DiegoG.DnDTDesktop.GUI.Elements.Components;
 using DiegoG.DnDTDesktop.Properties;
-using System;
+using DiegoG.DnDTDesktop.Characters.Complements;
 using static DiegoG.DnDTDesktop.Enums;
 
 namespace DiegoG.DnDTDesktop.GUI.Elements

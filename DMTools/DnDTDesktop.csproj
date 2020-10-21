@@ -172,7 +172,12 @@
     <Compile Include="GUI\Elements\Components\CharacterUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="GUI\Elements\Components\LabeledNumericBox.cs" />
+    <Compile Include="GUI\Elements\Components\IndexedNumeric.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="GUI\Elements\Components\LabeledNumericBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="GUI\Elements\Components\LabeledNumericBox.Designer.cs">
       <DependentUpon>LabeledNumericBox.cs</DependentUpon>
     </Compile>
@@ -209,11 +214,17 @@
     <Compile Include="GUI\Elements\JobTab.Designer.cs">
       <DependentUpon>JobTab.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Elements\SavingThrowsDisplay.cs">
+    <Compile Include="GUI\Elements\SavingThrowCard.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="GUI\Elements\SavingThrowsDisplay.Designer.cs">
-      <DependentUpon>SavingThrowsDisplay.cs</DependentUpon>
+    <Compile Include="GUI\Elements\SavingThrowCard.Designer.cs">
+      <DependentUpon>SavingThrowCard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Elements\SavingThrowDisplay.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Elements\SavingThrowDisplay.Designer.cs">
+      <DependentUpon>SavingThrowDisplay.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\Elements\SkillColumn.cs">
       <SubType>UserControl</SubType>
@@ -233,23 +244,17 @@
     <Compile Include="GUI\Elements\SmallHealthCard.Designer.cs">
       <DependentUpon>SmallHealthCard.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\Elements\StatCard.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Elements\StatCard.Designer.cs">
+      <DependentUpon>StatCard.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\Elements\StatDisplay.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="GUI\Elements\StatDisplay.Designer.cs">
       <DependentUpon>StatDisplay.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GUI\Elements\SavingThrowTab.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="GUI\Elements\SavingThrowTab.Designer.cs">
-      <DependentUpon>SavingThrowTab.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GUI\Elements\StatTab.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="GUI\Elements\StatTab.Designer.cs">
-      <DependentUpon>StatTab.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\MainMenu.cs">
       <SubType>Form</SubType>
@@ -308,8 +313,11 @@
     <EmbeddedResource Include="GUI\Elements\JobTab.resx">
       <DependentUpon>JobTab.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Elements\SavingThrowsDisplay.resx">
-      <DependentUpon>SavingThrowsDisplay.cs</DependentUpon>
+    <EmbeddedResource Include="GUI\Elements\SavingThrowCard.resx">
+      <DependentUpon>SavingThrowCard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Elements\SavingThrowDisplay.resx">
+      <DependentUpon>SavingThrowDisplay.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Elements\SkillColumn.resx">
       <DependentUpon>SkillColumn.cs</DependentUpon>
@@ -320,14 +328,11 @@
     <EmbeddedResource Include="GUI\Elements\SmallHealthCard.resx">
       <DependentUpon>SmallHealthCard.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Elements\StatCard.resx">
+      <DependentUpon>StatCard.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\Elements\StatDisplay.resx">
       <DependentUpon>StatDisplay.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Elements\SavingThrowTab.resx">
-      <DependentUpon>SavingThrowTab.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Elements\StatTab.resx">
-      <DependentUpon>StatTab.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\MainMenu.resx">
       <DependentUpon>MainMenu.cs</DependentUpon>
