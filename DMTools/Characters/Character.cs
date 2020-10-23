@@ -12,20 +12,27 @@ namespace DiegoG.DnDTDesktop.Characters
     [Serializable]
     public class Character
     {
-#warning Remember to update this
         /// <summary>
         /// Represents the Character Version that the program expects
+        /// A - Completely incompatible with previous versions
+        /// B - Previous versions will need to be imported
+        /// C - Small changes in names and other minor things
+        /// D - Small changes in functionality that do not affect serialization
         /// </summary>
-        public static Version WorkingVersion { get; } = new Version($"{Program.AuthorSignature}{Program.ShortAppName}", 0, 0, 2, 0);
+#warning Remember to update this
+        public static Version Working_Version { get; } = new Version($"{Program.AuthorSignature}{Program.ShortAppName}", 0, 0, 3, 0);
         /// <summary>
         /// Represents the character's version, as defined by the 
         /// </summary>
         public Version Version { get; set; }
+
+        /// <summary>
+        /// Represents the Version of the Program that serialized the object
+        /// </summary>
+        public Version Program_Version => Program.Version;
+
         private bool constructing = true;
         private string _CFN;
-        /// <summary>
-        /// You usually should refrain from setting this.
-        /// </summary>
         public string CharacterFileName
         {
             get => _CFN;
@@ -65,7 +72,7 @@ namespace DiegoG.DnDTDesktop.Characters
             Stats = new CharacterStat<Stats, CharacterStatProperty>() { ParentName = CharacterFileName };
             SavingThrows = new CharacterStat<SavingThrows, CharacterSavingThrowProperty>() { ParentName = CharacterFileName };
             SecondaryStats = new CharacterStat<SecondaryStats, CharacterSecondaryStatProperty>() { ParentName = CharacterFileName };
-            Version = WorkingVersion;
+            Version = Working_Version;
             constructing = false;
         }
 
