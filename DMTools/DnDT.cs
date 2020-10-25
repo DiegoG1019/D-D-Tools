@@ -15,7 +15,7 @@ namespace DiegoG.DnDTDesktop
         [return: MarshalAs(UnmanagedType.Bool)]
         static extern bool AllocConsole();
 
-        public static readonly Version Version = new Version("Alpha", 0, 0, 36, 0);
+        public static readonly Version Version = new Version("Alpha", 0, 0, 37, 0);
 
         public const string Author = "Diego Garcia";
         public const string AuthorSignature = "DG";
