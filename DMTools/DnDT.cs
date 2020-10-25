@@ -15,7 +15,7 @@ namespace DiegoG.DnDTDesktop
         [return: MarshalAs(UnmanagedType.Bool)]
         static extern bool AllocConsole();
 
-        public static readonly Version Version = new Version("Alpha", 0, 0, 35, 2);
+        public static readonly Version Version = new Version("Alpha", 0, 0, 36, 0);
 
         public const string Author = "Diego Garcia";
         public const string AuthorSignature = "DG";
@@ -32,6 +32,7 @@ namespace DiegoG.DnDTDesktop
         {
             public static string DataOut = Path.Combine("DnDT");
             public static string Characters = Path.Combine(DataOut, "Characters");
+            public static string Scripts = Path.Combine(DataOut, "Scripts");
             public static string Entities = Path.Combine(DataOut, "Entities");
             public static string Temp = Path.GetTempPath();
             public static string Working = Path.GetFullPath(Directory.GetCurrentDirectory());
@@ -100,11 +101,9 @@ namespace DiegoG.DnDTDesktop
             Log.Debug("Succesfully started logger with a mimum level of {0}", MinimumLoggerLevel);
 
             foreach (var p in Settings.Default.Properties)
-            {
                 Log.Debug($"Setting \"{p}\" = {Settings.Default.Properties[p.ToString()]}");
-            }
 
-            Log.Information("Running D&DTools version: {0}", Program.Version.Full);
+            Log.Information("Running D&DTools version: {0}", Version.Full);
 
             Log.Information("DataOut Directory: {0}", Path.GetFullPath(Directories.DataOut));
             Log.Information("Logging Directory: {0}", Path.GetFullPath(Directories.Logging));
@@ -113,9 +112,8 @@ namespace DiegoG.DnDTDesktop
             Log.Information("Temp Directory: {0}", Path.GetFullPath(Directories.Temp));
             Log.Information("Working Directory: {0}", Path.GetFullPath(Directories.Working));
 
-            Log.Information("Finished the Initialization of the Application");
 
-            /*-----------------------------------------Testing-----------------------------------------*/
+            Log.Information("Finished the Initialization of the Application");
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

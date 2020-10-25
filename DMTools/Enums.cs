@@ -43,11 +43,11 @@ namespace DiegoG.DnDTDesktop
         }
 
         [Serializable]
-        public enum SavingThrows
+        public enum SavingThrowsInitiative
         {
-            Fortitude, Reflexes, Willpower
+            Fortitude, Reflexes, Willpower, Initiative
         }
-        public static int SavingThrowCount { get; } = Enum.GetNames(typeof(SavingThrows)).Length;
+        public static int SavingThrowCount { get; } = Enum.GetNames(typeof(SavingThrowsInitiative)).Length;
 
         [Serializable]
         public enum Schools

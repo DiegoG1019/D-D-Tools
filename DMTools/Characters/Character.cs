@@ -14,13 +14,14 @@ namespace DiegoG.DnDTDesktop.Characters
     {
         /// <summary>
         /// Represents the Character Version that the program expects
+        /// A.B.C.D
         /// A - Completely incompatible with previous versions
         /// B - Previous versions will need to be imported
         /// C - Small changes in names and other minor things
-        /// D - Small changes in functionality that do not affect serialization
+        /// D - Small changes in character construction
         /// </summary>
 #warning Remember to update this
-        public static Version Working_Version { get; } = new Version($"{Program.AuthorSignature}{Program.ShortAppName}", 0, 0, 3, 0);
+        public static Version Working_Version { get; } = new Version($"{Program.AuthorSignature}{Program.ShortAppName}", 0, 1, 0, 0);
         /// <summary>
         /// Represents the character's version, as defined by the 
         /// </summary>
@@ -44,8 +45,8 @@ namespace DiegoG.DnDTDesktop.Characters
             }
         }
         public CharacterStat<Stats, CharacterStatProperty> Stats { get; set; }
-        public CharacterStat<SavingThrows, CharacterSavingThrowProperty> SavingThrows { get; set; }
-        public CharacterStat<SecondaryStats, CharacterSecondaryStatProperty> SecondaryStats { get; set; }
+        public CharacterStat<SavingThrowsInitiative, CharacterSavingThrowProperty> SavingThrowsInitiative { get; set; }
+        public SecondaryCharacterStat SecondaryStats { get; set; }
         public Experience Experience { get; set; }
         public ArmorClass ArmorClass { get; set; }
         public Description Description { get; set; }
@@ -70,9 +71,27 @@ namespace DiegoG.DnDTDesktop.Characters
             Health = new Health() { ParentName = CharacterFileName };
             Jobs = new JobList() { ParentName = CharacterFileName };
             Stats = new CharacterStat<Stats, CharacterStatProperty>() { ParentName = CharacterFileName };
-            SavingThrows = new CharacterStat<SavingThrows, CharacterSavingThrowProperty>() { ParentName = CharacterFileName };
-            SecondaryStats = new CharacterStat<SecondaryStats, CharacterSecondaryStatProperty>() { ParentName = CharacterFileName };
+            SavingThrowsInitiative = new CharacterStat<SavingThrowsInitiative, CharacterSavingThrowProperty>() { ParentName = CharacterFileName };
+
+            SavingThrowsInitiative[Enums.SavingThrowsInitiative.Fortitude].BaseStat = Enums.Stats.Constitution;
+            SavingThrowsInitiative[Enums.SavingThrowsInitiative.Reflexes].BaseStat = Enums.Stats.Dexterity;
+            SavingThrowsInitiative[Enums.SavingThrowsInitiative.Willpower].BaseStat = Enums.Stats.Wisdom;
+            SavingThrowsInitiative[Enums.SavingThrowsInitiative.Initiative].BaseStat = Enums.Stats.Dexterity;
+
             Version = Working_Version;
+
+            SecondaryStats = new SecondaryCharacterStat()
+            {
+                ParentName = CharacterFileName,
+            };
+            SecondaryStats.Add(
+                "speed",
+                new SecondaryCharacterStatProperty()
+                {
+                    ScriptData = new Scripting.CharacterPropertyScript(Program.Directories.Scripts, "SpeedProperty.cs"),
+                    ParentName = CharacterFileName
+                }
+            );
             constructing = false;
         }
 
