@@ -41,7 +41,7 @@ namespace DiegoG.DnDTDesktop.GUI.Elements
                 HpThrowsBoard.Controls[0].Dispose();
             HpThrowsBoard.Controls.Clear();
             for(int i = 0; i < HeldHealth.HpThrows.Count; i++)
-                HpThrowsBoard.Controls.Add(MainMenu.IndexedNumericGen(HeldHealth.HpThrows[i], i, HeldHealth.HpThrows));
+                HpThrowsBoard.Controls.Add(MainForm.IndexedNumericGen(HeldHealth.HpThrows[i], i, HeldHealth.HpThrows));
             NonLethalDamageHistory.RefreshBoard();
             LethalDamageHistory.RefreshBoard();
         }

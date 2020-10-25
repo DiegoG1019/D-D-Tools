@@ -67,7 +67,7 @@ namespace DiegoG.DnDTDesktop.GUI.Elements
                     NotifyCollectionChangedAction.Add, (e,obj) =>
                     {
                         foreach(var i in e.NewItems)
-                            obj.Items.Add(MainMenu.TextBoxGen(i.ToString()));
+                            obj.Items.Add(MainForm.TextBoxGen(i.ToString()));
                     }
                 },
                 { NotifyCollectionChangedAction.Remove, (e,obj) => obj.RefreshBoard() },
@@ -83,7 +83,7 @@ namespace DiegoG.DnDTDesktop.GUI.Elements
                          obj.Items[0].Dispose();
                      obj.Items.Clear();
                      foreach (var item in obj.HeldHistory.History)
-                         obj.Items.Add(MainMenu.TextBoxGen(item.ToString()));
+                         obj.Items.Add(MainForm.TextBoxGen(item.ToString()));
                      _refreshValue(obj);
                  }
              );
