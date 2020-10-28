@@ -11,14 +11,10 @@ namespace DiegoG.DnDTDesktop.Items
     [Serializable]
     public class Item : INoted, IFlagged<Item.FlagList>
     {
-
-        public enum FlagList
-        {
-            QuantityCap
-        }
-
         private int quant = 0;
         private int qc = 0;
+        
+        public enum FlagList { QuantityCap }
         public string Name { get; set; }
         public string Description { get; set; }
         public PriceTag Value { get; set; } = default;
@@ -46,10 +42,7 @@ namespace DiegoG.DnDTDesktop.Items
             set
             {
                 if (Flags[FlagList.QuantityCap] && value >= QuantityCap)
-                {
                     throw new InvalidOperationException($"Attempted to stack items beyond the cap. Item: {Name}, Value: {value}, Cap: {QuantityCap}");
-                }
-
                 quant = value;
             }
         }

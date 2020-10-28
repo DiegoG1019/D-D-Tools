@@ -83,6 +83,7 @@ namespace DiegoG.DnDTDesktop.Items
         public Bag<Ranged> RangedWeapons { get; set; } = new Bag<Ranged>();
         public Bag<Ammo> Ammunitions { get; set; } = new Bag<Ammo>();
         public Slot<Potion> Potions { get; set; } = new Slot<Potion>();
+        public Wallet Wallet { get; set; } = new Wallet();
 
         private AllItemLists AllItemsList { get; set; } = new AllItemLists();
         [JsonIgnore, IgnoreDataMember, XmlIgnore]

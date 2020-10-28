@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Version = DiegoG.Utilities.Version;
 using static DiegoG.DnDTDesktop.Enumerations;
+using DiegoG.DnDTDesktop.Other;
 
 namespace DiegoG.DnDTDesktop.Characters
 {
@@ -21,7 +22,7 @@ namespace DiegoG.DnDTDesktop.Characters
         /// D - Small changes in character construction
         /// </summary>
 #warning Remember to update this
-        public static Version Working_Version { get; } = new Version($"{Program.AuthorSignature}{Program.ShortAppName}", 0, 1, 0, 0);
+        public static Version Working_Version { get; } = new Version($"{Program.AuthorSignature}{Program.ShortAppName}", 1, 1, 0, 0);
         /// <summary>
         /// Represents the character's version, as defined by the program 
         /// </summary>
@@ -39,7 +40,7 @@ namespace DiegoG.DnDTDesktop.Characters
             get => _CFN;
             set
             {
-                if(!constructing)
+                if (!constructing)
                     Program.Characters.ChangeCharacterRegistrationKey(_CFN, value);
                 _CFN = value;
             }

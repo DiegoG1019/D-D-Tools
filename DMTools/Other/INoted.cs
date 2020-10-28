@@ -31,10 +31,7 @@ namespace DiegoG.DnDTDesktop.Other
         }
         public new string this[int index]
         {
-            get
-            {
-                return base[index];
-            }
+            get => base[index];
             set
             {
                 base[index] = value;
@@ -42,19 +39,13 @@ namespace DiegoG.DnDTDesktop.Other
             }
         }
 
-        public NoteList() : base()
-        {
-            NotesChanged += NoteList_NotesChanged;
-        }
+        public NoteList() : base() => NotesChanged += NoteList_NotesChanged;
 
         private void NoteList_NotesChanged()
         {
-            const string a = "-{0}\n";
-            string c = "";
+            string c = string.Empty;
             foreach (string b in this)
-            {
-                c += String.Format(a, b);
-            }
+                c += $"-{b}\n";
             AllNotes = c.Trim();
         }
 

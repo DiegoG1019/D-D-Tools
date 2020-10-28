@@ -8,7 +8,7 @@ using System.Collections.Specialized;
 namespace DiegoG.DnDTDesktop.Other
 {
     [Serializable]
-    public class Wallet : IHistoried
+    public class Wallet : IHistoried, INoted
     {
         private int _Value;
         public ObservableCollection<int> History { get; set; } = new ObservableCollection<int>();
@@ -34,9 +34,8 @@ namespace DiegoG.DnDTDesktop.Other
         public void Sub(int value)
         {
             if (value > _Value)
-                throw new InvalidOperationException($"Attempted to draw {value - Value}, over limit. W1: {Value}; W2: {value}");
-            else
-                _Value -= value;
+                throw new InvalidOperationException($"Attempted to draw {value - Value} over limit. W1: {Value}; W2: {value}");
+            _Value -= value;
             Weight.Pound = value * Settings.Default.CoinWeight;
         }
 
@@ -73,6 +72,9 @@ namespace DiegoG.DnDTDesktop.Other
         }
 
         public PriceTag PriceTag => new PriceTag(Value);
+
+        public NoteList Notes { get; set; }
+
         public Wallet() { }
         public Wallet(int value) : this() => Value = value;
         public override string ToString() => $"{Resources.Currency}{Value}";
