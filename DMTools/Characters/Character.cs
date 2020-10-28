@@ -105,7 +105,7 @@ namespace DiegoG.DnDTDesktop.Characters
             Program.Characters.Register(chara);
             chara.constructing = false;
             return chara;
-        }
+        }   
         public static async Task<Character> DeserializeAndRegisterAsync(string characterFileName)
         {
             var chara = await Serialization.Deserialize<Character>.JsonAsync(Program.Directories.Characters, characterFileName);

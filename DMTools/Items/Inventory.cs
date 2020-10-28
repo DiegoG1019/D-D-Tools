@@ -165,7 +165,7 @@ namespace DiegoG.DnDTDesktop.Items
                 weight[6] += v.Sum(i => i.Kilogram);
                 value[6] += v.Sum(i => i.NumericalValue);
             });
-            Task.WaitAll(tasks);
+            await Task.WhenAll(tasks);
             FullWeight = new Mass(weight.Sum(), Mass.Units.Kilogram);
             FullValue = new PriceTag(value.Sum());
         }
