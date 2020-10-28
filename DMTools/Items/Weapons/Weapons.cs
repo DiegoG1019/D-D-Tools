@@ -1,5 +1,6 @@
 ﻿using DiegoG.DnDTDesktop.Items.Info;
 using DiegoG.Utilities;
+using static DiegoG.DnDTDesktop.Enumerations;
 
 namespace DiegoG.DnDTDesktop.Items.Weapons
 {

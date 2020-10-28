@@ -24,6 +24,7 @@ install-Package Serilog
 install-Package Serilog.Sinks.Console
 install-Package Serilog.Sinks.File
 install-Package CS-Script.Core
+install-Package Macross.Json.Extensions
 ```
 ## Usage
 

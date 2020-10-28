@@ -7,7 +7,7 @@ using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 using System.Xml.Serialization;
-using static DiegoG.DnDTDesktop.Enums;
+using static DiegoG.DnDTDesktop.Enumerations;
 
 namespace DiegoG.DnDTDesktop.Characters
 {
@@ -64,6 +64,7 @@ namespace DiegoG.DnDTDesktop.Characters
 
         }
 
+        [JsonIgnore, IgnoreDataMember, XmlIgnore]
         public int EffectHP { get; set; }
         public int BaseHP { get; set; }
         public Hurt LethalDamage { get; set; } = new Hurt();

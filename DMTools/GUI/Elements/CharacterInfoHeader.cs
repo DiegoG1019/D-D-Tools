@@ -2,7 +2,7 @@
 using DiegoG.DnDTDesktop.Properties;
 using DiegoG.Utilities;
 using System;
-using static DiegoG.DnDTDesktop.Enums;
+using static DiegoG.DnDTDesktop.Enumerations;
 
 namespace DiegoG.DnDTDesktop.GUI.Elements
 {

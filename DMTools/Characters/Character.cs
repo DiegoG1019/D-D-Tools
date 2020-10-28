@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Version = DiegoG.Utilities.Version;
-using static DiegoG.DnDTDesktop.Enums;
+using static DiegoG.DnDTDesktop.Enumerations;
 
 namespace DiegoG.DnDTDesktop.Characters
 {
@@ -23,7 +23,7 @@ namespace DiegoG.DnDTDesktop.Characters
 #warning Remember to update this
         public static Version Working_Version { get; } = new Version($"{Program.AuthorSignature}{Program.ShortAppName}", 0, 1, 0, 0);
         /// <summary>
-        /// Represents the character's version, as defined by the 
+        /// Represents the character's version, as defined by the program 
         /// </summary>
         public Version Version { get; set; }
 
@@ -46,7 +46,7 @@ namespace DiegoG.DnDTDesktop.Characters
         }
         public CharacterStat<Stats, CharacterStatProperty> Stats { get; set; }
         public CharacterStat<SavingThrowsInitiative, CharacterSavingThrowProperty> SavingThrowsInitiative { get; set; }
-        public SecondaryCharacterStat SecondaryStats { get; set; }
+        public SecondaryCharacterStats SecondaryStats { get; set; }
         public Experience Experience { get; set; }
         public ArmorClass ArmorClass { get; set; }
         public Description Description { get; set; }
@@ -65,40 +65,43 @@ namespace DiegoG.DnDTDesktop.Characters
         public Character(string characterFileName)
         {
             CharacterFileName = characterFileName;
+
             Experience = new Experience() { ParentName = CharacterFileName };
             ArmorClass = new ArmorClass() { ParentName = CharacterFileName };
             Description = new Description() { ParentName = CharacterFileName };
             Health = new Health() { ParentName = CharacterFileName };
             Jobs = new JobList() { ParentName = CharacterFileName };
-            Stats = new CharacterStat<Stats, CharacterStatProperty>() { ParentName = CharacterFileName };
-            SavingThrowsInitiative = new CharacterStat<SavingThrowsInitiative, CharacterSavingThrowProperty>() { ParentName = CharacterFileName };
+            Stats = new CharacterStat<Stats, CharacterStatProperty>(CharacterFileName);
+            SavingThrowsInitiative = new CharacterStat<SavingThrowsInitiative, CharacterSavingThrowProperty>(CharacterFileName);
 
-            SavingThrowsInitiative[Enums.SavingThrowsInitiative.Fortitude].BaseStat = Enums.Stats.Constitution;
-            SavingThrowsInitiative[Enums.SavingThrowsInitiative.Reflexes].BaseStat = Enums.Stats.Dexterity;
-            SavingThrowsInitiative[Enums.SavingThrowsInitiative.Willpower].BaseStat = Enums.Stats.Wisdom;
-            SavingThrowsInitiative[Enums.SavingThrowsInitiative.Initiative].BaseStat = Enums.Stats.Dexterity;
+            SavingThrowsInitiative[Enumerations.SavingThrowsInitiative.Fortitude].BaseStat = Enumerations.Stats.Constitution;
+            SavingThrowsInitiative[Enumerations.SavingThrowsInitiative.Reflexes].BaseStat = Enumerations.Stats.Dexterity;
+            SavingThrowsInitiative[Enumerations.SavingThrowsInitiative.Willpower].BaseStat = Enumerations.Stats.Wisdom;
+            SavingThrowsInitiative[Enumerations.SavingThrowsInitiative.Initiative].BaseStat = Enumerations.Stats.Dexterity;
 
             Version = Working_Version;
 
-            SecondaryStats = new SecondaryCharacterStat()
-            {
-                ParentName = CharacterFileName,
-            };
+            SecondaryStats = new SecondaryCharacterStats() { ParentName = CharacterFileName, };
             SecondaryStats.Add(
                 "speed",
                 new SecondaryCharacterStatProperty()
                 {
-                    ScriptData = new Scripting.CharacterPropertyScript(Program.Directories.Scripts, "SpeedProperty.cs"),
-                    ParentName = CharacterFileName
+                    ParentName = CharacterFileName,
+                    ScriptData = new Scripting.CharacterPropertyScript(Program.Directories.Scripts, "SpeedProperty.cs")
                 }
             );
+
             constructing = false;
+            Program.Characters.Register(this);
         }
 
         public async Task SerializeAsync() => await Serialization.Serialize.JsonAsync(this, Program.Directories.Characters, CharacterFileName);
-        public static Character Deserialize(string characterFileName)
+        public async static Task<Character> DeserializeAndReplaceAsync(Character chara)
         {
-            var chara = Serialization.Deserialize<Character>.Json(Program.Directories.Characters, characterFileName);
+            Program.Characters.Unregister(chara);
+            //Before serialization the object is initialized to its default state, the default state of 'constructing' is false
+            chara = await Serialization.Deserialize<Character>.JsonAsync(Program.Directories.Characters, chara.CharacterFileName);
+            Program.Characters.Register(chara);
             chara.constructing = false;
             return chara;
         }

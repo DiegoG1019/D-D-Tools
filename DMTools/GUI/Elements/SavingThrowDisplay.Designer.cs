@@ -58,7 +58,7 @@
             this.WillpowerCard.Dock = System.Windows.Forms.DockStyle.Fill;
             this.WillpowerCard.Location = new System.Drawing.Point(3, 395);
             this.WillpowerCard.Name = "WillpowerCard";
-            this.WillpowerCard.SelectedStat = DiegoG.DnDTDesktop.Enums.SavingThrowsInitiative.Willpower;
+            this.WillpowerCard.SelectedStat = DiegoG.DnDTDesktop.Enumerations.SavingThrowsInitiative.Willpower;
             this.WillpowerCard.Size = new System.Drawing.Size(239, 192);
             this.WillpowerCard.TabIndex = 3;
             // 
@@ -67,7 +67,7 @@
             this.ReflexesCard.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ReflexesCard.Location = new System.Drawing.Point(3, 199);
             this.ReflexesCard.Name = "ReflexesCard";
-            this.ReflexesCard.SelectedStat = DiegoG.DnDTDesktop.Enums.SavingThrowsInitiative.Reflexes;
+            this.ReflexesCard.SelectedStat = DiegoG.DnDTDesktop.Enumerations.SavingThrowsInitiative.Reflexes;
             this.ReflexesCard.Size = new System.Drawing.Size(239, 190);
             this.ReflexesCard.TabIndex = 2;
             // 
@@ -76,7 +76,7 @@
             this.FortitudeCard.Dock = System.Windows.Forms.DockStyle.Fill;
             this.FortitudeCard.Location = new System.Drawing.Point(3, 3);
             this.FortitudeCard.Name = "FortitudeCard";
-            this.FortitudeCard.SelectedStat = DiegoG.DnDTDesktop.Enums.SavingThrowsInitiative.Fortitude;
+            this.FortitudeCard.SelectedStat = DiegoG.DnDTDesktop.Enumerations.SavingThrowsInitiative.Fortitude;
             this.FortitudeCard.Size = new System.Drawing.Size(239, 190);
             this.FortitudeCard.TabIndex = 1;
             // 

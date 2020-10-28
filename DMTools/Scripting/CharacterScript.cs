@@ -1,27 +1,27 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 using CSScriptLib;
 using DiegoG.DnDTDesktop.Characters.Complements;
+using DiegoG.Utilities.IO;
 
 namespace DiegoG.DnDTDesktop.Scripting
 {
-    [Serializable]
-    public abstract class CharacterScript<T> : CharacterTrait<T> where T : class
+    public interface ICharacterScript
     {
-        public static IEvaluator Evaluator = CSScript.Evaluator.ReferenceAssemblyOf<CharacterScript<T>>();
+        [OnDeserialized]
+        void Init();
+    }
+    [Serializable]
+    public abstract class CharacterScript<T>
+    {
+        static CharacterScript() => JsonSerializationSettings.RegisterClassCallbacksJsonConverter<CharacterScript<T>>();
         public string ScriptString { get; protected set; }
         [JsonIgnore, IgnoreDataMember, XmlIgnore]
         public dynamic ScriptObject { get; protected set; }
 
-        [OnDeserialized]
-        public abstract void Init();
         /// <summary>
         /// Validates the script. Throws InvalidScriptException
         /// </summary>
@@ -39,12 +39,10 @@ namespace DiegoG.DnDTDesktop.Scripting
         public CharacterScript(string script)
         {
             ScriptString = script;
-            Init();
         }
         public CharacterScript(string path, string filename)
         {
             ScriptString = File.ReadAllText(Path.Combine(path, filename));
-            Init();
         }
     }
 }

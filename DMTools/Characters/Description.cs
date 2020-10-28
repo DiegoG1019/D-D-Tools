@@ -4,7 +4,7 @@ using DiegoG.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using static DiegoG.DnDTDesktop.Enums;
+using static DiegoG.DnDTDesktop.Enumerations;
 
 namespace DiegoG.DnDTDesktop.Characters
 {

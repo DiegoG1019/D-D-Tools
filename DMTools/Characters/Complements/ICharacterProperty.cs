@@ -9,6 +9,8 @@ namespace DiegoG.DnDTDesktop.Characters.Complements
     {
         int BasePoints { get; }
         int Bonus { get; }
+
+        [IgnoreDataMember, JsonIgnore, XmlIgnore]
         int EffectPoints { get; }
         [IgnoreDataMember, JsonIgnore, XmlIgnore]
         int Total { get; }

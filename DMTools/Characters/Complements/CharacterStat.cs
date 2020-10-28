@@ -1,62 +1,54 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
+using System.Xml.Serialization;
 
 namespace DiegoG.DnDTDesktop.Characters.Complements
 {
     [Serializable]
-    public class CharacterStat<TStat, TProperty> : CharacterTrait<CharacterStat<TStat, TProperty>>, IEnumerable<KeyValuePair<TStat, TProperty>> where TStat : Enum where TProperty : CharacterTrait<TProperty>, ICharacterProperty, new()
+    public class CharacterStat<TStat, TProperty> : CharacterTrait<CharacterStat<TStat, TProperty>> where TStat : Enum where TProperty : CharacterTrait<TProperty>, ICharacterProperty, new()
     {
-        public TProperty[] StatsArray { get; set; }
-        public TStat[] KeyArray { get; set; }
+        public Dictionary<TStat, TProperty> Stats { get; set; } = new Dictionary<TStat, TProperty>();
 
+        [IgnoreDataMember, JsonIgnore, XmlIgnore]
         public TProperty this[TStat ind]
         {
-            get => StatsArray[Convert.ToInt32(ind)];
-            set => StatsArray[Convert.ToInt32(ind)] = value;
+            get => Stats[ind];
+            set => Stats[ind] = value;
         }
-        public IEnumerator<KeyValuePair<TStat, TProperty>> GetEnumerator()
+        public CharacterStat() { }
+        public CharacterStat(string parentName)
         {
-            for (int i = 0; i < StatsArray.Length; i++)
-                yield return new KeyValuePair<TStat, TProperty>((TStat)Enum.ToObject(typeof(TStat), i), StatsArray[i]);
-        }
-
-        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-        public CharacterStat()
-        {
-            var count = Enum.GetNames(typeof(TStat)).Length;
-            StatsArray = new TProperty[count];
-            KeyArray = new TStat[count];
-            for (int i = 0; i < count; i++)
-                StatsArray[i] = new TProperty() { ParentName = ParentName };
+            ParentName = parentName;
+            var count = Enum.GetValues(typeof(TStat));
+            foreach (var v in count)
+                Stats[(TStat)v] = new TProperty() { ParentName = parentName };
         }
     }
     [Serializable]
-    public class SecondaryCharacterStat : CharacterTrait<SecondaryCharacterStat>
+    public class SecondaryCharacterStats : CharacterTrait<SecondaryCharacterStats>
     {
-        public Dictionary<string, SecondaryCharacterStatProperty> StatsDict { get; set; }
+        public Dictionary<string, SecondaryCharacterStatProperty> Stats { get; set; } = new Dictionary<string, SecondaryCharacterStatProperty>();
         public event Action DictionaryChanged;
 
+        [IgnoreDataMember, JsonIgnore, XmlIgnore]
         public SecondaryCharacterStatProperty this[string ind]
         {
-            get => StatsDict[ind];
+            get => Stats[ind];
             set
             {
-                StatsDict[ind] = value;
+                Stats[ind] = value;
                 DictionaryChanged();
             }
         }
 
-        public SecondaryCharacterStat() => DictionaryChanged += SecondaryCharacterStat_DictionaryChanged;
-
-        private void SecondaryCharacterStat_DictionaryChanged()
-        { }
-
-        public Dictionary<string, SecondaryCharacterStatProperty>.KeyCollection Keys => StatsDict.Keys;
-        public Dictionary<string, SecondaryCharacterStatProperty>.ValueCollection Values => StatsDict.Values;
+        public SecondaryCharacterStats() => DictionaryChanged += SecondaryCharacterStat_DictionaryChanged;
+        private void SecondaryCharacterStat_DictionaryChanged() { }
         public void Add(string key, SecondaryCharacterStatProperty value)
         {
-            StatsDict.Add(key, value);
+            Stats.Add(key, value);
             DictionaryChanged();
         }
     }

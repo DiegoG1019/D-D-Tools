@@ -6,12 +6,12 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 using System.Xml.Serialization;
-using static DiegoG.DnDTDesktop.Enums;
+using static DiegoG.DnDTDesktop.Enumerations;
 
 namespace DiegoG.DnDTDesktop.Characters
 {
     [Serializable]
-    public class SkillList : CharacterTrait<SkillList>, IEnumerable<Skill>
+    public class SkillList : CharacterTrait<SkillList>, IList<Skill>
     {
         [JsonIgnore, IgnoreDataMember, XmlIgnore]
         public List<Skill> SkillListCollection { get; private set; } = new List<Skill>();
@@ -38,6 +38,13 @@ namespace DiegoG.DnDTDesktop.Characters
         public void Remove(int skillindex) => SkillListCollection.RemoveAt(skillindex);
         public IEnumerator<Skill> GetEnumerator() => SkillListCollection.GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+        public int IndexOf(Skill item) => SkillListCollection.IndexOf(item);
+        public void Insert(int index, Skill item) => SkillListCollection.Insert(index, item);
+        public void RemoveAt(int index) => SkillListCollection.RemoveAt(index);
+        public void Clear() => SkillListCollection.Clear();
+        public bool Contains(Skill item) => SkillListCollection.Contains(item);
+        public void CopyTo(Skill[] array, int arrayIndex) => SkillListCollection.CopyTo(array, arrayIndex);
+        bool ICollection<Skill>.Remove(Skill item) => SkillListCollection.Remove(item);
 
         [JsonIgnore, IgnoreDataMember, XmlIgnore]
         public int Count => SkillListCollection.Count;
@@ -59,5 +66,7 @@ namespace DiegoG.DnDTDesktop.Characters
         public int MaxJobSkillRank => Parent.Jobs.AllLevels + 4;
         [JsonIgnore, IgnoreDataMember, XmlIgnore]
         public int MaxOtherSkillRank => MaxJobSkillRank / 2;
+        [JsonIgnore, IgnoreDataMember, XmlIgnore]
+        public bool IsReadOnly => false;
     }
 }

@@ -13,7 +13,7 @@ namespace DiegoG.DnDTDesktop.Properties {
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.6.0.0")]
-    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
+    public sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
         
@@ -293,6 +293,42 @@ namespace DiegoG.DnDTDesktop.Properties {
             }
             set {
                 this["MainFontBig"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool JsonWriteIndented {
+            get {
+                return ((bool)(this["JsonWriteIndented"]));
+            }
+            set {
+                this["JsonWriteIndented"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int _PreferredLengthUnit {
+            get {
+                return ((int)(this["_PreferredLengthUnit"]));
+            }
+            set {
+                this["_PreferredLengthUnit"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int _PreferredMassUnit {
+            get {
+                return ((int)(this["_PreferredMassUnit"]));
+            }
+            set {
+                this["_PreferredMassUnit"] = value;
             }
         }
     }

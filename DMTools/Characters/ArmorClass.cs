@@ -4,7 +4,7 @@ using System;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 using System.Xml.Serialization;
-using static DiegoG.DnDTDesktop.Enums;
+using static DiegoG.DnDTDesktop.Enumerations;
 
 namespace DiegoG.DnDTDesktop.Characters
 {
@@ -17,13 +17,15 @@ namespace DiegoG.DnDTDesktop.Characters
         }
 
         public int BaseAC { get; set; } = 0;
-        public int Armor { get; set; } = 0;
         public int Size { get; set; } = 0;
         public int Natural { get; set; } = 0;
         public int Deflex { get; set; } = 0;
         public int Bonus { get; set; } = 0;
+        [IgnoreDataMember, JsonIgnore, XmlIgnore]
         public int Effect { get; set; } = 0;
         public FlagsArray<FlagList> Flags { get; set; } = new FlagsArray<FlagList>();
+        [IgnoreDataMember, JsonIgnore, XmlIgnore]
+        public int Armor => Parent.Equipped.ArmorAC;
 
         [JsonIgnore, IgnoreDataMember, XmlIgnore]
         public int AC => BaseAC + Armor + Size + Natural + Deflex + Bonus + Effect + Parent.Stats[Stats.Dexterity].Modifier;

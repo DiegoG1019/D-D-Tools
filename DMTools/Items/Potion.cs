@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 using System.Xml.Serialization;
-using static DiegoG.DnDTDesktop.Enums;
+using static DiegoG.DnDTDesktop.Enumerations;
 
 namespace DiegoG.DnDTDesktop.Items
 {
@@ -15,7 +15,7 @@ namespace DiegoG.DnDTDesktop.Items
         {
             public string Description { get; set; }
             public TimeSpan Duration { get; set; }  //Seconds
-            public int[] Bonus { get; set; } = new int[Enums.StatCount];
+            public int[] Bonus { get; set; } = new int[Enumerations.StatCount];
             public int this[Stats index]
             {
                 get

@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Serilog;
+using System;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
+using System.Text.RegularExpressions;
 using System.Xml.Serialization;
 
 namespace DiegoG.DnDTDesktop.Other
@@ -8,25 +10,37 @@ namespace DiegoG.DnDTDesktop.Other
     [Serializable]
     public struct Dice
     {
+        public string ThrowString
+        {
+            get
+            {
+                if (Extra > 0)
+                    return $"{Throws}d{Type}+{Extra}";
+                if (Extra < 0)
+                    return $"{Throws}d{Type}{Extra}";
+                return $"{Throws}d{Type}";
+            }
+            set => this = new Dice(value);
+        }
         [JsonIgnore, IgnoreDataMember, XmlIgnore]
         private static Random Rand { get; set; } = new Random();
 
         [JsonIgnore, IgnoreDataMember, XmlIgnore]
-        public byte Throws { get; private set; }
+        public int Throws { get; set; }
 
         [JsonIgnore, IgnoreDataMember, XmlIgnore]
-        public byte Type { get; private set; }
+        public int Type { get; set; }
 
         [JsonIgnore, IgnoreDataMember, XmlIgnore]
-        public sbyte Extra { get; private set; }
+        public int Extra { get; set; }
 
         public Dice(Dice other) :
             this(other.Throws, other.Type, other.Extra)
         { }
-        public Dice(byte throws, byte type) :
+        public Dice(int throws, int type) :
             this(throws, type, 0)
         { }
-        public Dice(byte throws, byte type, sbyte extra)
+        public Dice(int throws, int type, int extra)
         {
             Throws = throws;
             Type = type;
@@ -34,72 +48,51 @@ namespace DiegoG.DnDTDesktop.Other
         }
         public Dice(string th)
         {
-            string[] separated = th.Split(new char[] { 'd', '+', '-' });
-            Throws = Byte.Parse(separated[0]);
-            Type = Byte.Parse(separated[1]);
-            Extra = SByte.Parse(separated[2]);
+            Validate(th);
+            var sep = Regex.Matches(th, @"[\+\-]?\d+");
+            if (!(sep.Count == 2 || sep.Count == 3))
+                invalidstring(th);
+            Throws = int.Parse(sep[0].Value);
+            Type = int.Parse(sep[1].Value);
+            Extra = int.Parse(sep.Count > 2 ? sep[2].Value : "0");
         }
-        public static int Throw(string th)
+        private const string ValidationPattern = @"\d+d\d+([\+\-]?\d+)?";
+        public static bool ValidateString(string str) => Regex.Match(str, ValidationPattern).Success;
+        private static void Validate(string str)
         {
-            return new Dice(th).Throw();
+            if (!ValidateString(str))
+                invalidstring(str);
         }
+        private static void invalidstring(string str) => throw new ArgumentException($"The given string \"{str}\" is not valid for Dice");
+        public static int Throw(string th) => new Dice(th).Throw();
         public int Throw()
         {
             int total = 0;
-            for (byte i = Throws; i >= 0; i--)
+            for (int i = 0; i < Throws; i++)
             {
+//#warning Only for C# interactive
+//                Console.WriteLine($"Throws: {Throws} | Type: {Type} | Extra: {Extra} | ThrowIndex: {i}"); //ONLY FOR C# INTERACTIVE
                 total += Rand.Next(1, Type);
-            };
+            }
             return total + Extra;
         }
 
         public Dice Add(Dice other)
         {
             if (Type == other.Type)
-            {
-                return new Dice((byte)(Throws + other.Throws), Type, Extra);
-            }
+                return new Dice(Throws + other.Throws, Type, Extra);
             else
-            {
                 throw new InvalidOperationException("Attempted to Add two Die of different types");
-            }
         }
-        public Dice Add(byte value)
-        {
-            return new Dice((byte)(Throws + value), Type, Extra);
-        }
-
-        public Dice Sub(byte value)
+        public Dice Add(int value) => new Dice(Throws + value, Type, Extra);
+        public Dice Sub(int value)
         {
             if (Throws > value)
-            {
                 return new Dice(1, Type, Extra);
-            }
             else
-            {
-                return new Dice((byte)(Throws - value), Type, Extra);
-            }
+                return new Dice(Throws - value, Type, Extra);
         }
 
-        public string ThrowString
-        {
-            get
-            {
-                const string str1 = "{0}d{1}+{2}", str2 = "{0}d{1}{2}", str3 = "{0}d{1}";
-                if (Extra > 0)
-                {
-                    return String.Format(str1, Throws, Type, Extra);
-                }
-                if (Extra < 0)
-                {
-                    return String.Format(str2, Throws, Type, Extra);
-                }
-                return String.Format(str3, Throws, Type);
-            }
-            set
-            {
-                this = new Dice(value);
-            }
-        }
+        public static Dice NoDice { get; } = new Dice("0d0");
     }
 }

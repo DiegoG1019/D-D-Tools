@@ -64,7 +64,7 @@ namespace DiegoG.DnDTDesktop.Items
 
         private class AllItemLists : IEnumerable<Item>
         {
-            public List<IList> Bags { get; set; }
+            public List<IList> Bags { get; set; } = new List<IList>();
             public IEnumerator<Item> GetEnumerator()
             {
                 foreach (var l in Bags)
@@ -74,10 +74,7 @@ namespace DiegoG.DnDTDesktop.Items
             IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
         }
 
-        public enum WeaponIndex
-        {
-            Melee, Ranged, Ammo
-        }
+        public enum WeaponIndex { Melee, Ranged, Ammo }
 
         public Bag<Armor> Armors { get; set; } = new Bag<Armor>();
         public Bag<Item> Other { get; set; } = new Bag<Item>();
@@ -87,7 +84,8 @@ namespace DiegoG.DnDTDesktop.Items
         public Bag<Ammo> Ammunitions { get; set; } = new Bag<Ammo>();
         public Slot<Potion> Potions { get; set; } = new Slot<Potion>();
 
-        private AllItemLists AllItemsList { get; set; }
+        private AllItemLists AllItemsList { get; set; } = new AllItemLists();
+        [JsonIgnore, IgnoreDataMember, XmlIgnore]
         public IEnumerable<Item> AllItems => AllItemsList;
 
         public Mass Weight { get; set; } = new Mass(0, Mass.Units.Kilogram);
@@ -105,11 +103,13 @@ namespace DiegoG.DnDTDesktop.Items
         public PriceTag FullValue { get; private set; }
 
         [JsonIgnore, IgnoreDataMember, XmlIgnore]
-        public int ArmorPenalty => (from item in Armors select item.Penalty).Max();
+        public int ArmorAC => Armors.Count > 0 ? (from item in Armors select item.Protection).Sum() : 0;
         [JsonIgnore, IgnoreDataMember, XmlIgnore]
-        public int ArmorSpeedPenalty => (from item in Armors select item.SpeedPenalty).Max();
+        public int ArmorPenalty => Armors.Count > 0 ? (from item in Armors select item.Penalty).Max() : 0;
         [JsonIgnore, IgnoreDataMember, XmlIgnore]
-        public int ArmorMaximumDexterity => (from item in Armors select item.MaximumDeterity).Max();
+        public int ArmorSpeedPenalty => Armors.Count > 0 ? (from item in Armors select item.SpeedPenalty).Max() : 0;
+        [JsonIgnore, IgnoreDataMember, XmlIgnore]
+        public int ArmorMaximumDexterity => Armors.Count > 0 ? (from item in Armors select item.MaximumDeterity).Max() : 0;
 
         public Inventory()
         {

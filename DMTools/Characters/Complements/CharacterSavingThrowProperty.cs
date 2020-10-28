@@ -1,5 +1,8 @@
 ﻿using System;
-using static DiegoG.DnDTDesktop.Enums;
+using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
+using System.Xml.Serialization;
+using static DiegoG.DnDTDesktop.Enumerations;
 
 namespace DiegoG.DnDTDesktop.Characters.Complements
 {
@@ -9,8 +12,11 @@ namespace DiegoG.DnDTDesktop.Characters.Complements
         public Stats BaseStat { get; set; }
         public int BasePoints { get; set; }
         public int Bonus { get; set; }
+        [IgnoreDataMember, JsonIgnore, XmlIgnore]
         public int EffectPoints { get; set; }
+        [IgnoreDataMember, JsonIgnore, XmlIgnore]
         public int BaseTotal => BasePoints + Parent.Stats[BaseStat].Total + Bonus;
+        [IgnoreDataMember, JsonIgnore, XmlIgnore]
         public int Total => BaseTotal + EffectPoints;
     }
 }

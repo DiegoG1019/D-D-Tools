@@ -2,7 +2,7 @@
 using DiegoG.DnDTDesktop.GUI.Elements.Components;
 using System;
 using System.Windows.Forms;
-using static DiegoG.DnDTDesktop.Enums;
+using static DiegoG.DnDTDesktop.Enumerations;
 
 namespace DiegoG.DnDTDesktop.GUI.Elements
 {
@@ -52,7 +52,6 @@ namespace DiegoG.DnDTDesktop.GUI.Elements
 
         private void ArmorACTextBoxNumeric_ValueChanged(object sender, EventArgs e)
         {
-            HeldAC.Armor = ArmorACTextBox.NumericValue;
         }
 
         private void BaseACTextBoxNumeric_ValueChanged(object sender, EventArgs e)

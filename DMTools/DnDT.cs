@@ -1,21 +1,27 @@
+using DiegoG.DnDTDesktop.Characters;
+using DiegoG.DnDTDesktop.Characters.Complements;
+using DiegoG.Utilities.IO;
 using DiegoG.DnDTDesktop.Properties;
 using Serilog;
 using System;
+using System.Configuration;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
-using static DiegoG.DnDTDesktop.Enums;
+using static DiegoG.DnDTDesktop.Enumerations;
 using Version = DiegoG.Utilities.Version;
+using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace DiegoG.DnDTDesktop
 {
-    static class Program
+    public static class Program
     {
         [DllImport("kernel32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         static extern bool AllocConsole();
 
-        public static readonly Version Version = new Version("Alpha", 0, 0, 37, 1);
+        public static readonly Version Version = new Version("Alpha", 0, 0, 38, 0);
 
         public const string Author = "Diego Garcia";
         public const string AuthorSignature = "DG";
@@ -53,8 +59,7 @@ namespace DiegoG.DnDTDesktop
 
         /*-----------------------------------------*/
 
-        [STAThread]
-        static void Main()
+        public static void Init()
         {
             /*--------------------------------------Initialization-------------------------------------*/
 
@@ -100,9 +105,6 @@ namespace DiegoG.DnDTDesktop
 
             Log.Debug("Succesfully started logger with a mimum level of {0}", MinimumLoggerLevel);
 
-            foreach (var p in Settings.Default.Properties)
-                Log.Debug($"Setting \"{p}\" = {Settings.Default.Properties[p.ToString()]}");
-
             Log.Information("Running D&DTools version: {0}", Version.Full);
 
             Log.Information("DataOut Directory: {0}", Path.GetFullPath(Directories.DataOut));
@@ -112,11 +114,26 @@ namespace DiegoG.DnDTDesktop
             Log.Information("Temp Directory: {0}", Path.GetFullPath(Directories.Temp));
             Log.Information("Working Directory: {0}", Path.GetFullPath(Directories.Working));
 
+            JsonSerializationSettings.JsonSerializerOptions.WriteIndented = Settings.Default.JsonWriteIndented;
+            Serialization.Init();
+
+            foreach (SettingsProperty p in Settings.Default.Properties)
+                Log.Debug($"Setting \"{p.Name}\" = {Settings.Default[p.Name]}");
 
             Log.Information("Finished the Initialization of the Application");
+        }
 
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
+        [STAThread]
+        public static async Task Main()
+        {
+            Init();
+
+            //var Quentin = new Character("Quentin");
+            //await Quentin.SerializeAsync();
+            var Quentin = await Character.DeserializeAndRegisterAsync("Quentin");
+
+            //Application.EnableVisualStyles();
+            //Application.SetCompatibleTextRenderingDefault(false);
             //Application.Run(new GUI.MainMenu());
         }
     }

@@ -2,7 +2,7 @@
 using System.Windows.Forms;
 using DiegoG.DnDTDesktop.GUI.Elements.Components;
 using DiegoG.DnDTDesktop.Characters.Complements;
-using static DiegoG.DnDTDesktop.Enums;
+using static DiegoG.DnDTDesktop.Enumerations;
 using DiegoG.DnDTDesktop.Properties;
 
 namespace DiegoG.DnDTDesktop.GUI.Elements

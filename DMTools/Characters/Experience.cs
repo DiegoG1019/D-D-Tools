@@ -16,22 +16,18 @@ namespace DiegoG.DnDTDesktop.Characters
         private int _current;
         public int Required { get; set; }
         public int Level { get; set; }
-        public int UnspentLevels => Level - Parent.Jobs.AllLevels;
 
-        public ObservableCollection<int> History { get; set; }
+        public ObservableCollection<int> History { get; set; } = new ObservableCollection<int>();
         public int Current
         {
-            get
-            {
-                return _current;
-            }
-            set
-            {
-                Add(value - _current);
-            }
+            get => _current;
+            set => Add(value - _current);
         }
         public int BaseExpGrant { get; set; }
         public int ExtraGrant { get; set; }
+
+        [JsonIgnore, IgnoreDataMember, XmlIgnore]
+        public int UnspentLevels => Level - Parent.Jobs.AllLevels;
 
         [JsonIgnore, IgnoreDataMember, XmlIgnore]
         public int Grant => Level * (Level - 1) * 500 + (BaseExpGrant * Level) + ExtraGrant;

@@ -87,6 +87,9 @@
     <Reference Include="CSScriptLib, Version=1.4.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\CS-Script.Core.1.4.0\lib\netstandard2.0\CSScriptLib.dll</HintPath>
     </Reference>
+    <Reference Include="Macross.Json.Extensions, Version=1.5.0.20143, Culture=neutral, PublicKeyToken=7158422f590468ee, processorArchitecture=MSIL">
+      <HintPath>..\packages\Macross.Json.Extensions.1.5.0\lib\netstandard2.0\Macross.Json.Extensions.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.1.1.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
@@ -172,8 +175,8 @@
   <ItemGroup>
     <Compile Include="CharacterList.cs" />
     <Compile Include="Characters\Character.cs" />
-    <Compile Include="Characters\Complements\CharacterSecondaryStat.cs" />
-    <Compile Include="Characters\Complements\CharacterSecondaryStatProperty.cs" />
+    <Compile Include="Characters\Cache\Abilities.cs" />
+    <Compile Include="Characters\Complements\SecondaryCharacterStatProperty.cs" />
     <Compile Include="Characters\Complements\CharacterSavingThrowProperty.cs" />
     <Compile Include="Characters\Complements\ICharacterProperty.cs" />
     <Compile Include="Characters\Complements\CharacterStat.cs" />
@@ -188,7 +191,7 @@
     <Compile Include="Characters\JobList.cs" />
     <Compile Include="Characters\Complements\Skill.cs" />
     <Compile Include="Characters\SkillList.cs" />
-    <Compile Include="Enums.cs" />
+    <Compile Include="Enumerations.cs" />
     <Compile Include="GUI\Elements\ArmorClassCard.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -294,11 +297,11 @@
     <Compile Include="GUI\Elements\StatDisplay.Designer.cs">
       <DependentUpon>StatDisplay.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\MainMenu.cs">
+    <Compile Include="GUI\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUI\MainMenu.Designer.cs">
-      <DependentUpon>MainMenu.cs</DependentUpon>
+    <Compile Include="GUI\MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\Menus\Charactersheet.cs">
       <SubType>UserControl</SubType>
@@ -330,7 +333,9 @@
     <Compile Include="Scripting\CharacterPropertyScript.cs" />
     <Compile Include="Scripting\InvalidScriptException.cs" />
     <Compile Include="Scripting\CharacterScript.cs" />
-    <Compile Include="Scripting\Scripts\SpeedProperty.cs" />
+    <EmbeddedResource Include="GUI\MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\Elements\ArmorClassCard.resx">
       <DependentUpon>ArmorClassCard.cs</DependentUpon>
     </EmbeddedResource>
@@ -376,9 +381,6 @@
     <EmbeddedResource Include="GUI\Elements\StatDisplay.resx">
       <DependentUpon>StatDisplay.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\MainMenu.resx">
-      <DependentUpon>MainMenu.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -393,7 +395,7 @@
     <Compile Include="Characters\Description.cs" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
+      <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <Compile Include="Properties\Settings.Designer.cs">
@@ -425,6 +427,7 @@
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.3.0.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
   </ItemGroup>
   <Import Project="..\..\DGUtilities\DGUtilitiesSharedProj\DGUtilitiesSharedProj.projitems" Label="Shared" />
+  <Import Project="..\Cache\Cache.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

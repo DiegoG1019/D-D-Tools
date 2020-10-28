@@ -1,4 +1,4 @@
-﻿using static DiegoG.DnDTDesktop.Enums;
+﻿using static DiegoG.DnDTDesktop.Enumerations;
 
 namespace DiegoG.DnDTDesktop.Items.Info
 {

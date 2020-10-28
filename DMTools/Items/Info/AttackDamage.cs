@@ -1,5 +1,5 @@
 ﻿using DiegoG.DnDTDesktop.Other;
-using static DiegoG.DnDTDesktop.Enums;
+using static DiegoG.DnDTDesktop.Enumerations;
 
 namespace DiegoG.DnDTDesktop.Items.Info
 {
@@ -15,9 +15,7 @@ namespace DiegoG.DnDTDesktop.Items.Info
         {
             die = new Dice[SizeCount];
             for (int i = 0; i < SizeCount; i++)
-            {
-                die[i] = new Dice();
-            }
+                die[i] = Dice.NoDice;
         }
         public AttackDamage(Dice[] die) => this.die = die;
     }

@@ -1,42 +1,47 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
+using System.Xml.Serialization;
 using CSScriptLib;
 using DiegoG.DnDTDesktop.Characters;
 using DiegoG.DnDTDesktop.Characters.Complements;
 
 namespace DiegoG.DnDTDesktop.Scripting
 {
-    public class CharacterPropertyScript : CharacterScript<CharacterPropertyScript>
+    public class CharacterPropertyScript : CharacterScript<CharacterPropertyScript>, ICharacterScript
     {
         public int DependentValue(Character chara, SecondaryCharacterStatProperty stat) => ScriptObject.GetDependentValue(chara, stat);
         public int OtherValue(Character chara, SecondaryCharacterStatProperty stat) => ScriptObject.GetOtherValue(chara, stat);
         public void ScriptInput(Character chara, SecondaryCharacterStatProperty stat, int input) => ScriptObject.Input(chara, stat, input);
+
+        [IgnoreDataMember, JsonIgnore, XmlIgnore]
         public bool ReceiveInput => ScriptObject.ReceiveInput;
+        [IgnoreDataMember, JsonIgnore, XmlIgnore]
         public bool RespondToStatChanges => throw new NotImplementedException();//ScriptObject.RespondToStatChanges;
         public override void Validate()
         {
             try
             {
-                int _;
-                var s = new SecondaryCharacterStat();
-                _ = ScriptObject.GetDependentValue(Parent, s);
-                _ = ScriptObject.GetOtherValue(Parent, s);
+#warning No validation yet
             }catch(Exception e)
             {
                 throw new InvalidScriptException($"CharacterPropertyScript \"[[{ScriptString}]]\" is invalid", e);
             }
         }
-        public override void Init() 
+        public void Init()
         {
-            ScriptObject = Evaluator.LoadCode(ScriptObject);
+            try
+            {
+                ScriptObject = CSScript.Evaluator.LoadCode(ScriptString);
+            }
+            catch (Exception e)
+            {
+                throw new InvalidScriptException($"CharacterPropertyScript \"[[{ScriptString}]]\" is invalid", e);
+            }
             Validate();
         }
         public CharacterPropertyScript() : base() { }
-        public CharacterPropertyScript(string script) : base(script) { }
-        public CharacterPropertyScript(string path, string filename) : base(path, filename) { }
+        public CharacterPropertyScript(string script) : base(script) { Init(); }
+        public CharacterPropertyScript(string path, string filename) : base(path, filename) { Init(); }
     }
 }
