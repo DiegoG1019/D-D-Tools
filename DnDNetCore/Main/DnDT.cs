@@ -16,7 +16,7 @@ namespace DiegoG.DnDNetCore
         {
             /*--------------------------------------Initialization-------------------------------------*/
 
-            Directories.InitDirectories();
+            Directories.InitApplicationDirectories();
 
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Information()
@@ -56,24 +56,29 @@ namespace DiegoG.DnDNetCore
 
             Log.Logger = loggerconfig
                 .WriteTo.Console()
-                .WriteTo.File(Path.Combine(Directories.Logging, $"{ShortAppName}-{Version.Full}.log"), rollingInterval: RollingInterval.Hour)
+                .WriteTo.File(Path.Combine(Directories.Logging, $"{ShortAppName}-{Version.Full}.log"), rollingInterval: RollingInterval.Minute)
                 .CreateLogger();
 
             Log.Debug("Succesfully started logger with a mimum level of {0}", MinimumLoggerLevel);
 
             Log.Information("Running D&DTools version: {0}", Version.Full);
 
-            Log.Information("DataOut Directory: {0}", Path.GetFullPath(Directories.DataOut));
-            Log.Information("Logging Directory: {0}", Path.GetFullPath(Directories.Logging));
-            Log.Information("Characters storage Directory: {0}", Path.GetFullPath(Directories.Characters));
-            Log.Information("Entities storage Directory: {0}", Path.GetFullPath(Directories.Entities));
-            Log.Information("Temp Directory: {0}", Path.GetFullPath(Directories.Temp));
-            Log.Information("Working Directory: {0}", Path.GetFullPath(Directories.Working));
-
+            Log.Information("Settings:");
             foreach (var p in Settings<DnDSettings>.CurrentProperties)
                 Log.Debug($"Setting \"{p.ObjectA}\" = {p.ObjectB}");
 
-            //Settings<Lang>.Initialize(Settings<DnDSettings>.Current.Lang);
+            Log.Information("Initializing Data directories");
+            Directories.InitDataDirectories(Settings<DnDSettings>.Current.DataDirectory);
+
+            Log.Information("Directories:");
+            foreach (var p in Directories.AllDirectories)
+                Log.Information($"{p.ObjectA} Directory: {Path.GetFullPath(p.ObjectB)}");
+
+            Log.Information("Initializing Language settings");
+            Settings<Lang>.Initialize(Directories.Languages, Settings<DnDSettings>.Current.Lang);
+
+            Log.Information("Initializing Theme settings");
+            Settings<Theme>.Initialize(Directories.Themes, Settings<DnDSettings>.Current.Theme);
 
             Log.Information("Finished the Initialization of the Application");
         }
@@ -83,6 +88,8 @@ namespace DiegoG.DnDNetCore
         public static async Task Main(string[] args)
         {
             Init();
+
+            Log.Information()
             await CLI(args);
 
             GUI = new App();

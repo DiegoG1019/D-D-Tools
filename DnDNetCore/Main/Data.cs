@@ -1,4 +1,9 @@
-﻿using System.IO;
+﻿using DiegoG.Utilities.Collections;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using Version = DiegoG.Utilities.Version;
 
@@ -17,6 +22,7 @@ namespace DiegoG.DnDNetCore
         public const string Author = "Diego Garcia";
         public const string AuthorSignature = "DG";
         public const string ShortAppName = "DnDTools";
+        public const string CopyrightNotice = "Copyright © 2020 Diego Garcia";
 #if NETFRAMEWORK
         public const string FullAppName = "D&D Tools (.NET Framework)";
 #endif
@@ -27,21 +33,46 @@ namespace DiegoG.DnDNetCore
 
         public static class Directories
         {
-            public static string DataOut = Path.Combine("DnDT");
+            private static TypeInfo typeinfo = (TypeInfo)typeof(Directories);
+            public static string Temp = Path.GetTempPath();
+
+            public static string DataOut;
             public static string Characters = Path.Combine(DataOut, "Characters");
             public static string Scripts = Path.Combine(DataOut, "Scripts");
-            public static string Entities = Path.Combine(DataOut, "Entities");
-            public static string Temp = Path.GetTempPath();
+            public static string Themes = Path.Combine(DataOut, "Themes");
+            
             public static string Working = Path.GetFullPath(Directory.GetCurrentDirectory());
+            public static string AppData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+
+#if DEBUG
             public static string Logging = Path.Combine(Working, "Logs");
             public static string Settings = Path.Combine(Working, "Settings");
-            public static void InitDirectories()
+            public static string Languages = Path.Combine(Working, "Languages");
+#else
+            public static string Logging = Path.Combine(AppData, "Logs");
+            public static string Settings = Path.Combine(AppData, "Settings");
+            public static string Languages = Path.Combine(AppData, "Languages");
+#endif
+
+            public static IEnumerable<Pair<string, string>> AllDirectories
+                => from item in typeinfo.GetFields() select new Pair<string, string>(item.Name, (string)item.GetValue(null));
+
+            public static void InitDataDirectories(string dataout)
             {
+                DataOut = dataout;
+                if (DataOut is null)
+                    DataOut = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "D&D Tools");
                 Directory.CreateDirectory(DataOut);
                 Directory.CreateDirectory(Characters);
-                Directory.CreateDirectory(Entities);
+                Directory.CreateDirectory(Scripts);
+                Directory.CreateDirectory(Themes);
+            }
+
+            public static void InitApplicationDirectories()
+            {
                 Directory.CreateDirectory(Logging);
                 Directory.CreateDirectory(Settings);
+                Directory.CreateDirectory(Languages);
             }
         }
 

@@ -6,6 +6,14 @@
     <UseWPF>true</UseWPF>
     <RootNamespace>DiegoG.DnDNetCore</RootNamespace>
     <StartupObject></StartupObject>
+    <Authors>Diego Garcia</Authors>
+    <Product>D&amp;D Tools</Product>
+    <Copyright>Copyright © 2020 Diego Garcia</Copyright>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
