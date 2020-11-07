@@ -1,5 +1,6 @@
 ﻿using DiegoG.DnDTDesktop.Properties;
 using DiegoG.Utilities;
+using DiegoG.Utilities.Settings;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,7 +17,7 @@ namespace DiegoG.DnDTDesktop.Other
         public void Add(int value)
         {
             _Value += value;
-            Weight.Pound = _Value * Settings.Default.CoinWeight;
+            Weight.Gram = _Value * Settings<DnDSettings>.Current.CoinWeight.Gram;
         }
 
         public void Gain(int value)
@@ -36,7 +37,7 @@ namespace DiegoG.DnDTDesktop.Other
             if (value > _Value)
                 throw new InvalidOperationException($"Attempted to draw {value - Value} over limit. W1: {Value}; W2: {value}");
             _Value -= value;
-            Weight.Pound = value * Settings.Default.CoinWeight;
+            Weight.Gram = value * Settings<DnDSettings>.Current.CoinWeight.Gram;
         }
 
         public void Spend(int value)

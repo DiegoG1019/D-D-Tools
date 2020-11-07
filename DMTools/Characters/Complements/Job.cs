@@ -1,28 +1,54 @@
-﻿using DiegoG.DnDTDesktop.Other;
-using System;
+﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
+using System.Xml.Serialization;
+using DiegoG.DnDTDesktop.Other;
+using DiegoG.Utilities.Collections;
+using static DiegoG.DnDTDesktop.Enumerations;
+using System.Threading.Tasks;
 
 namespace DiegoG.DnDTDesktop.Characters.Complements
 {
     [Serializable]
     public sealed class Job : INoted
     {
-        [Serializable]
-        public class JobGrowth
-        {
-            public List<List<int>> BaseAttack { get; set; } = new List<List<int>>();
-            public List<List<int>> SavingThrows { get; set; } = new List<List<int>>();
-            public List<Ability> Abilities { get; set; } = new List<Ability>();
-            public List<List<int>> DailySpells { get; set; } = new List<List<int>>();
-        }
         public string Name { get; set; }
         public int Level { get; set; }
         public ObservableCollection<string> Competence { get; set; } = new ObservableCollection<string>();
         public Dice HPDice { get; set; } = default;
         public int SkillPoints { get; set; }
-        public JobGrowth Growth { get; set; } = default;
-        public NoteList Notes { get; set; } = default;
+        public NoteList Notes { get; set; } = new NoteList();
+
+        [IgnoreDataMember, JsonIgnore, XmlIgnore]
+        public int BaseAttack => AllBaseAttackBonuses.UpToIndex(Level).Sum();
+        public SavingThrowBase GetSavingThrows()
+        {
+            var arr = AllSavingThrows.UpToIndex(Level);
+            var stb = new SavingThrowBase();
+            foreach (var i in arr)
+                stb.Add(i);
+            return stb;
+        }
+
+        public IEnumerable<Ability> GetAbilities()
+        {
+            List<Ability> r = new List<Ability>();
+            var arr = AllAbilities.UpToIndex(Level);
+            foreach (var i in arr)
+                r.AddRange(i);
+            return r;
+        }
+
+        [IgnoreDataMember, JsonIgnore, XmlIgnore]
+        public SafeIndexList<int> DailySpells => AllDailySpells[Level];
+
+        public SafeIndexList<int> AllBaseAttackBonuses { get; set; } = new SafeIndexList<int>(20);
+        public SafeIndexList<SavingThrowBase> AllSavingThrows { get; set; } = new SafeIndexList<SavingThrowBase>(20);
+        public SafeIndexList<SafeIndexList<Ability>> AllAbilities { get; set; } = new SafeIndexList<SafeIndexList<Ability>>(20);
+        public SafeIndexList<SafeIndexList<int>> AllDailySpells { get; set; } = new SafeIndexList<SafeIndexList<int>>(20);
         public Job()
         {
             Competence.CollectionChanged += Competence_CollectionChanged;

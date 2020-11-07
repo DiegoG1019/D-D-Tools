@@ -4,6 +4,7 @@ using DiegoG.DnDTDesktop.Other;
 using System.Collections.Generic;
 using DiegoG.Utilities;
 using DiegoG.DnDTDesktop.Properties;
+using DiegoG.Utilities.Settings;
 
 namespace DiegoG.DnDTDesktop.Characters.Cache
 {
@@ -26,7 +27,7 @@ namespace DiegoG.DnDTDesktop.Characters.Cache
         public static Ability DarkVision => new Ability()
         {
             Name = "Dark Vision",
-            Description = $"Can see situations with little light with full color, in a {new Length(60, Length.Units.Foot).ToString(Settings.Default.PreferredLengthUnit)} radius"
+            Description = $"Can see situations with little light with full color, in a {new Length(60, Length.Units.Foot).ToString(Settings<DnDSettings>.Current.PreferredLengthUnit, "0.00")} radius"
         };
         public static Ability Evasion => new Ability()
         {

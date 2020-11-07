@@ -9,8 +9,8 @@ namespace DiegoG.DnDTDesktop.GUI.Elements
 {
     public partial class SavingThrowCard : CharacterUserControl
     {
-        private SavingThrowsInitiative selectedstat;
-        public SavingThrowsInitiative SelectedStat
+        private SavingThrow selectedstat;
+        public SavingThrow SelectedStat
         {
             get => selectedstat;
             set
@@ -19,7 +19,7 @@ namespace DiegoG.DnDTDesktop.GUI.Elements
                 selectedstat = value;
             }
         }
-        public CharacterStat<SavingThrowsInitiative, CharacterSavingThrowProperty> HeldThrowStats => HeldCharacter.SavingThrowsInitiative;
+        public CharacterStat<SavingThrow, CharacterSavingThrowProperty> HeldThrowStats => HeldCharacter.SavingThrows;
         public CharacterSavingThrowProperty HeldThrows => HeldThrowStats[SelectedStat];
         public event Action SelectedStatChanged;
         public SavingThrowCard()

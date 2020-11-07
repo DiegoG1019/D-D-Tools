@@ -95,12 +95,6 @@ namespace DiegoG.DnDTDesktop
             Active, Incapacitated, BleedingOut, Deceased
         }
 
-        [Serializable]
-        public enum Verbosity
-        {
-            None, Debug, Verbose
-        }
-
         [Serializable, JsonConverter(typeof(JsonStringEnumMemberConverter))]
         public enum Stats
         {
@@ -122,7 +116,7 @@ namespace DiegoG.DnDTDesktop
             [EnumMember(Value = "Charisma")]
             Charisma
         }
-        public static int StatCount { get; } = Enum.GetNames(typeof(Stats)).Length;
+        public static int StatCount => Enum.GetNames(typeof(Stats)).Length;
 
         [Serializable, JsonConverter(typeof(JsonStringEnumMemberConverter))]
         public enum SecondaryStats
@@ -135,7 +129,7 @@ namespace DiegoG.DnDTDesktop
         }
 
         [Serializable, JsonConverter(typeof(JsonStringEnumMemberConverter))]
-        public enum SavingThrowsInitiative
+        public enum SavingThrow
         {
             [EnumMember(Value = "Fortitude")]
             Fortitude,
@@ -144,15 +138,37 @@ namespace DiegoG.DnDTDesktop
             Reflexes,
 
             [EnumMember(Value = "Willpower")]
-            Willpower,
-
-            [EnumMember(Value = "Initiative")]
-            Initiative
+            Willpower
         }
-        public static int SavingThrowCount { get; } = Enum.GetNames(typeof(SavingThrowsInitiative)).Length;
+        public static int SavingThrowCount => Enum.GetNames(typeof(SavingThrow)).Length;
 
         [Serializable, JsonConverter(typeof(JsonStringEnumMemberConverter))]
-        public enum Schools
+        public enum CombatAction
+        {
+            [EnumMember(Value = "Standard Action")]
+            Standard,
+
+            [EnumMember(Value = "Move Action")]
+            Move,
+
+            [EnumMember(Value = "Full Round Action")]
+            FullRound,
+
+            [EnumMember(Value = "Free Action")]
+            Free,
+
+            [EnumMember(Value = "Swift Action")]
+            Swift,
+
+            [EnumMember(Value = "Immediate Action")]
+            Immediate,
+
+            [EnumMember(Value = "Not an Action")]
+            NotAnAction
+        }
+
+        [Serializable, JsonConverter(typeof(JsonStringEnumMemberConverter))]
+        public enum MagicSchool
         {
             [EnumMember(Value = "Abjuration")]
             Abjuration,
@@ -178,7 +194,7 @@ namespace DiegoG.DnDTDesktop
             [EnumMember(Value = "Transmutation")]
             Transmutation
         }
-        public static int SchoolCount { get; } = Enum.GetNames(typeof(Schools)).Length;
+        public static int SchoolCount => Enum.GetNames(typeof(MagicSchool)).Length;
 
         [Serializable, JsonConverter(typeof(JsonStringEnumMemberConverter))]
         public enum Sizes
@@ -210,7 +226,7 @@ namespace DiegoG.DnDTDesktop
             [EnumMember(Value = "Colossal")]
             Colossal
         }
-        public static int SizeCount { get; } = Enum.GetNames(typeof(Sizes)).Length;
+        public static int SizeCount => Enum.GetNames(typeof(Sizes)).Length;
 
         public static ImmutableDictionary<Stats, string> ShortStatNames { get; private set; }
         public static ObjectCollection TypeList { get; private set; }

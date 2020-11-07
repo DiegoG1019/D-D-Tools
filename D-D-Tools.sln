@@ -9,11 +9,15 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Common", "..\DGUtilities\DG
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "DnDTTools", "Cache\DnDTTools.shproj", "{5FB40119-2995-4307-9F1D-D0238C30D4C3}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "CLI", "..\DGUtilities\CLI\CLI.shproj", "{45A44C72-8FC7-4443-8492-8F38A0DFDC68}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		..\DGUtilities\CLI\CLI.projitems*{45a44c72-8fc7-4443-8492-8f38a0dfdc68}*SharedItemsImports = 13
 		Cache\Cache.projitems*{5fb40119-2995-4307-9f1d-d0238c30d4c3}*SharedItemsImports = 13
 		..\DGUtilities\DGUtilitiesSharedProj\DGUtilitiesSharedProj.projitems*{e7813ee5-9c23-4b9c-9c93-38a04843f197}*SharedItemsImports = 13
 		Cache\Cache.projitems*{f30213bb-263c-4759-86b1-0312a1796beb}*SharedItemsImports = 4
+		..\DGUtilities\CLI\CLI.projitems*{f30213bb-263c-4759-86b1-0312a1796beb}*SharedItemsImports = 4
 		..\DGUtilities\DGUtilitiesSharedProj\DGUtilitiesSharedProj.projitems*{f30213bb-263c-4759-86b1-0312a1796beb}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

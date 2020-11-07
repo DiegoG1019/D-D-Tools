@@ -33,9 +33,6 @@ namespace DiegoG.DnDTDesktop.Characters
         public int Grant => Level * (Level - 1) * 500 + (BaseExpGrant * Level) + ExtraGrant;
 
         [JsonIgnore, IgnoreDataMember, XmlIgnore]
-        public int HistoryEntries => History.Count;
-
-        [JsonIgnore, IgnoreDataMember, XmlIgnore]
         public int Left => Required - Current;
 
         [JsonIgnore, IgnoreDataMember, XmlIgnore]
@@ -58,11 +55,7 @@ namespace DiegoG.DnDTDesktop.Characters
             History.Add(-v);
         }
 
-        public void Gain(int v)
-        {
-            Add((int)(v * Multiplier));
-        }
-
+        public void Gain(int v) => Add((int)(v * Multiplier));
         [JsonIgnore, IgnoreDataMember, XmlIgnore]
         public bool DidLevel => Current >= Required;
         public void LevelUp()
@@ -71,9 +64,9 @@ namespace DiegoG.DnDTDesktop.Characters
             Level++;
         }
 
-        public void SetRequired()
-        {
-            Required = (Level + 1) * (Level) * 500;
-        }
+        /// <summary>
+        /// Calculate the required experience amount following the Game's rules
+        /// </summary>
+        public void SetRequired() => Required = (Level + 1) * (Level) * 500;
     }
 }

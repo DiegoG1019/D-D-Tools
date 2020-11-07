@@ -174,8 +174,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CharacterList.cs" />
+    <Compile Include="Characters\Cache\Feats.cs" />
+    <Compile Include="Characters\Cache\Items\Armor.cs" />
+    <Compile Include="Characters\Cache\Items\Other.cs" />
+    <Compile Include="Characters\Cache\Items\Weapons\Ammo.cs" />
+    <Compile Include="Characters\Cache\Items\Weapons\Melee.cs" />
+    <Compile Include="Characters\Cache\Items\Weapons\Ranged.cs" />
+    <Compile Include="Characters\Cache\Jobs.cs" />
     <Compile Include="Characters\Character.cs" />
     <Compile Include="Characters\Cache\Abilities.cs" />
+    <Compile Include="Characters\Complements\SavingThrowBase.cs" />
     <Compile Include="Characters\Complements\SecondaryCharacterStatProperty.cs" />
     <Compile Include="Characters\Complements\CharacterSavingThrowProperty.cs" />
     <Compile Include="Characters\Complements\ICharacterProperty.cs" />
@@ -183,6 +191,7 @@
     <Compile Include="Characters\Complements\CharacterStatProperty.cs" />
     <Compile Include="Characters\Complements\CharacterTrait.cs" />
     <Compile Include="Characters\Complements\SavingThrowStat.cs" />
+    <Compile Include="Characters\Complements\Spell.cs" />
     <Compile Include="Characters\Experience.cs" />
     <Compile Include="Characters\Ability.cs" />
     <Compile Include="Characters\Health.cs" />
@@ -191,6 +200,7 @@
     <Compile Include="Characters\JobList.cs" />
     <Compile Include="Characters\Complements\Skill.cs" />
     <Compile Include="Characters\SkillList.cs" />
+    <Compile Include="Characters\SpellBook.cs" />
     <Compile Include="Enumerations.cs" />
     <Compile Include="GUI\Elements\ArmorClassCard.cs">
       <SubType>UserControl</SubType>
@@ -321,7 +331,9 @@
     <Compile Include="Items\Weapons\Weapons.cs" />
     <Compile Include="Items\Item.cs" />
     <Compile Include="Items\Key.cs" />
-    <Compile Include="DnDT.cs" />
+    <Compile Include="Main\DnDSettings.cs" />
+    <Compile Include="Main\DnDT.cs" />
+    <Compile Include="Main\Meta.cs" />
     <Compile Include="Other\Dice.cs" />
     <Compile Include="Other\FlagsArray.cs" />
     <Compile Include="Other\IFlagged.cs" />
@@ -386,7 +398,6 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <Compile Include="Properties\CustomSettings.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
@@ -394,15 +405,6 @@
     </Compile>
     <Compile Include="Characters\Description.cs" />
     <None Include="packages.config" />
-    <None Include="Properties\Settings.settings">
-      <Generator>PublicSettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -426,8 +428,12 @@
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.3.0.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll" />
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.3.0.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Commands\" />
+  </ItemGroup>
   <Import Project="..\..\DGUtilities\DGUtilitiesSharedProj\DGUtilitiesSharedProj.projitems" Label="Shared" />
   <Import Project="..\Cache\Cache.projitems" Label="Shared" />
+  <Import Project="..\..\DGUtilities\CLI\CLI.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

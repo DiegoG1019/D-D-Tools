@@ -1,6 +1,7 @@
 ﻿using DiegoG.DnDTDesktop.Characters.Complements;
 using DiegoG.DnDTDesktop.Other;
 using DiegoG.DnDTDesktop.Properties;
+using DiegoG.Utilities.Settings;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -103,18 +104,12 @@ namespace DiegoG.DnDTDesktop.Characters
         {
             get
             {
-                if (RemainingHP <= Settings.Default.DeceasedHP)
-                {
+                if (RemainingHP <= Settings<DnDSettings>.Current.DeceasedHP)
                     return CombatState.Deceased;
-                }
-                if (RemainingHP <= Settings.Default.BleedingOutHP)
-                {
+                if (RemainingHP <= Settings<DnDSettings>.Current.BleedingOutHP)
                     return CombatState.BleedingOut;
-                }
-                if (RemainingHP <= Settings.Default.IncapacitatedHP)
-                {
+                if (RemainingHP <= Settings<DnDSettings>.Current.IncapacitatedHP)
                     return CombatState.Incapacitated;
-                }
                 return CombatState.Active;
             }
         }

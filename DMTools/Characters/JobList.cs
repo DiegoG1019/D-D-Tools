@@ -1,11 +1,14 @@
 ﻿using DiegoG.DnDTDesktop.Characters.Complements;
+using DiegoG.Utilities.Collections;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
+using System.Threading.Tasks;
 using System.Xml.Serialization;
+using static DiegoG.DnDTDesktop.Enumerations;
 
 namespace DiegoG.DnDTDesktop.Characters
 {
@@ -44,10 +47,52 @@ namespace DiegoG.DnDTDesktop.Characters
 
         [JsonIgnore, IgnoreDataMember, XmlIgnore]
         public Job this[string JobName] => (from job in JobsCollection where job.Name == JobName select job).First();
+
         [JsonIgnore, IgnoreDataMember, XmlIgnore]
         public int this[Job job] => JobsCollection.IndexOf(job);
+
         [JsonIgnore, IgnoreDataMember, XmlIgnore]
         public int Count => JobsCollection.Count;
+
+        public int TotalBaseAttack => JobsCollection.Select((j) => j.BaseAttack).Sum();
+        public ReadOnlyIndexedProperty<int, int> TotalDailySpells { get; private set; }
+
+        public IEnumerable<Ability> GetGainedAbilities()
+        {
+            List<Pair<Task, IEnumerable<Ability>>> PairList = new List<Pair<Task, IEnumerable<Ability>>>();
+            foreach (var j in JobsCollection)
+            {
+                var pair = new Pair<Task, IEnumerable<Ability>>();
+                pair.ObjectA = Task.Run(() => { pair.ObjectB = j.GetAbilities(); });
+            }
+            Task.WaitAll((from i in PairList select i.ObjectA).ToArray());
+            var newlist = new List<Ability>();
+            foreach (var p in PairList)
+                newlist.AddRange(p.ObjectB);
+            return newlist;
+        }
+
+        public SavingThrowBase GetCurrentSavingThrows()
+        {
+            var pl = new List<Pair<Task, SavingThrowBase>>();
+            foreach (Job job in this)
+            {
+                var pair = new Pair<Task, SavingThrowBase>();
+                pair.ObjectA = Task.Run(
+                    () =>
+                    {
+                        pair.ObjectB = new SavingThrowBase();
+                        pair.ObjectB.Add(job.GetSavingThrows());
+                    }
+                );
+            }
+            var (AllTasks, AllSavingThrows) = Pair<Task, SavingThrowBase>.SeparateEnumerable(pl);
+            Task.WaitAll(AllTasks.ToArray());
+            var stb = new SavingThrowBase();
+            foreach (var i in AllSavingThrows)
+                stb.Add(i);
+            return stb;
+        }
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
