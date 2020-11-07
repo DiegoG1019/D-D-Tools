@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DiegoG.DnDTDesktop.Properties {
+namespace DiegoG.DnDNetCore.Properties {
     using System;
     
     
