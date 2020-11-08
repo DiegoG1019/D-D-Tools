@@ -29,10 +29,6 @@
     <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Commands\" />
-  </ItemGroup>
-
   <Import Project="..\..\DGUtilities\CLI\CLI.projitems" Label="Shared" />
 
   <Import Project="..\..\DGUtilities\DGUtilitiesSharedProj\DGUtilitiesSharedProj.projitems" Label="Shared" />

@@ -26,9 +26,9 @@ namespace DiegoG.DnDNetCore
                 .CreateLogger();
 
             Serialization.Init();
-            Settings<DnDSettings>.Initialize(Directories.Settings, "Settings");
+            Settings<AppSettings>.Initialize(Directories.Settings, "Settings");
 
-            if (Settings<DnDSettings>.Current.Console)
+            if (Settings<AppSettings>.Current.Console)
             {
                 Log.Information("Opening console");
                 AllocConsole();
@@ -36,14 +36,14 @@ namespace DiegoG.DnDNetCore
             }
 
             LoggerConfiguration loggerconfig = new LoggerConfiguration();
-            if (Settings<DnDSettings>.Current.Verbosity == Verbosity.Verbose)
+            if (Settings<AppSettings>.Current.Verbosity == Verbosity.Verbose)
             {
                 loggerconfig.MinimumLevel.Verbose();
                 MinimumLoggerLevel = "Verbose";
             }
             else
             {
-                if (Settings<DnDSettings>.Current.Verbosity == Verbosity.Debug)
+                if (Settings<AppSettings>.Current.Verbosity == Verbosity.Debug)
                 {
                     loggerconfig.MinimumLevel.Debug();
                     MinimumLoggerLevel = "Debug";
@@ -65,21 +65,24 @@ namespace DiegoG.DnDNetCore
             Log.Information("Running D&DTools version: {0}", Version.Full);
 
             Log.Information("Settings:");
-            foreach (var p in Settings<DnDSettings>.CurrentProperties)
+            foreach (var p in Settings<AppSettings>.CurrentProperties)
                 Log.Debug($"Setting \"{p.ObjectA}\" = {p.ObjectB}");
 
             Log.Information("Initializing Data directories");
-            Directories.InitDataDirectories(Settings<DnDSettings>.Current.DataDirectory);
+            Directories.InitDataDirectories(Settings<AppSettings>.Current.DataDirectory);
 
             Log.Information("Directories:");
             foreach (var p in Directories.AllDirectories)
                 Log.Information($"{p.ObjectA} Directory: {Path.GetFullPath(p.ObjectB)}");
 
+            Log.Information("Initializing Game Settings");
+            Settings<DnDSettings>.Initialize(Directories.Settings, Settings<AppSettings>.Current.GameSettingsProfile);
+
             Log.Information("Initializing Language settings");
-            Settings<Lang>.Initialize(Directories.Languages, Settings<DnDSettings>.Current.Lang);
+            Settings<Lang>.Initialize(Directories.Languages, Settings<AppSettings>.Current.Lang);
 
             Log.Information("Initializing Theme settings");
-            Settings<Theme>.Initialize(Directories.Themes, Settings<DnDSettings>.Current.Theme);
+            Settings<Theme>.Initialize(Directories.Themes, Settings<AppSettings>.Current.Theme);
 
             Log.Information("Finished the Initialization of the Application");
         }

@@ -1,4 +1,5 @@
-﻿using DiegoG.Utilities.Collections;
+﻿using DiegoG.DnDTCache;
+using DiegoG.Utilities.Collections;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,21 +16,14 @@ namespace DiegoG.DnDNetCore
         [return: MarshalAs(UnmanagedType.Bool)]
         static extern bool AllocConsole();
 
-        public static readonly Version Version = new Version("Alpha", 0, 0, 39, 0);
+        public static Version Version => DnDNetCoreCache.Version;
+        public static string Author => GlobalCache.Author;
+        public static string AuthorSignature => GlobalCache.AuthorSignature;
+        public static string ShortAppName => GlobalCache.ShortAppName;
+        public static string FullAppName => GlobalCache.FullAppName;
+        public static string CopyrightNotice => GlobalCache.CopyrightNotice;
 
         public static App GUI { get; private set; }
-
-        public const string Author = "Diego Garcia";
-        public const string AuthorSignature = "DG";
-        public const string ShortAppName = "DnDTools";
-        public const string CopyrightNotice = "Copyright © 2020 Diego Garcia";
-#if NETFRAMEWORK
-        public const string FullAppName = "D&D Tools (.NET Framework)";
-#endif
-#if NETCORE
-        public const string FullAppName = "D&D Tools (.NET Core)";
-#endif
-        public const string AppName = "D&D Tools";
 
         public static class Directories
         {

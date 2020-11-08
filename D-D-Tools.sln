@@ -9,7 +9,9 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "DnDTTools", "Cache\DnDTTool
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "CLI", "..\DGUtilities\CLI\CLI.shproj", "{45A44C72-8FC7-4443-8492-8F38A0DFDC68}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DnDNetCore", "DnDNetCore\DnDNetCore.csproj", "{A125FD18-2042-4231-8A63-8312130DB25A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DnDNetCore", "DnDNetCore\DnDNetCore.csproj", "{A125FD18-2042-4231-8A63-8312130DB25A}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "WPF", "..\DGUtilities\WPF\WPF.shproj", "{B341D789-0D1A-412F-AD2E-3D33620A71C3}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -18,6 +20,7 @@ Global
 		Cache\Cache.projitems*{a125fd18-2042-4231-8a63-8312130db25a}*SharedItemsImports = 5
 		..\DGUtilities\CLI\CLI.projitems*{a125fd18-2042-4231-8a63-8312130db25a}*SharedItemsImports = 5
 		..\DGUtilities\DGUtilitiesSharedProj\DGUtilitiesSharedProj.projitems*{a125fd18-2042-4231-8a63-8312130db25a}*SharedItemsImports = 5
+		..\DGUtilities\WPF\WPF.projitems*{b341d789-0d1a-412f-ad2e-3d33620a71c3}*SharedItemsImports = 13
 		..\DGUtilities\DGUtilitiesSharedProj\DGUtilitiesSharedProj.projitems*{e7813ee5-9c23-4b9c-9c93-38a04843f197}*SharedItemsImports = 13
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
