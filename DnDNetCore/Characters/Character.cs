@@ -24,7 +24,7 @@ namespace DiegoG.DnDNetCore.Characters
         /// D - Small changes in character construction
         /// </summary>
 #warning Remember to update this
-        public static Version Working_Version { get; } = new Version($"{Program.AuthorSignature}{Program.ShortAppName}", 1, 0, 0, 0);
+        public static Version Working_Version { get; } = new Version($"{App.AuthorSignature}{App.ShortAppName}", 1, 0, 0, 0);
         /// <summary>
         /// Represents the character's version, as defined by the program 
         /// </summary>
@@ -35,7 +35,7 @@ namespace DiegoG.DnDNetCore.Characters
         /// Represents the Version of the Program that serialized the object
         /// </summary>
         [JsonPropertyName("Generator Version"), XmlElement(ElementName = "Generator Version", IsNullable = false, Order = 2)]
-        public Version Program_Version => Program.Version;
+        public Version Program_Version => App.Version;
 
         private bool constructing = true;
         private string _CFN;
@@ -46,7 +46,7 @@ namespace DiegoG.DnDNetCore.Characters
             set
             {
                 if (!constructing)
-                    Program.Characters.ChangeCharacterRegistrationKey(_CFN, value);
+                    App.Characters.ChangeCharacterRegistrationKey(_CFN, value);
                 _CFN = value;
             }
         }
@@ -120,28 +120,28 @@ namespace DiegoG.DnDNetCore.Characters
                 new SecondaryCharacterStatProperty()
                 {
                     ParentName = CharacterFileName,
-                    ScriptData = new Scripting.CharacterPropertyScript(Program.Directories.Scripts, "SpeedProperty.cs")
+                    ScriptData = new Scripting.CharacterPropertyScript(App.Directories.Scripts, "SpeedProperty.cs")
                 }
             );
 
             constructing = false;
-            Program.Characters.Register(this);
+            App.Characters.Register(this);
         }
 
-        public async Task SerializeAsync() => await Serialization.Serialize.JsonAsync(this, Program.Directories.Characters, CharacterFileName);
+        public async Task SerializeAsync() => await Serialization.Serialize.JsonAsync(this, App.Directories.Characters, CharacterFileName);
         public async static Task<Character> DeserializeAndReplaceAsync(Character chara)
         {
-            Program.Characters.Unregister(chara);
+            App.Characters.Unregister(chara);
             //Before serialization the object is initialized to its default state, the default state of 'constructing' is true
-            chara = await Serialization.Deserialize<Character>.JsonAsync(Program.Directories.Characters, chara.CharacterFileName);
-            Program.Characters.Register(chara);
+            chara = await Serialization.Deserialize<Character>.JsonAsync(App.Directories.Characters, chara.CharacterFileName);
+            App.Characters.Register(chara);
             chara.constructing = false;
             return chara;
         }   
         public static async Task<Character> DeserializeAndRegisterAsync(string characterFileName)
         {
-            var chara = await Serialization.Deserialize<Character>.JsonAsync(Program.Directories.Characters, characterFileName);
-            Program.Characters.Register(chara);
+            var chara = await Serialization.Deserialize<Character>.JsonAsync(App.Directories.Characters, characterFileName);
+            App.Characters.Register(chara);
             chara.constructing = false;
             return chara;
         }

@@ -9,7 +9,7 @@ using Version = DiegoG.Utilities.Version;
 
 namespace DiegoG.DnDNetCore
 {
-    public static partial class Program
+    public partial class App
     {
         [DllImport("kernel32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
@@ -37,9 +37,9 @@ namespace DiegoG.DnDNetCore
             public static string Temp = Path.GetTempPath();
 
             public static string DataOut;
-            public static string Characters = Path.Combine(DataOut, "Characters");
-            public static string Scripts = Path.Combine(DataOut, "Scripts");
-            public static string Themes = Path.Combine(DataOut, "Themes");
+            public static string Characters;
+            public static string Scripts;
+            public static string Themes;
             
             public static string Working = Path.GetFullPath(Directory.GetCurrentDirectory());
             public static string AppData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
@@ -63,8 +63,14 @@ namespace DiegoG.DnDNetCore
                 if (DataOut is null)
                     DataOut = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "D&D Tools");
                 Directory.CreateDirectory(DataOut);
+
+                Characters = Path.Combine(DataOut, "Characters");
                 Directory.CreateDirectory(Characters);
+
+                Scripts = Path.Combine(DataOut, "Scripts");
                 Directory.CreateDirectory(Scripts);
+
+                Themes = Path.Combine(DataOut, "Themes");
                 Directory.CreateDirectory(Themes);
             }
 

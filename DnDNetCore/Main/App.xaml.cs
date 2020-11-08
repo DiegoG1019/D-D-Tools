@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Serilog;
 using System.IO;
 using DiegoG.CLI;
@@ -7,10 +7,11 @@ using System.Threading.Tasks;
 using DiegoG.Utilities.Settings;
 using DiegoG.Utilities.Enumerations;
 using Version = DiegoG.Utilities.Version;
+using System.Windows;
 
 namespace DiegoG.DnDNetCore
 {
-    public static partial class Program
+    public partial class App : Application
     {
         public static void Init()
         {
@@ -84,16 +85,17 @@ namespace DiegoG.DnDNetCore
         }
 
         public static async Task CLI(string[] args) => await Commands.Call(args);
+
         [STAThread]
-        public static async Task Main(string[] args)
+        public static void Main(string[] args)
         {
             Init();
 
-            Log.Information()
-            await CLI(args);
-
+            Log.Information("Running ");
+            Task.WaitAll(CLI(args));
             GUI = new App();
-
+            GUI.InitializeComponent();
+            GUI.Run();
         }
     }
 }

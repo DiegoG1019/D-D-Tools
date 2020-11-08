@@ -10,6 +10,7 @@
     <Product>D&amp;D Tools</Product>
     <Copyright>Copyright © 2020 Diego Garcia</Copyright>
     <SignAssembly>false</SignAssembly>
+    <AssemblyName>DiegoG.DnDNetCore</AssemblyName>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -30,7 +31,6 @@
 
   <ItemGroup>
     <Folder Include="Commands\" />
-    <Folder Include="GUI\" />
   </ItemGroup>
 
   <Import Project="..\..\DGUtilities\CLI\CLI.projitems" Label="Shared" />

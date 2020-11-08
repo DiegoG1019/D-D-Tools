@@ -11,7 +11,7 @@ namespace DiegoG.DnDNetCore.Characters.Complements
     {
         public string ParentName { get; set; }
         [IgnoreDataMember, JsonIgnore, XmlIgnore]
-        public Character Parent => Program.Characters[ParentName];
+        public Character Parent => App.Characters[ParentName];
         public virtual T Copy() => (T)Serialization.CopyByBinarySerialization(this);
     }
 }
