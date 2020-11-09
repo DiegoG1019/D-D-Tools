@@ -4,7 +4,7 @@ namespace DiegoG.DnDTCache
 {
     public static class DnDNetCoreCache
     {
-        public static readonly Version Version = new Version("Alpha", 0, 0, 39, 0);
+        public static readonly Version Version = new Version("Alpha", 0, 0, 40, 0);
     }
     public static class GlobalCache
     {

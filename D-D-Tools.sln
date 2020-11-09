@@ -20,6 +20,7 @@ Global
 		Cache\Cache.projitems*{a125fd18-2042-4231-8a63-8312130db25a}*SharedItemsImports = 5
 		..\DGUtilities\CLI\CLI.projitems*{a125fd18-2042-4231-8a63-8312130db25a}*SharedItemsImports = 5
 		..\DGUtilities\DGUtilitiesSharedProj\DGUtilitiesSharedProj.projitems*{a125fd18-2042-4231-8a63-8312130db25a}*SharedItemsImports = 5
+		..\DGUtilities\WPF\WPF.projitems*{a125fd18-2042-4231-8a63-8312130db25a}*SharedItemsImports = 5
 		..\DGUtilities\WPF\WPF.projitems*{b341d789-0d1a-412f-ad2e-3d33620a71c3}*SharedItemsImports = 13
 		..\DGUtilities\DGUtilitiesSharedProj\DGUtilitiesSharedProj.projitems*{e7813ee5-9c23-4b9c-9c93-38a04843f197}*SharedItemsImports = 13
 	EndGlobalSection

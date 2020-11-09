@@ -18,16 +18,18 @@ namespace DiegoG.DnDNetCore.Characters
         public string Deity { get; set; } = "None";
         public BodyTypes BodyType { get; set; } = BodyTypes.Humanoid;
         public Sizes Size { get; set; } = Sizes.Medium;
-        public string Bio { get; set; } = "Bio";
-        public string Intro { get; set; } = "None";
+        public string Bio { get; set; } = "Bio";//
+        public string Intro { get; set; } = "None";//
         public string Personality { get; set; } = "Bland";
         public string Gender { get; set; } = "Male";
         public int Age { get; set; } = 18;
         public Length Height { get; set; } = new Length(1.2M, Length.Units.Meter);
         public Mass Weight { get; set; } = new Mass(50, Mass.Units.Kilogram);
-        public Color Eyes { get; set; } = Color.SandyBrown;
-        public Color Hair { get; set; } = Color.Black;
-        public Color Skin { get; set; } = Color.BlanchedAlmond;
+        public Color EyeColor { get; set; } = Color.SandyBrown;
+        public Color HairColor { get; set; } = Color.Black;
+        public Color SkinColor { get; set; } = Color.BlanchedAlmond;
+        public NoteList Notes { get; set; } = new NoteList();
+
         public Color Bgcolor { get; set; } = Color.Transparent;
         public Color BannerColor { get; set; } = Color.Transparent;
         public Bitmap Mugshot { get; set; }
@@ -35,6 +37,5 @@ namespace DiegoG.DnDNetCore.Characters
         public bool HasMugshot => Mugshot != null;
         public bool HasFullBodyImage => FullBodyImage != null;
         public List<Bitmap> ArcaneMarks { get; set; } = new List<Bitmap>();
-        public NoteList Notes { get; set; } = new NoteList();
     }
 }

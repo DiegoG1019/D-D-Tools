@@ -1,12 +1,12 @@
-﻿<Window x:Class="DiegoG.DnDNetCore.MainWindow"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:DiegoG.DnDNetCore"
+        xmlns:local="clr-namespace:DiegoG.DnDNetCore.GUI"
+        xmlns:Widgets="clr-namespace:DiegoG.DnDNetCore.GUI.Widgets"
+        x:Class="DiegoG.DnDNetCore.GUI.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-
-    </Grid>
+        Title="MainWindow" Height="600" Width="1024">
+    <Grid/>
 </Window>

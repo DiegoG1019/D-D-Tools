@@ -14,6 +14,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Cache.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CharacterList.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Characters\Ability.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Characters\ArmorClass.cs" />
@@ -43,6 +44,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Characters\JobList.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Characters\SkillList.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Characters\SpellBook.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DnDSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enumerations.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Items\Armor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Items\Info\AttackDamage.cs" />
@@ -56,6 +58,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Items\Weapons\Melee.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Items\Weapons\Ranged.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Items\Weapons\Weapons.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Lang.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Other\Dice.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Other\FlagsArray.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Other\IFlagged.cs" />

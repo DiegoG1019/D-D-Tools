@@ -73,7 +73,7 @@ namespace DiegoG.DnDNetCore
 
             Log.Information("Directories:");
             foreach (var p in Directories.AllDirectories)
-                Log.Information($"{p.ObjectA} Directory: {Path.GetFullPath(p.ObjectB)}");
+                Log.Information($"{p.Directory} Directory: {Path.GetFullPath(p.Path)}");
 
             Log.Information("Initializing Game Settings");
             Settings<DnDSettings>.Initialize(Directories.Settings, Settings<AppSettings>.Current.GameSettingsProfile);
@@ -87,6 +87,9 @@ namespace DiegoG.DnDNetCore
             Log.Information("Finished the Initialization of the Application");
         }
 
+        public static void NotImplementedMessageBox()
+            => MessageBox.Show("Not Implemented", "This should be an exception, but it's compiled as DEBUG apparently", MessageBoxButton.OK);
+
         public static async Task CLI(string[] args) => await Commands.Call(args);
 
         [STAThread]
@@ -94,7 +97,7 @@ namespace DiegoG.DnDNetCore
         {
             Init();
 
-            Log.Information("Running ");
+            Log.Information("Running Startup CommandLine arguments");
             Task.WaitAll(CLI(args));
             GUI = new App();
             GUI.InitializeComponent();

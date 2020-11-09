@@ -5,6 +5,8 @@ namespace DiegoG.DnDNetCore
 {
     public class DnDSettings : ISettings
     {
+        public ulong Version { get; } = 0;
+
         public Mass CoinWeight { get; set; } = new Mass(20, Mass.Units.Gram);
         public int SquareSize { get; set; } = 5;
         public int IncapacitatedHP { get; set; } = 0;

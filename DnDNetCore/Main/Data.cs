@@ -36,7 +36,7 @@ namespace DiegoG.DnDNetCore
             public static string Themes;
             
             public static string Working = Path.GetFullPath(Directory.GetCurrentDirectory());
-            public static string AppData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            public static string AppData = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), GlobalCache.FullAppName);
 
 #if DEBUG
             public static string Logging = Path.Combine(Working, "Logs");
@@ -48,14 +48,14 @@ namespace DiegoG.DnDNetCore
             public static string Languages = Path.Combine(AppData, "Languages");
 #endif
 
-            public static IEnumerable<Pair<string, string>> AllDirectories
-                => from item in typeinfo.GetFields() select new Pair<string, string>(item.Name, (string)item.GetValue(null));
+            public static IEnumerable<(string Directory, string Path)> AllDirectories
+                => from item in typeinfo.GetFields() select (item.Name, (string)item.GetValue(null));
 
             public static void InitDataDirectories(string dataout)
             {
                 DataOut = dataout;
                 if (DataOut is null)
-                    DataOut = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "D&D Tools");
+                    DataOut = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments), GlobalCache.FullAppName);
                 Directory.CreateDirectory(DataOut);
 
                 Characters = Path.Combine(DataOut, "Characters");

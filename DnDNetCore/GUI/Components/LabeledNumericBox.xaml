@@ -1,0 +1,24 @@
+﻿<UserControl x:Class="DiegoG.DnDNetCore.GUI.Components.LabeledNumericBox"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DiegoG.DnDNetCore.GUI.Components"
+             mc:Ignorable="d" 
+             d:DesignHeight="140" d:DesignWidth="700">
+    <Grid x:Name="ThisGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Border x:Name="_borderItemLabel"  Grid.Row="1" BorderThickness="0,0,0,0.25" BorderBrush="White">
+            <Label x:Name="_itemLabel" Content="Label" HorizontalAlignment="Center" Grid.Row="1" VerticalAlignment="Center" Height="70" Width="700" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+        </Border>
+        <Border x:Name="_borderItemTextBox"  Grid.Row="1" BorderThickness="0,0.25,0,0" BorderBrush="White">
+            <TextBox x:Name="_itemTextBox" HorizontalAlignment="Center" Text="0" TextWrapping="Wrap" VerticalAlignment="Center" Width="680" Height="50" TextAlignment="Center" ClipToBounds="True" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="Transparent"/>
+        </Border>
+    </Grid>
+</UserControl>

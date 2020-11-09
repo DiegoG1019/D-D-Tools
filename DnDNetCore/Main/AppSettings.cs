@@ -9,7 +9,8 @@ namespace DiegoG.DnDNetCore
 {
     public class AppSettings : ApplicationSettings
     {
-        public bool GUIOnStartup { get; set; } = true;
+        public override ulong Version { get; } = 0;
+
         public string DataDirectory { get; set; } = null;
         public string Theme { get; set; } = "default";
         public string Lang { get; set; } = "eng";

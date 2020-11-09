@@ -35,4 +35,6 @@
 
   <Import Project="..\Cache\Cache.projitems" Label="Shared" />
 
+  <Import Project="..\..\DGUtilities\WPF\WPF.projitems" Label="Shared" />
+
 </Project>
