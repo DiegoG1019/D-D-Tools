@@ -1,6 +1,8 @@
 ﻿using DiegoG.DnDNetCore.Items.Weapons;
 using DiegoG.DnDNetCore.Other;
 using DiegoG.Utilities;
+using DiegoG.Utilities.Collections;
+using Serilog;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -64,7 +66,7 @@ namespace DiegoG.DnDNetCore.Items
 
         private class AllItemLists : IEnumerable<Item>
         {
-            public List<IList> Bags { get; set; } = new List<IList>();
+            public List<IList> Bags { get; set; }
             public IEnumerator<Item> GetEnumerator()
             {
                 foreach (var l in Bags)
@@ -114,61 +116,53 @@ namespace DiegoG.DnDNetCore.Items
 
         public Inventory()
         {
-            AllItemsList.Bags.Add(Armors);
-            AllItemsList.Bags.Add(Other);
-            AllItemsList.Bags.Add(Keychain);
-            AllItemsList.Bags.Add(MeleeWeapons);
-            AllItemsList.Bags.Add(RangedWeapons);
-            AllItemsList.Bags.Add(Ammunitions);
-            AllItemsList.Bags.Add(Potions);
+            AllItemsList.Bags = new List<IList>()
+            { Armors, Other, Keychain, MeleeWeapons, RangedWeapons, Ammunitions, Potions };
             InventoryChanged += Inventory_InventoryChanged;
             InventoryChanged();
         }
 
         private async void Inventory_InventoryChanged()
         {
-            decimal[] weight = { 0, 0, 0, 0, 0, 0, 0, 0 };
-            int[] value = { 0, 0, 0, 0, 0, 0, 0, 0 };
-            Task[] tasks = new Task[AllItemsList.Bags.Count];
-            tasks[0] = Task.Run(() => {
-                var v = Armors.Select(i => new { i.Weight.Kilogram, i.Value.NumericalValue });
-                weight[0] += v.Sum(i => i.Kilogram);
-                value[0] += v.Sum(i => i.NumericalValue);
-            });
-            tasks[1] = Task.Run(() => {
-                var v = Other.Select(i => new { i.Weight.Kilogram, i.Value.NumericalValue });
-                weight[1] += v.Sum(i => i.Kilogram);
-                value[1] += v.Sum(i => i.NumericalValue);
-            });
-            tasks[2] = Task.Run(() => {
-                var v = Keychain.Select(i => new { i.Weight.Kilogram, i.Value.NumericalValue });
-                weight[2] += v.Sum(i => i.Kilogram);
-                value[2] += v.Sum(i => i.NumericalValue);
-            });
-            tasks[3] = Task.Run(() => {
-                var v = MeleeWeapons.Select(i => new { i.Weight.Kilogram, i.Value.NumericalValue });
-                weight[3] += v.Sum(i => i.Kilogram);
-                value[3] += v.Sum(i => i.NumericalValue);
-            });
-            tasks[4] = Task.Run(() => {
-                var v = RangedWeapons.Select(i => new { i.Weight.Kilogram, i.Value.NumericalValue });
-                weight[4] += v.Sum(i => i.Kilogram);
-                value[4] += v.Sum(i => i.NumericalValue);
-            });
-            tasks[5] = Task.Run(() => {
-                var v = Ammunitions.Select(i => new { i.Weight.Kilogram, i.Value.NumericalValue });
-                weight[5] += v.Sum(i => i.Kilogram);
-                value[5] += v.Sum(i => i.NumericalValue);
-            });
-            tasks[6] = Task.Run(() => {
-                var v = Potions.Select(i => new { i.Weight.Kilogram, i.Value.NumericalValue });
-                weight[6] += v.Sum(i => i.Kilogram);
-                value[6] += v.Sum(i => i.NumericalValue);
-            });
-            await Task.WhenAll(tasks);
-            FullWeight = new Mass(weight.Sum(), Mass.Units.Kilogram);
-            FullValue = new PriceTag(value.Sum());
+            try
+            {
+                var taskMan = new AsyncTaskManager<(decimal weight, int value)>();
+                taskMan.Run(() => {
+                    var v = Armors.Select(i => new { i.Weight.Kilogram, i.Value.NumericalValue });
+                    return (v.Sum(i => i.Kilogram), v.Sum(i => i.NumericalValue));
+                });
+                taskMan.Run(() => {
+                    var v = Other.Select(i => new { i.Weight.Kilogram, i.Value.NumericalValue });
+                    return (v.Sum(i => i.Kilogram), v.Sum(i => i.NumericalValue));
+                });
+                taskMan.Run(() => {
+                    var v = Keychain.Select(i => new { i.Weight.Kilogram, i.Value.NumericalValue });
+                    return (v.Sum(i => i.Kilogram), v.Sum(i => i.NumericalValue));
+                });
+                taskMan.Run(() => {
+                    var v = MeleeWeapons.Select(i => new { i.Weight.Kilogram, i.Value.NumericalValue });
+                    return (v.Sum(i => i.Kilogram), v.Sum(i => i.NumericalValue));
+                });
+                taskMan.Run(() => {
+                    var v = RangedWeapons.Select(i => new { i.Weight.Kilogram, i.Value.NumericalValue });
+                    return (v.Sum(i => i.Kilogram), v.Sum(i => i.NumericalValue));
+                });
+                taskMan.Run(() => {
+                    var v = Ammunitions.Select(i => new { i.Weight.Kilogram, i.Value.NumericalValue });
+                    return (v.Sum(i => i.Kilogram), v.Sum(i => i.NumericalValue));
+                });
+                taskMan.Run(() => {
+                    var v = Potions.Select(i => new { i.Weight.Kilogram, i.Value.NumericalValue });
+                    return (v.Sum(i => i.Kilogram), v.Sum(i => i.NumericalValue));
+                });
+                await taskMan.WhenAll;
+                FullWeight = new Mass(taskMan.AllResults.Sum(i => i.weight), Mass.Units.Kilogram);
+                FullValue = new PriceTag(taskMan.AllResults.Sum(i => i.value));
+            }
+            catch (Exception e)
+            {
+                Log.Error($"{e}");
+            }
         }
     }
 }
-

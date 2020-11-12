@@ -6,6 +6,7 @@ using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using static DiegoG.DnDNetCore.Enumerations;
 
 namespace DiegoG.DnDNetCore.GUI.Widgets
 {
@@ -14,20 +15,24 @@ namespace DiegoG.DnDNetCore.GUI.Widgets
         public CharacterDescriptionPanel()
         {
             InitializeComponent();
+#if !DESIGN
             InitializeCharacterControl();
+#endif
+            AlignmentBox.SelectionChanged += AlignmentBox_SelectionChanged;
+            BodyTypeBox.SelectionChanged += BodyTypeBox_SelectionChanged;
+            SizeBox.SelectionChanged += SizeBox_SelectionChanged;
+            
+            AgeBox.NumericBoxChanged += AgeBox_NumericBoxChanged;
+            HeightBox.NumericBoxChanged += HeightBox_NumericBoxChanged;
+            WeightBox.NumericBoxChanged += WeightBox_NumericBoxChanged;
 
             NameTextBox.TextChanged += NameTextBox_TextBoxChanged;
             GenderBox.TextBoxChanged += GenderBox_TextBoxChanged;
             PersonalityBox.TextBoxChanged += PersonalityBox_TextBoxChanged;
             FullNameBox.TextBoxChanged += FullNameBox_TextBoxChanged;
             RaceBox.TextBoxChanged += RaceBox_TextBoxChanged;
-            AlignmentBox.TextBoxChanged += AlignmentBox_TextBoxChanged;
             DeityBox.TextBoxChanged += DeityBox_TextBoxChanged;
-            BodyTypeBox.TextBoxChanged += BodyTypeBox_TextBoxChanged;
-            SizeBox.TextBoxChanged += SizeBox_TextBoxChanged;
-            AgeBox.TextBoxTextChanged += AgeBox_TextBoxTextChanged;
-            HeightBox.TextBoxTextChanged += HeightBox_TextBoxTextChanged;
-            WeightBox.TextBoxTextChanged += WeightBox_TextBoxTextChanged;
+
             EyeColorBox.TextBoxChanged += EyeColorBox_TextBoxChanged;
             HairColorBox.TextBoxChanged += HairColorBox_TextBoxChanged;
             SkinColorBox.TextBoxChanged += SkinColorBox_TextBoxChanged;
@@ -35,6 +40,10 @@ namespace DiegoG.DnDNetCore.GUI.Widgets
             IntroButton.Click += IntroButton_Click;
             BioButton.Click += BioButton_Click;
             NotesButton.Click += NotesButton_Click;
+
+            AlignmentBox.ItemDropDownSource = AlignmentsCollection;
+            BodyTypeBox.ItemDropDownSource = BodyTypesCollection;
+            SizeBox.ItemDropDownSource = SizesCollection;
         }
 
         private void NotesButton_Click(object sender, System.Windows.RoutedEventArgs e)
@@ -97,48 +106,26 @@ namespace DiegoG.DnDNetCore.GUI.Widgets
 #endif
         }
 
-        private void WeightBox_TextBoxTextChanged(object sender, TextChangedEventArgs e, decimal newnumber)
-            => HeldCharacter.Description.Weight[Settings<DnDSettings>.Current.PreferredMassUnit] = newnumber;
+        private void SizeBox_SelectionChanged(object sender, SelectionChangedEventArgs e, int newindex)
+            => HeldCharacter.Description.Size = (Sizes)newindex;
 
-        private void HeightBox_TextBoxTextChanged(object sender, TextChangedEventArgs e, decimal newnumber)
-            => HeldCharacter.Description.Height[Settings<DnDSettings>.Current.PreferredLengthUnit] = newnumber;
+        private void BodyTypeBox_SelectionChanged(object sender, SelectionChangedEventArgs e, int newindex)
+            => HeldCharacter.Description.BodyType = (BodyTypes)newindex;
 
-        private void AgeBox_TextBoxTextChanged(object sender, TextChangedEventArgs e, decimal newnumber)
+        private void AlignmentBox_SelectionChanged(object sender, SelectionChangedEventArgs e, int newindex)
+            => HeldCharacter.Description.Alignment = (Alignments)newindex;
+
+        private void WeightBox_NumericBoxChanged(object sender, TextChangedEventArgs e, double newnumber)
+            => HeldCharacter.Description.Weight[Settings<DnDSettings>.Current.PreferredMassUnit] = (decimal)newnumber;
+
+        private void HeightBox_NumericBoxChanged(object sender, TextChangedEventArgs e, double newnumber)
+            => HeldCharacter.Description.Height[Settings<DnDSettings>.Current.PreferredLengthUnit] = (decimal)newnumber;
+
+        private void AgeBox_NumericBoxChanged(object sender, TextChangedEventArgs e, double newnumber)
             => HeldCharacter.Description.Age = (int)newnumber;
-
-        private void SizeBox_TextBoxChanged(object sender, TextChangedEventArgs e, string newtext)
-        {
-#warning Not Implemented, this should display a dropdown list for all sizes, prolly make a new user control
-#if !DEBUG
-            throw new NotImplementedException();
-#else
-            App.NotImplementedMessageBox();
-#endif
-        }
-
-
-        private void BodyTypeBox_TextBoxChanged(object sender, TextChangedEventArgs e, string newtext)
-        {
-#warning Not Implemented, this should display a dropdown list for all body types, prolly make a new user control
-#if !DEBUG
-            throw new NotImplementedException();
-#else
-            App.NotImplementedMessageBox();
-#endif
-        }
 
         private void DeityBox_TextBoxChanged(object sender, TextChangedEventArgs e, string newtext)
             => HeldCharacter.Description.Deity = newtext;
-
-        private void AlignmentBox_TextBoxChanged(object sender, TextChangedEventArgs e, string newtext)
-        {
-#warning Not Implemented, this should display a dropdown list for all alignments, prolly make a new user control
-#if !DEBUG
-            throw new NotImplementedException();
-#else
-            App.NotImplementedMessageBox();
-#endif
-        }
 
         private void RaceBox_TextBoxChanged(object sender, TextChangedEventArgs e, string newtext)
             => HeldCharacter.Description.Race = newtext;
@@ -158,93 +145,66 @@ namespace DiegoG.DnDNetCore.GUI.Widgets
         public override void UpdateCharacter()
         {
             NameTextBox.Text = HeldCharacter.Description.Name;
+            
             GenderBox.ItemTextBoxText = HeldCharacter.Description.Gender;
             PersonalityBox.ItemTextBoxText = HeldCharacter.Description.Personality;
             FullNameBox.ItemTextBoxText = HeldCharacter.Description.Fullname;
-            ExpLevelBox.ItemTextBoxText = HeldCharacter.Experience.Level;
             RaceBox.ItemTextBoxText = HeldCharacter.Description.Race;
-            AlignmentBox.ItemTextBoxText = Settings<Lang>.Current.AlignmentStrings[HeldCharacter.Description.Alignment];
             DeityBox.ItemTextBoxText = HeldCharacter.Description.Deity;
-            BodyTypeBox.ItemTextBoxText = Settings<Lang>.Current.BodyTypeStrings[HeldCharacter.Description.BodyType];
-            SizeBox.ItemTextBoxText = Settings<Lang>.Current.SizeStrings[HeldCharacter.Description.Size];
-            AgeBox.ItemTextBoxText = HeldCharacter.Description.Age;
-            HeightBox.ItemTextBoxText = HeldCharacter.Description.Height[Settings<DnDSettings>.Current.PreferredLengthUnit];
-            WeightBox.ItemTextBoxText = HeldCharacter.Description.Weight[Settings<DnDSettings>.Current.PreferredMassUnit];
+
+            AlignmentBox.ItemDropDownIndex = (int)HeldCharacter.Description.Alignment;
+            BodyTypeBox.ItemDropDownIndex = (int)HeldCharacter.Description.BodyType;
+            SizeBox.ItemDropDownIndex = (int)HeldCharacter.Description.Size;
+            AgeBox.ItemNumericBoxNumber = HeldCharacter.Description.Age;
+            
+            ExpLevelBox.ItemNumericBoxNumber = HeldCharacter.Experience.Level;
+            HeightBox.ItemNumericBoxNumber = (double)HeldCharacter.Description.Height[Settings<DnDSettings>.Current.PreferredLengthUnit];
+            WeightBox.ItemNumericBoxNumber = (double)HeldCharacter.Description.Weight[Settings<DnDSettings>.Current.PreferredMassUnit];
+            
             EyeColorBox.ItemTextBoxText = HeldCharacter.Description.EyeColor.GetColorName();
             HairColorBox.ItemTextBoxText = HeldCharacter.Description.HairColor.GetColorName();
             SkinColorBox.ItemTextBoxText = HeldCharacter.Description.SkinColor.GetColorName();
         }
 
-        public override void PaintTheme()
+        public override void PaintTheme(Theme theme)
         {
-            NameTextBox.Foreground = new SolidColorBrush(Settings<Theme>.Current.CommonTextColor);
-            GenderBox.ForegroundColor = Settings<Theme>.Current.CommonTextColor;
-            PersonalityBox.ForegroundColor = Settings<Theme>.Current.CommonTextColor;
-            FullNameBox.ForegroundColor = Settings<Theme>.Current.CommonTextColor;
-            ExpLevelBox.ForegroundColor = Settings<Theme>.Current.CommonTextColor;
-            RaceBox.ForegroundColor = Settings<Theme>.Current.CommonTextColor;
-            AlignmentBox.ForegroundColor = Settings<Theme>.Current.CommonTextColor;
-            DeityBox.ForegroundColor = Settings<Theme>.Current.CommonTextColor;
-            BodyTypeBox.ForegroundColor = Settings<Theme>.Current.CommonTextColor;
-            SizeBox.ForegroundColor = Settings<Theme>.Current.CommonTextColor;
-            AgeBox.ForegroundColor = Settings<Theme>.Current.CommonTextColor;
-            HeightBox.ForegroundColor = Settings<Theme>.Current.CommonTextColor;
-            WeightBox.ForegroundColor = Settings<Theme>.Current.CommonTextColor;
-            EyeColorBox.ForegroundColor = Settings<Theme>.Current.CommonTextColor;
-            HairColorBox.ForegroundColor = Settings<Theme>.Current.CommonTextColor;
-            SkinColorBox.ForegroundColor = Settings<Theme>.Current.CommonTextColor;
+            NameTextBox.Foreground = new SolidColorBrush(theme.CommonTextColor);
 
-            GenderBox.SeparatorBorderColor = Settings<Theme>.Current.BorderColor2;
-            PersonalityBox.SeparatorBorderColor = Settings<Theme>.Current.BorderColor2;
-            FullNameBox.SeparatorBorderColor = Settings<Theme>.Current.BorderColor2;
-            ExpLevelBox.SeparatorBorderColor = Settings<Theme>.Current.BorderColor2;
-            RaceBox.SeparatorBorderColor = Settings<Theme>.Current.BorderColor2;
-            AlignmentBox.SeparatorBorderColor = Settings<Theme>.Current.BorderColor2;
-            DeityBox.SeparatorBorderColor = Settings<Theme>.Current.BorderColor2;
-            BodyTypeBox.SeparatorBorderColor = Settings<Theme>.Current.BorderColor2;
-            SizeBox.SeparatorBorderColor = Settings<Theme>.Current.BorderColor2;
-            AgeBox.SeparatorBorderColor = Settings<Theme>.Current.BorderColor2;
-            HeightBox.SeparatorBorderColor = Settings<Theme>.Current.BorderColor2;
-            WeightBox.SeparatorBorderColor = Settings<Theme>.Current.BorderColor2;
-            EyeColorBox.SeparatorBorderColor = Settings<Theme>.Current.BorderColor2;
-            HairColorBox.SeparatorBorderColor = Settings<Theme>.Current.BorderColor2;
-            SkinColorBox.SeparatorBorderColor = Settings<Theme>.Current.BorderColor2;
+            GenderBox.PaintTheme(theme);
+            PersonalityBox.PaintTheme(theme);
+            FullNameBox.PaintTheme(theme);
+            ExpLevelBox.PaintTheme(theme);
+            RaceBox.PaintTheme(theme);
+            AlignmentBox.PaintTheme(theme);
+            DeityBox.PaintTheme(theme);
+            BodyTypeBox.PaintTheme(theme);
+            SizeBox.PaintTheme(theme);
+            AgeBox.PaintTheme(theme);
+            HeightBox.PaintTheme(theme);
+            WeightBox.PaintTheme(theme);
+            EyeColorBox.PaintTheme(theme);
+            HairColorBox.PaintTheme(theme);
+            SkinColorBox.PaintTheme(theme);
 
-            GenderBox.SeparatorBorderThickness = Settings<Theme>.Current.BorderThickness2;
-            PersonalityBox.SeparatorBorderThickness = Settings<Theme>.Current.BorderThickness2;
-            FullNameBox.SeparatorBorderThickness = Settings<Theme>.Current.BorderThickness2;
-            ExpLevelBox.SeparatorBorderThickness = Settings<Theme>.Current.BorderThickness2;
-            RaceBox.SeparatorBorderThickness = Settings<Theme>.Current.BorderThickness2;
-            AlignmentBox.SeparatorBorderThickness = Settings<Theme>.Current.BorderThickness2;
-            DeityBox.SeparatorBorderThickness = Settings<Theme>.Current.BorderThickness2;
-            BodyTypeBox.SeparatorBorderThickness = Settings<Theme>.Current.BorderThickness2;
-            SizeBox.SeparatorBorderThickness = Settings<Theme>.Current.BorderThickness2;
-            AgeBox.SeparatorBorderThickness = Settings<Theme>.Current.BorderThickness2;
-            HeightBox.SeparatorBorderThickness = Settings<Theme>.Current.BorderThickness2;
-            WeightBox.SeparatorBorderThickness = Settings<Theme>.Current.BorderThickness2;
-            EyeColorBox.SeparatorBorderThickness = Settings<Theme>.Current.BorderThickness2;
-            HairColorBox.SeparatorBorderThickness = Settings<Theme>.Current.BorderThickness2;
-            SkinColorBox.SeparatorBorderThickness = Settings<Theme>.Current.BorderThickness2;
+            SeparatorBorder.BorderBrush = new SolidColorBrush(theme.BorderColor1);
+            SeparatorBorder.BorderThickness = new Thickness(0, theme.BorderThickness1, 0, theme.BorderThickness1);
 
-            SeparatorBorder.BorderBrush = new SolidColorBrush(Settings<Theme>.Current.BorderColor1);
-            SeparatorBorder.BorderThickness = new Thickness(0, Settings<Theme>.Current.BorderThickness1, 0, Settings<Theme>.Current.BorderThickness1);
+            IntroButton.BorderBrush = new SolidColorBrush(theme.CommonButtonBorderColor);
+            IntroButton.BorderThickness = new Thickness(theme.CommonButtonBorderThickness);
+            IntroButton.Background = new SolidColorBrush(theme.CommonButtonBackgroundColor);
+            IntroButton.Foreground = new SolidColorBrush(theme.CommonButtonTextColor);
 
-            IntroButton.BorderBrush = new SolidColorBrush(Settings<Theme>.Current.CommonButtonBorderColor);
-            IntroButton.BorderThickness = new Thickness(Settings<Theme>.Current.CommonButtonBorderThickness);
-            IntroButton.Background = new SolidColorBrush(Settings<Theme>.Current.CommonButtonBackgroundColor);
-            IntroButton.Foreground = new SolidColorBrush(Settings<Theme>.Current.CommonButtonTextColor);
+            BioButton.BorderBrush = new SolidColorBrush(theme.CommonButtonBorderColor);
+            BioButton.BorderThickness = new Thickness(theme.CommonButtonBorderThickness);
+            BioButton.Background = new SolidColorBrush(theme.CommonButtonBackgroundColor);
+            BioButton.Foreground = new SolidColorBrush(theme.CommonButtonTextColor);
 
-            BioButton.BorderBrush = new SolidColorBrush(Settings<Theme>.Current.CommonButtonBorderColor);
-            BioButton.BorderThickness = new Thickness(Settings<Theme>.Current.CommonButtonBorderThickness);
-            BioButton.Background = new SolidColorBrush(Settings<Theme>.Current.CommonButtonBackgroundColor);
-            BioButton.Foreground = new SolidColorBrush(Settings<Theme>.Current.CommonButtonTextColor);
+            NotesButton.BorderBrush = new SolidColorBrush(theme.CommonButtonBorderColor);
+            NotesButton.BorderThickness = new Thickness(theme.CommonButtonBorderThickness);
+            NotesButton.Background = new SolidColorBrush(theme.CommonButtonBackgroundColor);
+            NotesButton.Foreground = new SolidColorBrush(theme.CommonButtonTextColor);
 
-            NotesButton.BorderBrush = new SolidColorBrush(Settings<Theme>.Current.CommonButtonBorderColor);
-            NotesButton.BorderThickness = new Thickness(Settings<Theme>.Current.CommonButtonBorderThickness);
-            NotesButton.Background = new SolidColorBrush(Settings<Theme>.Current.CommonButtonBackgroundColor);
-            NotesButton.Foreground = new SolidColorBrush(Settings<Theme>.Current.CommonButtonTextColor);
-
-            Background = new SolidColorBrush(Settings<Theme>.Current.CommonBackgroundColor);
+            Background = new SolidColorBrush(theme.CommonWidgetBackgroundColor);
         }
     }
 }

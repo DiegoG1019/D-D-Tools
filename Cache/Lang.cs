@@ -10,7 +10,7 @@ namespace DiegoG.DnDNetCore
 {
     public class Lang : ISettings
     {
-        public ulong Version { get; } = 0;
+        public ulong Version { get; } = 1;
 
         public string Currency { get; set; } = " coins";
         public string GenderText { get; set; } = "Gender";
@@ -62,7 +62,8 @@ namespace DiegoG.DnDNetCore
             { BodyTypes.Plant, "Plant" },
             { BodyTypes.Undead, "Undead" },
             { BodyTypes.Vermin, "Vermin" },
-        }; public Dictionary<Sizes, string> SizeStrings { get; set; } = new Dictionary<Sizes, string>()
+        }; 
+        public Dictionary<Sizes, string> SizeStrings { get; set; } = new Dictionary<Sizes, string>()
         {
             { Sizes.Fine, "Fine" },
             { Sizes.Diminutive, "Diminutive" },
@@ -73,6 +74,47 @@ namespace DiegoG.DnDNetCore
             { Sizes.Huge, "Huge" },
             { Sizes.Gargantuan, "Gargantuan" },
             { Sizes.Colossal, "Colossal" },
+        };
+        public Dictionary<Stats, string> StatsStrings { get; set; } = new Dictionary<Stats, string>()
+        {
+            { Stats.Strength, "Strength" },
+            { Stats.Constitution, "Constitution" },
+            { Stats.Dexterity, "Dexterity" },
+            { Stats.Wisdom, "Wisdom" },
+            { Stats.Intelligence, "Intelligence" },
+            { Stats.Charisma, "Charisma" },
+        };
+        public Dictionary<SecondaryStats, string> SecondaryStatsStrings { get; set; } = new Dictionary<SecondaryStats, string>()
+        {
+            { SecondaryStats.Initiative, "Initiative" },
+            { SecondaryStats.Speed, "Speed" },
+        };
+        public Dictionary<SavingThrow, string> SavingThrowStrings { get; set; } = new Dictionary<SavingThrow, string>()
+        {
+            { SavingThrow.Fortitude, "Fortitude" },
+            { SavingThrow.Reflexes, "Reflexes" },
+            { SavingThrow.Willpower, "Willpower" },
+        };
+        public Dictionary<CombatAction, string> CombatActionStrings { get; set; } = new Dictionary<CombatAction, string>()
+        {
+            { CombatAction.Free, "Free Action" },
+            { CombatAction.FullRound, "Full Round Action" },
+            { CombatAction.Immediate, "Immediate Action" },
+            { CombatAction.Move, "Move Action" },
+            { CombatAction.NotAnAction, "Not an Action" },
+            { CombatAction.Standard, "Standard Action" },
+            { CombatAction.Swift, "Swift Action" }
+        };
+        public Dictionary<MagicSchool, string> MagicSchoolStrings { get; set; } = new Dictionary<MagicSchool, string>()
+        {
+            { MagicSchool.Abjuration, "Abjuration" },
+            { MagicSchool.Conjuration, "Conjuration" },
+            { MagicSchool.Divination, "Divination" },
+            { MagicSchool.Enchantment, "Enchantment" },
+            { MagicSchool.Evocation, "Evocation" },
+            { MagicSchool.Illusion, "Illusion" },
+            { MagicSchool.Necromancy, "Necromancy" },
+            { MagicSchool.Transmutation, "Transmutation" }
         };
     }
 }

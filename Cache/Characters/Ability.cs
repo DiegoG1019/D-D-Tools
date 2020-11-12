@@ -17,19 +17,19 @@ namespace DiegoG.DnDNetCore.Characters
             public string ShortenedName { get; set; }
             public string Description { get; set; }
 
-            public static AbilityTag Extraordinary = new AbilityTag()
+            public static AbilityTag Extraordinary { get; } = new AbilityTag()
             {
                 Name = "Extraordinary Ability",
                 ShortenedName = "Ex.",
                 Description = "Extraordinary abilities are nonmagical, though they may break the laws of physics. They are not something that just anyone can do or even learn to do without extensive training."
             };
-            public static AbilityTag SpellLike = new AbilityTag()
+            public static AbilityTag SpellLike { get; } = new AbilityTag()
             {
                 Name = "Spell-Like Ability",
                 ShortenedName = "Sp",
                 Description = "Usually, a spell-like ability works just like the spell of that name. A few spell-like abilities are unique; these are explained in the text where they are described."
             };
-            public static AbilityTag Supernatural = new AbilityTag()
+            public static AbilityTag Supernatural { get; } = new AbilityTag()
             {
                 Name = "Supernatural Ability",
                 ShortenedName = "Su",

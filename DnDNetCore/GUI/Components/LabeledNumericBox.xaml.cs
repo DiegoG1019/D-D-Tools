@@ -19,149 +19,45 @@ namespace DiegoG.DnDNetCore.GUI.Components
     /// <summary>
     /// Interaction logic for LabeledNumericBox.xaml
     /// </summary>
-    public partial class LabeledNumericBox : UserControl
+    public partial class LabeledNumericBox
     {
-        public delegate void NumericBoxTextChangedEventHandler(object sender, TextChangedEventArgs e, decimal newnumber);
+        public delegate void NumericBoxTextChangedEventHandler(object sender, TextChangedEventArgs e, double newnumber);
+        public event NumericBoxTextChangedEventHandler NumericBoxChanged;
+
         public LabeledNumericBox()
         {
             InitializeComponent();
-            LabelOnTop = false;
-            _bt = _borderItemLabel.BorderThickness.Top * 2;
-            ItemTextBox.TextChanged += ItemTextBox_TextChanged;
+            _Item.Text = "0";
+            Identify(_Label, _Item, _BorderRectangle, _BorderRow);
+            _Item.TextChanged += (s, a) => NumericBoxChanged(s, a, ItemNumericBoxNumber);
+            NumericBoxChanged += (s, a, t) => { };
         }
 
-        private void ItemTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        private void ItemNumericBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (decimal.TryParse(ItemTextBox.Text, out decimal result))
-            {
-                TextBoxTextChanged(sender, e, result);
-                return;
-            }
-            ItemTextBox.Text = "0";
+            if (double.TryParse(_Item.Text, out double result))
+                NumericBoxChanged(sender, e, result);
         }
 
-        public event NumericBoxTextChangedEventHandler TextBoxTextChanged;
-
-        private Color _ilbc;
-        public Color ItemLabelBackColor
-        {
-            get => _ilbc;
-            set { ItemLabel.Background = new SolidColorBrush(value); _ilbc = value; }
-        }
-
-        private Color _itbbc;
-        public Color ItemTextBoxBackColor
-        {
-            get => _itbbc;
-            set { ItemTextBox.Background = new SolidColorBrush(value); _itbbc = value; }
-        }
-
-        private Color _iltc;
-        public Color ItemLabelTextColor
-        {
-            get => _iltc;
-            set { ItemLabel.Foreground = new SolidColorBrush(value); _iltc = value; }
-        }
-
-        private Color _itbtc;
-        public Color ItemTextBoxTextColor
-        {
-            get => _itbtc;
-            set { ItemTextBox.Foreground = new SolidColorBrush(value); _itbtc = value; }
-        }
-        public Color BackgroundColor
-        {
-            set
-            {
-                ItemTextBoxBackColor = value;
-                ItemLabelBackColor = value;
-            }
-        }
-        public Color ForegroundColor
-        {
-            set
-            {
-                ItemTextBoxTextColor = value;
-                ItemLabelTextColor = value;
-            }
-        }
         public bool ReadOnly
         {
-            get => ItemTextBox.IsReadOnly;
-            set => ItemTextBox.IsReadOnly = value;
+            get => _Item.IsReadOnly;
+            set => _Item.IsReadOnly = value;
         }
-        public string ItemLabelText
+        public double ItemNumericBoxNumber
         {
-            get => (string)ItemLabel.Content;
-            set => ItemLabel.Content = value;
-        }
-        public decimal ItemTextBoxText
-        {
-            get => decimal.Parse(ItemTextBox.Text);
-            set => ItemTextBox.Text = value.ToString();
-        }
-        public double ItemLabelFontSize
-        {
-            get => ItemLabel.FontSize;
-            set => ItemLabel.FontSize = value;
+            get => double.Parse(_Item.Text);
+            set => _Item.Text = value.ToString();
         }
         public double ItemTextBoxFontSize
         {
-            get => ItemTextBox.FontSize;
-            set => ItemTextBox.FontSize = value;
+            get => _Item.FontSize;
+            set => _Item.FontSize = value;
         }
-        private bool _lot;
-        public bool LabelOnTop
+        public override void PaintTheme(Theme theme)
         {
-            get => _lot;
-            set
-            {
-                _lot = value;
-                if (_lot)
-                {
-                    Grid.SetRow(_borderItemLabel, 0);
-                    Grid.SetRow(_borderItemTextBox, 1);
-                    goto FlipBorders;
-                }
-                Grid.SetRow(_borderItemLabel, 1);
-                Grid.SetRow(_borderItemTextBox, 0);
-
-                FlipBorders:;
-                var (leftA, topA, rightA, bottomA) = _borderItemLabel.BorderThickness;
-                var (leftB, topB, rightB, bottomB) = _borderItemTextBox.BorderThickness;
-                _borderItemLabel.BorderThickness = new Thickness(leftB, topB, rightB, bottomB);
-                _borderItemTextBox.BorderThickness = new Thickness(leftA, topA, rightA, bottomA);
-                return;
-            }
+            base.PaintTheme(theme);
+            ItemTextBoxFontSize = theme.CommonFontSize2;
         }
-        private Color _sbc = Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF);
-        public Color SeparatorBorderColor
-        {
-            get => _sbc;
-            set
-            {
-                _sbc = value;
-                _borderItemTextBox.BorderBrush = new SolidColorBrush(value);
-                _borderItemLabel.BorderBrush = new SolidColorBrush(value);
-            }
-        }
-        private double _bt;
-        public double SeparatorBorderThickness
-        {
-            get => _bt;
-            set
-            {
-                _bt = value;
-                var (leftItb, _, rightItb, bottomItb) = _borderItemTextBox.BorderThickness;
-                var (leftIl, topIl, rightIl, _) = _borderItemLabel.BorderThickness;
-                if (_lot)
-                {
-                    _borderItemLabel.BorderThickness = new Thickness(leftIl, topIl, rightIl, _bt / 2);
-                    _borderItemTextBox.BorderThickness = new Thickness(leftItb, _bt / 2, rightItb, bottomItb);
-                }
-            }
-        }
-        public Label ItemLabel => _itemLabel;
-        public TextBox ItemTextBox => _itemTextBox;
     }
 }

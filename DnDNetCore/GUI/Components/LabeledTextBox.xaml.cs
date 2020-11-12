@@ -19,137 +19,36 @@ namespace DiegoG.DnDNetCore.GUI.Components
     /// <summary>
     /// Interaction logic for LabeledTextBox.xaml
     /// </summary>
-    public partial class LabeledTextBox : UserControl
+    public partial class LabeledTextBox
     {
         public delegate void LabeledTextBoxTextChangedEventHandler(object sender, TextChangedEventArgs e, string newtext);
+        public event LabeledTextBoxTextChangedEventHandler TextBoxChanged;
         public LabeledTextBox()
         {
             InitializeComponent();
-            LabelOnTop = false;
-            _bt = _borderItemLabel.BorderThickness.Top * 2;
-            ItemTextBox.TextChanged += (s, a) => TextBoxChanged(s, a, ItemTextBoxText);
-        }
-
-        public event LabeledTextBoxTextChangedEventHandler TextBoxChanged;
-
-        private Color _ilbc;
-        public Color ItemLabelBackColor
-        {
-            get => _ilbc;
-            set { ItemLabel.Background = new SolidColorBrush(value); _ilbc = value; }
-        }
-
-        private Color _itbbc;
-        public Color ItemTextBoxBackColor
-        {
-            get => _itbbc;
-            set { ItemTextBox.Background = new SolidColorBrush(value); _itbbc = value; }
-        }
-
-        private Color _iltc;
-        public Color ItemLabelTextColor
-        {
-            get => _iltc;
-            set { ItemLabel.Foreground = new SolidColorBrush(value); _iltc = value; }
-        }
-
-        private Color _itbtc;
-        public Color ItemTextBoxTextColor
-        {
-            get => _itbtc;
-            set { ItemTextBox.Foreground = new SolidColorBrush(value); _itbtc = value; }
-        }
-        public Color BackgroundColor
-        {
-            set
-            {
-                ItemTextBoxBackColor = value;
-                ItemLabelBackColor = value;
-            }
-        }
-        public Color ForegroundColor
-        {
-            set
-            {
-                ItemTextBoxTextColor = value;
-                ItemLabelTextColor = value;
-            }
+            Identify(_Label, _Item, _BorderRectangle, _BorderRow);
+            _Item.TextChanged += (s, a) => TextBoxChanged(s, a, ItemTextBoxText);
+            TextBoxChanged += (s, a, t) => { };
         }
         public bool ReadOnly
         {
-            get => ItemTextBox.IsReadOnly;
-            set => ItemTextBox.IsReadOnly = value;
-        }
-        public string ItemLabelText
-        {
-            get => (string)ItemLabel.Content;
-            set => ItemLabel.Content = value;
+            get => _Item.IsReadOnly;
+            set => _Item.IsReadOnly = value;
         }
         public string ItemTextBoxText
         {
-            get => ItemTextBox.Text;
-            set => ItemTextBox.Text = value;
-        }
-        public double ItemLabelFontSize
-        {
-            get => ItemLabel.FontSize;
-            set => ItemLabel.FontSize = value;
+            get => _Item.Text;
+            set => _Item.Text = value;
         }
         public double ItemTextBoxFontSize
         {
-            get => ItemTextBox.FontSize;
-            set => ItemTextBox.FontSize = value;
+            get => _Item.FontSize;
+            set => _Item.FontSize = value;
         }
-        private bool _lot;
-        public bool LabelOnTop
+        public override void PaintTheme(Theme theme)
         {
-            get => _lot;
-            set
-            {
-                _lot = value;
-                if (_lot)
-                {
-                    Grid.SetRow(_borderItemLabel, 0);
-                    Grid.SetRow(_borderItemTextBox, 1);
-                    goto FlipBorders;
-                }
-                Grid.SetRow(_borderItemLabel, 1);
-                Grid.SetRow(_borderItemTextBox, 0);
-
-                FlipBorders:;
-                var (_, topA, _, bottomA) = _borderItemLabel.BorderThickness;
-                var (_, topB, _, bottomB) = _borderItemTextBox.BorderThickness;
-                _borderItemLabel.BorderThickness = new Thickness(0, topB, 0, bottomB);
-                _borderItemTextBox.BorderThickness = new Thickness(0, topA, 0, bottomA);
-                return;
-            }
+            base.PaintTheme(theme);
+            ItemTextBoxFontSize = theme.CommonFontSize2;
         }
-        private Color _sbc = Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF);
-        public Color SeparatorBorderColor
-        {
-            get => _sbc;
-            set
-            {
-                _sbc = value;
-                _borderItemTextBox.BorderBrush = new SolidColorBrush(value);
-                _borderItemLabel.BorderBrush = new SolidColorBrush(value);
-            }
-        }
-        private double _bt;
-        public double SeparatorBorderThickness
-        {
-            get => _bt;
-            set
-            {
-                _bt = value;
-                if (_lot)
-                {
-                    _borderItemLabel.BorderThickness = new Thickness(0, 0, 0, _bt / 2);
-                    _borderItemTextBox.BorderThickness = new Thickness(0, _bt / 2, 0, 0);
-                }
-            }
-        }
-        public Label ItemLabel => _itemLabel;
-        public TextBox ItemTextBox => _itemTextBox;
     }
 }

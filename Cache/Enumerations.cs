@@ -3,6 +3,9 @@ using System.Collections.Immutable;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 using System.Text.Json;
+using System.Linq;
+using DiegoG.Utilities.Settings;
+using System.Collections.Generic;
 
 namespace DiegoG.DnDNetCore
 {
@@ -38,6 +41,8 @@ namespace DiegoG.DnDNetCore
             [EnumMember(Value = "Lawful Good")]
             LawfulGood
         }
+        public static IEnumerable<string> AlignmentsCollection
+            => from str in (Alignments[])Enum.GetValues(typeof(Alignments)) select Settings<Lang>.Current.AlignmentStrings[str];
 
         [Serializable, JsonConverter(typeof(JsonStringEnumConverter))]
         public enum BodyTypes
@@ -87,6 +92,8 @@ namespace DiegoG.DnDNetCore
             [EnumMember(Value = "Vermin")]
             Vermin
         }
+        public static IEnumerable<string> BodyTypesCollection
+            => from str in (BodyTypes[])Enum.GetValues(typeof(BodyTypes)) select Settings<Lang>.Current.BodyTypeStrings[str];
 
         [Serializable]
         public enum CombatState
@@ -116,6 +123,8 @@ namespace DiegoG.DnDNetCore
             Charisma
         }
         public static int StatCount => Enum.GetNames(typeof(Stats)).Length;
+        public static IEnumerable<string> StatsCollection
+            => from str in (Stats[])Enum.GetValues(typeof(Stats)) select Settings<Lang>.Current.StatsStrings[str];
 
         [Serializable, JsonConverter(typeof(JsonStringEnumConverter))]
         public enum SecondaryStats
@@ -126,6 +135,8 @@ namespace DiegoG.DnDNetCore
             [EnumMember(Value = "Initiative")]
             Initiative
         }
+        public static IEnumerable<string> SecondaryStatsCollection
+            => from str in (SecondaryStats[])Enum.GetValues(typeof(SecondaryStats)) select Settings<Lang>.Current.SecondaryStatsStrings[str];
 
         [Serializable, JsonConverter(typeof(JsonStringEnumConverter))]
         public enum SavingThrow
@@ -139,6 +150,8 @@ namespace DiegoG.DnDNetCore
             [EnumMember(Value = "Willpower")]
             Willpower
         }
+        public static IEnumerable<string> SavingThrowCollection
+            => from str in (SavingThrow[])Enum.GetValues(typeof(SavingThrow)) select Settings<Lang>.Current.SavingThrowStrings[str];
         public static int SavingThrowCount => Enum.GetNames(typeof(SavingThrow)).Length;
 
         [Serializable, JsonConverter(typeof(JsonStringEnumConverter))]
@@ -165,6 +178,8 @@ namespace DiegoG.DnDNetCore
             [EnumMember(Value = "Not an Action")]
             NotAnAction
         }
+        public static IEnumerable<string> CombatActionCollection
+            => from str in (CombatAction[])Enum.GetValues(typeof(CombatAction)) select Settings<Lang>.Current.CombatActionStrings[str];
 
         [Serializable, JsonConverter(typeof(JsonStringEnumConverter))]
         public enum MagicSchool
@@ -193,6 +208,8 @@ namespace DiegoG.DnDNetCore
             [EnumMember(Value = "Transmutation")]
             Transmutation
         }
+        public static IEnumerable<string> MagicSchoolCollection
+            => from str in (MagicSchool[])Enum.GetValues(typeof(MagicSchool)) select Settings<Lang>.Current.MagicSchoolStrings[str];
         public static int SchoolCount => Enum.GetNames(typeof(MagicSchool)).Length;
 
         [Serializable, JsonConverter(typeof(JsonStringEnumConverter))]
@@ -225,20 +242,8 @@ namespace DiegoG.DnDNetCore
             [EnumMember(Value = "Colossal")]
             Colossal
         }
+        public static IEnumerable<string> SizesCollection
+            => from str in (Sizes[])Enum.GetValues(typeof(Sizes)) select Settings<Lang>.Current.SizeStrings[str];
         public static int SizeCount => Enum.GetNames(typeof(Sizes)).Length;
-
-        public static ImmutableDictionary<Stats, string> ShortStatNames { get; private set; }
-
-        static Enumerations()
-        {
-            var builder = ImmutableDictionary.CreateBuilder<Stats, string>();
-            builder.Add(Stats.Charisma, "Cha");
-            builder.Add(Stats.Constitution, "Con");
-            builder.Add(Stats.Dexterity, "Dex");
-            builder.Add(Stats.Intelligence, "Int");
-            builder.Add(Stats.Strength, "Str");
-            builder.Add(Stats.Wisdom, "Wis");
-        }
-
     }
 }

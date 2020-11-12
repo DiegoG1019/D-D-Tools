@@ -78,6 +78,5 @@ namespace DiegoG.DnDNetCore
 
         public static CharacterList Characters { get; } = new CharacterList();
         public static string MinimumLoggerLevel;
-
     }
 }

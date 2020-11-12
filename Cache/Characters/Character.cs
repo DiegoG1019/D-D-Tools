@@ -35,6 +35,7 @@ namespace DiegoG.DnDNetCore.Characters
         /// Represents the Version of the Program that serialized the object
         /// </summary>
         [JsonPropertyName("Generator Version"), XmlElement(ElementName = "Generator Version", IsNullable = false, Order = 2)]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Data Relevant in deserialization")]
         public Version Program_Version => App.Version;
 
         private bool constructing = true;
