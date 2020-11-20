@@ -27,29 +27,29 @@ namespace DiegoG.DnDNetCore
 
         public static class Directories
         {
-            private static TypeInfo typeinfo = (TypeInfo)typeof(Directories);
-            public static string Temp = Path.GetTempPath();
+            private static readonly TypeInfo typeinfo = (TypeInfo)typeof(Directories);
+            public static string Temp { get; private set; } = Path.GetTempPath();
 
-            public static string DataOut;
-            public static string Characters;
-            public static string Scripts;
-            public static string Themes;
-            
-            public static string Working = Path.GetFullPath(Directory.GetCurrentDirectory());
-            public static string AppData = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), GlobalCache.FullAppName);
+            public static string DataOut { get; private set; }
+            public static string Characters { get; private set; }
+            public static string Scripts { get; private set; }
+            public static string Themes { get; private set; }
+
+            public static string Working { get; private set; } = Path.GetFullPath(Directory.GetCurrentDirectory());
+            public static string AppData { get; private set; } = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), GlobalCache.FullAppName);
 
 #if DEBUG
-            public static string Logging = Path.Combine(Working, "Logs");
-            public static string Settings = Path.Combine(Working, "Settings");
-            public static string Languages = Path.Combine(Working, "Languages");
+            public static string Logging { get; private set; } = Path.Combine(Working, "Logs");
+            public static string Settings { get; private set; } = Path.Combine(Working, "Settings");
+            public static string Languages { get; private set; } = Path.Combine(Working, "Languages");
 #else
-            public static string Logging = Path.Combine(AppData, "Logs");
-            public static string Settings = Path.Combine(AppData, "Settings");
-            public static string Languages = Path.Combine(AppData, "Languages");
+            public static string Logging { get; private set; } = Path.Combine(AppData, "Logs");
+            public static string Settings { get; private set; } = Path.Combine(AppData, "Settings");
+            public static string Languages { get; private set; } = Path.Combine(AppData, "Languages");
 #endif
 
             public static IEnumerable<(string Directory, string Path)> AllDirectories
-                => from item in typeinfo.GetFields() select (item.Name, (string)item.GetValue(null));
+                => from item in typeinfo.GetProperties() select (item.Name, (string)item.GetValue(null));
 
             public static void InitDataDirectories(string dataout)
             {

@@ -1,0 +1,109 @@
+﻿<Components:CharacterUserControl  xmlns:Components="clr-namespace:DiegoG.DnDNetCore.GUI.Components"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DiegoG.DnDNetCore.GUI.Widgets"
+             xmlns:WPF="clr-namespace:DiegoG.WPF" x:Class="DiegoG.DnDNetCore.GUI.Widgets.SkillListPanel"
+             mc:Ignorable="d" Height="512" Width="756">
+    <Grid x:Name="MainGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100*"/>
+            <RowDefinition Height="35*"/>
+            <RowDefinition Height="293*"/>
+        </Grid.RowDefinitions>
+        <StackPanel x:Name="SkillsPanel" MinHeight="286" Grid.Row="2" ScrollViewer.VerticalScrollBarVisibility="Auto" CanVerticallyScroll="True"/>
+        <Border x:Name="SeparatorBorder3" BorderBrush="Black" BorderThickness="0.5,0.5,0.5,0.5"/>
+        <Grid x:Name="Grid1" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="9*"/>
+                <ColumnDefinition Width="4*"/>
+                <ColumnDefinition Width="4*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="4*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="4*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="4*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="4*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="4*"/>
+                <ColumnDefinition Width="4*"/>
+            </Grid.ColumnDefinitions>
+            <TextBox x:Name="SkillNameTextbox" HorizontalAlignment="Center" Text="Skill Name" TextWrapping="Wrap" VerticalAlignment="Center" Height="35" Width="148" TextAlignment="Center" SelectionTextBrush="{x:Null}" Background="{x:Null}" BorderBrush="{x:Null}" SelectionBrush="{x:Null}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsEnabled="False"/>
+            <TextBox x:Name="KeyStatTextbox" HorizontalAlignment="Center" Text="Key Stat" TextWrapping="Wrap" VerticalAlignment="Center" Height="35" Width="66" TextAlignment="Center" SelectionTextBrush="{x:Null}" Background="{x:Null}" BorderBrush="{x:Null}" SelectionBrush="{x:Null}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="1" IsEnabled="False" TextChanged="KeyStatTextbox_TextChanged"/>
+            <TextBox x:Name="SkillModifierTextbox" HorizontalAlignment="Center" Text="Skill Modifier" TextWrapping="Wrap" VerticalAlignment="Center" Height="35" Width="66" TextAlignment="Center" SelectionTextBrush="{x:Null}" Background="{x:Null}" BorderBrush="{x:Null}" SelectionBrush="{x:Null}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="2" IsEnabled="False"/>
+            <TextBox x:Name="StatModifierTextbox" HorizontalAlignment="Center" Text="Stat Modifier" TextWrapping="Wrap" VerticalAlignment="Center" Height="35" Width="66" TextAlignment="Center" SelectionTextBrush="{x:Null}" Background="{x:Null}" BorderBrush="{x:Null}" SelectionBrush="{x:Null}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="4" IsEnabled="False"/>
+            <TextBox x:Name="RankTextbox" HorizontalAlignment="Center" Text="Rank" TextWrapping="Wrap" VerticalAlignment="Center" Height="35" Width="66" TextAlignment="Center" SelectionTextBrush="{x:Null}" Background="{x:Null}" BorderBrush="{x:Null}" SelectionBrush="{x:Null}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="6" IsEnabled="False"/>
+            <TextBox x:Name="MiscRanksTextbox" HorizontalAlignment="Center" Text="Misc Ranks" TextWrapping="Wrap" VerticalAlignment="Center" Height="35" Width="66" TextAlignment="Center" SelectionTextBrush="{x:Null}" Background="{x:Null}" BorderBrush="{x:Null}" SelectionBrush="{x:Null}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="8" IsEnabled="False"/>
+            <TextBox x:Name="OtherRanksTextbox" HorizontalAlignment="Center" Text="Other Ranks" TextWrapping="Wrap" VerticalAlignment="Center" Height="35" Width="66" TextAlignment="Center" SelectionTextBrush="{x:Null}" Background="{x:Null}" BorderBrush="{x:Null}" SelectionBrush="{x:Null}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="10" IsEnabled="False"/>
+            <TextBox x:Name="ArmorPenalizerTextbox" HorizontalAlignment="Center" Text="Armor Penalizer" TextWrapping="Wrap" VerticalAlignment="Center" Height="35" Width="66" TextAlignment="Center" SelectionTextBrush="{x:Null}" Background="{x:Null}" BorderBrush="{x:Null}" SelectionBrush="{x:Null}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="12" IsEnabled="False"/>
+            <TextBox x:Name="SkillFlagsTextbox" HorizontalAlignment="Center" Text="Skill Flags" TextWrapping="Wrap" VerticalAlignment="Center" Height="35" Width="66" TextAlignment="Center" SelectionTextBrush="{x:Null}" Background="{x:Null}" BorderBrush="{x:Null}" SelectionBrush="{x:Null}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="13" IsEnabled="False"/>
+        </Grid>
+        <Border x:Name="SeparatorBorder1" BorderBrush="Black" BorderThickness="0.5,0.5,0.5,0.5"/>
+        <Grid x:Name="Grid2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Grid x:Name="Grid3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <Label x:Name="TotalJobSkillPointsLabel" Content="Total Job Skill Points" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Margin="11,0,0,24" Grid.RowSpan="2"/>
+                <Label x:Name="AbilityBaseSkillPointsLabel" Content="Ability Base Skill Points" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Grid.Row="1"/>
+                <Label x:Name="ExtraAbilitySkillPointsLabel" Content="Extra Ability Skill Points" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Grid.Row="2"/>
+                <Label x:Name="ExtraBaseSkillPointsLabel" Content="Extra Base Skill Points" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Grid.Row="3"/>
+                <Label x:Name="ExtraSkillPointsLabel" Content="Extra Skill Points" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Grid.Row="4"/>
+                <WPF:NumericBox x:Name="TotalJobSkillPointsNumeric" HorizontalAlignment="Stretch" Text="NumericBox" TextWrapping="Wrap" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="{x:Null}" BorderBrush="{x:Null}" Grid.Column="1"/>
+                <WPF:NumericBox x:Name="AbilityBaseSkillPointsNumeric" HorizontalAlignment="Stretch" Text="NumericBox" TextWrapping="Wrap" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="{x:Null}" BorderBrush="{x:Null}" Grid.Column="1" Grid.Row="1"/>
+                <WPF:NumericBox x:Name="ExtraAbilitySkillPointsNumeric" Text="NumericBox" TextWrapping="Wrap" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="{x:Null}" BorderBrush="{x:Null}" Grid.Row="2" Grid.Column="1"/>
+                <WPF:NumericBox x:Name="ExtraBaseSkillPointsNumeric" HorizontalAlignment="Stretch" Text="NumericBox" TextWrapping="Wrap" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="{x:Null}" BorderBrush="{x:Null}" Grid.Column="1" Grid.Row="3"/>
+                <WPF:NumericBox x:Name="ExtraSkillPointsNumeric" HorizontalAlignment="Stretch" Text="NumericBox" TextWrapping="Wrap" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="{x:Null}" BorderBrush="{x:Null}" Grid.Column="1" Grid.Row="4"/>
+            </Grid>
+            <Border x:Name="SeparatorBorder2" BorderThickness="0.5,0,0.5,0" BorderBrush="Black" Grid.Column="1">
+            <Grid x:Name="Grid4">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="1" x:Name="Grid5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Components:LabeledTextBox x:Name="SpentSkillPointsBox" HorizontalAlignment="Center" VerticalAlignment="Center" Height="60" Width="126" LabelOnTop="True" LabelText="Spent" ItemTextBoxText="0" ItemTextBoxFontSize="16" LabelFontSize="16"/>
+                    <Components:LabeledTextBox x:Name="RemainingSkillPointsBox" HorizontalAlignment="Center" VerticalAlignment="Center" Height="60" Width="126" Grid.Column="1" LabelOnTop="True" LabelText="Remaining" ItemTextBoxText="0" ItemTextBoxFontSize="16" LabelFontSize="16"/>
+                </Grid>
+                <Components:LabeledTextBox x:Name="TotalSkillPointsBox" HorizontalAlignment="Center" VerticalAlignment="Center" Height="60" Width="252" LabelOnTop="True" ItemTextBoxText="0" LabelText="Total Skill Points" LabelFontSize="16" ItemTextBoxFontSize="16"/>
+            </Grid>
+            </Border>
+            <Grid Grid.Column="2" x:Name="Grid6">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="11*"/>
+                    <RowDefinition Height="29*"/>
+                </Grid.RowDefinitions>
+                <Label x:Name="MaximumRanksLabel" Content="Maximum Rank" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" FontSize="16" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                <Grid Grid.Row="1" x:Name="Grid7">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Components:LabeledTextBox x:Name="OtherSkillsMaxRankBox" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" LabelOnTop="True" ItemTextBoxText="0" ItemTextBoxFontSize="16" LabelFontSize="16" LabelText="Other Skills" Height="87" Width="126"/>
+                    <Components:LabeledTextBox x:Name="JobSkillsMaxRankBox" LabelOnTop="True" ItemTextBoxText="0" ItemTextBoxFontSize="16" LabelFontSize="16" LabelText="Job Skills" Height="87" Width="126"/>
+                </Grid>
+            </Grid>
+        </Grid>
+
+    </Grid>
+</Components:CharacterUserControl>

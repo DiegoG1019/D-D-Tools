@@ -5,19 +5,19 @@ VisualStudioVersion = 16.0.29920.165
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Common", "..\DGUtilities\DGUtilitiesSharedProj\Common.shproj", "{E7813EE5-9C23-4B9C-9C93-38A04843F197}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "DnDTTools", "Cache\DnDTTools.shproj", "{5FB40119-2995-4307-9F1D-D0238C30D4C3}"
-EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "CLI", "..\DGUtilities\CLI\CLI.shproj", "{45A44C72-8FC7-4443-8492-8F38A0DFDC68}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DnDNetCore", "DnDNetCore\DnDNetCore.csproj", "{A125FD18-2042-4231-8A63-8312130DB25A}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "WPF", "..\DGUtilities\WPF\WPF.shproj", "{B341D789-0D1A-412F-AD2E-3D33620A71C3}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "DnDTTools", "DnDTools\DnDTTools.shproj", "{5FB40119-2995-4307-9F1D-D0238C30D4C3}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		..\DGUtilities\CLI\CLI.projitems*{45a44c72-8fc7-4443-8492-8f38a0dfdc68}*SharedItemsImports = 13
-		Cache\Cache.projitems*{5fb40119-2995-4307-9f1d-d0238c30d4c3}*SharedItemsImports = 13
-		Cache\Cache.projitems*{a125fd18-2042-4231-8a63-8312130db25a}*SharedItemsImports = 5
+		DnDTools\Cache.projitems*{5fb40119-2995-4307-9f1d-d0238c30d4c3}*SharedItemsImports = 13
+		DnDTools\Cache.projitems*{a125fd18-2042-4231-8a63-8312130db25a}*SharedItemsImports = 5
 		..\DGUtilities\CLI\CLI.projitems*{a125fd18-2042-4231-8a63-8312130db25a}*SharedItemsImports = 5
 		..\DGUtilities\DGUtilitiesSharedProj\DGUtilitiesSharedProj.projitems*{a125fd18-2042-4231-8a63-8312130db25a}*SharedItemsImports = 5
 		..\DGUtilities\WPF\WPF.projitems*{a125fd18-2042-4231-8a63-8312130db25a}*SharedItemsImports = 5

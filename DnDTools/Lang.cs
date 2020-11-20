@@ -12,7 +12,10 @@ namespace DiegoG.DnDNetCore
     {
         public ulong Version { get; } = 1;
 
+        //Other
         public string Currency { get; set; } = " coins";
+
+        //CharacterDescription
         public string GenderText { get; set; } = "Gender";
         public string PersonalityText { get; set; } = "Personality";
         public string ViewIntroButton { get; set; } = "Intro";
@@ -31,6 +34,12 @@ namespace DiegoG.DnDNetCore
         public string HairColorText { get; set; } = "Hair Color";
         public string SkinColorText { get; set; } = "Skin Color";
         public string ViewNotesButton { get; set; } = "View Notes";
+
+        //CharacterSkills
+        public string SkillNameText { get; set; } = "Skill Name";
+        public string KeyStatText { get; set; } = "Key Stat";
+
+        //Enumerations
         public Dictionary<Alignments, string> AlignmentStrings { get; set; } = new Dictionary<Alignments, string>()
         {
             { Alignments.ChaoticEvil, "Chaotic Evil" },
@@ -83,6 +92,15 @@ namespace DiegoG.DnDNetCore
             { Stats.Wisdom, "Wisdom" },
             { Stats.Intelligence, "Intelligence" },
             { Stats.Charisma, "Charisma" },
+        };
+        public Dictionary<Stats, string> ShortStatsStrings { get; set; } = new Dictionary<Stats, string>()
+        {
+            { Stats.Strength, "Str" },
+            { Stats.Constitution, "Con" },
+            { Stats.Dexterity, "Dex" },
+            { Stats.Wisdom, "Wis" },
+            { Stats.Intelligence, "Int" },
+            { Stats.Charisma, "Char" },
         };
         public Dictionary<SecondaryStats, string> SecondaryStatsStrings { get; set; } = new Dictionary<SecondaryStats, string>()
         {

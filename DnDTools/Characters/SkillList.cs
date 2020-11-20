@@ -50,8 +50,8 @@ namespace DiegoG.DnDNetCore.Characters
         public int Count => SkillListCollection.Count;
         [JsonIgnore, IgnoreDataMember, XmlIgnore]
         public int[] JobBaseSkillPoints => (from val in Parent.Jobs select val.SkillPoints).ToArray();
-        public int MiscSkillPoints { get; set; } = 0;
-        public int AbilitySkillPoints { get; set; } = 0;
+        public int ExtraBaseSkillPoints { get; set; } = 0;
+        public int AbilityBaseSkillPoints { get; set; } = 0;
         public int ExtraAbilitySkillPoints { get; set; } = 0;
         public int ExtraSkillPoints { get; set; } = 0;
         [JsonIgnore, IgnoreDataMember, XmlIgnore]
@@ -59,7 +59,9 @@ namespace DiegoG.DnDNetCore.Characters
         [JsonIgnore, IgnoreDataMember, XmlIgnore]
         public int SpentSkillPoints => (from val in this where val.JobSkillFlag select val.Rank).Sum();
         [JsonIgnore, IgnoreDataMember, XmlIgnore]
-        public int TotalSkillPoints => JobSkillPoints + ((MiscSkillPoints + AbilitySkillPoints) * Parent.Jobs.AllLevels) + ExtraSkillPoints + ExtraAbilitySkillPoints;
+        public int RemainingSkillPoints => TotalSkillPoints - SpentSkillPoints;
+        [JsonIgnore, IgnoreDataMember, XmlIgnore]
+        public int TotalSkillPoints => ((JobSkillPoints + ExtraBaseSkillPoints + AbilityBaseSkillPoints) * Parent.Jobs.AllLevels) + ExtraSkillPoints + ExtraAbilitySkillPoints;
         [JsonIgnore, IgnoreDataMember, XmlIgnore]
         public int AvailableSkillPoints => TotalSkillPoints - SpentSkillPoints;
         [JsonIgnore, IgnoreDataMember, XmlIgnore]

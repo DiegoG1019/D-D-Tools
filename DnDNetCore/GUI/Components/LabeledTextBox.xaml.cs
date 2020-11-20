@@ -48,7 +48,7 @@ namespace DiegoG.DnDNetCore.GUI.Components
         public override void PaintTheme(Theme theme)
         {
             base.PaintTheme(theme);
-            ItemTextBoxFontSize = theme.CommonFontSize2;
+            ItemTextBoxFontSize = theme.CommonFontSize1;
         }
     }
 }

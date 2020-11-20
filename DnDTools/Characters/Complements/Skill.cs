@@ -31,35 +31,30 @@ namespace DiegoG.DnDNetCore.Characters.Complements
             set => Flags[FlagList.JobSkill] = value;
         }
 
+        public CharacterStatProperty ParentStats => Parent.Stats[KeyStat];
+
         public string Name { get; set; }
         public Stats KeyStat { get; set; }
         public int Rank { get; set; }
         public int MiscRanks { get; set; }
+        public int OtherRanks { get; set; }
 
         public FlagsArray<FlagList> Flags { get; set; }
 
-        public void Train(int l)
-        {
-            Rank += l;
-        }
+        public void Train(int l) => Rank += l;
 
         [IgnoreDataMember, JsonIgnore, XmlIgnore]
         public int Modifier
         {
             get
             {
-                var val = Parent.Stats[KeyStat].Modifier + MiscRanks;
-                if (Flags[FlagList.TrainedOnly] && Rank <= 0)
-                {
-                    return Parent.Stats[KeyStat].Modifier + MiscRanks - 2;
-                }
-                if (Flags[FlagList.JobSkill])
-                {
+                var val = ParentStats.Modifier + MiscRanks;
+                if (TrainedOnlyFlag && Rank <= 0)
+                    return ParentStats.Modifier + MiscRanks - 2;
+                if (JobSkillFlag)
                     return val + Rank;
-                }
                 return val + (Rank / 2);
             }
         }
-
     }
 }

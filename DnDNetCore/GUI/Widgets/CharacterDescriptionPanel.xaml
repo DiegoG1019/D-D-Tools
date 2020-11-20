@@ -4,7 +4,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:DiegoG.DnDNetCore.GUI.Widgets"
+             xmlns:local="clr-namespace:DiegoG.DnDNetCore.Characters"
              xmlns:Components="clr-namespace:DiegoG.DnDNetCore.GUI.Components" x:Class="DiegoG.DnDNetCore.GUI.Widgets.CharacterDescriptionPanel"
              mc:Ignorable="d" Height="138" Width="1000" MinHeight="138" MaxHeight="138" MinWidth="1000" MaxWidth="1300">
     <UserControl.Resources>

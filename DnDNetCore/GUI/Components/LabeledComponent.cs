@@ -22,7 +22,7 @@ namespace DiegoG.DnDNetCore.GUI.Components
         {
             BackgroundColor = theme.CommonElementBackgroundColor;
             ForegroundColor = theme.CommonTextColor;
-            LabelFontSize = theme.CommonFontSize1;
+            LabelFontSize = theme.CommonFontSize2;
         }
 
         public int TopOfGrid => 0;

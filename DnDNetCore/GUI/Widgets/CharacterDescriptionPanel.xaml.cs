@@ -161,9 +161,9 @@ namespace DiegoG.DnDNetCore.GUI.Widgets
             HeightBox.ItemNumericBoxNumber = (double)HeldCharacter.Description.Height[Settings<DnDSettings>.Current.PreferredLengthUnit];
             WeightBox.ItemNumericBoxNumber = (double)HeldCharacter.Description.Weight[Settings<DnDSettings>.Current.PreferredMassUnit];
             
-            EyeColorBox.ItemTextBoxText = HeldCharacter.Description.EyeColor.GetColorName();
-            HairColorBox.ItemTextBoxText = HeldCharacter.Description.HairColor.GetColorName();
-            SkinColorBox.ItemTextBoxText = HeldCharacter.Description.SkinColor.GetColorName();
+            EyeColorBox.ItemTextBoxText = HeldCharacter.Description.EyeColor.GetName();
+            HairColorBox.ItemTextBoxText = HeldCharacter.Description.HairColor.GetName();
+            SkinColorBox.ItemTextBoxText = HeldCharacter.Description.SkinColor.GetName();
         }
 
         public override void PaintTheme(Theme theme)

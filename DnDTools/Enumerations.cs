@@ -125,6 +125,8 @@ namespace DiegoG.DnDNetCore
         public static int StatCount => Enum.GetNames(typeof(Stats)).Length;
         public static IEnumerable<string> StatsCollection
             => from str in (Stats[])Enum.GetValues(typeof(Stats)) select Settings<Lang>.Current.StatsStrings[str];
+        public static IEnumerable<string> ShortStatsCollection
+            => from str in (Stats[])Enum.GetValues(typeof(Stats)) select Settings<Lang>.Current.ShortStatsStrings[str];
 
         [Serializable, JsonConverter(typeof(JsonStringEnumConverter))]
         public enum SecondaryStats
