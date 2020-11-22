@@ -38,6 +38,12 @@ namespace DiegoG.DnDNetCore
         //CharacterSkills
         public string SkillNameText { get; set; } = "Skill Name";
         public string KeyStatText { get; set; } = "Key Stat";
+        public string SkillModifierText { get; set; } = "Skill Modifier";
+        public string RanksText { get; set; } = "Rank";
+        public string MiscRanksText { get; set; } = "Misc. Rank";
+        public string OtherRanksText { get; set; } = "Extra Rank";
+        public string ArmorPenalizerText { get; set; } = "Armor Penalizer";
+        public string SkillFlagsText { get; set; } = "Skill Flags";
 
         //Enumerations
         public Dictionary<Alignments, string> AlignmentStrings { get; set; } = new Dictionary<Alignments, string>()

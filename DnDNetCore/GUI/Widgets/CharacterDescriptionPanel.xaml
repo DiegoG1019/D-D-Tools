@@ -22,21 +22,21 @@
         <Border BorderBrush="Black" BorderThickness="0,0.5,0,0.5" Grid.Row="1" x:Name="SeparatorBorder">
             <Grid x:Name="CharacterDesc1">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="2*"/>
                     <ColumnDefinition Width="1*"/>
                     <ColumnDefinition Width="2*"/>
                     <ColumnDefinition Width="2*"/>
                     <ColumnDefinition Width="2*"/>
                     <ColumnDefinition Width="2*"/>
                     <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
-                <Components:LabeledTextBox x:Name="FullNameBox" HorizontalAlignment="Center" Height="46" VerticalAlignment="Center" Width="154" LabelText="Full Name" ItemTextBoxText="No'one Impohrtahnt" LabelOnTop="True"/>
-                <Components:LabeledNumericBox x:Name="ExpLevelBox" Grid.Column="1" HorizontalAlignment="Center" Height="46" VerticalAlignment="Center" Width="77" LabelText="Exp. Level" LabelOnTop="True"/>
+                <Components:LabeledNumericBox x:Name="ExpLevelBox" Grid.Column="0" HorizontalAlignment="Center" Height="46" VerticalAlignment="Center" Width="77" LabelText="Exp. Level" LabelOnTop="True"/>
                 <Components:LabeledTextBox x:Name="RaceBox" Grid.Column="2" HorizontalAlignment="Center" Height="46" VerticalAlignment="Center" Width="154" LabelText="Race" ItemTextBoxText="Great Golden Dragon" LabelOnTop="True"/>
-                <Components:LabeledTextBox x:Name="DeityBox" Grid.Column="4" HorizontalAlignment="Center" Height="46" VerticalAlignment="Center" Width="154" LabelText="Deity" ItemTextBoxText="Flying Spaghetti Monster" LabelOnTop="True"/>
-                <Components:LabeledDropDown x:Name="AlignmentBox" Grid.Column="3" HorizontalAlignment="Center" Height="44" VerticalAlignment="Center" Width="153" LabelText="Alignment" LabelOnTop="True"/>
+                <Components:LabeledTextBox x:Name="DeityBox" Grid.Column="3" HorizontalAlignment="Center" Height="46" VerticalAlignment="Center" Width="154" LabelText="Deity" ItemTextBoxText="Flying Spaghetti Monster" LabelOnTop="True"/>
+                <Components:LabeledDropDown x:Name="SizeBox" Grid.Column="4" HorizontalAlignment="Center" Height="46" VerticalAlignment="Center" Width="154" LabelText="Size" LabelOnTop="True"/>
                 <Components:LabeledDropDown x:Name="BodyTypeBox" Grid.Column="5" HorizontalAlignment="Center" Height="46" VerticalAlignment="Center" Width="154" LabelOnTop="True" LabelText="Body Type"/>
-                <Components:LabeledDropDown x:Name="SizeBox" Grid.Column="6" HorizontalAlignment="Center" Height="46" VerticalAlignment="Center" Width="154" LabelText="Size" LabelOnTop="True"/>
+                <Components:LabeledDropDown x:Name="AlignmentBox" Grid.Column="6" HorizontalAlignment="Center" Height="44" VerticalAlignment="Center" Width="153" LabelText="Alignment" LabelOnTop="True"/>
+                <Components:LabeledTextBox x:Name="PersonalityBox" HorizontalAlignment="Center" Height="46" VerticalAlignment="Center" Width="154" LabelText="Personality" ItemTextBoxText="Bland" LabelOnTop="True" Grid.Column="1"/>
             </Grid>
         </Border>
         <Grid x:Name="CharacterDesc2" Grid.Row="2">
@@ -66,7 +66,6 @@
             </Grid.ColumnDefinitions>
             <TextBox x:Name="NameTextBox" HorizontalAlignment="Center" Text="No'one" TextWrapping="Wrap" VerticalAlignment="Center" Width="250" Height="46" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="Transparent" BorderBrush="#00ABADB3"/>
             <Components:LabeledTextBox x:Name="GenderBox" Grid.Column="1" HorizontalAlignment="Center" Height="46" VerticalAlignment="Center" Width="250" LabelText="Gender" ItemTextBoxText="Thing" LabelOnTop="True"/>
-            <Components:LabeledTextBox x:Name="PersonalityBox" Grid.Column="2" HorizontalAlignment="Center" Height="46" VerticalAlignment="Center" Width="250" LabelText="Personality" ItemTextBoxText="Bland" LabelOnTop="True"/>
             <Grid x:Name="IntroBioGrid" Grid.Column="3">
                 <Grid.RowDefinitions>
                     <RowDefinition/>
@@ -75,6 +74,7 @@
                 <Button x:Name="IntroButton" Content="View Intro" HorizontalAlignment="Center" VerticalAlignment="Center" Width="230"/>
                 <Button x:Name="BioButton" Content="View Biography" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="230" Grid.Row="1" Margin="0,0,0,2"/>
             </Grid>
+            <Components:LabeledTextBox x:Name="FullNameBox" HorizontalAlignment="Center" Height="46" VerticalAlignment="Center" Width="250" LabelText="Full Name" ItemTextBoxText="No'one Impohrtahnt" LabelOnTop="True" Grid.Column="2"/>
         </Grid>
     </Grid>
 </Components:CharacterUserControl>

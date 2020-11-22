@@ -29,8 +29,11 @@ namespace DiegoG.DnDNetCore.GUI.Widgets
         public SkillListPanel()
         {
             InitializeComponent();
+#if !DESIGN
+            InitializeCharacterControl();
             ExtraBaseSkillPointsNumeric.TextChanged += ExtraBaseSkillPointsNumeric_TextChanged;
             ExtraSkillPointsNumeric.TextChanged += ExtraSkillPointsNumeric_TextChanged;
+#endif
         }
 
         private void ExtraSkillPointsNumeric_TextChanged(object sender, TextChangedEventArgs e)

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Media;
 using DiegoG.Utilities.Exceptions;
 using DiegoG.Utilities;
+using DiegoG.WPF;
 
 namespace DiegoG.DnDNetCore
 {

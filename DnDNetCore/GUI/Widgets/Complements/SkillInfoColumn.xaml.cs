@@ -16,6 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using static DiegoG.DnDNetCore.Enumerations;
+using DiegoG.WPF;
 
 namespace DiegoG.DnDNetCore.GUI.Widgets.Complements
 {
@@ -31,7 +32,9 @@ namespace DiegoG.DnDNetCore.GUI.Widgets.Complements
             set
             {
                 IndexField = value;
+#if !DESIGN
                 UpdateCharacter();
+#endif
             }
         }
         public Skill HeldSkill => HeldCharacter.Skills[SkillIndex];
@@ -40,8 +43,8 @@ namespace DiegoG.DnDNetCore.GUI.Widgets.Complements
             InitializeComponent();
 #if !DESIGN
             InitializeCharacterControl();      
-#endif
             StatSelectorCombobox.ItemsSource = StatsCollection;
+#endif
             StatSelectorCombobox.SelectionChanged += StatSelectorCombobox_SelectionChanged;
             SkillNameTextBox.TextChanged += SkillNameTextBox_TextChanged;
             OtherRanksTextbox.TextChanged += OtherRanksTextbox_TextChanged;

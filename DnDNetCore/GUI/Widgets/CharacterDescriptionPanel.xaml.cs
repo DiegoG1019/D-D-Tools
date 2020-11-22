@@ -2,6 +2,7 @@
 using DiegoG.DnDNetCore.GUI.Pages;
 using DiegoG.Utilities;
 using DiegoG.Utilities.Settings;
+using DiegoG.WPF;
 using System;
 using System.Windows;
 using System.Windows.Controls;
@@ -17,6 +18,10 @@ namespace DiegoG.DnDNetCore.GUI.Widgets
             InitializeComponent();
 #if !DESIGN
             InitializeCharacterControl();
+
+            AlignmentBox.ItemDropDownSource = AlignmentsCollection;
+            BodyTypeBox.ItemDropDownSource = BodyTypesCollection;
+            SizeBox.ItemDropDownSource = SizesCollection;
 #endif
             AlignmentBox.SelectionChanged += AlignmentBox_SelectionChanged;
             BodyTypeBox.SelectionChanged += BodyTypeBox_SelectionChanged;
@@ -40,10 +45,6 @@ namespace DiegoG.DnDNetCore.GUI.Widgets
             IntroButton.Click += IntroButton_Click;
             BioButton.Click += BioButton_Click;
             NotesButton.Click += NotesButton_Click;
-
-            AlignmentBox.ItemDropDownSource = AlignmentsCollection;
-            BodyTypeBox.ItemDropDownSource = BodyTypesCollection;
-            SizeBox.ItemDropDownSource = SizesCollection;
         }
 
         private void NotesButton_Click(object sender, System.Windows.RoutedEventArgs e)

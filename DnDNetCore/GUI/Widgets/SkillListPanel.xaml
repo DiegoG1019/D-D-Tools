@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:DiegoG.DnDNetCore.GUI.Widgets"
              xmlns:WPF="clr-namespace:DiegoG.WPF" x:Class="DiegoG.DnDNetCore.GUI.Widgets.SkillListPanel"
              mc:Ignorable="d" Height="512" Width="756">
-    <Grid x:Name="MainGrid">
+    <Grid x:Name="MainGrid" Background="#FFE6E6E6">
         <Grid.RowDefinitions>
             <RowDefinition Height="100*"/>
             <RowDefinition Height="35*"/>
@@ -32,7 +32,7 @@
                 <ColumnDefinition Width="4*"/>
             </Grid.ColumnDefinitions>
             <TextBox x:Name="SkillNameTextbox" HorizontalAlignment="Center" Text="Skill Name" TextWrapping="Wrap" VerticalAlignment="Center" Height="35" Width="148" TextAlignment="Center" SelectionTextBrush="{x:Null}" Background="{x:Null}" BorderBrush="{x:Null}" SelectionBrush="{x:Null}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsEnabled="False"/>
-            <TextBox x:Name="KeyStatTextbox" HorizontalAlignment="Center" Text="Key Stat" TextWrapping="Wrap" VerticalAlignment="Center" Height="35" Width="66" TextAlignment="Center" SelectionTextBrush="{x:Null}" Background="{x:Null}" BorderBrush="{x:Null}" SelectionBrush="{x:Null}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="1" IsEnabled="False" TextChanged="KeyStatTextbox_TextChanged"/>
+            <TextBox x:Name="KeyStatTextbox" HorizontalAlignment="Center" Text="Key Stat" TextWrapping="Wrap" VerticalAlignment="Center" Height="35" Width="66" TextAlignment="Center" SelectionTextBrush="{x:Null}" Background="{x:Null}" BorderBrush="{x:Null}" SelectionBrush="{x:Null}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="1" IsEnabled="False"/>
             <TextBox x:Name="SkillModifierTextbox" HorizontalAlignment="Center" Text="Skill Modifier" TextWrapping="Wrap" VerticalAlignment="Center" Height="35" Width="66" TextAlignment="Center" SelectionTextBrush="{x:Null}" Background="{x:Null}" BorderBrush="{x:Null}" SelectionBrush="{x:Null}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="2" IsEnabled="False"/>
             <TextBox x:Name="StatModifierTextbox" HorizontalAlignment="Center" Text="Stat Modifier" TextWrapping="Wrap" VerticalAlignment="Center" Height="35" Width="66" TextAlignment="Center" SelectionTextBrush="{x:Null}" Background="{x:Null}" BorderBrush="{x:Null}" SelectionBrush="{x:Null}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="4" IsEnabled="False"/>
             <TextBox x:Name="RankTextbox" HorizontalAlignment="Center" Text="Rank" TextWrapping="Wrap" VerticalAlignment="Center" Height="35" Width="66" TextAlignment="Center" SelectionTextBrush="{x:Null}" Background="{x:Null}" BorderBrush="{x:Null}" SelectionBrush="{x:Null}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="6" IsEnabled="False"/>
