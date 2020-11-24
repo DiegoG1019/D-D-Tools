@@ -4,7 +4,7 @@ using DiegoG.DnDNetCore.Other;
 using System.Collections.Generic;
 using DiegoG.Utilities;
 
-namespace DiegoG.DnDNetCore.Characters.Cache
+namespace DiegoG.DnDNetCore.Cache
 {
     public static class Feats
     {

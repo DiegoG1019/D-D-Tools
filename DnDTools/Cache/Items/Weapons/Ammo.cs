@@ -4,7 +4,7 @@ using DiegoG.Utilities;
 using DiegoG.DnDNetCore.Items.Info;
 using static DiegoG.DnDNetCore.Enumerations;
 
-namespace DiegoG.DnDNetCore.Characters.Cache.Items.Weapons
+namespace DiegoG.DnDNetCore.Cache.Items.Weapons
 {
     public static class Ammunition
     {

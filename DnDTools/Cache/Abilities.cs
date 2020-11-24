@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using DiegoG.Utilities;
 using DiegoG.Utilities.Settings;
 
-namespace DiegoG.DnDNetCore.Characters.Cache
+namespace DiegoG.DnDNetCore.Cache
 {
     public static class Abilities
     {

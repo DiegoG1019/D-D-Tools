@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DiegoG.DnDNetCore.Characters.Cache.Items.Weapons
+namespace DiegoG.DnDNetCore.Cache
 {
-    public static class Ranged
+    class Jobs
     {
-
     }
 }

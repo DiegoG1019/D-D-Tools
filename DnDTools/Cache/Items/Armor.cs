@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using DiegoG.DnDNetCore.Other;
 using DiegoG.Utilities;
 
-namespace DiegoG.DnDNetCore.Characters.Cache.Items
+namespace DiegoG.DnDNetCore.Cache.Items
 {
     public static class Armors
     {
