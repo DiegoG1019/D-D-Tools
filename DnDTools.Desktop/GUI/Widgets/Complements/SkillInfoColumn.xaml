@@ -1,0 +1,40 @@
+﻿<Components:CharacterUserControl  xmlns:Components="clr-namespace:DiegoG.DnDTools.Desktop.GUI.Components" x:Class="DiegoG.DnDTools.Desktop.GUI.Widgets.Complements.SkillInfoColumn"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DiegoG.DnDTools.Desktop.GUI.Widgets.Complements"
+             mc:Ignorable="d" Height="28" Width="750">
+    <Grid x:Name="MainGrid"  Background="#FFE6E6E6">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="9*"/>
+            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="4*"/>
+        </Grid.ColumnDefinitions>
+        <TextBox x:Name="SkillNameTextBox" HorizontalAlignment="Center" Text="SkillName" TextWrapping="Wrap" VerticalAlignment="Center" Width="141" Height="22" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" BorderBrush="Black" Background="{x:Null}" BorderThickness="0,0,0,0.5"/>
+        <ComboBox x:Name="StatSelectorCombobox" HorizontalAlignment="Center" VerticalAlignment="Center" Width="60" Grid.Column="1" Height="22"/>
+        <TextBox x:Name="SkillModifierTextbox" HorizontalAlignment="Center" Text="0" TextWrapping="Wrap" VerticalAlignment="Center" Width="60" Height="22" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Grid.Column="2" IsReadOnly="True" BorderBrush="#FF729FCF" BorderThickness="0,0,0,0.5" Background="#3F729FCF"/>
+        <Label Content="=" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" Width="19" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="28"/>
+        <TextBox x:Name="StatModifierTextbox" HorizontalAlignment="Center" Text="0" TextWrapping="Wrap" VerticalAlignment="Center" Width="60" Height="22" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Grid.Column="4" IsReadOnly="True" Background="#0C000000" BorderBrush="Black" BorderThickness="0,0,0,0.5"/>
+        <Label Content="+" Grid.Column="5" HorizontalAlignment="Center" VerticalAlignment="Center" Width="18" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="28"/>
+        <TextBox x:Name="RanksTextBox" HorizontalAlignment="Center" Text="0" TextWrapping="Wrap" VerticalAlignment="Center" Width="60" Height="22" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Grid.Column="6" BorderBrush="Black" Background="{x:Null}" BorderThickness="0,0,0,0.5"/>
+        <Label Content="+" Grid.Column="7" HorizontalAlignment="Center" VerticalAlignment="Center" Width="18" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="28"/>
+        <TextBox x:Name="MiscRanksTextbox" HorizontalAlignment="Center" Text="0" TextWrapping="Wrap" VerticalAlignment="Center" Width="60" Height="22" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Grid.Column="8" Background="#0C000000" BorderBrush="Black" BorderThickness="0,0,0,0.5"/>
+        <Label Content="+" Grid.Column="9" HorizontalAlignment="Center" VerticalAlignment="Center" Width="18" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="28"/>
+        <TextBox x:Name="OtherRanksTextbox" HorizontalAlignment="Center" Text="0" TextWrapping="Wrap" VerticalAlignment="Center" Width="60" Height="22" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Grid.Column="10" Background="{x:Null}" BorderBrush="Black" BorderThickness="0,0,0,0.5"/>
+        <Label Content="-" Grid.Column="11" HorizontalAlignment="Center" VerticalAlignment="Center" Width="18" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="28"/>
+        <TextBox x:Name="ArmorPenalizerTextbox" HorizontalAlignment="Center" Text="0" TextWrapping="Wrap" VerticalAlignment="Center" Width="60" Height="22" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Grid.Column="12" Background="#0CB40E16" BorderBrush="#FFB40E16" BorderThickness="0,0,0,0.5"/>
+        <ComboBox x:Name="FlagsCombobox" HorizontalAlignment="Center" VerticalAlignment="Center" Width="60" Grid.Column="13" Height="22" IsTextSearchEnabled="False"/>
+    </Grid>
+</Components:CharacterUserControl>

@@ -1,0 +1,80 @@
+﻿<Components:CharacterUserControl
+             xmlns:Controls="clr-namespace:DiegoG.DnDTools.Desktop.GUI.Components"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DiegoG.DnDTools.Base.Characters"
+             xmlns:Components="clr-namespace:DiegoG.DnDTools.Desktop.GUI.Components" x:Class="DiegoG.DnDTools.Desktop.GUI.Widgets.CharacterDescriptionPanel"
+             mc:Ignorable="d" Height="138" Width="1000" MinHeight="138" MaxHeight="138" MinWidth="1000" MaxWidth="1300">
+    <UserControl.Resources>
+        <Style x:Key="GridStyleNormal"/>
+    </UserControl.Resources>
+    <Grid x:Name="CharacterDescription" Background="#FFE6E6E6" Margin="0,0,0,0">
+        <Grid.ColumnDefinitions>
+
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="46*"/>
+            <RowDefinition Height="46*"/>
+            <RowDefinition Height="46*"/>
+        </Grid.RowDefinitions>
+        <Border BorderBrush="Black" BorderThickness="0,0.5,0,0.5" Grid.Row="1" x:Name="SeparatorBorder">
+            <Grid x:Name="CharacterDesc1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+                <Components:LabeledNumericBox x:Name="ExpLevelBox" Grid.Column="0" HorizontalAlignment="Center" Height="46" VerticalAlignment="Center" Width="77" LabelText="Exp. Level" LabelOnTop="True"/>
+                <Components:LabeledTextBox x:Name="RaceBox" Grid.Column="2" HorizontalAlignment="Center" Height="46" VerticalAlignment="Center" Width="154" LabelText="Race" ItemTextBoxText="Great Golden Dragon" LabelOnTop="True"/>
+                <Components:LabeledTextBox x:Name="DeityBox" Grid.Column="3" HorizontalAlignment="Center" Height="46" VerticalAlignment="Center" Width="154" LabelText="Deity" ItemTextBoxText="Flying Spaghetti Monster" LabelOnTop="True"/>
+                <Components:LabeledDropDown x:Name="SizeBox" Grid.Column="4" HorizontalAlignment="Center" Height="46" VerticalAlignment="Center" Width="154" LabelText="Size" LabelOnTop="True"/>
+                <Components:LabeledDropDown x:Name="BodyTypeBox" Grid.Column="5" HorizontalAlignment="Center" Height="46" VerticalAlignment="Center" Width="154" LabelOnTop="True" LabelText="Body Type"/>
+                <Components:LabeledDropDown x:Name="AlignmentBox" Grid.Column="6" HorizontalAlignment="Center" Height="44" VerticalAlignment="Center" Width="153" LabelText="Alignment" LabelOnTop="True"/>
+                <Components:LabeledTextBox x:Name="PersonalityBox" HorizontalAlignment="Center" Height="46" VerticalAlignment="Center" Width="154" LabelText="Personality" ItemTextBoxText="Bland" LabelOnTop="True" Grid.Column="1"/>
+            </Grid>
+        </Border>
+        <Grid x:Name="CharacterDesc2" Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Components:LabeledNumericBox x:Name="AgeBox" HorizontalAlignment="Center" Height="46" VerticalAlignment="Center" Width="101" LabelText="Age" LabelOnTop="True"/>
+            <Components:LabeledNumericBox x:Name="HeightBox" Grid.Column="1" HorizontalAlignment="Center" Height="46" VerticalAlignment="Center" Width="100" LabelText="Height" LabelOnTop="True"/>
+            <Components:LabeledNumericBox x:Name="WeightBox" Grid.Column="2" HorizontalAlignment="Center" Height="46" VerticalAlignment="Center" Width="100" LabelOnTop="True" LabelText="Weight"/>
+            <Components:LabeledTextBox x:Name="EyeColorBox" Grid.Column="3" HorizontalAlignment="Center" Height="46" VerticalAlignment="Center" Width="200" LabelText="Eye Color" LabelOnTop="True"/>
+            <Components:LabeledTextBox x:Name="HairColorBox" Grid.Column="4" HorizontalAlignment="Center" Height="46" VerticalAlignment="Center" Width="200" LabelText="Hair Color" LabelOnTop="True"/>
+            <Components:LabeledTextBox x:Name="SkinColorBox" Grid.Column="5" HorizontalAlignment="Center" Height="46" VerticalAlignment="Center" Width="200" LabelText="Skin Color" LabelOnTop="True"/>
+            <Button x:Name="NotesButton" Content="View Notes" Grid.Column="6" HorizontalAlignment="Left" VerticalAlignment="Center" Height="26" Width="85" Margin="5,0,0,0"/>
+        </Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <TextBox x:Name="NameTextBox" HorizontalAlignment="Center" Text="No'one" TextWrapping="Wrap" VerticalAlignment="Center" Width="250" Height="46" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="Transparent" BorderBrush="#00ABADB3"/>
+            <Components:LabeledTextBox x:Name="GenderBox" Grid.Column="1" HorizontalAlignment="Center" Height="46" VerticalAlignment="Center" Width="250" LabelText="Gender" ItemTextBoxText="Thing" LabelOnTop="True"/>
+            <Grid x:Name="IntroBioGrid" Grid.Column="3">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Button x:Name="IntroButton" Content="View Intro" HorizontalAlignment="Center" VerticalAlignment="Center" Width="230"/>
+                <Button x:Name="BioButton" Content="View Biography" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="230" Grid.Row="1" Margin="0,0,0,2"/>
+            </Grid>
+            <Components:LabeledTextBox x:Name="FullNameBox" HorizontalAlignment="Center" Height="46" VerticalAlignment="Center" Width="250" LabelText="Full Name" ItemTextBoxText="No'one Impohrtahnt" LabelOnTop="True" Grid.Column="2"/>
+        </Grid>
+    </Grid>
+</Components:CharacterUserControl>

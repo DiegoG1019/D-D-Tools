@@ -1,0 +1,86 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>DiegoG.DnDTools.Base</RootNamespace>
+    <Authors>Diego Garcia</Authors>
+    <Company>Diego Garcia</Company>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="Cache.cs" />
+    <Compile Include="GameDataCache\Abilities.cs" />
+    <Compile Include="GameDataCache\Feats.cs" />
+    <Compile Include="GameDataCache\Items\Armor.cs" />
+    <Compile Include="GameDataCache\Items\Other.cs" />
+    <Compile Include="GameDataCache\Items\Weapons\Ammo.cs" />
+    <Compile Include="GameDataCache\Items\Weapons\MeleeWeapons.cs" />
+    <Compile Include="GameDataCache\Items\Weapons\RangedWeapons.cs" />
+    <Compile Include="GameDataCache\Jobs.cs" />
+    <Compile Include="CharacterList.cs" />
+    <Compile Include="Characters\Ability.cs" />
+    <Compile Include="Characters\ArmorClass.cs" />
+    <Compile Include="Characters\Character.cs" />
+    <Compile Include="Characters\Complements\CharacterSavingThrowProperty.cs" />
+    <Compile Include="Characters\Complements\CharacterStat.cs" />
+    <Compile Include="Characters\Complements\CharacterStatProperty.cs" />
+    <Compile Include="Characters\Complements\CharacterTrait.cs" />
+    <Compile Include="Characters\Complements\ICharacterProperty.cs" />
+    <Compile Include="Characters\Complements\Job.cs" />
+    <Compile Include="Characters\Complements\SavingThrowBase.cs" />
+    <Compile Include="Characters\Complements\SavingThrowStat.cs" />
+    <Compile Include="Characters\Complements\SecondaryCharacterStatProperty.cs" />
+    <Compile Include="Characters\Complements\Skill.cs" />
+    <Compile Include="Characters\Complements\Spell.cs" />
+    <Compile Include="Characters\Description.cs" />
+    <Compile Include="Characters\Experience.cs" />
+    <Compile Include="Characters\Health.cs" />
+    <Compile Include="Characters\JobList.cs" />
+    <Compile Include="Characters\SkillList.cs" />
+    <Compile Include="Characters\SpellBook.cs" />
+    <Compile Include="DnDManager.cs" />
+    <Compile Include="DnDSettings.cs" />
+    <Compile Include="Enumerations.cs" />
+    <Compile Include="Items\Armor.cs" />
+    <Compile Include="Items\Bottle.cs" />
+    <Compile Include="Items\Info\AttackDamage.cs" />
+    <Compile Include="Items\Info\AttackThrow.cs" />
+    <Compile Include="Items\Info\CriticalHit.cs" />
+    <Compile Include="Items\Info\Effect.cs" />
+    <Compile Include="Items\Inventory.cs" />
+    <Compile Include="Items\Item.cs" />
+    <Compile Include="Items\Key.cs" />
+    <Compile Include="Items\Liquid.cs" />
+    <Compile Include="Items\Weapons\Ammo.cs" />
+    <Compile Include="Items\Weapons\Melee.cs" />
+    <Compile Include="Items\Weapons\Ranged.cs" />
+    <Compile Include="Items\Weapons\Weapons.cs" />
+    <Compile Include="Lang.cs" />
+    <Compile Include="Other\Dice.cs" />
+    <Compile Include="Other\FlagsArray.cs" />
+    <Compile Include="Other\IFlagged.cs" />
+    <Compile Include="Other\IHistoried.cs" />
+    <Compile Include="Other\INoted.cs" />
+    <Compile Include="Other\NameDesc.cs" />
+    <Compile Include="Other\PriceTag.cs" />
+    <Compile Include="Other\Wallet.cs" />
+    <Compile Include="Scripting\CharacterPropertyScript.cs" />
+    <Compile Include="Scripting\CharacterScript.cs" />
+    <Compile Include="Scripting\InvalidScriptException.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="DnDT\Scripts\SpeedProperty.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CS-Script.Core" Version="1.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\DGUtilities\DiegoG.Utilities.Common\DiegoG.Utilities.Common.csproj" />
+  </ItemGroup>
+
+</Project>

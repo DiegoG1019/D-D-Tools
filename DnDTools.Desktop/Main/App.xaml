@@ -1,0 +1,9 @@
+﻿<Application x:Class="DiegoG.DnDTools.Desktop.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:DiegoG.DnDTools.Desktop"
+             StartupUri="..\GUI\MainWindow.xaml">
+    <Application.Resources>
+         
+    </Application.Resources>
+</Application>
