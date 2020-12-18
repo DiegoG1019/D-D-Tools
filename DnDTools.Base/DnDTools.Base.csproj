@@ -5,6 +5,7 @@
     <RootNamespace>DiegoG.DnDTools.Base</RootNamespace>
     <Authors>Diego Garcia</Authors>
     <Company>Diego Garcia</Company>
+    <AnalysisLevel>latest</AnalysisLevel>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,7 +13,14 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
-
+	
+  <ItemGroup>
+    <SupportedPlatform Include="Windows" />
+    <SupportedPlatform Include="Linux" />
+    <SupportedPlatform Include="Android" />
+    <SupportedPlatform Include="MacOS" />
+  </ItemGroup>
+		
   <ItemGroup>
     <PackageReference Include="CS-Script.Core" Version="1.4.0" />
   </ItemGroup>

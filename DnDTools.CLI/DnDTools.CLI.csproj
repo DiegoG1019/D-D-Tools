@@ -7,4 +7,14 @@
     <StartupObject>DnDTools.CLI.Program</StartupObject>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Serilog.Sinks.File" Version="4.1.0" />
+  </ItemGroup>
+
+	<ItemGroup>
+		<SupportedPlatform Include="Windows" />
+		<SupportedPlatform Include="Linux" />
+		<SupportedPlatform Include="MacOS" />
+	</ItemGroup>
+
 </Project>

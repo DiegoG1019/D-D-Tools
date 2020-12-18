@@ -7,15 +7,31 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Serilog;
+using DiegoG.Utilities.Settings;
 
 namespace DiegoG.DnDTools.Base
 {
     public static class DnDManager
     {
+        public static void Initialize<Settings>() where Settings : DnDAppSettingsBase, new()
+        {
+            Log.Information($"Running " + DnDBase.FullAppTitle);
+            Log.Information("Directories:");
+            foreach (var p in Directories.AllDirectories)
+                Log.Information($"{p.Directory} Directory: {Path.GetFullPath(p.Path)}");
+
+            Log.Information("Initializing Game Settings");
+            Settings<DnDSettings>.Initialize(Directories.Settings, Settings<Settings>.Current.GameSettingsProfile);
+
+            Log.Information("Initializing Language settings");
+            Settings<Lang>.Initialize(Directories.Languages, Settings<Settings>.Current.Lang);
+        }
         public static CharacterList Characters { get; } = new CharacterList();
     }
     public static class Directories
     {
+        private static bool isinit;
         public static string Temp { get; private set; } = Path.GetTempPath();
 
         public static string DataOut { get; private set; }
@@ -37,10 +53,11 @@ namespace DiegoG.DnDTools.Base
 #endif
 
         public static IEnumerable<(string Directory, string Path)> AllDirectories
-            => ReflectionCollectionMethods.GetAllMatchingTypeStaticPropertyNameValueTuple<string>(typeof(Directories));
+            => isinit ? ReflectionCollectionMethods.GetAllMatchingTypeStaticPropertyNameValueTuple<string>(typeof(Directories)) : throw new InvalidOperationException("Directories has not been initialized");
 
         public static void InitDataDirectories(string dataout)
         {
+            isinit = true;
             DataOut = dataout;
             if (DataOut is null)
                 DataOut = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), GlobalCache.FullAppName);
