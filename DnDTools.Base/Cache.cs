@@ -23,7 +23,7 @@ namespace DiegoG.DnDTools.Base.Cache
         public static string AppTitle => $"{GlobalCache.FullAppName}: {Implementation}";
         public static string FullAppTitle => $"{AppTitle} version: {Version.Full}";
 
-        public const string Implementation = "Command Line Interface";
+        public const string Implementation = "CLI";
         public static readonly Version Version = new Version("Alpha", 0, 0, 0, 0);
     }
     public static class GlobalCache

@@ -17,4 +17,10 @@
 		<SupportedPlatform Include="MacOS" />
 	</ItemGroup>
 
+	<ItemGroup>
+    <ProjectReference Include="..\..\DGUtilities\DiegoG.CLI\DiegoG.CLI.csproj" />
+    <ProjectReference Include="..\..\DGUtilities\DiegoG.Utilities.Common\DiegoG.Utilities.Common.csproj" />
+    <ProjectReference Include="..\DnDTools.Base\DnDTools.Base.csproj" />
+  </ItemGroup>
+
 </Project>
