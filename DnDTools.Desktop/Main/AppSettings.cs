@@ -1,4 +1,5 @@
-﻿using DiegoG.Utilities.Settings;
+﻿using DiegoG.DnDTools.Base;
+using DiegoG.Utilities.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,13 +8,9 @@ using System.Threading.Tasks;
 
 namespace DiegoG.DnDTools.Desktop
 {
-    public class AppSettings : ApplicationSettings
+    public class AppSettings : DnDAppSettingsBase
     {
-        public override ulong Version { get; } = 0;
-
-        public string DataDirectory { get; set; } = null;
+        public override ulong Version => 0 + base.Version;
         public string Theme { get; set; } = "default";
-        public string Lang { get; set; } = "eng";
-        public string GameSettingsProfile { get; set; } = "default";
     }
 }

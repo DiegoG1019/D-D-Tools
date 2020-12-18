@@ -9,6 +9,7 @@ using DiegoG.DnDTools.Base;
 using DiegoG.Utilities.Enumerations;
 using Version = DiegoG.Utilities.Version;
 using System.Windows;
+using DiegoG.DnDTools.Base.Cache;
 
 namespace DiegoG.DnDTools.Desktop
 {
@@ -58,12 +59,12 @@ namespace DiegoG.DnDTools.Desktop
 
             Log.Logger = loggerconfig
                 .WriteTo.Console()
-                .WriteTo.File(Path.Combine(Directories.Logging, $"{ShortAppName}-{Version.Full}.log"), rollingInterval: RollingInterval.Minute)
+                .WriteTo.File(Path.Combine(Directories.Logging, $"{DnDDesktop.Implementation}.log"), rollingInterval: RollingInterval.Minute)
                 .CreateLogger();
 
             Log.Debug("Succesfully started logger with a mimum level of {0}", MinimumLoggerLevel);
 
-            Log.Information("Running D&DTools version: {0}", Version.Full);
+            Log.Information($"Running {DnDDesktop.FullAppTitle}");
 
             Log.Information("Settings:");
             foreach (var p in Settings<AppSettings>.CurrentProperties)

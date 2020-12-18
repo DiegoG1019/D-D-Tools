@@ -19,8 +19,8 @@ namespace DiegoG.DnDTools.Desktop
         public static Version Version => DnDDesktop.Version;
         public static string Author => GlobalCache.Author;
         public static string AuthorSignature => GlobalCache.AuthorSignature;
-        public static string ShortAppName => GlobalCache.ShortAppName;
-        public static string FullAppName => GlobalCache.FullAppName;
+        public static string AppTitle => DnDDesktop.AppTitle;
+        public static string FullAppTitle => DnDDesktop.FullAppTitle;
         public static string CopyrightNotice => GlobalCache.CopyrightNotice;
 
         public static App GUI { get; private set; }
