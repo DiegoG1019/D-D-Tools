@@ -2,9 +2,13 @@
 
 namespace DiegoG.DnDTools.Base.Cache
 {
-    public static class DnDDesktopCache
+    public static class DnDDesktop
     {
         public static readonly Version Version = new Version("Alpha", 0, 0, 40, 0);
+    }
+    public static class DnDBase
+    {
+        public static readonly Version Version = new Version("Alpha", 0, 0, 0, 0);
     }
     public static class GlobalCache
     {

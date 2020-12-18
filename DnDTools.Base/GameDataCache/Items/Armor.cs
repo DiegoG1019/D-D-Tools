@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using DiegoG.DnDTools.Base.Other;
 using DiegoG.Utilities;
 using DiegoG.Utilities.Settings;
+using DiegoG.Utilities.Measures;
 using static DiegoG.DnDTools.Base.Enumerations;
 using DiegoG.Utilities.Collections;
 

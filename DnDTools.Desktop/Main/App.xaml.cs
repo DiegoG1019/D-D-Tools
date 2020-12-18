@@ -18,16 +18,16 @@ namespace DiegoG.DnDTools.Desktop
         {
             /*--------------------------------------Initialization-------------------------------------*/
 
-            DnDManager.Directories.InitApplicationDirectories();
+            Directories.InitApplicationDirectories();
 
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Information()
                 .WriteTo.Console()
-                .WriteTo.File(Path.Combine(DnDManager.Directories.Logging, String.Format("pre-startup log - {0} - .log", Version.Full)), rollingInterval: RollingInterval.Hour)
+                .WriteTo.File(Path.Combine(Directories.Logging, String.Format("pre-startup log - {0} - .log", Version.Full)), rollingInterval: RollingInterval.Hour)
                 .CreateLogger();
 
             Serialization.Init();
-            Settings<AppSettings>.Initialize(DnDManager.Directories.Settings, "Settings");
+            Settings<AppSettings>.Initialize(Directories.Settings, "Settings");
 
             if (Settings<AppSettings>.Current.Console)
             {
@@ -58,7 +58,7 @@ namespace DiegoG.DnDTools.Desktop
 
             Log.Logger = loggerconfig
                 .WriteTo.Console()
-                .WriteTo.File(Path.Combine(DnDManager.Directories.Logging, $"{ShortAppName}-{Version.Full}.log"), rollingInterval: RollingInterval.Minute)
+                .WriteTo.File(Path.Combine(Directories.Logging, $"{ShortAppName}-{Version.Full}.log"), rollingInterval: RollingInterval.Minute)
                 .CreateLogger();
 
             Log.Debug("Succesfully started logger with a mimum level of {0}", MinimumLoggerLevel);
@@ -70,20 +70,20 @@ namespace DiegoG.DnDTools.Desktop
                 Log.Debug($"Setting \"{p.ObjectA}\" = {p.ObjectB}");
 
             Log.Information("Initializing Data directories");
-            DnDManager.Directories.InitDataDirectories(Settings<AppSettings>.Current.DataDirectory);
+            Directories.InitDataDirectories(Settings<AppSettings>.Current.DataDirectory);
 
             Log.Information("Directories:");
-            foreach (var p in DnDManager.Directories.AllDirectories)
+            foreach (var p in Directories.AllDirectories)
                 Log.Information($"{p.Directory} Directory: {Path.GetFullPath(p.Path)}");
 
             Log.Information("Initializing Game Settings");
-            Settings<DnDSettings>.Initialize(DnDManager.Directories.Settings, Settings<AppSettings>.Current.GameSettingsProfile);
+            Settings<DnDSettings>.Initialize(Directories.Settings, Settings<AppSettings>.Current.GameSettingsProfile);
 
             Log.Information("Initializing Language settings");
-            Settings<Lang>.Initialize(DnDManager.Directories.Languages, Settings<AppSettings>.Current.Lang);
+            Settings<Lang>.Initialize(Directories.Languages, Settings<AppSettings>.Current.Lang);
 
             Log.Information("Initializing Theme settings");
-            Settings<Theme>.Initialize(DnDManager.Directories.Themes, Settings<AppSettings>.Current.Theme);
+            Settings<Theme>.Initialize(Directories.Themes, Settings<AppSettings>.Current.Theme);
 
             Log.Information("Finished the Initialization of the Application");
         }

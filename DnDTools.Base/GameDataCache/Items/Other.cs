@@ -12,6 +12,7 @@ using DiegoG.DnDTools.Base.Items.Weapons;
 using DiegoG.DnDTools.Base.Items.Info;
 using DiegoG.DnDTools.Base.Cache.Items.Weapons;
 using DiegoG.Utilities.Collections;
+using DiegoG.Utilities.Measures;
 
 namespace DiegoG.DnDTools.Base.Cache.Items
 {

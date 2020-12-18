@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiegoG.CLI", "..\DGUtilitie
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DnDTools.Desktop", "DnDTools.Desktop\DnDTools.Desktop.csproj", "{7112D692-B1CB-4E34-AE04-3C87A3856DFA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DnDTools.CLI", "DnDTools.CLI\DnDTools.CLI.csproj", "{618D7D48-2E17-435E-B441-A33589BB3408}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		..\DGUtilities\WPF\WPF.projitems*{7112d692-b1cb-4e34-ae04-3c87a3856dfa}*SharedItemsImports = 5
@@ -57,6 +59,14 @@ Global
 		{7112D692-B1CB-4E34-AE04-3C87A3856DFA}.GUIDesign|Any CPU.Build.0 = GUIDesign|Any CPU
 		{7112D692-B1CB-4E34-AE04-3C87A3856DFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7112D692-B1CB-4E34-AE04-3C87A3856DFA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{618D7D48-2E17-435E-B441-A33589BB3408}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{618D7D48-2E17-435E-B441-A33589BB3408}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{618D7D48-2E17-435E-B441-A33589BB3408}.Design|Any CPU.ActiveCfg = Debug|Any CPU
+		{618D7D48-2E17-435E-B441-A33589BB3408}.Design|Any CPU.Build.0 = Debug|Any CPU
+		{618D7D48-2E17-435E-B441-A33589BB3408}.GUIDesign|Any CPU.ActiveCfg = Debug|Any CPU
+		{618D7D48-2E17-435E-B441-A33589BB3408}.GUIDesign|Any CPU.Build.0 = Debug|Any CPU
+		{618D7D48-2E17-435E-B441-A33589BB3408}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{618D7D48-2E17-435E-B441-A33589BB3408}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

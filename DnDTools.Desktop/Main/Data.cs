@@ -16,7 +16,7 @@ namespace DiegoG.DnDTools.Desktop
         [return: MarshalAs(UnmanagedType.Bool)]
         static extern bool AllocConsole();
 
-        public static Version Version => DnDDesktopCache.Version;
+        public static Version Version => DnDDesktop.Version;
         public static string Author => GlobalCache.Author;
         public static string AuthorSignature => GlobalCache.AuthorSignature;
         public static string ShortAppName => GlobalCache.ShortAppName;

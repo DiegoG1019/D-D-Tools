@@ -6,6 +6,7 @@ using DiegoG.Utilities;
 using DiegoG.Utilities.Settings;
 using DiegoG.DnDTools.Base.Characters;
 using DiegoG.Utilities.Collections;
+using DiegoG.Utilities.Measures;
 
 namespace DiegoG.DnDTools.Base.Cache
 {

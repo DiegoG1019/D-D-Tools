@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using DiegoG.DnDTools.Base.Items.Info;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
+using DiegoG.Utilities.Measures;
 using static DiegoG.DnDTools.Base.Enumerations;
 
 namespace DiegoG.DnDTools.Base.Items

@@ -1,19 +1,20 @@
-﻿using DiegoG.DnDNetCore.Items.Info;
-using DiegoG.DnDNetCore.Other;
+﻿using DiegoG.DnDTools.Base.Items.Info;
+using DiegoG.DnDTools.Base.Other;
 using DiegoG.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 using System.Xml.Serialization;
-using static DiegoG.DnDNetCore.Enumerations;
+using DiegoG.Utilities.Measures;
+using static DiegoG.DnDTools.Base.Enumerations;
 
-namespace DiegoG.DnDNetCore.Items
+namespace DiegoG.DnDTools.Base.Items
 {
     [Serializable]
     public class Potion : Item
     {
-        public class Liquid : IDescribableItem
+        public class Liquid
         {
             public string Name { get; set; }
             public string Description { get; set; }

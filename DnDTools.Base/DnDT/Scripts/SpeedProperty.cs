@@ -1,6 +1,6 @@
 ﻿using DiegoG.DnDTools.Base.Characters;
 using DiegoG.DnDTools.Base;
-using DiegoG.DnDTools.Base.Properties;
+using DiegoG.Utilities.Settings;
 using DiegoG.DnDTools.Base.Characters.Complements;
 using static DiegoG.DnDTools.Base.Enumerations;
 
@@ -14,6 +14,6 @@ public class SpeedProperty
     }
     public int GetOtherValue(Character chara, SecondaryCharacterStatProperty stat)
     {
-        return GetDependentValue(chara, stat) / Settings.Default.SquareSize;
+        return GetDependentValue(chara, stat) / Settings<DnDSettings>.Current.SquareSize;
     }
 }

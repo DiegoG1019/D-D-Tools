@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using DiegoG.Utilities.Measures;
 
 namespace DiegoG.DnDTools.Base.Other
 {

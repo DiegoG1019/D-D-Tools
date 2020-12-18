@@ -5,6 +5,7 @@ using DiegoG.DnDTools.Base.Items.Info;
 using static DiegoG.DnDTools.Base.Enumerations;
 using DiegoG.Utilities.Settings;
 using System.Collections.Generic;
+using DiegoG.Utilities.Measures;
 using DiegoG.Utilities.Collections;
 
 namespace DiegoG.DnDTools.Base.Cache.Items.Weapons

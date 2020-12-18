@@ -1,6 +1,7 @@
 ﻿using DiegoG.DnDTools.Base.Items.Info;
 using DiegoG.DnDTools.Base.Other;
 using DiegoG.Utilities;
+using DiegoG.Utilities.Measures;
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;

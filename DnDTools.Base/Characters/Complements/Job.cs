@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 namespace DiegoG.DnDTools.Base.Characters.Complements
 {
     [Serializable]
-    public sealed class Job : INoted
+    public sealed class Job : CharacterTrait<Job>, INoted
     {
         public string Name { get; set; }
         public int Level { get; set; }

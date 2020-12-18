@@ -1,4 +1,4 @@
-﻿using DiegoG.Utilities;
+﻿using DiegoG.Utilities.Measures;
 using DiegoG.Utilities.Settings;
 
 namespace DiegoG.DnDTools.Base

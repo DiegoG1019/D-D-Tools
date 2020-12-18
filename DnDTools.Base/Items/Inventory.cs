@@ -2,6 +2,7 @@
 using DiegoG.DnDTools.Base.Other;
 using DiegoG.Utilities;
 using DiegoG.Utilities.Collections;
+using DiegoG.Utilities.Measures;
 using Serilog;
 using System;
 using System.Collections;
