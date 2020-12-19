@@ -1,19 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Collections.ObjectModel;
 using System.Text;
 using static DiegoG.DnDTools.Base.Enumerations;
 
 namespace DiegoG.DnDTools.Base.Items.Info
 {
-    public class Effect
+    public record Effect
     {
-        public string Description { get; set; }
-        public TimeSpan Duration { get; set; }
-        public int[] Bonus { get; set; } = new int[StatCount];
-        public int this[Stats index]
+        public string Description { get; init; }
+        public TimeSpan Duration { get; init; }
+        public ReadOnlyCollection<int> Bonus { get; private set; }
+        public int[] BonusSet
         {
-            get => Bonus[(int)index];
-            set => Bonus[(int)index] = value;
+            init => Bonus = new(value);
         }
+        public int this[Stats index] => Bonus[(int)index];
     }
 }

@@ -4,14 +4,21 @@ using static DiegoG.DnDTools.Base.Enumerations;
 
 namespace DiegoG.DnDTools.Base.Items.Info
 {
-    public class AttackDamage
+    public record AttackDamage
     {
         private readonly Dice[] die;
-        public Dice this[Sizes ind]
-        {
-            get => die[(int)ind];
-            set => die[(int)ind] = value;
-        }
+        public Dice this[Sizes ind] => die[(int)ind];
+
+        public Dice Fine       => this[Sizes.Fine];
+        public Dice Diminutive => this[Sizes.Diminutive];
+        public Dice Tiny       => this[Sizes.Tiny];
+        public Dice Small      => this[Sizes.Small];
+        public Dice Medium     => this[Sizes.Medium];
+        public Dice Large      => this[Sizes.Large];
+        public Dice Huge       => this[Sizes.Huge];
+        public Dice Gargantuan => this[Sizes.Gargantuan];
+        public Dice Colossal   => this[Sizes.Colossal];
+
         public AttackDamage()
         {
             die = new Dice[SizeCount];

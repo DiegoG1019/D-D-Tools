@@ -9,21 +9,26 @@ using static DiegoG.DnDTools.Base.Enumerations;
 namespace DiegoG.DnDTools.Base.Characters
 {
     [Serializable]
-    public sealed class ArmorClass : CharacterTrait<ArmorClass>, IFlagged<ArmorClass.FlagList>
+    public sealed class ArmorClass : CharacterTrait<ArmorClass>
     {
-        public enum FlagList
-        {
-            FeatDex
-        }
-
-        public int BaseAC { get; set; } = 0;
-        public int Size { get; set; } = 0;
-        public int Natural { get; set; } = 0;
-        public int Deflection { get; set; } = 0;
-        public int Bonus { get; set; } = 0;
+        public int BaseAC { get => BaseACField; set { BaseACField = value; NotifyPropertyChanged(); } }
+        private int BaseACField;
+        public int Size { get => SizeField; set { SizeField = value; NotifyPropertyChanged(); } }
+        private int SizeField;
+        public int Natural { get => NaturalField; set { NaturalField = value; NotifyPropertyChanged(); } }
+        private int NaturalField;
+        public int Deflection { get => DeflectionField; set { DeflectionField = value; NotifyPropertyChanged(); } }
+        private int DeflectionField;
+        /// <summary>
+        /// Whether or not to use Dexterity when calculating UnawareAC
+        /// </summary>
+        public bool UnawareDex { get => UnawareDexField; set { UnawareDexField = value; NotifyPropertyChanged(); } }
+        private bool UnawareDexField;
+        public int Bonus { get => BonusField; set { BonusField = value; NotifyPropertyChanged(); } }
+        private int BonusField;
         [IgnoreDataMember, JsonIgnore, XmlIgnore]
-        public int Effect { get; set; } = 0;
-        public FlagsArray<FlagList> Flags { get; set; } = new FlagsArray<FlagList>();
+        public int Effect { get => EffectField; set { EffectField = value; NotifyPropertyChanged(); } }
+        private int EffectField;
         [IgnoreDataMember, JsonIgnore, XmlIgnore]
         public int Armor => Parent.Equipped.ArmorAC;
 
@@ -34,7 +39,7 @@ namespace DiegoG.DnDTools.Base.Characters
         public int TouchAC => BaseAC + Size + Effect + Deflection + Parent.Stats[Stats.Dexterity].Modifier;
 
         [JsonIgnore, IgnoreDataMember, XmlIgnore]
-        public int UnawareAC => BaseAC + Armor + Size + Natural + Effect + (Flags[FlagList.FeatDex] ? Parent.Stats[Stats.Dexterity].Modifier : 0);
+        public int UnawareAC => BaseAC + Armor + Size + Natural + Effect + (UnawareDex ? Parent.Stats[Stats.Dexterity].Modifier : 0);
 
     }
 }

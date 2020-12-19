@@ -5,12 +5,17 @@ namespace DiegoG.DnDTools.Base.Items
 {
     public class Armor : Item
     {
-        public int Protection { get; set; } = 0;
-        public ushort MaximumDeterity { get; set; } = 0;
-        public int Penalty { get; set; } = 0;
-        public Percentage SpellFailure { get; set; } = new Percentage(0);
-        public int SpeedPenalty { get; set; } = 0;
-        public Armor() { }
+        public int Protection { get => ProtectionField; set { ProtectionField = value; NotifyPropertyChanged(); } }
+        private int ProtectionField;
+        public ushort MaximumDeterity { get => MaximumDeterityField; set { MaximumDeterityField = value; NotifyPropertyChanged(); } }
+        private ushort MaximumDeterityField;
+        public int Penalty { get => PenaltyField; set { PenaltyField = value; NotifyPropertyChanged(); } }
+        private int PenaltyField;
+        public Percentage SpellFailure { get => SpellFailureField; set { SpellFailureField = value; NotifyPropertyChanged(); } }
+        private Percentage SpellFailureField = new Percentage(0);
+        public int SpeedPenalty { get => SpeedPenaltyField; set { SpeedPenaltyField = value; NotifyPropertyChanged(); } }
+        private int SpeedPenaltyField;
+        public Armor() : base() { }
         public Armor(NameDesc nameDesc) : base(nameDesc) { }
     }
 }

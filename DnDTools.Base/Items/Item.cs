@@ -5,12 +5,14 @@ using DiegoG.Utilities.Measures;
 using System;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Xml.Serialization;
 using static DiegoG.DnDTools.Base.Enumerations;
 
 namespace DiegoG.DnDTools.Base.Items
 {
-    public interface IItem
+    public interface IItem : INotifyPropertyChanged
     {
         public string Name { get; set; }
         public string Description { get; set; }
@@ -18,20 +20,31 @@ namespace DiegoG.DnDTools.Base.Items
         public NoteList Notes { get; set; }
     }
     [Serializable]
-    public class Item : IItem, INoted, IFlagged<Item.FlagList>
+    public class Item : IItem, INoted, INotifyPropertyChanged
     {
         private int quant = 0;
         private int qc = 0;
-        
-        public enum FlagList { QuantityCap }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public PriceTag Value { get; set; } = default;
-        public NoteList Notes { get; set; } = new NoteList();
-        public Length ThrownRangeIncrement { get; set; } = new Length(1, Length.Units.Meter);
-        public ItemEncumbrance Encumbrance { get; set; } = ItemEncumbrance.Light;
-        public FlagsArray<FlagList> Flags { get; set; } = new FlagsArray<FlagList>();
-        public virtual Mass Weight { get; set; } = new Mass(0, Mass.Units.Kilogram);
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
+        public bool EnableQuantityCap { get => EnableQuantityCapField; set { EnableQuantityCapField = value; NotifyPropertyChanged(); } }
+        private bool EnableQuantityCapField;
+        public string Name { get => NameField; set { NameField = value; NotifyPropertyChanged(); } }
+        private string NameField;
+        public string Description { get => DescriptionField; set { DescriptionField = value; NotifyPropertyChanged(); } }
+        private string DescriptionField;
+        public PriceTag Value { get => ValueField; set { ValueField = value; NotifyPropertyChanged(); } }
+        private PriceTag ValueField = default;
+        public NoteList Notes { get => NotesField; set { NotesField = value; NotifyPropertyChanged(); } }
+        private NoteList NotesField = new NoteList();
+        public Length ThrownRangeIncrement { get => ThrownRangeIncrementField; set { ThrownRangeIncrementField = value; NotifyPropertyChanged(); } }
+        private Length ThrownRangeIncrementField = new Length(1, Length.Units.Meter);
+        public ItemEncumbrance Encumbrance { get => EncumbranceField; set { EncumbranceField = value; NotifyPropertyChanged(); } }
+        private ItemEncumbrance EncumbranceField = ItemEncumbrance.Light;
+        public virtual Mass Weight { get => WeightField; set { WeightField = value; NotifyPropertyChanged(); } }
+        private Mass WeightField = new Mass(0, Mass.Units.Kilogram);
         public int QuantityCap
         {
             get => qc;
@@ -39,7 +52,7 @@ namespace DiegoG.DnDTools.Base.Items
             {
                 if (value == 0)
                 {
-                    Flags[FlagList.QuantityCap] = false;
+                    EnableQuantityCap = false;
                     qc = 0;
                     return;
                 }
@@ -51,9 +64,10 @@ namespace DiegoG.DnDTools.Base.Items
             get => quant;
             set
             {
-                if (Flags[FlagList.QuantityCap] && value >= QuantityCap)
+                if (EnableQuantityCap && value >= QuantityCap)
                     throw new InvalidOperationException($"Attempted to stack items beyond the cap. Item: {Name}, Value: {value}, Cap: {QuantityCap}");
                 quant = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -61,20 +75,20 @@ namespace DiegoG.DnDTools.Base.Items
         public Mass StackWeight => new Mass(Weight.Kilogram * Quantity, Mass.Units.Kilogram);
         public virtual void LockQuantity()
         {
-            Flags[FlagList.QuantityCap] = true;
+            EnableQuantityCap = true;
             QuantityCap = 1;
             Quantity = Quantity;
         }
         public virtual void LockQuantity(int q)
         {
-            Flags[FlagList.QuantityCap] = true;
+            EnableQuantityCap = true;
             QuantityCap = q;
             Quantity = Quantity;
         }
 
         public virtual void UnlockQuantity()
         {
-            Flags[FlagList.QuantityCap] = false;
+            EnableQuantityCap = false;
             QuantityCap = 0;
         }
 

@@ -4,17 +4,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using static DiegoG.DnDTools.Base.Enumerations;
 
 namespace DiegoG.DnDTools.Base.Characters.Complements
 {
-    public class SavingThrowBase
+    public class SavingThrowBase : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
         private readonly List<int> list = new List<int>();
         public int this[SavingThrow index]
         {
             get => list[(int)index];
-            set => list[(int)index] = value;
+            set { list[(int)index] = value; NotifyPropertyChanged(); }
         }
         public SavingThrowBase()
         {

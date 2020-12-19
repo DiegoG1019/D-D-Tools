@@ -10,11 +10,13 @@ using static DiegoG.DnDTools.Base.Cache.GlobalCache;
 using DiegoG.DnDTools.Base.Other;
 using System.Text.Json.Serialization;
 using System.Xml.Serialization;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace DiegoG.DnDTools.Base.Characters
 {
     [Serializable]
-    public class Character
+    public class Character : INotifyPropertyChanged
     {
         /// <summary>
         /// Represents the Character Version that the program expects
@@ -24,8 +26,7 @@ namespace DiegoG.DnDTools.Base.Characters
         /// C - Small changes in names and other minor things
         /// D - Small changes in character construction
         /// </summary>
-#warning Remember to update this
-        public static Version Working_Version { get; } = new Version($"{AuthorSignature}{ShortAppName}", 1, 0, 0, 0);
+        public static Version Working_Version { get; } = new Version($"{ShortAppName} Character", 1, 0, 0, 0);
         /// <summary>
         /// Represents the character's version, as defined by the program 
         /// </summary>
@@ -45,47 +46,66 @@ namespace DiegoG.DnDTools.Base.Characters
                 _CFN = value;
             }
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
         [JsonPropertyName("Character Stats"), XmlElement(ElementName = "Character Stats", IsNullable = false)]
-        public CharacterStat<Stats, CharacterStatProperty> Stats { get; set; }
+        public CharacterStat<Stats, CharacterStatProperty> Stats { get => StatsField; set { StatsField = value; NotifyPropertyChanged(); } }
+        private CharacterStat<Stats, CharacterStatProperty> StatsField;
 
         [JsonPropertyName("Character Saving Throws"), XmlElement(ElementName = "Character Saving Throws", IsNullable = false)]
-        public CharacterStat<SavingThrow, CharacterSavingThrowProperty> SavingThrows { get; set; }
+        public CharacterStat<SavingThrow, CharacterSavingThrowProperty> SavingThrows { get => SavingThrowsField; set { SavingThrowsField = value; NotifyPropertyChanged(); } }
+        private CharacterStat<SavingThrow, CharacterSavingThrowProperty> SavingThrowsField;
 
         [JsonPropertyName("Other Character Stats"), XmlElement(ElementName = "Other Character Stats", IsNullable = false)]
-        public SecondaryCharacterStats SecondaryStats { get; set; }
+        public SecondaryCharacterStats SecondaryStats { get => SecondaryStatsField; set { SecondaryStatsField = value; NotifyPropertyChanged(); } }
+        private SecondaryCharacterStats SecondaryStatsField;
 
         [JsonPropertyName("Character Experience"), XmlElement(ElementName = "Character Experience", IsNullable = false)]
-        public Experience Experience { get; set; }
+        public Experience Experience { get => ExperienceField; set { ExperienceField = value; NotifyPropertyChanged(); } }
+        private Experience ExperienceField;
 
         [JsonPropertyName("Character Armor Class"), XmlElement(ElementName = "Character Armor Class", IsNullable = false)]
-        public ArmorClass ArmorClass { get; set; }
+        public ArmorClass ArmorClass { get => ArmorClassField; set { ArmorClassField = value; NotifyPropertyChanged(); } }
+        private ArmorClass ArmorClassField;
 
         [JsonPropertyName("Character Description"), XmlElement(ElementName = "Character Description", IsNullable = false)]
-        public Description Description { get; set; }
+        public Description Description { get => DescriptionField; set { DescriptionField = value; NotifyPropertyChanged(); } }
+        private Description DescriptionField;
 
         [JsonPropertyName("Character Health"), XmlElement(ElementName = "Character Health", IsNullable = false)]
-        public Health Health { get; set; }
+        public Health Health { get => HealthField; set { HealthField = value; NotifyPropertyChanged(); } }
+        private Health HealthField;
 
         [JsonPropertyName("Character Classes"), XmlElement(ElementName = "Character Classes", IsNullable = false)]
-        public JobList Jobs { get; set; }
+        public JobList Jobs { get => JobsField; set { JobsField = value; NotifyPropertyChanged(); } }
+        private JobList JobsField;
 
         [JsonPropertyName("Character Abilities"), XmlElement(ElementName = "Character Abilities", IsNullable = false)]
-        public List<Ability> Abilities { get; set; } = new List<Ability>();
+        public List<Ability> Abilities { get => AbilitiesField; set { AbilitiesField = value; NotifyPropertyChanged(); } }
+        private List<Ability> AbilitiesField;
 
         [JsonPropertyName("Character Feats"), XmlElement(ElementName = "Character Feats", IsNullable = false)]
-        public List<Ability> Feats { get; set; } = new List<Ability>();
+        public List<Ability> Feats { get => FeatsField; set { FeatsField = value; NotifyPropertyChanged(); } }
+        private List<Ability> FeatsField;
 
         [JsonPropertyName("Character Skills"), XmlElement(ElementName = "Character Skills", IsNullable = false)]
-        public SkillList Skills { get; set; } = new SkillList();
+        public SkillList Skills { get => SkillsField; set { SkillsField = value; NotifyPropertyChanged(); } }
+        private SkillList SkillsField;
 
         [JsonPropertyName("Character Bags"), XmlElement(ElementName = "Character Bags", IsNullable = false)]
-        public List<Inventory> Bags { get; set; } = new List<Inventory>();
+        public List<Inventory> Bags { get => BagsField; set { BagsField = value; NotifyPropertyChanged(); } }
+        private List<Inventory> BagsField;
 
         [JsonPropertyName("Character Equipped Items"), XmlElement(ElementName = "Character Equipped Items", IsNullable = false)]
-        public Inventory Equipped { get; set; } = new Inventory();
-
+        public Inventory Equipped { get => EquippedField; set { EquippedField = value; NotifyPropertyChanged(); } }
+        private Inventory EquippedField;
+        
         [JsonPropertyName("Character Initiative"), XmlElement(ElementName = "Character Initiative", IsNullable = false)]
-        public CharacterSavingThrowProperty Initiative { get; set; } = new CharacterSavingThrowProperty() { BaseStat = Enumerations.Stats.Dexterity };
+        public CharacterSavingThrowProperty Initiative { get => InitiativeField; set { InitiativeField = value; NotifyPropertyChanged(); } }
+        private CharacterSavingThrowProperty InitiativeField = new CharacterSavingThrowProperty() { BaseStat = Enumerations.Stats.Dexterity };
 
         /// <summary>
         /// Don't use this one, this is for serialization, and WILL result in bugs if not initialized properly. (The serializer is supposed to take care of that)

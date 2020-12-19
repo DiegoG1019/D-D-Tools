@@ -2,6 +2,8 @@
 using DiegoG.DnDTools.Base.Other;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 using System.Xml.Serialization;
@@ -37,16 +39,27 @@ namespace DiegoG.DnDTools.Base.Characters
             };
         }
 
-        public string Name { get; set; }
-        public string Requirements { get; set; } = "None.";
-        public string Description { get; set; }
+        public string Name { get => NameField; set { NameField = value; NotifyPropertyChanged(); } }
+        private string NameField;
+        public string Requirements { get => RequirementsField; set { RequirementsField = value; NotifyPropertyChanged(); } }
+        private string RequirementsField;
+        public string Description { get => DescriptionField; set { DescriptionField = value; NotifyPropertyChanged(); } }
+        private string DescriptionField;
         /// <summary>
         /// Not always applicable
         /// </summary>
-        public int Level { get; set; } = 0;
-        public NoteList Notes { get; set; } = new NoteList();
-        public int[] Buffs { get; set; } = new int[Enumerations.StatCount];
-        public List<AbilityTag> Tags { get; set; } = new List<AbilityTag>();
+        public int Level { get => LevelField; set { LevelField = value; NotifyPropertyChanged(); } }
+        private int LevelField;
+        public NoteList Notes { get => NotesField; set { NotesField = value; NotifyPropertyChanged(); } }
+        private NoteList NotesField = new NoteList();
+        public int[] Buffs { get => BuffsField; set { BuffsField = value; NotifyPropertyChanged(); } }
+        private int[] BuffsField = new int[Enumerations.StatCount];
+        public ObservableCollection<AbilityTag> Tags { get => TagsField; set { TagsField.CollectionChanged -= TagsFieldChanged; TagsField = value; TagsField.CollectionChanged += TagsFieldChanged; NotifyPropertyChanged(); } }
+
+        private void TagsFieldChanged(object sender, NotifyCollectionChangedEventArgs e)
+            => NotifyPropertyChanged(nameof(Tags));
+
+        private ObservableCollection<AbilityTag> TagsField = new ObservableCollection<AbilityTag>();
 
         [JsonIgnore, IgnoreDataMember, XmlIgnore]
         public string FullName

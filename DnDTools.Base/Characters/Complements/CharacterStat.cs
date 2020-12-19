@@ -10,13 +10,14 @@ namespace DiegoG.DnDTools.Base.Characters.Complements
     [Serializable]
     public class CharacterStat<TStat, TProperty> : CharacterTrait<CharacterStat<TStat, TProperty>> where TStat : Enum where TProperty : CharacterTrait<TProperty>, ICharacterProperty, new()
     {
-        public Dictionary<TStat, TProperty> Stats { get; set; } = new Dictionary<TStat, TProperty>();
+        public Dictionary<TStat, TProperty> Stats { get => StatsField; set { StatsField = value; NotifyPropertyChanged(); } }
+        private Dictionary<TStat, TProperty> StatsField = new Dictionary<TStat, TProperty>();
 
         [IgnoreDataMember, JsonIgnore, XmlIgnore]
         public TProperty this[TStat ind]
         {
             get => Stats[ind];
-            set => Stats[ind] = value;
+            set { Stats[ind] = value; NotifyPropertyChanged(); }
         }
         public CharacterStat() { }
         public CharacterStat(string parentName)
@@ -31,7 +32,6 @@ namespace DiegoG.DnDTools.Base.Characters.Complements
     public class SecondaryCharacterStats : CharacterTrait<SecondaryCharacterStats>
     {
         public Dictionary<string, SecondaryCharacterStatProperty> Stats { get; set; } = new Dictionary<string, SecondaryCharacterStatProperty>();
-        public event Action DictionaryChanged;
         /// <summary>
         /// Case Insensitive
         /// </summary>
@@ -44,12 +44,9 @@ namespace DiegoG.DnDTools.Base.Characters.Complements
             set
             {
                 Stats[ind.ToLower()] = value;
-                DictionaryChanged();
+                NotifyPropertyChanged();
             }
         }
-
-        public SecondaryCharacterStats() => DictionaryChanged += SecondaryCharacterStat_DictionaryChanged;
-        private void SecondaryCharacterStat_DictionaryChanged() { }
         /// <summary>
         /// Case Insensitive
         /// </summary>
@@ -58,7 +55,7 @@ namespace DiegoG.DnDTools.Base.Characters.Complements
         public void Add(string key, SecondaryCharacterStatProperty value)
         {
             Stats.Add(key.ToLower(), value);
-            DictionaryChanged();
+            NotifyPropertyChanged();
         }
     }
 }

@@ -37,7 +37,7 @@ namespace DiegoG.DnDTools.Base.Cache
         {
             Name = "Evasion",
             Description = "A succesful Reflexes ST against a magical attack results in no damage being received",
-            Tags = new List<Ability.AbilityTag>()
+            Tags = new()
             {
                 Ability.AbilityTag.Extraordinary
             }
@@ -47,7 +47,7 @@ namespace DiegoG.DnDTools.Base.Cache
             Name = "Trap Sense",
             Description = "Receives a bonifier to Reflexes STs against traps, as well as a bonifier to CA to avoid attacks of the same source, per level of Trap Sense",
             Level = 1,
-            Tags = new List<Ability.AbilityTag>()
+            Tags = new()
             {
                 Ability.AbilityTag.Extraordinary
             },
@@ -81,7 +81,7 @@ namespace DiegoG.DnDTools.Base.Cache
         {
             Name = "Uncanny Dodge",
             Description = "The character retains their Dexterity bonus to AC in any situation, even if caught flat-footed. The only exception is when the character is immobilization.",
-            Tags = new List<Ability.AbilityTag>()
+            Tags = new()
             {
                 Ability.AbilityTag.Extraordinary
             }
@@ -90,7 +90,7 @@ namespace DiegoG.DnDTools.Base.Cache
         {
             Name = "Improved Uncanny Dodge",
             Description = "The character retains their Dexterity bonus to AC in any situation, Immobilization halves the bonus. The character can only be flanked by a Rogue at least four levels higher",
-            Tags = new List<Ability.AbilityTag>()
+            Tags = new()
             {
                 Ability.AbilityTag.Extraordinary
             }

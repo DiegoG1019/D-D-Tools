@@ -12,19 +12,24 @@ namespace DiegoG.DnDTools.Base.Characters
     [Serializable]
     public class Experience : CharacterTrait<Experience>, IHistoried
     {
-        public float Multiplier { get; set; }
-        private int _current;
-        public int Required { get; set; }
-        public int Level { get; set; }
+        public float Multiplier { get => MultiplierField; set { MultiplierField = value; NotifyPropertyChanged(); } }
+        private float MultiplierField;
+        public int Required { get => RequiredField; set { RequiredField = value; NotifyPropertyChanged(); } }
+        private int RequiredField;
+        public int Level { get => LevelField; set { LevelField = value; NotifyPropertyChanged(); } }
+        private int LevelField;
+        public int BaseExpGrant { get => BaseExpGrantField; set { BaseExpGrantField = value; NotifyPropertyChanged(); } }
+        private int BaseExpGrantField;
+        public int ExtraGrant { get => ExtraGrantField; set { ExtraGrantField = value; NotifyPropertyChanged(); } }
+        private int ExtraGrantField;
 
         public ObservableCollection<int> History { get; set; } = new ObservableCollection<int>();
         public int Current
         {
-            get => _current;
-            set => Add(value - _current);
+            get => CurrentField;
+            set => Add(value - CurrentField);
         }
-        public int BaseExpGrant { get; set; }
-        public int ExtraGrant { get; set; }
+        private int CurrentField;
 
         [JsonIgnore, IgnoreDataMember, XmlIgnore]
         public int UnspentLevels => Level - Parent.Jobs.AllLevels;
@@ -40,19 +45,21 @@ namespace DiegoG.DnDTools.Base.Characters
 
         public void Add(int v)
         {
-            _current += v;
+            CurrentField += v;
             History.Add(v);
+            NotifyPropertyChanged(nameof(Current));
         }
 
         public void Sub(int v)
         {
-            if (v > _current)
+            if (v > CurrentField)
             {
-                _current = 0;
+                CurrentField = 0;
                 return;
             }
-            _current -= v;
+            CurrentField -= v;
             History.Add(-v);
+            NotifyPropertyChanged(nameof(Current));
         }
 
         public void Gain(int v) => Add((int)(v * Multiplier));
@@ -62,6 +69,7 @@ namespace DiegoG.DnDTools.Base.Characters
         {
             Current = 0;
             Level++;
+            NotifyPropertyChanged(nameof(Level));
         }
 
         /// <summary>

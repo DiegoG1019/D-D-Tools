@@ -5,15 +5,30 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using DiegoG.Utilities.Measures;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace DiegoG.DnDTools.Base.Other
 {
     [Serializable]
-    public class Wallet : IHistoried, INoted
+    public class Wallet : IHistoried, INoted, INotifyPropertyChanged
     {
-        private int _Value;
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
+        private int _ValueField;
+        private int _Value {
+            get => _ValueField;
+            set
+            {
+                _ValueField = value;
+                NotifyPropertyChanged(nameof(Value));
+            }
+        }
         public ObservableCollection<int> History { get; set; } = new ObservableCollection<int>();
-        public Mass Weight { get; private set; } = new Mass(0, Mass.Units.Kilogram);
+        public Mass Weight { get => WeightField; private set { WeightField = value; NotifyPropertyChanged(); } }
+        private Mass WeightField = new Mass(0, Mass.Units.Kilogram);
         public void Add(int value)
         {
             _Value += value;

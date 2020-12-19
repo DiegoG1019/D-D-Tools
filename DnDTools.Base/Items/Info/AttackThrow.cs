@@ -2,10 +2,10 @@
 
 namespace DiegoG.DnDTools.Base.Items.Info
 {
-    public class AttackThrow
+    public record AttackThrow
     {
-        public Stats KeyStat { get; set; }
-        public Stats SecondaryStat { get; set; }
+        public Stats KeyStat { get; init; }
+        public Stats SecondaryStat { get; init; }
 
         public AttackThrow(Stats s) :
             this(s, s)

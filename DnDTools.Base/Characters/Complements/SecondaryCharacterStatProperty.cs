@@ -8,14 +8,25 @@ using System.Xml.Serialization;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 using DiegoG.DnDTools.Base.Scripting;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace DiegoG.DnDTools.Base.Characters.Complements
 {
-    public class SecondaryCharacterStatProperty : CharacterTrait<SecondaryCharacterStatProperty>, ICharacterProperty
+    public class SecondaryCharacterStatProperty : CharacterTrait<SecondaryCharacterStatProperty>, ICharacterProperty, INotifyPropertyChanged
     {
-        public int BasePoints { get; set; }
-        public int Bonus { get; set; }
-        public int EffectPoints { get; set; }
+        public int BasePoints { get => BasePointsField; set {BasePointsField = value;
+                NotifyPropertyChanged();
+            } }
+        private int BasePointsField;
+        public int Bonus { get => BonusField; set {BonusField = value;
+                NotifyPropertyChanged();
+            } }
+        private int BonusField;
+        public int EffectPoints { get => EffectPointsField; set {EffectPointsField = value;
+                NotifyPropertyChanged();
+            } }
+        private int EffectPointsField;
         public CharacterPropertyScript ScriptData { get; set; }
 
         [JsonIgnore, IgnoreDataMember, XmlIgnore]

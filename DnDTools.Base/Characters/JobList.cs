@@ -23,12 +23,18 @@ namespace DiegoG.DnDTools.Base.Characters
                 throw new InvalidOperationException($"JobList collection already contains this Job {item.Name}");
 
             item.CompetenceChanged += JobList_ListChanged;
+            item.PropertyChanged += Item_PropertyChanged;
             JobsCollection.Add(item);
             ListChanged();
         }
+
+        private void Item_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+            => NotifyPropertyChanged(nameof(JobsCollection));
+
         public void Remove(Job item)
         {
             item.CompetenceChanged -= JobList_ListChanged;
+            item.PropertyChanged -= Item_PropertyChanged;
             JobsCollection.Remove(item);
             ListChanged();
         }

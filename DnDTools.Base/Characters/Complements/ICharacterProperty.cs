@@ -2,10 +2,11 @@
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 using System.Xml.Serialization;
+using System.ComponentModel;
 
 namespace DiegoG.DnDTools.Base.Characters.Complements
 {
-    public interface ICharacterProperty
+    public interface ICharacterProperty : INotifyPropertyChanged
     {
         int BasePoints { get; }
         int Bonus { get; }
