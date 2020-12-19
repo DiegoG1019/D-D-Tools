@@ -8,6 +8,7 @@ using DiegoG.Utilities.Enumerations;
 using DiegoG.Utilities.IO;
 using System.IO;
 using Version = DiegoG.Utilities.Version;
+using DiegoG.CLI;
 
 namespace DiegoG.DnDTools.CLI
 {
@@ -79,8 +80,7 @@ namespace DiegoG.DnDTools.CLI
         async static void Main(string[] args)
         {
             Init();
-            Console.WriteLine("Hello World!");
-
+            await Commands.Call(args);
         }
     }
 }
