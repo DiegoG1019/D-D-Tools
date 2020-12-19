@@ -84,25 +84,9 @@ namespace DiegoG.DnDTools.Desktop.GUI.Widgets.Complements
             RanksTextBox.Text = HeldSkill.Rank.ToString();
             MiscRanksTextbox.Text = HeldSkill.MiscRanks.ToString();
             OtherRanksTextbox.Text = HeldSkill.OtherRanks.ToString();
-            ArmorPenalizerTextbox.Text = (HeldSkill.PenalizedByArmorFlag ? HeldCharacter.Equipped.ArmorPenalty : 0).ToString();
+            ArmorPenalizerTextbox.Text = (HeldSkill.PenalizedByArmor ? HeldCharacter.Equipped.ArmorPenalty : 0).ToString();
 
             FlagChecks.Clear();
-            foreach (var (Flag, Value) in HeldSkill.Flags)
-            {
-                var checkbox = new CheckBox()
-                { 
-                    Height = 15, 
-                    Width = 150, 
-                    Content = Convert.ToString(Flag), 
-                    IsChecked = Value, 
-                    HorizontalContentAlignment = HorizontalAlignment.Center, 
-                    HorizontalAlignment = HorizontalAlignment.Center, 
-                    VerticalContentAlignment = VerticalAlignment.Center 
-                };
-                checkbox.Checked += (s, e) => HeldSkill.Flags[Flag] = (bool)checkbox.IsChecked;
-                FlagChecks.Add(checkbox);
-            }
-            FlagsCombobox.ItemsSource = FlagChecks;
         }
 
         private void SkillNameTextBox_TextChanged(object sender, TextChangedEventArgs e)
