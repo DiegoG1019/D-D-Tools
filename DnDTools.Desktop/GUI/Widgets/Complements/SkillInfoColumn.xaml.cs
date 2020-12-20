@@ -1,23 +1,11 @@
-﻿using DiegoG.DnDTools.Base.Characters.Complements;
-using DiegoG.Utilities;
+﻿using DiegoG.DnDTools.Base;
+using DiegoG.DnDTools.Base.Characters.Complements;
 using DiegoG.Utilities.Settings;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using static DiegoG.DnDTools.Base.Enumerations;
 using DiegoG.WPF;
-using DiegoG.DnDTools.Base;
+using System.Collections.Generic;
+using System.Windows.Controls;
+using System.Windows.Media;
+using static DiegoG.DnDTools.Base.Enumerations;
 
 namespace DiegoG.DnDTools.Desktop.GUI.Widgets.Complements
 {
@@ -43,8 +31,8 @@ namespace DiegoG.DnDTools.Desktop.GUI.Widgets.Complements
         {
             InitializeComponent();
 #if !DESIGN
-            InitializeCharacterControl();      
-            StatSelectorCombobox.ItemsSource = StatsCollection;
+            InitializeCharacterControl();
+            StatSelectorCombobox.ItemsSource = StatsStringCollection;
 #endif
             StatSelectorCombobox.SelectionChanged += StatSelectorCombobox_SelectionChanged;
             SkillNameTextBox.TextChanged += SkillNameTextBox_TextChanged;

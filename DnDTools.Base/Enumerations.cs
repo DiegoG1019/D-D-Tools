@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Immutable;
+﻿using DiegoG.Utilities.Settings;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
-using System.Text.Json;
-using System.Linq;
-using DiegoG.Utilities.Settings;
-using System.Collections.Generic;
 
 namespace DiegoG.DnDTools.Base
 {
@@ -27,8 +25,10 @@ namespace DiegoG.DnDTools.Base
             [EnumMember(Value = "Improvised")]
             Improvised
         }
-        public static IEnumerable<string> WeaponCategoryCollection
-            => from str in (WeaponCategory[])Enum.GetValues(typeof(WeaponCategory)) select Settings<Lang>.Current.WeaponCategoryStrings[str];
+        public static IEnumerable<string> WeaponCategoryStringCollection
+            => from str in WeaponCategoryCollection select Settings<Lang>.Current.WeaponCategoryStrings[str];
+        public static IEnumerable<WeaponCategory> WeaponCategoryCollection
+        { get; } = from str in (WeaponCategory[])Enum.GetValues(typeof(WeaponCategory)) select str;
 
         [Serializable, JsonConverter(typeof(JsonStringEnumConverter))]
         public enum ImpactType
@@ -37,13 +37,15 @@ namespace DiegoG.DnDTools.Base
             Bludgeoning = 0b0001,
 
             [EnumMember(Value = "Slashing")]
-            Slashing    = 0b0010,
+            Slashing = 0b0010,
 
             [EnumMember(Value = "Piercing")]
-            Piercing    = 0b0100
+            Piercing = 0b0100
         }
-        public static IEnumerable<string> ImpactTypeCollection
-            => from str in (ImpactType[])Enum.GetValues(typeof(ImpactType)) select Settings<Lang>.Current.ImpactTypeStrings[str];
+        public static IEnumerable<string> ImpactTypeStringCollection
+            => from str in ImpactTypeCollection select Settings<Lang>.Current.ImpactTypeStrings[str];
+        public static IEnumerable<ImpactType> ImpactTypeCollection
+        { get; } = from str in (ImpactType[])Enum.GetValues(typeof(ImpactType)) select str;
 
         [Serializable, JsonConverter(typeof(JsonStringEnumConverter))]
         public enum ItemEncumbrance
@@ -53,12 +55,14 @@ namespace DiegoG.DnDTools.Base
 
             [EnumMember(Value = "One Handed")]
             OneHand,
-            
+
             [EnumMember(Value = "Two Handed")]
             TwoHand
         }
-        public static IEnumerable<string> ItemEncumbranceCollection
-            => from str in (ItemEncumbrance[])Enum.GetValues(typeof(ItemEncumbrance)) select Settings<Lang>.Current.ItemEncumbranceStrings[str];
+        public static IEnumerable<string> ItemEncumbranceStringCollection
+            => from str in ItemEncumbranceCollection select Settings<Lang>.Current.ItemEncumbranceStrings[str];
+        public static IEnumerable<ItemEncumbrance> ItemEncumbranceCollection
+        { get; } = from str in (ItemEncumbrance[])Enum.GetValues(typeof(ItemEncumbrance)) select str;
 
         [Serializable, JsonConverter(typeof(JsonStringEnumConverter))]
         public enum Alignments
@@ -90,8 +94,10 @@ namespace DiegoG.DnDTools.Base
             [EnumMember(Value = "Lawful Good")]
             LawfulGood
         }
-        public static IEnumerable<string> AlignmentsCollection
-            => from str in (Alignments[])Enum.GetValues(typeof(Alignments)) select Settings<Lang>.Current.AlignmentStrings[str];
+        public static IEnumerable<string> AlignmentsStringCollection
+            => from str in AlignmentsCollection select Settings<Lang>.Current.AlignmentStrings[str];
+        public static IEnumerable<Alignments> AlignmentsCollection
+        { get; } = from str in (Alignments[])Enum.GetValues(typeof(Alignments)) select str;
 
         [Serializable, JsonConverter(typeof(JsonStringEnumConverter))]
         public enum BodyTypes
@@ -141,14 +147,31 @@ namespace DiegoG.DnDTools.Base
             [EnumMember(Value = "Vermin")]
             Vermin
         }
-        public static IEnumerable<string> BodyTypesCollection
-            => from str in (BodyTypes[])Enum.GetValues(typeof(BodyTypes)) select Settings<Lang>.Current.BodyTypeStrings[str];
+        public static IEnumerable<string> BodyTypesStringCollection
+            => from str in BodyTypesCollection select Settings<Lang>.Current.BodyTypeStrings[str];
+        public static IEnumerable<BodyTypes> BodyTypesCollection
+        { get; } = from str in (BodyTypes[])Enum.GetValues(typeof(BodyTypes)) select str;
 
-        [Serializable]
+        [Serializable, JsonConverter(typeof(JsonStringEnumConverter))]
         public enum CombatState
         {
-            Active, Incapacitated, BleedingOut, Deceased
+            [EnumMember(Value = "Active")]
+            Active,
+
+            [EnumMember(Value = "Incapacitated")]
+            Incapacitated,
+
+            [EnumMember(Value = "BleedingOut")]
+            BleedingOut,
+
+            [EnumMember(Value = "Deceased")]
+            Deceased
         }
+        public static IEnumerable<string> CombatStateStringCollection
+            => from str in CombatStateCollection select Settings<Lang>.Current.CombatStateStrings[str];
+        public static IEnumerable<CombatState> CombatStateCollection
+        { get; } = from str in (CombatState[])Enum.GetValues(typeof(CombatState)) select str;
+
 
         [Serializable, JsonConverter(typeof(JsonStringEnumConverter))]
         public enum Stats
@@ -171,11 +194,14 @@ namespace DiegoG.DnDTools.Base
             [EnumMember(Value = "Charisma")]
             Charisma
         }
-        public static int StatCount => Enum.GetNames(typeof(Stats)).Length;
-        public static IEnumerable<string> StatsCollection
-            => from str in (Stats[])Enum.GetValues(typeof(Stats)) select Settings<Lang>.Current.StatsStrings[str];
-        public static IEnumerable<string> ShortStatsCollection
-            => from str in (Stats[])Enum.GetValues(typeof(Stats)) select Settings<Lang>.Current.ShortStatsStrings[str];
+        public static IEnumerable<string> StatsStringCollection
+            => from str in StatsCollection select Settings<Lang>.Current.StatsStrings[str];
+        public static IEnumerable<string> ShortStatsStringCollection
+            => from str in StatsCollection select Settings<Lang>.Current.ShortStatsStrings[str];
+        public static IEnumerable<Stats> StatsCollection
+        { get; } = from str in (Stats[])Enum.GetValues(typeof(Stats)) select str;
+        public static int StatCount { get; } = StatsCollection.Count();
+
 
         [Serializable, JsonConverter(typeof(JsonStringEnumConverter))]
         public enum SecondaryStats
@@ -186,8 +212,10 @@ namespace DiegoG.DnDTools.Base
             [EnumMember(Value = "Initiative")]
             Initiative
         }
-        public static IEnumerable<string> SecondaryStatsCollection
-            => from str in (SecondaryStats[])Enum.GetValues(typeof(SecondaryStats)) select Settings<Lang>.Current.SecondaryStatsStrings[str];
+        public static IEnumerable<string> SecondaryStatsStringCollection
+            => from str in SecondaryStatsCollection select Settings<Lang>.Current.SecondaryStatsStrings[str];
+        public static IEnumerable<SecondaryStats> SecondaryStatsCollection
+        { get; } = from str in (SecondaryStats[])Enum.GetValues(typeof(SecondaryStats)) select str;
 
         [Serializable, JsonConverter(typeof(JsonStringEnumConverter))]
         public enum SavingThrow
@@ -201,9 +229,11 @@ namespace DiegoG.DnDTools.Base
             [EnumMember(Value = "Willpower")]
             Willpower
         }
-        public static IEnumerable<string> SavingThrowCollection
-            => from str in (SavingThrow[])Enum.GetValues(typeof(SavingThrow)) select Settings<Lang>.Current.SavingThrowStrings[str];
-        public static int SavingThrowCount => Enum.GetNames(typeof(SavingThrow)).Length;
+        public static IEnumerable<string> SavingThrowStringCollection
+            => from str in SavingThrowCollection select Settings<Lang>.Current.SavingThrowStrings[str];
+        public static IEnumerable<SavingThrow> SavingThrowCollection
+        { get; } = from str in (SavingThrow[])Enum.GetValues(typeof(SavingThrow)) select str;
+        public static int SavingThrowCount { get; } = SavingThrowCollection.Count();
 
         [Serializable, JsonConverter(typeof(JsonStringEnumConverter))]
         public enum CombatAction
@@ -229,8 +259,10 @@ namespace DiegoG.DnDTools.Base
             [EnumMember(Value = "Not an Action")]
             NotAnAction
         }
-        public static IEnumerable<string> CombatActionCollection
-            => from str in (CombatAction[])Enum.GetValues(typeof(CombatAction)) select Settings<Lang>.Current.CombatActionStrings[str];
+        public static IEnumerable<string> CombatActionStringCollection
+            => from str in CombatActionCollection select Settings<Lang>.Current.CombatActionStrings[str];
+        public static IEnumerable<CombatAction> CombatActionCollection
+        { get; } = from str in (CombatAction[])Enum.GetValues(typeof(CombatAction)) select str;
 
         [Serializable, JsonConverter(typeof(JsonStringEnumConverter))]
         public enum MagicSchool
@@ -259,9 +291,11 @@ namespace DiegoG.DnDTools.Base
             [EnumMember(Value = "Transmutation")]
             Transmutation
         }
-        public static IEnumerable<string> MagicSchoolCollection
-            => from str in (MagicSchool[])Enum.GetValues(typeof(MagicSchool)) select Settings<Lang>.Current.MagicSchoolStrings[str];
-        public static int SchoolCount => Enum.GetNames(typeof(MagicSchool)).Length;
+        public static IEnumerable<string> MagicSchoolStringCollection
+            => from str in MagicSchoolCollection select Settings<Lang>.Current.MagicSchoolStrings[str];
+        public static IEnumerable<MagicSchool> MagicSchoolCollection
+        { get; } = from str in (MagicSchool[])Enum.GetValues(typeof(MagicSchool)) select str;
+        public static int SchoolCount { get; } = MagicSchoolCollection.Count();
 
         [Serializable, JsonConverter(typeof(JsonStringEnumConverter))]
         public enum Sizes
@@ -293,8 +327,10 @@ namespace DiegoG.DnDTools.Base
             [EnumMember(Value = "Colossal")]
             Colossal
         }
-        public static IEnumerable<string> SizesCollection
-            => from str in (Sizes[])Enum.GetValues(typeof(Sizes)) select Settings<Lang>.Current.SizeStrings[str];
-        public static int SizeCount => Enum.GetNames(typeof(Sizes)).Length;
+        public static IEnumerable<string> SizesStringCollection
+            => from str in SizesCollection select Settings<Lang>.Current.SizeStrings[str];
+        public static IEnumerable<Sizes> SizesCollection
+        { get; } = from str in (Sizes[])Enum.GetValues(typeof(Sizes)) select str;
+        public static int SizeCount { get; } = SizesCollection.Count();
     }
 }

@@ -1,5 +1,4 @@
-﻿using Serilog;
-using System;
+﻿using System;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
@@ -88,7 +87,7 @@ namespace DiegoG.DnDTools.Base.Other
             else
                 return new Dice(Throws - value, Type, Extra);
         }
-        
+
         public static implicit operator Dice(string s) => new Dice(s);
         public static Dice NoDice { get; } = new Dice("0d0");
     }

@@ -1,18 +1,12 @@
-﻿using DiegoG.DnDTools.Base.Items;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using DiegoG.Utilities.Settings;
-using System.Threading.Tasks;
-using static DiegoG.DnDTools.Base.Enumerations;
-using DiegoG.Utilities;
-using DiegoG.DnDTools.Base.Other;
+﻿using DiegoG.DnDTools.Base.Cache.Items.Weapons;
+using DiegoG.DnDTools.Base.Items;
 using DiegoG.DnDTools.Base.Items.Weapons;
-using DiegoG.DnDTools.Base.Items.Info;
-using DiegoG.DnDTools.Base.Cache.Items.Weapons;
+using DiegoG.Utilities;
 using DiegoG.Utilities.Collections;
 using DiegoG.Utilities.Measures;
+using DiegoG.Utilities.Settings;
+using System.Collections.Generic;
+using static DiegoG.DnDTools.Base.Enumerations;
 
 namespace DiegoG.DnDTools.Base.Cache.Items
 {
@@ -80,7 +74,7 @@ namespace DiegoG.DnDTools.Base.Cache.Items
             AttackThrow = new(Stats.Strength),
             Reach = Length.OneSquare,
             Category = WeaponCategory.Improvised,
-            Critical = new(20,2,20),
+            Critical = new(20, 2, 20),
             Impact = ImpactType.Bludgeoning
         };
         public static Liquid Water => new(SetLang.Water)
@@ -182,7 +176,7 @@ namespace DiegoG.DnDTools.Base.Cache.Items
         public static Bottle Vial => new(SetLang.Vial)
         {
             Value = new(100),
-            BottleWeight = new(1/10M, Mass.Units.Pound),
+            BottleWeight = new(1 / 10M, Mass.Units.Pound),
             Encumbrance = ItemEncumbrance.Light,
             ThrownRangeIncrement = FiveFeet,
             BottleSize = Volume.OneOunce,

@@ -58,7 +58,7 @@ namespace DiegoG.DnDTools.Base.Characters
         public void Remove(string skillname) => Remove(this[skillname]);
         bool ICollection<Skill>.Remove(Skill item)
         {
-            if(Contains(item))
+            if (Contains(item))
             { Remove(item); return true; }
             return false;
         }

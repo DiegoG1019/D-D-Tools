@@ -1,13 +1,6 @@
 ﻿using DiegoG.Utilities.Settings;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media;
-using DiegoG.Utilities.Exceptions;
-using DiegoG.Utilities;
 using DiegoG.WPF;
+using System.Windows.Media;
 
 namespace DiegoG.DnDTools.Desktop
 {

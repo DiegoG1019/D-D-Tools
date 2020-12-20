@@ -1,10 +1,8 @@
-﻿using DiegoG.Utilities;
+﻿using DiegoG.Utilities.Measures;
 using DiegoG.Utilities.Settings;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using DiegoG.Utilities.Measures;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
@@ -18,7 +16,8 @@ namespace DiegoG.DnDTools.Base.Other
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
         private int _ValueField;
-        private int _Value {
+        private int _Value
+        {
             get => _ValueField;
             set
             {
@@ -110,7 +109,7 @@ namespace DiegoG.DnDTools.Base.Other
             bool uneven = (Value % parts) > 0;
             int val = Value / parts;
             (List<Wallet> Wallets, bool Uneven) ret = (new List<Wallet>(), uneven);
-            for(; parts > 1; parts--)
+            for (; parts > 1; parts--)
                 ret.Wallets.Add(Separate(val));
             return ret;
         }

@@ -1,7 +1,6 @@
 ﻿using DiegoG.DnDTools.Base.Items.Weapons;
 using DiegoG.DnDTools.Base.Other;
 using DiegoG.Utilities;
-using DiegoG.Utilities.Collections;
 using DiegoG.Utilities.Measures;
 using Serilog;
 using System;
@@ -12,7 +11,6 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 namespace DiegoG.DnDTools.Base.Items
@@ -21,7 +19,7 @@ namespace DiegoG.DnDTools.Base.Items
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public class Bag<T> : IEnumerable<T>, INotifyPropertyChanged where T : Item
+        public class Bag<T> : ICollection<T>, INotifyPropertyChanged where T : Item
         {
             public event PropertyChangedEventHandler PropertyChanged;
             private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
@@ -31,7 +29,21 @@ namespace DiegoG.DnDTools.Base.Items
 
             public int Count => ts.Count;
 
-            public T this[int index] => ts[index];
+            [JsonIgnore, IgnoreDataMember, XmlIgnore]
+            public bool IsReadOnly => false;
+
+            /// <summary>
+            /// Use of Set accesor is not recommended. It exists because I really don't want to build a ConverterFactory
+            /// </summary>
+            /// <param name="index"></param>
+            /// <returns></returns>
+            [JsonIgnore, IgnoreDataMember, XmlIgnore]
+            public T this[int index]
+            {
+                get => ts[index];
+                set => Add(ts[index]);
+            }
+            [JsonIgnore, IgnoreDataMember, XmlIgnore]
             public int this[T item] => ts.IndexOf(item);
 
             public void Add(T item)
@@ -71,6 +83,11 @@ namespace DiegoG.DnDTools.Base.Items
             public IEnumerator<T> GetEnumerator() => ((IEnumerable<T>)ts).GetEnumerator();
             IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable)ts).GetEnumerator();
 
+            public void Clear() => ts.Clear();
+
+            public bool Contains(T item) => ts.Contains(item);
+            public void CopyTo(T[] array, int arrayIndex) => ts.CopyTo(array, arrayIndex);
+
             public Bag() { }
         }
 
@@ -100,33 +117,33 @@ namespace DiegoG.DnDTools.Base.Items
 
         public enum WeaponIndex { Melee, Ranged, Ammo }
 
-        public Bag<Armor> Armors 
-        { 
-            get => ArmorsField; 
+        public Bag<Armor> Armors
+        {
+            get => ArmorsField;
             set
             {
                 ArmorsField.PropertyChanged -= ArmorsField_PropertyChanged;
                 ArmorsField = value;
                 ArmorsField.PropertyChanged += ArmorsField_PropertyChanged;
                 NotifyPropertyChanged();
-            } 
+            }
         }
         private Bag<Armor> ArmorsField = new Bag<Armor>();
         public Bag<Item> Other
-        { 
+        {
             get => OtherField;
             set
             {
                 OtherField.PropertyChanged -= OtherField_PropertyChanged;
                 OtherField = value;
                 OtherField.PropertyChanged += OtherField_PropertyChanged;
-                NotifyPropertyChanged(); 
+                NotifyPropertyChanged();
             }
         }
         private Bag<Item> OtherField = new Bag<Item>();
-        public Bag<Key> Keychain 
-        { 
-            get => KeychainField; 
+        public Bag<Key> Keychain
+        {
+            get => KeychainField;
             set
             {
                 KeychainField.PropertyChanged -= KeychainField_PropertyChanged;
@@ -138,62 +155,62 @@ namespace DiegoG.DnDTools.Base.Items
         private Bag<Key> KeychainField = new Bag<Key>();
         public Bag<Melee> MeleeWeapons
         {
-            get => MeleeWeaponsField; 
+            get => MeleeWeaponsField;
             set
             {
                 MeleeWeaponsField.PropertyChanged -= MeleeWeaponsField_PropertyChanged;
                 MeleeWeaponsField = value;
                 MeleeWeaponsField.PropertyChanged += MeleeWeaponsField_PropertyChanged;
-                NotifyPropertyChanged(); 
+                NotifyPropertyChanged();
             }
         }
         private Bag<Melee> MeleeWeaponsField = new Bag<Melee>();
-        public Bag<Ranged> RangedWeapons 
+        public Bag<Ranged> RangedWeapons
         {
-            get => RangedWeaponsField; 
+            get => RangedWeaponsField;
             set
             {
                 RangedWeaponsField.PropertyChanged -= RangedWeaponsField_PropertyChanged;
                 RangedWeaponsField = value;
                 RangedWeaponsField.PropertyChanged += RangedWeaponsField_PropertyChanged;
-                NotifyPropertyChanged(); 
-            } 
+                NotifyPropertyChanged();
+            }
         }
         private Bag<Ranged> RangedWeaponsField = new Bag<Ranged>();
-        public Bag<Ammo> Ammunitions 
-        { 
+        public Bag<Ammo> Ammunitions
+        {
             get => AmmunitionsField;
             set
             {
                 AmmunitionsField.PropertyChanged -= AmmunitionsField_PropertyChanged;
                 AmmunitionsField = value;
                 AmmunitionsField.PropertyChanged += AmmunitionsField_PropertyChanged;
-                NotifyPropertyChanged(); 
-            } 
+                NotifyPropertyChanged();
+            }
         }
         private Bag<Ammo> AmmunitionsField = new Bag<Ammo>();
-        public Slot<Bottle> Bottles 
-        { 
-            get => BottlesField; 
+        public Slot<Bottle> Bottles
+        {
+            get => BottlesField;
             set
             {
                 BottlesField.PropertyChanged -= BottlesField_PropertyChanged;
                 BottlesField = value;
                 BottlesField.PropertyChanged += BottlesField_PropertyChanged;
-                NotifyPropertyChanged(); 
+                NotifyPropertyChanged();
             }
         }
         private Slot<Bottle> BottlesField = new Slot<Bottle>();
-        public Wallet Wallet 
-        { 
-            get => WalletField; 
+        public Wallet Wallet
+        {
+            get => WalletField;
             set
             {
                 WalletField.PropertyChanged -= WalletField_PropertyChanged;
                 WalletField = value;
                 WalletField.PropertyChanged += WalletField_PropertyChanged;
-                NotifyPropertyChanged(); 
-            } 
+                NotifyPropertyChanged();
+            }
         }
         private void ArmorsField_PropertyChanged(object sender, PropertyChangedEventArgs e)
             => NotifyPropertyChanged(nameof(Armors));
@@ -253,31 +270,38 @@ namespace DiegoG.DnDTools.Base.Items
             try
             {
                 var taskMan = new AsyncTaskManager<(decimal weight, int value)>();
-                taskMan.Run(() => {
+                taskMan.Run(() =>
+                {
                     var v = Armors.Select(i => new { i.Weight.Kilogram, i.Value.NumericalValue });
                     return (v.Sum(i => i.Kilogram), v.Sum(i => i.NumericalValue));
                 });
-                taskMan.Run(() => {
+                taskMan.Run(() =>
+                {
                     var v = Other.Select(i => new { i.Weight.Kilogram, i.Value.NumericalValue });
                     return (v.Sum(i => i.Kilogram), v.Sum(i => i.NumericalValue));
                 });
-                taskMan.Run(() => {
+                taskMan.Run(() =>
+                {
                     var v = Keychain.Select(i => new { i.Weight.Kilogram, i.Value.NumericalValue });
                     return (v.Sum(i => i.Kilogram), v.Sum(i => i.NumericalValue));
                 });
-                taskMan.Run(() => {
+                taskMan.Run(() =>
+                {
                     var v = MeleeWeapons.Select(i => new { i.Weight.Kilogram, i.Value.NumericalValue });
                     return (v.Sum(i => i.Kilogram), v.Sum(i => i.NumericalValue));
                 });
-                taskMan.Run(() => {
+                taskMan.Run(() =>
+                {
                     var v = RangedWeapons.Select(i => new { i.Weight.Kilogram, i.Value.NumericalValue });
                     return (v.Sum(i => i.Kilogram), v.Sum(i => i.NumericalValue));
                 });
-                taskMan.Run(() => {
+                taskMan.Run(() =>
+                {
                     var v = Ammunitions.Select(i => new { i.Weight.Kilogram, i.Value.NumericalValue });
                     return (v.Sum(i => i.Kilogram), v.Sum(i => i.NumericalValue));
                 });
-                taskMan.Run(() => {
+                taskMan.Run(() =>
+                {
                     var v = Bottles.Select(i => new { i.Weight.Kilogram, i.Value.NumericalValue });
                     return (v.Sum(i => i.Kilogram), v.Sum(i => i.NumericalValue));
                 });

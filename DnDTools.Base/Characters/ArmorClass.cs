@@ -1,5 +1,4 @@
 ﻿using DiegoG.DnDTools.Base.Characters.Complements;
-using DiegoG.DnDTools.Base.Other;
 using System;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;

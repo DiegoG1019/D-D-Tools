@@ -16,7 +16,7 @@ namespace DiegoG.DnDTools.Base.Characters.Complements
         [IgnoreDataMember, JsonIgnore, XmlIgnore]
         public int EffectPoints { get => EffectPointsField; set { EffectPointsField = value; NotifyPropertyChanged(); } }
         private int EffectPointsField;
-        
+
         [IgnoreDataMember, JsonIgnore, XmlIgnore]
         public int BaseTotal => BasePoints + Bonus;
         [IgnoreDataMember, JsonIgnore, XmlIgnore]

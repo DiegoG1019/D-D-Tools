@@ -1,5 +1,5 @@
-﻿using DiegoG.Utilities.Settings;
-using DiegoG.Utilities;
+﻿using DiegoG.Utilities;
+using DiegoG.Utilities.Settings;
 using System;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;

@@ -1,10 +1,10 @@
-﻿using DiegoG.DnDTools.Base.Characters;
-using DiegoG.DnDTools.Base;
-using DiegoG.Utilities.Settings;
+﻿using DiegoG.DnDTools.Base;
+using DiegoG.DnDTools.Base.Characters;
 using DiegoG.DnDTools.Base.Characters.Complements;
+using DiegoG.Utilities.Settings;
 using static DiegoG.DnDTools.Base.Enumerations;
 
-public class SpeedProperty
+public class SpeedPropertyDefault
 {
     public bool ReceiveInput = false;
     public bool RespondToStatChanges = false;

@@ -15,9 +15,14 @@ namespace DiegoG.DnDTools.Base.Characters.Complements
         protected void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
-        public string ParentName { get => ParentNameField; set {ParentNameField = value;
+        public string ParentName
+        {
+            get => ParentNameField; set
+            {
+                ParentNameField = value;
                 NotifyPropertyChanged();
-            } }
+            }
+        }
         private string ParentNameField;
 
         [IgnoreDataMember, JsonIgnore, XmlIgnore]

@@ -1,10 +1,6 @@
 ﻿using DiegoG.DnDTools.Base;
-using DiegoG.DnDTools.Base.Characters;
-using DiegoG.DnDTools.Desktop.GUI.Pages;
-using DiegoG.Utilities;
 using DiegoG.Utilities.Settings;
 using DiegoG.WPF;
-using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -21,13 +17,13 @@ namespace DiegoG.DnDTools.Desktop.GUI.Widgets
             InitializeCharacterControl();
 
             AlignmentBox.ItemDropDownSource = AlignmentsCollection;
-            BodyTypeBox.ItemDropDownSource = BodyTypesCollection;
-            SizeBox.ItemDropDownSource = SizesCollection;
+            BodyTypeBox.ItemDropDownSource = BodyTypesStringCollection;
+            SizeBox.ItemDropDownSource = SizesStringCollection;
 #endif
             AlignmentBox.SelectionChanged += AlignmentBox_SelectionChanged;
             BodyTypeBox.SelectionChanged += BodyTypeBox_SelectionChanged;
             SizeBox.SelectionChanged += SizeBox_SelectionChanged;
-            
+
             AgeBox.NumericBoxChanged += AgeBox_NumericBoxChanged;
             HeightBox.NumericBoxChanged += HeightBox_NumericBoxChanged;
             WeightBox.NumericBoxChanged += WeightBox_NumericBoxChanged;
@@ -147,7 +143,7 @@ namespace DiegoG.DnDTools.Desktop.GUI.Widgets
         public override void UpdateCharacter()
         {
             NameTextBox.Text = HeldCharacter.Description.Name;
-            
+
             GenderBox.ItemTextBoxText = HeldCharacter.Description.Gender;
             PersonalityBox.ItemTextBoxText = HeldCharacter.Description.Personality;
             FullNameBox.ItemTextBoxText = HeldCharacter.Description.Fullname;
@@ -158,11 +154,11 @@ namespace DiegoG.DnDTools.Desktop.GUI.Widgets
             BodyTypeBox.ItemDropDownIndex = (int)HeldCharacter.Description.BodyType;
             SizeBox.ItemDropDownIndex = (int)HeldCharacter.Description.Size;
             AgeBox.ItemNumericBoxNumber = HeldCharacter.Description.Age;
-            
+
             ExpLevelBox.ItemNumericBoxNumber = HeldCharacter.Experience.Level;
             HeightBox.ItemNumericBoxNumber = (double)HeldCharacter.Description.Height[Settings<DnDSettings>.Current.PreferredLengthUnit];
             WeightBox.ItemNumericBoxNumber = (double)HeldCharacter.Description.Weight[Settings<DnDSettings>.Current.PreferredMassUnit];
-            
+
             EyeColorBox.ItemTextBoxText = HeldCharacter.Description.EyeColor.ToColor().GetName();
             HairColorBox.ItemTextBoxText = HeldCharacter.Description.HairColor.ToColor().GetName();
             SkinColorBox.ItemTextBoxText = HeldCharacter.Description.SkinColor.ToColor().GetName();

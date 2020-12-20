@@ -1,16 +1,10 @@
-﻿using System;
-using DiegoG.Utilities;
+﻿using DiegoG.DnDTools.Base.Items.Info;
 using DiegoG.DnDTools.Base.Other;
-using System.Xml.Serialization;
-using System.Collections.Generic;
-using DiegoG.DnDTools.Base.Items.Info;
-using System.Runtime.Serialization;
-using System.Text.Json.Serialization;
 using DiegoG.Utilities.Measures;
+using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using static DiegoG.DnDTools.Base.Enumerations;
-using System.Collections.ObjectModel;
 
 namespace DiegoG.DnDTools.Base.Items
 {
@@ -45,16 +39,16 @@ namespace DiegoG.DnDTools.Base.Items
         /// </summary>
         public PriceTag LiterValue { get => LiterValueField; set { LiterValueField = value; NotifyPropertyChanged(); } }
         private PriceTag LiterValueField;
-        public ObservableCollection<Effect> Effects 
-        { 
-            get => EffectsField; 
-            set 
+        public ObservableCollection<Effect> Effects
+        {
+            get => EffectsField;
+            set
             {
                 Effects.CollectionChanged -= Effects_CollectionChanged;
                 EffectsField = value;
                 Effects.CollectionChanged += Effects_CollectionChanged;
-                NotifyPropertyChanged(); 
-            } 
+                NotifyPropertyChanged();
+            }
         }
         private ObservableCollection<Effect> EffectsField = new ObservableCollection<Effect>();
         /// <summary>

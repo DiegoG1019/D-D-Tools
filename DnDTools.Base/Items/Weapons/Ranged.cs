@@ -1,5 +1,4 @@
 ﻿using DiegoG.DnDTools.Base.Other;
-using DiegoG.Utilities;
 using DiegoG.Utilities.Measures;
 
 namespace DiegoG.DnDTools.Base.Items.Weapons

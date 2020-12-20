@@ -2,16 +2,15 @@
 using DiegoG.DnDTools.Base.Items;
 using DiegoG.Utilities.IO;
 using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Version = DiegoG.Utilities.Version;
-using static DiegoG.DnDTools.Base.Enumerations;
-using static DiegoG.DnDTools.Base.Cache.GlobalCache;
-using DiegoG.DnDTools.Base.Other;
-using System.Text.Json.Serialization;
-using System.Xml.Serialization;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Text.Json.Serialization;
+using System.Threading.Tasks;
+using System.Xml.Serialization;
+using static DiegoG.DnDTools.Base.Cache.GlobalCache;
+using static DiegoG.DnDTools.Base.Enumerations;
+using Version = DiegoG.Utilities.Version;
 
 namespace DiegoG.DnDTools.Base.Characters
 {
@@ -84,34 +83,53 @@ namespace DiegoG.DnDTools.Base.Characters
         private JobList JobsField;
 
         [JsonPropertyName("Character Abilities"), XmlElement(ElementName = "Character Abilities", IsNullable = false)]
-        public List<Ability> Abilities { get => AbilitiesField; set { AbilitiesField = value; NotifyPropertyChanged(); } }
-        private List<Ability> AbilitiesField;
+        public ObservableCollection<Ability> Abilities
+        {
+            get => AbilitiesField;
+            set
+            {
+                AbilitiesField = value;
+                NotifyPropertyChanged();
+            }
+        }
+        private ObservableCollection<Ability> AbilitiesField = new();
 
         [JsonPropertyName("Character Feats"), XmlElement(ElementName = "Character Feats", IsNullable = false)]
-        public List<Ability> Feats { get => FeatsField; set { FeatsField = value; NotifyPropertyChanged(); } }
-        private List<Ability> FeatsField;
-
+        public ObservableCollection<Ability> Feats
+        {
+            get => FeatsField;
+            set { FeatsField = value; NotifyPropertyChanged(); }
+        }
+        private ObservableCollection<Ability> FeatsField = new();
         [JsonPropertyName("Character Skills"), XmlElement(ElementName = "Character Skills", IsNullable = false)]
         public SkillList Skills { get => SkillsField; set { SkillsField = value; NotifyPropertyChanged(); } }
         private SkillList SkillsField;
 
         [JsonPropertyName("Character Bags"), XmlElement(ElementName = "Character Bags", IsNullable = false)]
-        public List<Inventory> Bags { get => BagsField; set { BagsField = value; NotifyPropertyChanged(); } }
-        private List<Inventory> BagsField;
+        public ObservableCollection<Inventory> Bags
+        {
+            get => BagsField;
+            set
+            {
+                BagsField = value;
+                NotifyPropertyChanged();
+            }
+        }
+        private ObservableCollection<Inventory> BagsField = new();
 
         [JsonPropertyName("Character Equipped Items"), XmlElement(ElementName = "Character Equipped Items", IsNullable = false)]
         public Inventory Equipped { get => EquippedField; set { EquippedField = value; NotifyPropertyChanged(); } }
-        private Inventory EquippedField;
-        
+        private Inventory EquippedField = new() { Description = "Equipped Items", Name = "Equipped" };
+
         [JsonPropertyName("Character Initiative"), XmlElement(ElementName = "Character Initiative", IsNullable = false)]
         public CharacterSavingThrowProperty Initiative { get => InitiativeField; set { InitiativeField = value; NotifyPropertyChanged(); } }
-        private CharacterSavingThrowProperty InitiativeField = new CharacterSavingThrowProperty() { BaseStat = Enumerations.Stats.Dexterity };
+        private CharacterSavingThrowProperty InitiativeField;
 
         /// <summary>
         /// Don't use this one, this is for serialization, and WILL result in bugs if not initialized properly. (The serializer is supposed to take care of that)
         /// </summary>
         public Character() { }
-        public Character(string characterFileName)
+        public Character(string characterFileName) : this()
         {
             CharacterFileName = characterFileName;
 
@@ -122,6 +140,8 @@ namespace DiegoG.DnDTools.Base.Characters
             Jobs = new JobList() { ParentName = CharacterFileName };
             Stats = new CharacterStat<Stats, CharacterStatProperty>(CharacterFileName);
             SavingThrows = new CharacterStat<SavingThrow, CharacterSavingThrowProperty>(CharacterFileName);
+            Initiative = new CharacterSavingThrowProperty() { BaseStat = Enumerations.Stats.Dexterity, ParentName = CharacterFileName };
+            Skills = new() { ParentName = CharacterFileName };
 
             SavingThrows[SavingThrow.Fortitude].BaseStat = Enumerations.Stats.Constitution;
             SavingThrows[SavingThrow.Reflexes].BaseStat = Enumerations.Stats.Dexterity;
@@ -135,7 +155,7 @@ namespace DiegoG.DnDTools.Base.Characters
                 new SecondaryCharacterStatProperty()
                 {
                     ParentName = CharacterFileName,
-                    ScriptData = new Scripting.CharacterPropertyScript(Directories.Scripts, "SpeedProperty.cs")
+                    ScriptData = new Scripting.CharacterPropertyScript(Directories.Scripts, "SpeedPropertyDefault.cs")
                 }
             );
 
@@ -148,7 +168,7 @@ namespace DiegoG.DnDTools.Base.Characters
         {
             DnDManager.Characters.Unregister(chara);
             return await DeserializeAndRegisterAsync(chara.CharacterFileName);
-        }   
+        }
         public static async Task<Character> DeserializeAndRegisterAsync(string characterFileName)
         {
             //Before deserialization the object is initialized to its default state, the default state of 'constructing' is true

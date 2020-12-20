@@ -1,7 +1,6 @@
 ﻿using DiegoG.DnDTools.Base.Characters.Complements;
 using DiegoG.DnDTools.Base.Other;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Runtime.Serialization;

@@ -1,19 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Collections;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using static DiegoG.DnDTools.Base.Enumerations;
 
 namespace DiegoG.DnDTools.Desktop.GUI.Components
 {
@@ -24,7 +10,7 @@ namespace DiegoG.DnDTools.Desktop.GUI.Components
     {
         public delegate void LabeledDropDownSelectionChangedEventHandler(object sender, SelectionChangedEventArgs e, int newindex);
         public event LabeledDropDownSelectionChangedEventHandler SelectionChanged;
-        
+
         public LabeledDropDown()
         {
             InitializeComponent();
@@ -36,7 +22,7 @@ namespace DiegoG.DnDTools.Desktop.GUI.Components
         public IEnumerable ItemDropDownSource
         {
             get => _Item.ItemsSource;
-            set =>_Item.ItemsSource = value;
+            set => _Item.ItemsSource = value;
         }
         public bool IsReadOnly
         {

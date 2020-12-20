@@ -1,9 +1,7 @@
 ﻿using DiegoG.DnDTools.Base.Characters.Complements;
 using DiegoG.DnDTools.Base.Other;
-using DiegoG.Utilities;
 using DiegoG.Utilities.Measures;
 using System;
-using System.Collections.Generic;
 using static DiegoG.DnDTools.Base.Enumerations;
 
 namespace DiegoG.DnDTools.Base.Characters

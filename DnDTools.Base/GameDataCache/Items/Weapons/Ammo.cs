@@ -1,12 +1,11 @@
-﻿using DiegoG.DnDTools.Base.Items.Weapons;
+﻿using DiegoG.DnDTools.Base.Items.Info;
+using DiegoG.DnDTools.Base.Items.Weapons;
 using DiegoG.DnDTools.Base.Other;
-using DiegoG.Utilities;
-using DiegoG.DnDTools.Base.Items.Info;
-using static DiegoG.DnDTools.Base.Enumerations;
+using DiegoG.Utilities.Collections;
+using DiegoG.Utilities.Measures;
 using DiegoG.Utilities.Settings;
 using System.Collections.Generic;
-using DiegoG.Utilities.Measures;
-using DiegoG.Utilities.Collections;
+using static DiegoG.DnDTools.Base.Enumerations;
 
 namespace DiegoG.DnDTools.Base.Cache.Items.Weapons
 {
@@ -23,7 +22,7 @@ namespace DiegoG.DnDTools.Base.Cache.Items.Weapons
             ExtraRange = Length.Zero,
             AttackThrow = new AttackThrow(Stats.Strength),
             Damage = new AttackDamage(),
-            Critical = new CriticalHit(0,0,0),
+            Critical = new CriticalHit(0, 0, 0),
             Description = SetLang.CrossbowBolt.Description,
             Impact = ImpactType.Piercing,
             Encumbrance = ItemEncumbrance.Light

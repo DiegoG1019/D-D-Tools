@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Immutable;
 using System.Collections.ObjectModel;
-using System.Text;
 using static DiegoG.DnDTools.Base.Enumerations;
 
 namespace DiegoG.DnDTools.Base.Items.Info

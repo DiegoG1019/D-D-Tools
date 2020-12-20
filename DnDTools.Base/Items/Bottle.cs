@@ -1,16 +1,10 @@
-﻿using DiegoG.DnDTools.Base.Items.Info;
-using DiegoG.DnDTools.Base.Other;
+﻿using DiegoG.DnDTools.Base.Other;
 using DiegoG.Utilities;
 using DiegoG.Utilities.Measures;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Collections.ObjectModel;
-using System.Runtime.Serialization;
-using System.Text.Json.Serialization;
-using System.Xml.Serialization;
-using static DiegoG.DnDTools.Base.Enumerations;
 
 namespace DiegoG.DnDTools.Base.Items
 {
@@ -20,7 +14,7 @@ namespace DiegoG.DnDTools.Base.Items
         public Volume BottleSize { get => BottleSizeField; set { BottleSizeField = value; NotifyPropertyChanged(); } }
         private Volume BottleSizeField = new(10, Volume.Units.Ounce);
         public Mass BottleWeight { get => BottleWeightField; set { BottleWeightField = value; NotifyPropertyChanged(); } }
-private Mass BottleWeightField = new(300, Mass.Units.Gram);
+        private Mass BottleWeightField = new(300, Mass.Units.Gram);
         public override Mass Weight => base.Weight;
 
         public (Liquid Liquid, Percentage Fill) this[int index]
@@ -43,7 +37,7 @@ private Mass BottleWeightField = new(300, Mass.Units.Gram);
                     double a = 0;
                     foreach (var l in Fills)
                         a += l.Value;
-                    FillCache = new(Fills.Sum(d=>d.Value));
+                    FillCache = new(Fills.Sum(d => d.Value));
                     RecalcFill = false;
                 }
                 return FillCache;

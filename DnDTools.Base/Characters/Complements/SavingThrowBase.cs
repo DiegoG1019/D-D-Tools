@@ -1,9 +1,4 @@
-﻿using DiegoG.Utilities.Enumerations;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using static DiegoG.DnDTools.Base.Enumerations;
@@ -24,7 +19,7 @@ namespace DiegoG.DnDTools.Base.Characters.Complements
         }
         public SavingThrowBase()
         {
-            for(int i = 0; i < SavingThrowCount; i++)
+            for (int i = 0; i < SavingThrowCount; i++)
                 list.Add(0);
         }
         private CharacterStat<SavingThrow, CharacterSavingThrowProperty> ToCharacterSavingThrow(Character chara)
@@ -38,7 +33,7 @@ namespace DiegoG.DnDTools.Base.Characters.Complements
         public void AddCharacterSavingThrow(Character chara)
         {
             for (int i = 0; i < SavingThrowCount; i++)
-                chara.SavingThrows[(SavingThrow)i].BasePoints =+ list[i];
+                chara.SavingThrows[(SavingThrow)i].BasePoints = +list[i];
         }
         public void Add(SavingThrowBase other)
         {

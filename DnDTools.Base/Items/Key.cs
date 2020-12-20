@@ -1,6 +1,4 @@
 ﻿using DiegoG.DnDTools.Base.Other;
-using System;
-using System.Collections.Generic;
 
 namespace DiegoG.DnDTools.Base.Items
 {

@@ -1,14 +1,8 @@
 ﻿using DiegoG.DnDTools.Base.Items.Weapons;
-using DiegoG.DnDTools.Base.Other;
-using DiegoG.Utilities;
 using DiegoG.Utilities.Collections;
-using DiegoG.Utilities.Settings;
 using DiegoG.Utilities.Measures;
-using System;
+using DiegoG.Utilities.Settings;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static DiegoG.DnDTools.Base.Enumerations;
 
 namespace DiegoG.DnDTools.Base.Cache.Items.Weapons
@@ -23,7 +17,7 @@ namespace DiegoG.DnDTools.Base.Cache.Items.Weapons
             Description = SetLang.Club.Description,
             Notes = SetLang.Club.Notes,
             AttackThrow = new(Stats.Strength),
-            Damage = new("1d1", "1d2", "1d3", "1d4","1d6", "1d8", "2d6", "3d6", "4d6"),
+            Damage = new("1d1", "1d2", "1d3", "1d4", "1d6", "1d8", "2d6", "3d6", "4d6"),
             ThrownRangeIncrement = new(10, Length.Units.Foot),
             Category = WeaponCategory.Simple,
             Critical = new(20, 2, 20),

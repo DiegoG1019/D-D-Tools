@@ -1,11 +1,9 @@
-﻿using DiegoG.DnDTools.Base.Other;
-using System;
+﻿using System;
+using System.ComponentModel;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 using System.Xml.Serialization;
 using static DiegoG.DnDTools.Base.Enumerations;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 
 namespace DiegoG.DnDTools.Base.Characters.Complements
 {
@@ -33,25 +31,50 @@ namespace DiegoG.DnDTools.Base.Characters.Complements
 
         public CharacterStatProperty ParentStats => Parent.Stats[KeyStat];
 
-        public string Name { get => NameField; set {NameField = value;
+        public string Name
+        {
+            get => NameField; set
+            {
+                NameField = value;
                 NotifyPropertyChanged();
-            } }
+            }
+        }
         private string NameField;
-        public Stats KeyStat { get => KeyStatField; set {KeyStatField = value;
+        public Stats KeyStat
+        {
+            get => KeyStatField; set
+            {
+                KeyStatField = value;
                 NotifyPropertyChanged();
-            } }
+            }
+        }
         private Stats KeyStatField;
-        public int Rank { get => RankField; set {RankField = value;
+        public int Rank
+        {
+            get => RankField; set
+            {
+                RankField = value;
                 NotifyPropertyChanged();
-            } }
+            }
+        }
         private int RankField;
-        public int MiscRanks { get => MiscRanksField; set {MiscRanksField = value;
+        public int MiscRanks
+        {
+            get => MiscRanksField; set
+            {
+                MiscRanksField = value;
                 NotifyPropertyChanged();
-            } }
+            }
+        }
         private int MiscRanksField;
-        public int OtherRanks { get => OtherRanksField; set {OtherRanksField = value;
+        public int OtherRanks
+        {
+            get => OtherRanksField; set
+            {
+                OtherRanksField = value;
                 NotifyPropertyChanged();
-            } }
+            }
+        }
         private int OtherRanksField;
 
         public void Train(int l) => Rank += l;

@@ -1,38 +1,56 @@
 ﻿using DiegoG.DnDTools.Base.Other;
-using DiegoG.Utilities.Settings;
-using DiegoG.Utilities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static DiegoG.DnDTools.Base.Enumerations;
 using DiegoG.Utilities.Measures;
+using DiegoG.Utilities.Settings;
+using System.Collections.Generic;
+using static DiegoG.DnDTools.Base.Enumerations;
 
 namespace DiegoG.DnDTools.Base
 {
     public class Lang : ISettings
     {
-        public ulong Version { get; } = 3;
+        public ulong Version { get; } = 4;
+
+        //UI
+        public string CharacterDataText { get; set; } = "Character Data";
+        public string ViewNotesText { get; set; } = "View Notes";
+        public string ViewIntroText { get; set; } = "Intro";
+        public string ViewBioText { get; set; } = "Biography";
 
         //Other
         public string Currency { get; set; } = " coins";
         public string BaseAttackBonusText { get; set; } = "Base Attack Bonus";
-        public string ArmorClassText { get; set; } = "Armor Class";
-        public string ShortArmorClassText { get; set; } = "AC";
         public string SimpleText { get; set; } = "Simple";
         public string AverageText { get; set; } = "Average";
         public string GoodText { get; set; } = "Good";
         public string SuperiorText { get; set; } = "Superior";
         public string MasterWorkText { get; set; } = "Masterwork";
+        public string BaseText { get; set; } = "Base";
+        public string CurrentText { get; set; } = "Current";
+        public string EffectText { get; set; } = "Effect";
+        public string RemainingText { get; set; } = "Remaining";
+        public string StateText { get; set; } = "State";
+        public string NaturalText { get; set; } = "Natural";
+        public string DeflectionText { get; set; } = "Deflection";
+
+        //Character Data
+        public string SavingThrowsText { get; set; } = "Saving Throws";
+        public string StatsText { get; set; } = "Stats";
+        public string HealthText { get; set; } = "Health";
+        public string ArmorClassText { get; set; } = "Armor Class";
+        public string ShortArmorClassText { get; set; } = "AC";
+        public string TouchArmorClassText { get; set; } = "Touch";
+        public string UnawareArmorClassText { get; set; } = "Unaware";
+        public string InitiativeText { get; set; } = "Initiative";
+        public string ExperienceText { get; set; } = "Experience";
+        public string LevelText { get; set; } = "Level";
+        public string ExpLevelText { get; set; } = "Exp. Level";
+        public string LethalDamageText { get; set; } = "Lethal Damage";
+        public string NonLethalDamageText { get; set; } = "Non Lethal Damage";
 
         //CharacterDescription
         public string GenderText { get; set; } = "Gender";
         public string PersonalityText { get; set; } = "Personality";
-        public string ViewIntroButton { get; set; } = "Intro";
-        public string ViewBioButton { get; set; } = "Biography";
         public string FullNameText { get; set; } = "Full Name";
-        public string ExpLevelText { get; set; } = "Exp. Level";
         public string RaceText { get; set; } = "Race";
         public string AlignmentText { get; set; } = "Alignment";
         public string DeityText { get; set; } = "Deity";
@@ -44,7 +62,6 @@ namespace DiegoG.DnDTools.Base
         public string EyeColorText { get; set; } = "Eye Color";
         public string HairColorText { get; set; } = "Hair Color";
         public string SkinColorText { get; set; } = "Skin Color";
-        public string ViewNotesButton { get; set; } = "View Notes";
 
         //CharacterSkills
         public string SkillNameText { get; set; } = "Skill Name";
@@ -61,6 +78,13 @@ namespace DiegoG.DnDTools.Base
         public NameDesc EfficientStrike { get; set; } = new("Efficient Strike", "Able to stack Sneak Attack to Critical Hits");
 
         //Weapons and Armor
+        public string ArmorText { get; set; } = "Armor";
+        public string WeaponText { get; set; } = "Weapon";
+        public string MeleeWeaponText { get; set; } = "Melee Weapon";
+        public string RangedWeaponText { get; set; } = "Ranged Weapon";
+        public string AmmunitionText { get; set; } = "Ammunition";
+        public string ItemText { get; set; } = "Item";
+
         public NameDesc LeatherArmor { get; set; } = new("Leather Armor", "A normal, well-made leather armor, offering a good amount of protection for relatively free movement.");
         public NameDesc CrossbowBolt { get; set; } = new("Crossbow Bolts", "A common, well-made bolt used for crossbows");
         public NameDesc ThrowingKnife { get; set; } = new("Throwing Knife", "A common, well-made small knife made for throwing");
@@ -141,7 +165,7 @@ namespace DiegoG.DnDTools.Base
             { BodyTypes.Plant, "Plant" },
             { BodyTypes.Undead, "Undead" },
             { BodyTypes.Vermin, "Vermin" },
-        }; 
+        };
         public Dictionary<Sizes, string> SizeStrings { get; set; } = new Dictionary<Sizes, string>()
         {
             { Sizes.Fine, "Fine" },
@@ -203,7 +227,7 @@ namespace DiegoG.DnDTools.Base
             { MagicSchool.Illusion, "Illusion" },
             { MagicSchool.Necromancy, "Necromancy" },
             { MagicSchool.Transmutation, "Transmutation" }
-        }; 
+        };
         public Dictionary<WeaponCategory, string> WeaponCategoryStrings { get; set; } = new Dictionary<WeaponCategory, string>()
         {
             { WeaponCategory.Simple, "Simple" },
@@ -222,6 +246,13 @@ namespace DiegoG.DnDTools.Base
             { ItemEncumbrance.Light, "Light" },
             { ItemEncumbrance.OneHand, "One Handed" },
             { ItemEncumbrance.TwoHand, "Two Handed" },
+        };
+        public Dictionary<CombatState, string> CombatStateStrings { get; set; } = new Dictionary<CombatState, string>()
+        {
+            { CombatState.Active, "Active" },
+            { CombatState.Incapacitated, "Incapacitated" },
+            { CombatState.BleedingOut, "Bleeding Out" },
+            { CombatState.Deceased, "Deceased" },
         };
     }
 }

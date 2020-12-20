@@ -1,11 +1,9 @@
-﻿using System;
+﻿using DiegoG.Utilities.IO;
+using System;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 using System.Xml.Serialization;
-using CSScriptLib;
-using DiegoG.DnDTools.Base.Characters.Complements;
-using DiegoG.Utilities.IO;
 
 namespace DiegoG.DnDTools.Base.Scripting
 {
@@ -15,9 +13,9 @@ namespace DiegoG.DnDTools.Base.Scripting
         void Init();
     }
     [Serializable]
-    public abstract class CharacterScript<T>
+    public abstract class CharacterScript
     {
-        static CharacterScript() => JsonSerializationSettings.RegisterClassCallbacksJsonConverter<CharacterScript<T>>();
+        public static void Initialize() => JsonSerializationSettings.RegisterClassCallbacksJsonConverter<CharacterScript>();
         public string ScriptString { get; protected set; }
         [JsonIgnore, IgnoreDataMember, XmlIgnore]
         public dynamic ScriptObject { get; protected set; }

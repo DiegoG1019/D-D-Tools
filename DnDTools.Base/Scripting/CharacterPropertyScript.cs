@@ -1,14 +1,14 @@
-﻿using System;
+﻿using CSScriptLib;
+using DiegoG.DnDTools.Base.Characters;
+using DiegoG.DnDTools.Base.Characters.Complements;
+using System;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 using System.Xml.Serialization;
-using CSScriptLib;
-using DiegoG.DnDTools.Base.Characters;
-using DiegoG.DnDTools.Base.Characters.Complements;
 
 namespace DiegoG.DnDTools.Base.Scripting
 {
-    public class CharacterPropertyScript : CharacterScript<CharacterPropertyScript>, ICharacterScript
+    public class CharacterPropertyScript : CharacterScript, ICharacterScript
     {
         public int DependentValue(Character chara, SecondaryCharacterStatProperty stat) => ScriptObject.GetDependentValue(chara, stat);
         public int OtherValue(Character chara, SecondaryCharacterStatProperty stat) => ScriptObject.GetOtherValue(chara, stat);
@@ -23,11 +23,14 @@ namespace DiegoG.DnDTools.Base.Scripting
             try
             {
 #warning No validation yet
-            }catch(Exception e)
+            }
+            catch (Exception e)
             {
                 throw new InvalidScriptException($"CharacterPropertyScript \"[[{ScriptString}]]\" is invalid", e);
             }
         }
+
+        [OnDeserialized]
         public void Init()
         {
             try

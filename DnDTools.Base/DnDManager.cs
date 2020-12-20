@@ -1,19 +1,22 @@
 ﻿using DiegoG.DnDTools.Base.Cache;
+using DiegoG.DnDTools.Base.Scripting;
 using DiegoG.Utilities.Collections;
+using DiegoG.Utilities.Settings;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using Serilog;
-using DiegoG.Utilities.Settings;
 
 namespace DiegoG.DnDTools.Base
 {
     public static class DnDManager
     {
+        public static void SerializationInit()
+        {
+            Log.Information("Initializing DnDTools.Base Serialization related settings");
+            Log.Information("Initializing Script Manager");
+            CharacterScript.Initialize();
+        }
         public static void Initialize<Settings>() where Settings : DnDAppSettingsBase, new()
         {
             Log.Information($"Running " + DnDBase.FullAppTitle);
@@ -26,6 +29,9 @@ namespace DiegoG.DnDTools.Base
 
             Log.Information("Initializing Language settings");
             Settings<Lang>.Initialize(Directories.Languages, Settings<Settings>.Current.Lang);
+
+            Log.Information("Copying Default Data to AppData directory");
+            Microsoft.VisualBasic.FileIO.FileSystem.CopyDirectory(Directories.InWorking("DnDT"), Directories.DataOut, true);
         }
         public static CharacterList Characters { get; } = new CharacterList();
     }
@@ -35,22 +41,25 @@ namespace DiegoG.DnDTools.Base
         public static string Temp { get; private set; } = Path.GetTempPath();
 
         public static string DataOut { get; private set; }
+        public static string InDataOut(string n) => Path.Combine(Working, n);
         public static string Characters { get; private set; }
+        public static string InCharacters(string n) => Path.Combine(Working, n);
         public static string Scripts { get; private set; }
+        public static string InScripts(string n) => Path.Combine(Working, n);
         public static string Themes { get; private set; }
+        public static string InThemes(string n) => Path.Combine(Working, n);
 
         public static string Working { get; private set; } = Path.GetFullPath(Directory.GetCurrentDirectory());
+        public static string InWorking(string n) => Path.Combine(Working, n);
         public static string AppData { get; private set; } = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), GlobalCache.FullAppName);
+        public static string InAppData(string n) => Path.Combine(Working, n);
 
-#if DEBUG
-        public static string Logging { get; private set; } = Path.Combine(Working, "Logs");
-        public static string Settings { get; private set; } = Path.Combine(Working, "Settings");
-        public static string Languages { get; private set; } = Path.Combine(Working, "Languages");
-#else
-            public static string Logging { get; private set; } = Path.Combine(AppData, "Logs");
-            public static string Settings { get; private set; } = Path.Combine(AppData, "Settings");
-            public static string Languages { get; private set; } = Path.Combine(AppData, "Languages");
-#endif
+        public static string Logging { get; private set; } = Path.Combine(AppData, "Logs");
+        public static string InLogging(string n) => Path.Combine(Working, n);
+        public static string Settings { get; private set; } = Path.Combine(AppData, "Settings");
+        public static string InSettings(string n) => Path.Combine(Working, n);
+        public static string Languages { get; private set; } = Path.Combine(AppData, "Languages");
+        public static string InLanguages(string n) => Path.Combine(Working, n);
 
         public static IEnumerable<(string Directory, string Path)> AllDirectories
             => isinit ? ReflectionCollectionMethods.GetAllMatchingTypeStaticPropertyNameValueTuple<string>(typeof(Directories)) : throw new InvalidOperationException("Directories has not been initialized");

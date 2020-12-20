@@ -1,15 +1,15 @@
-﻿using System;
-using Serilog;
-using System.IO;
-using DiegoG.CLI;
-using DiegoG.Utilities.IO;
-using System.Threading.Tasks;
-using DiegoG.Utilities.Settings;
+﻿using DiegoG.CLI;
 using DiegoG.DnDTools.Base;
-using DiegoG.Utilities.Enumerations;
-using Version = DiegoG.Utilities.Version;
-using System.Windows;
 using DiegoG.DnDTools.Base.Cache;
+using DiegoG.Utilities.Enumerations;
+using DiegoG.Utilities.IO;
+using DiegoG.Utilities.Settings;
+using Serilog;
+using System;
+using System.IO;
+using System.Threading.Tasks;
+using System.Windows;
+using Version = DiegoG.Utilities.Version;
 
 namespace DiegoG.DnDTools.Desktop
 {
@@ -84,7 +84,7 @@ namespace DiegoG.DnDTools.Desktop
             Settings<Lang>.Initialize(Directories.Languages, Settings<AppSettings>.Current.Lang);
 
             Log.Information("Initializing Theme settings");
-            Settings<Theme>.Initialize(Directories.Themes, Settings<AppSettings>.Current.Theme);
+            Settings<Theme>.Initialize(Path.Combine(Directories.Themes, DnDDesktop.Implementation), Settings<AppSettings>.Current.Theme);
 
             Log.Information("Finished the Initialization of the Application");
         }

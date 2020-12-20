@@ -13,14 +13,24 @@ namespace DiegoG.DnDTools.Base.Characters.Complements
         private Stats BaseStatField;
         public int BasePoints { get => BasePointsField; set { BasePointsField = value; NotifyPropertyChanged(); } }
         private int BasePointsField;
-        public int Bonus { get => BonusField; set {BonusField = value;
+        public int Bonus
+        {
+            get => BonusField; set
+            {
+                BonusField = value;
                 NotifyPropertyChanged();
-            } }
+            }
+        }
         private int BonusField;
         [IgnoreDataMember, JsonIgnore, XmlIgnore]
-        public int EffectPoints { get => EffectPointsField; set {EffectPointsField = value;
+        public int EffectPoints
+        {
+            get => EffectPointsField; set
+            {
+                EffectPointsField = value;
                 NotifyPropertyChanged();
-            } }
+            }
+        }
         private int EffectPointsField;
         [IgnoreDataMember, JsonIgnore, XmlIgnore]
         public int BaseTotal => BasePoints + Parent.Stats[BaseStat].Total + Bonus;

@@ -1,14 +1,14 @@
 ﻿using DiegoG.DnDTools.Base.Characters.Complements;
 using DiegoG.DnDTools.Base.Other;
+using DiegoG.Utilities;
 using DiegoG.Utilities.Settings;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 using System.Xml.Serialization;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using static DiegoG.DnDTools.Base.Enumerations;
 
 namespace DiegoG.DnDTools.Base.Characters
@@ -75,46 +75,46 @@ namespace DiegoG.DnDTools.Base.Characters
         public int BaseHP { get => BaseHPField; set { BaseHPField = value; NotifyPropertyChanged(); } }
         private int BaseHPField;
 
-        public Hurt LethalDamage 
-        { 
-            get => LethalDamageField; 
-            set 
-            { 
+        public Hurt LethalDamage
+        {
+            get => LethalDamageField;
+            set
+            {
                 LethalDamageField.PropertyChanged -= LethalDamageField_PropertyChanged;
                 LethalDamageField = value;
                 LethalDamageField.PropertyChanged += LethalDamageField_PropertyChanged;
                 NotifyPropertyChanged();
-            } 
+            }
         }
         private void LethalDamageField_PropertyChanged(object sender, PropertyChangedEventArgs e)
             => NotifyPropertyChanged(nameof(LethalDamage));
         private Hurt LethalDamageField = new Hurt();
 
-        public Hurt NonlethalDamage 
+        public Hurt NonlethalDamage
         {
-            get => NonlethalDamageField; 
-            set 
+            get => NonlethalDamageField;
+            set
             {
                 NonlethalDamageField.PropertyChanged -= NonlethalDamageField_PropertyChanged;
                 NonlethalDamageField = value;
                 NonlethalDamageField.PropertyChanged += NonlethalDamageField_PropertyChanged;
-                NotifyPropertyChanged(); 
-            } 
+                NotifyPropertyChanged();
+            }
         }
         private void NonlethalDamageField_PropertyChanged(object sender, PropertyChangedEventArgs e)
             => NotifyPropertyChanged(nameof(NonlethalDamage));
         private Hurt NonlethalDamageField = new Hurt();
 
-        public ObservableCollection<int> HpThrows 
-        { 
-            get => HpThrowsField; 
-            set 
-            { 
+        public ObservableCollection<int> HpThrows
+        {
+            get => HpThrowsField;
+            set
+            {
                 HpThrowsField.CollectionChanged -= HpThrowsField_CollectionChanged;
                 HpThrowsField = value;
-                HpThrowsField.CollectionChanged += HpThrowsField_CollectionChanged; 
-                NotifyPropertyChanged(); 
-            } 
+                HpThrowsField.CollectionChanged += HpThrowsField_CollectionChanged;
+                NotifyPropertyChanged();
+            }
         }
         private void HpThrowsField_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
             => NotifyPropertyChanged(nameof(HpThrows));
@@ -137,10 +137,18 @@ namespace DiegoG.DnDTools.Base.Characters
             HpThrowsField.CollectionChanged += HpThrowsField_CollectionChanged;
             NonlethalDamageField.PropertyChanged += NonlethalDamageField_PropertyChanged;
             LethalDamageField.PropertyChanged += LethalDamageField_PropertyChanged;
+            PropertyChanged += Health_PropertyChanged;
+        }
+
+        private void Health_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            HPRelation.BaseA = RemainingHP;
+            HPRelation.BaseB = BaseHP + EffectHP;
         }
 
         [JsonIgnore, IgnoreDataMember, XmlIgnore]
         public int RemainingHP => EffectHP + BaseHP - (LethalDamage.Damage + NonlethalDamage.Damage);
+        public NumberRelation HPRelation { get; private set; } = new();
 
         [JsonIgnore, IgnoreDataMember, XmlIgnore]
         public int NonLethalHP => EffectHP + BaseHP - NonlethalDamage.Damage;

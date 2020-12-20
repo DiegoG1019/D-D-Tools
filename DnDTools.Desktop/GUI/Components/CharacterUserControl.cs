@@ -4,12 +4,7 @@ using DiegoG.Utilities.Settings;
 using DiegoG.WPF;
 using Serilog;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Controls;
-using System.Windows.Media;
 
 namespace DiegoG.DnDTools.Desktop.GUI.Components
 {
@@ -20,7 +15,7 @@ namespace DiegoG.DnDTools.Desktop.GUI.Components
         public void InitializeCharacterControl()
         {
             CharacterSheet = this.GetParent<CharacterSheet>();
-            if(CharacterSheet == null)
+            if (CharacterSheet == null)
             {
                 var ne = new Exception("This widget does not belong to a CharacterSheet");
                 Log.Fatal(ne.ToString());
