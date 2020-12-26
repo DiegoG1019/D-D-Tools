@@ -1,5 +1,6 @@
 ﻿using DiegoG.DnDTools.Base.Characters.Complements;
 using System;
+using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 using System.Xml.Serialization;
@@ -12,8 +13,6 @@ namespace DiegoG.DnDTools.Base.Characters
     {
         public int BaseAC { get => BaseACField; set { BaseACField = value; NotifyPropertyChanged(); } }
         private int BaseACField;
-        public int Size { get => SizeField; set { SizeField = value; NotifyPropertyChanged(); } }
-        private int SizeField;
         public int Natural { get => NaturalField; set { NaturalField = value; NotifyPropertyChanged(); } }
         private int NaturalField;
         public int Deflection { get => DeflectionField; set { DeflectionField = value; NotifyPropertyChanged(); } }
@@ -40,5 +39,26 @@ namespace DiegoG.DnDTools.Base.Characters
         [JsonIgnore, IgnoreDataMember, XmlIgnore]
         public int UnawareAC => BaseAC + Armor + Size + Natural + Effect + (UnawareDex ? Parent.Stats[Stats.Dexterity].Modifier : 0);
 
+        [JsonIgnore, IgnoreDataMember, XmlIgnore]
+        public int Size => GetSizeACComparison(Parent.Description.Size);
+
+        public int ACSizeCompare(Sizes otherSize)
+            => GetSizeACComparison(Parent.Description.Size, otherSize);
+        public static int GetSizeACComparison(Sizes thisSize, Sizes otherSize = Sizes.Medium)
+            => GetSizeAC(thisSize) - GetSizeAC(otherSize);
+        public static int GetSizeAC(Sizes size)
+            => size switch
+            {
+                Sizes.Fine => 4,
+                Sizes.Diminutive => 3,
+                Sizes.Tiny => 2,
+                Sizes.Small => 1,
+                Sizes.Medium => 0,
+                Sizes.Large => -1,
+                Sizes.Huge => -2,
+                Sizes.Gargantuan => -3,
+                Sizes.Colossal => -4,
+                _ => throw new NotSupportedException("Unknown Size enum value"),
+            };
     }
 }

@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "DnDTools.CLI": {
+      "commandName": "Project"
+    }
+  }
+}

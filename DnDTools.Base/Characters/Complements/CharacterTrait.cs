@@ -9,7 +9,7 @@ using System.Xml.Serialization;
 namespace DiegoG.DnDTools.Base.Characters.Complements
 {
     [Serializable]
-    public abstract class CharacterTrait<T> : INotifyPropertyChanged where T : class
+    public abstract record CharacterTrait<T> : INotifyPropertyChanged where T : class
     {
         public event PropertyChangedEventHandler PropertyChanged;
         protected void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
@@ -17,7 +17,8 @@ namespace DiegoG.DnDTools.Base.Characters.Complements
 
         public string ParentName
         {
-            get => ParentNameField; set
+            get => ParentNameField;
+            set
             {
                 ParentNameField = value;
                 NotifyPropertyChanged();

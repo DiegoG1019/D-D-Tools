@@ -9,15 +9,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Resources\Fonts\LinLibertine.ttf" />
+    <None Remove="Characters\Character.cs~RF2f2da13a.TMP" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="DnDT\Scripts\SpeedPropertyDefault.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Fonts\LinLibertine.ttf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
 	

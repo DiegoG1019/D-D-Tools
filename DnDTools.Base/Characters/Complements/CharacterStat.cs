@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
@@ -26,9 +27,15 @@ namespace DiegoG.DnDTools.Base.Characters.Complements
             foreach (var v in count)
                 Stats[(TStat)v] = new TProperty() { ParentName = parentName };
         }
+
+        public IEnumerable<(TStat Stat, TProperty Property)> GetKVTuple()
+        {
+            foreach (var k in Stats.Keys)
+                yield return (k, Stats[k]);
+        }
     }
     [Serializable]
-    public class SecondaryCharacterStats : CharacterTrait<SecondaryCharacterStats>
+    public class SecondaryCharacterStats : CharacterTrait<SecondaryCharacterStats>, IEnumerable<(string PropertyName, SecondaryCharacterStatProperty Property)>
     {
         public Dictionary<string, SecondaryCharacterStatProperty> Stats { get; set; } = new Dictionary<string, SecondaryCharacterStatProperty>();
         /// <summary>
@@ -56,5 +63,13 @@ namespace DiegoG.DnDTools.Base.Characters.Complements
             Stats.Add(key.ToLower(), value);
             NotifyPropertyChanged();
         }
+
+        public IEnumerator<(string PropertyName, SecondaryCharacterStatProperty Property)> GetEnumerator()
+        {
+            foreach (var k in Stats.Keys)
+                yield return (k, Stats[k]);
+        }
+
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }

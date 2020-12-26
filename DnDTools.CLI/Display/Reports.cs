@@ -1,37 +1,53 @@
-﻿using DiegoG.Utilities.Settings;
+﻿using DiegoG.Utilities.Replacements;
+using DiegoG.Utilities.Settings;
+using DiegoG.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using DiegoG.CLI;
 
 namespace DiegoG.DnDTools.CLI.Display
 {
-    public static class Reports
-    {
-        public static Report Report
-        {
-            get => ReportField;
-            set
-            {
-                ReportField = value;
-                ReportField.DrawToConsole();
-            }
-        }
-        private static Report ReportField;
-    }
     public record Report
     {
-        private static ConsoleColor Back { set => Console.BackgroundColor = value; }
-        private static ConsoleColor Fore { set => Console.ForegroundColor = value; }
+        private static ConsoleColor Back { set => DConsole.BackgroundColor = value; }
+        private static ConsoleColor Fore { set => DConsole.TextColor = value; }
         private static Theme Theme => Settings<Theme>.Current;
-        private static void Write(string n) => Console.Write(n);
-        private static void WriteL(string n) => Console.WriteLine(n);
+        private static void Write(string n) => DConsole.Write(n);
+        private static void WriteL(string n) => DConsole.WriteLine(n);
+
+        public int NewLines
+        {
+            get
+            {
+                if(newlinecache == 0)
+                {
+                    newlinecache += Title.CountMatches('\n');
+                    foreach (ReportLine report in Lines)
+                    {
+                        newlinecache += report.FormattedBody.CountMatches('\n');
+                        newlinecache += report.FormattedExtra.CountMatches('\n');
+                        newlinecache += report.FormattedTitle.CountMatches('\n');
+                        newlinecache += report.FormattedSubtitle.CountMatches('\n');
+                    }
+                    newlinecache += Footer.CountMatches('\n');
+                }
+                return newlinecache;
+            }
+        }
+        private int newlinecache;
 
         public string Title { get; init; }
         public IEnumerable<ReportLine> Lines { get; init; }
         public string Footer { get; init; }
-        public void DrawToConsole()
+        /// <summary>
+        /// Draws the report to the screen
+        /// </summary>
+        /// <returns></returns>
+        public void DrawToConsole(Point offset)
         {
-            Console.Clear();
-            Console.SetCursorPosition(0, 0);
+            DConsole.Clear();
+            DConsole.SetCursorPosition(offset.X, offset.Y);
             Back = Theme.Background;
             Fore = Theme.ReportTitleColor;
             WriteL(Title);

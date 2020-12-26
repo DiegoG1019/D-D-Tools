@@ -48,14 +48,14 @@ namespace DiegoG.DnDTools.Base.Other
         public Dice(string th)
         {
             Validate(th);
-            var sep = Regex.Matches(th, @"[\+\-]?\d+");
+            var sep = Regex.Matches(th, ValidationPattern);
             if (!(sep.Count == 2 || sep.Count == 3))
                 invalidstring(th);
             Throws = int.Parse(sep[0].Value);
             Type = int.Parse(sep[1].Value);
             Extra = int.Parse(sep.Count > 2 ? sep[2].Value : "0");
         }
-        private const string ValidationPattern = @"\d+d\d+([\+\-]?\d+)?";
+        private const string ValidationPattern = @"[\+\-]?\d+";
         public static bool ValidateString(string str) => Regex.Match(str, ValidationPattern).Success;
         private static void Validate(string str)
         {
@@ -63,8 +63,8 @@ namespace DiegoG.DnDTools.Base.Other
                 invalidstring(str);
         }
         private static void invalidstring(string str) => throw new ArgumentException($"The given string \"{str}\" is not valid for Dice");
-        public static int Throw(string th) => new Dice(th).Throw();
-        public int Throw()
+        public static int Roll(string th) => new Dice(th).Roll();
+        public int Roll()
         {
             int total = 0;
             for (int i = 0; i < Throws; i++)
@@ -90,5 +90,16 @@ namespace DiegoG.DnDTools.Base.Other
 
         public static implicit operator Dice(string s) => new Dice(s);
         public static Dice NoDice { get; } = new Dice("0d0");
+        public static Dice D4 { get; } = new Dice("1d4");
+        public static Dice D6 { get; } = new Dice("1d6");
+        public static Dice D8 { get; } = new Dice("1d8");
+        public static Dice D10 { get; } = new Dice("1d10");
+        public static Dice D12 { get; } = new Dice("1d12");
+        public static Dice D14 { get; } = new Dice("1d14");
+        public static Dice D16 { get; } = new Dice("1d16");
+        public static Dice D20 { get; } = new Dice("1d20");
+        public static Dice D24 { get; } = new Dice("1d24");
+        public static Dice D30 { get; } = new Dice("1d30");
+        public static Dice D100 { get; } = new Dice("1d100");
     }
 }

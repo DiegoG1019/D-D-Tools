@@ -10,7 +10,7 @@ using DiegoG.Utilities.IO;
 
 namespace DiegoG.DnDTools.Base.Converters
 {
-    //[Serialization.CustomConverter]
+    //[Serialization.CustomConverter] This causes an infinite recursion which ends in a stack overflow. I have no idea why.
     public class UIntConverter : JsonConverter<uint>
     {
         public override uint Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)

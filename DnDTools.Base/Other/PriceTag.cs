@@ -21,8 +21,8 @@ namespace DiegoG.DnDTools.Base.Other
         [JsonIgnore, IgnoreDataMember, XmlIgnore]
         public string Value
         {
-            get => $"{NumericalValue}{Settings<Lang>.Current.Currency}";
-            set => NumericalValue = int.Parse(value.RemoveSubstring(Settings<Lang>.Current.Currency));
+            get => $"{NumericalValue}{Settings<Lang>.Current.Other.Currency}";
+            set => NumericalValue = int.Parse(value.RemoveSubstring(Settings<Lang>.Current.Other.Currency));
         }
     }
 }

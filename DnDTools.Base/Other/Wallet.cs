@@ -92,7 +92,7 @@ namespace DiegoG.DnDTools.Base.Other
 
         public Wallet() { }
         public Wallet(int value) : this() => Value = value;
-        public override string ToString() => $"{Settings<Lang>.Current.Currency}{Value}";
+        public override string ToString() => $"{Settings<Lang>.Current.Other.Currency}{Value}";
         public Wallet Separate(int value)
         {
             Spend(value);

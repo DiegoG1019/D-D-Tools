@@ -13,7 +13,7 @@ namespace DiegoG.DnDTools.Base.Items
         private int PenaltyField;
         public Percentage SpellFailure { get => SpellFailureField; set { SpellFailureField = value; NotifyPropertyChanged(); } }
         private Percentage SpellFailureField = new Percentage(0);
-        public int SpeedPenalty { get => SpeedPenaltyField; set { SpeedPenaltyField = value; NotifyPropertyChanged(); } }
+        public int SpeedModifier { get => SpeedPenaltyField; set { SpeedPenaltyField = value; NotifyPropertyChanged(); } }
         private int SpeedPenaltyField;
         public Armor() : base() { }
         public Armor(NameDesc nameDesc) : base(nameDesc) { }

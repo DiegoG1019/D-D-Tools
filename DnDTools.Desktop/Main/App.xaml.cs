@@ -15,20 +15,18 @@ namespace DiegoG.DnDTools.Desktop
 {
     public partial class App : Application
     {
+        public static Serilog.Core.LoggingLevelSwitch LoggingLevelSwitch { get; } = new();
         public static void Init()
         {
             /*--------------------------------------Initialization-------------------------------------*/
-
-            Directories.InitApplicationDirectories();
-
             Log.Logger = new LoggerConfiguration()
-                .MinimumLevel.Information()
-                .WriteTo.Console()
-                .WriteTo.File(Path.Combine(Directories.Logging, String.Format("pre-startup log - {0} - .log", Version.Full)), rollingInterval: RollingInterval.Hour)
-                .CreateLogger();
-
-            Serialization.Init();
-            Settings<AppSettings>.Initialize(Directories.Settings, "Settings");
+                .WriteTo.File(
+                    path: Directories.InLogging($"DnDTools_CLI.log"),
+                    rollingInterval: RollingInterval.Infinite,
+                    flushToDiskInterval: TimeSpan.FromMinutes(1),
+                    fileSizeLimitBytes: 104857600,
+                    levelSwitch: LoggingLevelSwitch
+                ).CreateLogger();
 
             if (Settings<AppSettings>.Current.Console)
             {
@@ -37,32 +35,21 @@ namespace DiegoG.DnDTools.Desktop
                 Log.Information("Console opened");
             }
 
-            LoggerConfiguration loggerconfig = new LoggerConfiguration();
-            if (Settings<AppSettings>.Current.Verbosity == Verbosity.Verbose)
-            {
-                loggerconfig.MinimumLevel.Verbose();
-                MinimumLoggerLevel = "Verbose";
-            }
-            else
-            {
-                if (Settings<AppSettings>.Current.Verbosity == Verbosity.Debug)
-                {
-                    loggerconfig.MinimumLevel.Debug();
-                    MinimumLoggerLevel = "Debug";
-                }
-                else
-                {
-                    loggerconfig.MinimumLevel.Information();
-                    MinimumLoggerLevel = "Information";
-                }
-            }
+            Log.Information("Initializing all application directories");
+            Directories.InitApplicationDirectories();
 
-            Log.Logger = loggerconfig
-                .WriteTo.Console()
-                .WriteTo.File(Path.Combine(Directories.Logging, $"{DnDDesktop.Implementation}.log"), rollingInterval: RollingInterval.Minute)
-                .CreateLogger();
+            Log.Debug("Initializing D&DTools.Base serialization settings");
+            DnDManager.SerializationInit();
 
-            Log.Debug("Succesfully started logger with a mimum level of {0}", MinimumLoggerLevel);
+            Log.Debug("Initializing Serialization settings");
+            Serialization.Init();
+
+            Log.Information("Loading App Settings");
+            Settings<AppSettings>.Initialize(Directories.Settings, "WPFDesktopSettings");
+
+            LoggingLevelSwitch.MinimumLevel = Settings<AppSettings>.Current.Verbosity;
+
+            Log.Debug($"Succesfully loaded AppSettings, set logging to a mimum level of {Enum.GetName(typeof(Serilog.Events.LogEventLevel), LoggingLevelSwitch.MinimumLevel)}");
 
             Log.Information($"Running {DnDDesktop.FullAppTitle}");
 

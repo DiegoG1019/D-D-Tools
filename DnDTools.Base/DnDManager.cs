@@ -41,25 +41,25 @@ namespace DiegoG.DnDTools.Base
         public static string Temp { get; private set; } = Path.GetTempPath();
 
         public static string DataOut { get; private set; }
-        public static string InDataOut(string n) => Path.Combine(Working, n);
+        public static string InDataOut(string n) => Path.Combine(DataOut, n);
         public static string Characters { get; private set; }
-        public static string InCharacters(string n) => Path.Combine(Working, n);
+        public static string InCharacters(string n) => Path.Combine(Characters, n);
         public static string Scripts { get; private set; }
-        public static string InScripts(string n) => Path.Combine(Working, n);
+        public static string InScripts(string n) => Path.Combine(Scripts, n);
         public static string Themes { get; private set; }
-        public static string InThemes(string n) => Path.Combine(Working, n);
+        public static string InThemes(string n) => Path.Combine(Themes, n);
 
         public static string Working { get; private set; } = Path.GetFullPath(Directory.GetCurrentDirectory());
         public static string InWorking(string n) => Path.Combine(Working, n);
         public static string AppData { get; private set; } = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), GlobalCache.FullAppName);
-        public static string InAppData(string n) => Path.Combine(Working, n);
+        public static string InAppData(string n) => Path.Combine(AppData, n);
 
         public static string Logging { get; private set; } = Path.Combine(AppData, "Logs");
-        public static string InLogging(string n) => Path.Combine(Working, n);
+        public static string InLogging(string n) => Path.Combine(Logging, n);
         public static string Settings { get; private set; } = Path.Combine(AppData, "Settings");
-        public static string InSettings(string n) => Path.Combine(Working, n);
+        public static string InSettings(string n) => Path.Combine(Settings, n);
         public static string Languages { get; private set; } = Path.Combine(AppData, "Languages");
-        public static string InLanguages(string n) => Path.Combine(Working, n);
+        public static string InLanguages(string n) => Path.Combine(Languages, n);
 
         public static IEnumerable<(string Directory, string Path)> AllDirectories
             => isinit ? ReflectionCollectionMethods.GetAllMatchingTypeStaticPropertyNameValueTuple<string>(typeof(Directories)) : throw new InvalidOperationException("Directories has not been initialized");

@@ -6,6 +6,6 @@ namespace DiegoG.DnDTools.CLI
     {
         public override ulong Version => 0 + base.Version;
 
-        public string Theme { get; set; } = "default";
+        public string Theme { get; set; } = "CLIDefaultTheme";
     }
 }

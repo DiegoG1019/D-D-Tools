@@ -252,7 +252,7 @@ namespace DiegoG.DnDTools.Base.Items
         [JsonIgnore, IgnoreDataMember, XmlIgnore]
         public int ArmorPenalty => Armors.Count > 0 ? (from item in Armors select item.Penalty).Max() : 0;
         [JsonIgnore, IgnoreDataMember, XmlIgnore]
-        public int ArmorSpeedPenalty => Armors.Count > 0 ? (from item in Armors select item.SpeedPenalty).Max() : 0;
+        public int ArmorSpeedModifier => Armors.Count > 0 ? (from item in Armors select item.SpeedModifier).Max() : 0;
         [JsonIgnore, IgnoreDataMember, XmlIgnore]
         public int ArmorMaximumDexterity => Armors.Count > 0 ? (from item in Armors select item.MaximumDeterity).Max() : 0;
 

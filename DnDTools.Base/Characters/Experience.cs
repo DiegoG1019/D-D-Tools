@@ -27,7 +27,11 @@ namespace DiegoG.DnDTools.Base.Characters
         public int Current
         {
             get => CurrentField;
-            set => Add(value - CurrentField);
+            set
+            {
+                Add(value - CurrentField);
+                NotifyPropertyChanged();
+            }
         }
         private int CurrentField;
 
@@ -41,7 +45,20 @@ namespace DiegoG.DnDTools.Base.Characters
         public int Left => Required - Current;
 
         [JsonIgnore, IgnoreDataMember, XmlIgnore]
-        public Percentage Progress => new Percentage((Current / Required) * 100f);
+        public Percentage Progress => new((double)ProgressRelation.Percentage);
+        private readonly NumberRelation ProgressRelation;
+
+        public Experience()
+        {
+            ProgressRelation = new(Current, Required);
+            PropertyChanged += Experience_PropertyChanged;
+        }
+
+        private void Experience_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(Current) || e.PropertyName == nameof(Required))
+                ProgressRelation.Set(Current, Required);
+        }
 
         public void Add(int v)
         {

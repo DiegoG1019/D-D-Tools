@@ -21,51 +21,35 @@ namespace DiegoG.DnDTools.CLI
         public static string FullAppTitle => DnDCLI.FullAppTitle;
         public static string CopyrightNotice => GlobalCache.CopyrightNotice;
 
-        public static string MinimumLoggerLevel;
+        public static Serilog.Core.LoggingLevelSwitch LoggingLevelSwitch { get; } = new();
 
-        public static string CurrentCharacterName { get; set; }
-        public static Character CurrentCharacter => DnDManager.Characters[CurrentCharacterName];
         public static void Init()
         {
             /*--------------------------------------Initialization-------------------------------------*/
+            Log.Logger = new LoggerConfiguration()
+                .WriteTo.File(
+                    path: Directories.InLogging($"DnDTools_CLI.log"),
+                    rollingInterval: RollingInterval.Infinite,
+                    flushToDiskInterval: TimeSpan.FromMinutes(1),
+                    fileSizeLimitBytes: 104857600,
+                    levelSwitch: LoggingLevelSwitch
+                ).CreateLogger();
+
+            Log.Information("Initializing all application directories");
             Directories.InitApplicationDirectories();
 
-            Log.Logger = new LoggerConfiguration()
-                .MinimumLevel.Information()
-                .WriteTo.File(Path.Combine(Directories.Logging, string.Format("pre-startup log - {0} - .log", Version.Full)), rollingInterval: RollingInterval.Minute)
-                .CreateLogger();
-
-            Log.Information("Initializing Serialization Settings");
+            Log.Debug("Initializing D&DTools.Base serialization settings");
             DnDManager.SerializationInit();
 
+            Log.Debug("Initializing Serialization settings");
             Serialization.Init();
-            Settings<AppSettings>.Initialize(Directories.Settings, "Settings");
 
-            LoggerConfiguration loggerconfig = new LoggerConfiguration();
-            if (Settings<AppSettings>.Current.Verbosity == Verbosity.Verbose)
-            {
-                loggerconfig.MinimumLevel.Verbose();
-                MinimumLoggerLevel = "Verbose";
-            }
-            else
-            {
-                if (Settings<AppSettings>.Current.Verbosity == Verbosity.Debug)
-                {
-                    loggerconfig.MinimumLevel.Debug();
-                    MinimumLoggerLevel = "Debug";
-                }
-                else
-                {
-                    loggerconfig.MinimumLevel.Information();
-                    MinimumLoggerLevel = "Information";
-                }
-            }
+            Log.Information("Loading App Settings");
+            Settings<AppSettings>.Initialize(Directories.Settings, "CLISettings");
 
-            Log.Logger = loggerconfig
-                .WriteTo.File(Path.Combine(Directories.Logging, $"{DnDCLI.Implementation}.log"), rollingInterval: RollingInterval.Minute)
-                .CreateLogger();
+            LoggingLevelSwitch.MinimumLevel = Settings<AppSettings>.Current.Verbosity;
 
-            Log.Debug($"Succesfully started logger with a mimum level of {MinimumLoggerLevel}");
+            Log.Debug($"Succesfully loaded AppSettings, set logging to a mimum level of {Enum.GetName(typeof(Serilog.Events.LogEventLevel), LoggingLevelSwitch.MinimumLevel)}");
 
             Log.Information($"Running " + DnDCLI.FullAppTitle);
 
@@ -80,10 +64,10 @@ namespace DiegoG.DnDTools.CLI
             DnDManager.Initialize<AppSettings>();
 
             Log.Information("Initializing CLI Lang Settings");
-            Settings<CLILang>.Initialize(Directories.Settings, Settings<AppSettings>.Current.Lang);
+            Settings<CLILang>.Initialize(Directories.Languages, DnDCLI.Implementation + Settings<AppSettings>.Current.Lang);
 
             Log.Information("Initializing CLI Theme Settings");
-            Settings<Theme>.Initialize(Directories.Settings, Settings<AppSettings>.Current.Lang + DnDCLI.Implementation);
+            Settings<Theme>.Initialize(Directories.Themes, Settings<AppSettings>.Current.Theme);
 
             Log.Information("Setting Console Settings");
             Log.Debug($"Setting Console Title");

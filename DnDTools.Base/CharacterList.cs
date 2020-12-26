@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
 namespace DiegoG.DnDTools.Base
@@ -22,13 +23,31 @@ namespace DiegoG.DnDTools.Base
         public bool IsRegistered(string characterFileName) => DictCharacters.ContainsKey(characterFileName);
         public bool IsRegistered(Character chara) => DictCharacters.ContainsKey(chara.CharacterFileName);
 
-        public Character Selected { get; private set; }
-        public void Select(Character character)
+        public bool TryGetSelected([MaybeNullWhen(false)]out Character selected)
         {
-            if (!IsRegistered(character))
-                Register(character);
-            Selected = character;
+            selected = null;
+            if(Selected is not null)
+            {
+                selected = Selected;
+                return true;
+            }
+            return false;
         }
+
+        public Character Selected
+        {
+            get => SelectedField;
+            set
+            {
+                if (ReferenceEquals(value, Selected))
+                    return;
+                if (!IsRegistered(value))
+                    Register(value);
+                SelectedField = value;
+                NotifyPropertyChanged();
+            }
+        }
+        private Character SelectedField;
         public void Select(string characterFileName)
             => Selected = this[characterFileName];
 
@@ -61,7 +80,7 @@ namespace DiegoG.DnDTools.Base
 
         public Character this[string chara] => DictCharacters[chara];
 
-        public CharacterList() => DictCharacters.CollectionChanged += DictCharacters_CollectionChanged;
+        internal CharacterList() => DictCharacters.CollectionChanged += DictCharacters_CollectionChanged;
 
         private void DictCharacters_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
             => NotifyPropertyChanged(nameof(CharacterList));
