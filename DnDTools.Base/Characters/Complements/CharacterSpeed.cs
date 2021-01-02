@@ -7,13 +7,12 @@ using System.Threading.Tasks;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 using System.Xml.Serialization;
-using static DiegoG.DnDTools.Base.Items.Inventory;
 using DiegoG.DnDTools.Base.Items;
 using DiegoG.Utilities.Measures;
 
 namespace DiegoG.DnDTools.Base.Characters.Complements
 {
-    public class SpeedProperty : CharacterTrait<SpeedProperty>, ICharacterProperty
+    public class CharacterSpeed : CharacterTrait<CharacterSpeed>, ICharacterProperty
     {
         public int Bonus
         {
@@ -26,7 +25,6 @@ namespace DiegoG.DnDTools.Base.Characters.Complements
         }
         private int BonusField;
 
-        [IgnoreDataMember, JsonIgnore, XmlIgnore]
         public int BasePoints
         {
             get => BasePointsField;
@@ -37,6 +35,8 @@ namespace DiegoG.DnDTools.Base.Characters.Complements
             }
         }
         private int BasePointsField;
+
+        [IgnoreDataMember, JsonIgnore, XmlIgnore]
         public int EffectPoints
         {
             get => EffectPointsField;
@@ -49,23 +49,41 @@ namespace DiegoG.DnDTools.Base.Characters.Complements
         private int EffectPointsField;
 
         [IgnoreDataMember, JsonIgnore, XmlIgnore]
-        public Length BoardSpeed { get; private set; }
+        public Length BoardSpeed
+        {
+            get
+            {
+                if (BoardSpeedField is not null)
+                    return BoardSpeedField;
+                BoardSpeed = new(Total / 5, Length.Units.Square);
+                return BoardSpeedField;
+            }
+            private set => BoardSpeedField = value;
+        }
+        public Length BoardSpeedField;
+
         [IgnoreDataMember, JsonIgnore, XmlIgnore]
         public int Total
         {
             get
             {
-
+                if (TotalField is not null)
+                    return (int)TotalField;
+                Parent.Equipped.Armors.PropertyChanged += Armors_PropertyChanged;
+                TotalField = Parent.Equipped.ArmorSpeedModifier;
+                return (int)TotalField;
             }
         }
         private int? TotalField;
+
         [IgnoreDataMember, JsonIgnore, XmlIgnore]
         public int BaseTotal => BasePoints + Bonus;
+
         [IgnoreDataMember, JsonIgnore, XmlIgnore]
         public int ArmorModifier
         {
             get => ArmorModiferField;
-            set
+            private set
             {
                 ArmorModiferField = value;
                 NotifyPropertyChanged();
@@ -73,25 +91,12 @@ namespace DiegoG.DnDTools.Base.Characters.Complements
         }
         private int ArmorModiferField;
 
-        private Bag<Armor> EquippedArmorBag;
-        public SpeedProperty()
-        {
-            BoardSpeed = new(Total / 5, Length.Units.Square);
-            EquippedArmorBag = Parent.Equipped.Armors;
-            PropertyChanged += SpeedProperty_PropertyChanged;
-        }
+        public CharacterSpeed() => PropertyChanged += SpeedProperty_PropertyChanged;
 
         private void SpeedProperty_PropertyChanged(object sender, PropertyChangedEventArgs e)
-            => BoardSpeed = new(Total / 5, Length.Units.Square);
-
-        private void Equipped_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if(e.PropertyName == nameof(Parent.Equipped.Armors))
-            {
-                EquippedArmorBag.PropertyChanged -= Armors_PropertyChanged;
-                EquippedArmorBag = Parent.Equipped.Armors;
-                EquippedArmorBag.PropertyChanged += Armors_PropertyChanged;
-            }
+            TotalField = BaseTotal + EffectPoints + ArmorModifier;
+            BoardSpeedField = new(Total / 5, Length.Units.Square);
         }
 
         private void Armors_PropertyChanged(object sender, PropertyChangedEventArgs e)

@@ -34,6 +34,7 @@ namespace DiegoG.DnDTools.CLI
         {
             public string InvalidCommandExceptionText { get; set; } = "Invalid Command";
             public string InvalidCommandArgumentExceptionText { get; set; } = "Invalid Command Argument";
+            public string CommandProcessExceptionText { get; set; } = "Problem with command execution";
             public string IntroMessage { get; set; } = "Type {0} to get a list of commands";
 
             public ShowCommandLang ShowCommand { get; set; } = new();
@@ -43,9 +44,11 @@ namespace DiegoG.DnDTools.CLI
                 public string HelpExplanation { get; set; } = "Displays a report on the current character's specified data";
                 public string HelpUsage { get; set; } = "{0}\n" +
                     "   *{1} - Displays Basic Data about the Selected Character\n" +
-                    "   *{2} - Displays Detailed Stat Data about the Selected Character\n";
+                    "   *{2} - Displays Detailed Stat Data about the Selected Character\n" +
+                    "   *{3} - Displays the members of the specified property";
                 public string BasicDataText { get; set; } = "Displaying Basic Data";
                 public string StatsDataText { get; set; } = "Displaying Stats Data";
+                public string DataText { get; set; } = "Displaying Specified Data";
             }
 
             public CharacterCommandsLang CharacterCommand { get; set; } = new();
@@ -65,10 +68,12 @@ namespace DiegoG.DnDTools.CLI
                     "   * {10} [{2}] - Loads the given character from a file into memory. Returns {3}\n" +
                     "   * {11} [{2}] - Creates a brand new character with the given filename, and returns the same filename\n" +
                     "   * {12} ({2}) - Saves the specified or currently selected character. Returns {3}\n" +
-                    "   * {13} - Obtains a list of all the character files available to load";
+                    "   * {13} - Obtains a list of all the character files available to load\n" +
+                    "   * {14} - Loads and Selects the specified character";
                 public string RegisteredResult { get; set; } = "Registered";
                 public string NotRegisteredResult { get; set; } = "Not Registered";
                 public string SelectedCharacterResult { get; set; } = "Currently Selected Character: ";
+                public string SelectedNoCharacterResult { get; set; } = "No Character is Selected";
                 public string CharacterSelectedResult { get; set; } = "Character {0} ({1}) is now selected";
                 public string CharacterNotExist { get; set; } = "Character {0} doesn't exist";
                 public string CharacterUnregister { get; set; } = "Character {0} ({1}) succesfully unregistered";

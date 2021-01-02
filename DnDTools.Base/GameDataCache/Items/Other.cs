@@ -17,25 +17,25 @@ namespace DiegoG.DnDTools.Base.Cache.Items
         //All the private properties here exist because of how often they're repeated
 
         private static Lang Lang => Settings<Lang>.Current;
-        private static Lang.ItemsLang ItemLang => Settings<Lang>.Current.Items;
+        private static ItemLang.ItemsLang ILang => Settings<ItemLang>.Current.Items;
         private static Length FiveFeet => new(5, Length.Units.Foot);
         private static Density WaterDensity => new(Mass.OneKilogram, Volume.OneLiter);
 
-        public static Item Caltrops => new(ItemLang.Caltrops)
+        public static Item Caltrops => new(ILang.Caltrops)
         {
             Encumbrance = ItemEncumbrance.Light,
             ThrownRangeIncrement = FiveFeet,
             Weight = new(2, Mass.Units.Pound),
             Value = new(1000)
         };
-        public static Item Candle => new(ItemLang.Candle)
+        public static Item Candle => new(ILang.Candle)
         {
             Encumbrance = ItemEncumbrance.Light,
             ThrownRangeIncrement = FiveFeet,
             Weight = new(100, Mass.Units.Gram),
             Value = new(1),
         };
-        public static Melee Crowbar => new(ItemLang.Crowbar)
+        public static Melee Crowbar => new(ILang.Crowbar)
         {
             Weight = new(5, Mass.Units.Pound),
             Value = new(2000),
@@ -49,21 +49,21 @@ namespace DiegoG.DnDTools.Base.Cache.Items
             AttackThrow = MeleeWeapons.MetalClub.AttackThrow,
             ThrownRangeIncrement = MeleeWeapons.MetalClub.ThrownRangeIncrement,
         };
-        public static Item FlintSteel => new(ItemLang.FlintSteel)
+        public static Item FlintSteel => new(ILang.FlintSteel)
         {
             Weight = new(250, Mass.Units.Gram),
             Value = new(1000),
             Encumbrance = ItemEncumbrance.Light,
             ThrownRangeIncrement = FiveFeet,
         };
-        public static Item GrapplingHook => new(ItemLang.GrapplingHook)
+        public static Item GrapplingHook => new(ILang.GrapplingHook)
         {
             Weight = new(4, Mass.Units.Pound),
             Value = new(1000),
             Encumbrance = ItemEncumbrance.OneHand,
             ThrownRangeIncrement = new Length(10, Length.Units.Foot)
         };
-        public static Melee Hammer => new(ItemLang.Hammer)
+        public static Melee Hammer => new(ILang.Hammer)
         {
             Weight = new(2, Mass.Units.Pound),
             Value = new(5000),
@@ -76,25 +76,25 @@ namespace DiegoG.DnDTools.Base.Cache.Items
             Critical = new(20, 2, 20),
             Impact = ImpactType.Bludgeoning
         };
-        public static Liquid Water => new(ItemLang.Water)
+        public static Liquid Water => new(ILang.Water)
         {
             Density = WaterDensity,
             Amount = Volume.OneLiter,
             Value = new(10)
         };
-        public static Liquid BlackInk => new(ItemLang.BlackInk)
+        public static Liquid BlackInk => new(ILang.BlackInk)
         {
             Density = WaterDensity,
             Amount = Volume.OneOunce,
             Value = new(800)
         };
-        public static Liquid ColoredInk => new(ItemLang.ColoredInk)
+        public static Liquid ColoredInk => new(ILang.ColoredInk)
         {
             Density = WaterDensity,
             Amount = Volume.OneOunce,
             Value = new(1600)
         };
-        public static Bottle ClayJug => new(ItemLang.ClayJug)
+        public static Bottle ClayJug => new(ILang.ClayJug)
         {
             Value = new(9),
             BottleSize = Volume.OneGallon,
@@ -102,77 +102,77 @@ namespace DiegoG.DnDTools.Base.Cache.Items
             Encumbrance = ItemEncumbrance.OneHand,
             ThrownRangeIncrement = FiveFeet
         };
-        public static Item LampCommon => new(ItemLang.CommonLamp)
+        public static Item LampCommon => new(ILang.CommonLamp)
         {
             Value = new(10),
             Weight = new(1, Mass.Units.Pound),
             Encumbrance = ItemEncumbrance.OneHand,
             ThrownRangeIncrement = FiveFeet
         };
-        public static Item LanternBullseye => new(ItemLang.BullseyeLantern)
+        public static Item LanternBullseye => new(ILang.BullseyeLantern)
         {
             Value = new(1200),
             Weight = new(3, Mass.Units.Pound),
             Encumbrance = ItemEncumbrance.OneHand,
             ThrownRangeIncrement = FiveFeet
         };
-        public static Item LanternHooded => new(ItemLang.HoodedLantern)
+        public static Item LanternHooded => new(ILang.HoodedLantern)
         {
             Value = new(700),
             Weight = new(2, Mass.Units.Pound),
             Encumbrance = ItemEncumbrance.OneHand,
             ThrownRangeIncrement = FiveFeet
         };
-        public static Item LockSimple => new(ItemLang.Lock)
+        public static Item LockSimple => new(ILang.Lock)
         {
-            Name = ItemLang.Lock.Name.Format(Lang.Other.SimpleText),
-            Description = ItemLang.Lock.Description.Format(20),
+            Name = ILang.Lock.Name.Format(Lang.Other.SimpleText),
+            Description = ILang.Lock.Description.Format(20),
             Value = new(2000),
             Weight = Mass.OnePound,
             Encumbrance = ItemEncumbrance.Light,
             ThrownRangeIncrement = FiveFeet,
         };
-        public static Item LockAverage => new(ItemLang.Lock)
+        public static Item LockAverage => new(ILang.Lock)
         {
-            Name = ItemLang.Lock.Name.Format(Lang.Other.AverageText),
-            Description = ItemLang.Lock.Description.Format(25),
+            Name = ILang.Lock.Name.Format(Lang.Other.AverageText),
+            Description = ILang.Lock.Description.Format(25),
             Value = new(4000),
             Weight = Mass.OnePound,
             Encumbrance = ItemEncumbrance.Light,
             ThrownRangeIncrement = FiveFeet,
         };
-        public static Item LockGood => new(ItemLang.Lock)
+        public static Item LockGood => new(ILang.Lock)
         {
-            Name = ItemLang.Lock.Name.Format(Lang.Other.GoodText),
-            Description = ItemLang.Lock.Description.Format(30),
+            Name = ILang.Lock.Name.Format(Lang.Other.GoodText),
+            Description = ILang.Lock.Description.Format(30),
             Value = new(8000),
             Weight = Mass.OnePound,
             Encumbrance = ItemEncumbrance.Light,
             ThrownRangeIncrement = FiveFeet,
         };
-        public static Item LockSuperior => new(ItemLang.Lock)
+        public static Item LockSuperior => new(ILang.Lock)
         {
-            Name = ItemLang.Lock.Name.Format(Lang.Other.SuperiorText),
-            Description = ItemLang.Lock.Description.Format(40),
+            Name = ILang.Lock.Name.Format(Lang.Other.SuperiorText),
+            Description = ILang.Lock.Description.Format(40),
             Value = new(15000),
             Weight = Mass.OnePound,
             Encumbrance = ItemEncumbrance.Light,
             ThrownRangeIncrement = FiveFeet,
         };
-        public static Liquid Oil => new(ItemLang.Oil)
+        public static Liquid Oil => new(ILang.Oil)
         {
             Density = new(0.8M, Mass.Units.Kilogram, Volume.Units.Liter),
             Amount = Volume.OnePint,
             Value = new(10)
         };
-        public static Item RamPortable => new(ItemLang.Oil)
+        public static Item RamPortable => new(ILang.Oil)
         {
             Value = new(10000),
             Weight = new(20, Mass.Units.Pound),
             Encumbrance = ItemEncumbrance.TwoHand,
             ThrownRangeIncrement = Length.OneFoot,
         };
-        public static Bottle Vial => new(ItemLang.Vial)
+        public static Bottle Vial => new(ILang.Vial)
         {
             Value = new(100),
             BottleWeight = new(1 / 10M, Mass.Units.Pound),

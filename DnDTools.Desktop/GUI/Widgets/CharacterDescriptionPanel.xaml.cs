@@ -114,10 +114,10 @@ namespace DiegoG.DnDTools.Desktop.GUI.Widgets
             => HeldCharacter.Description.Alignment = (Alignments)newindex;
 
         private void WeightBox_NumericBoxChanged(object sender, TextChangedEventArgs e, double newnumber)
-            => HeldCharacter.Description.Weight[Settings<DnDSettings>.Current.PreferredMassUnit] = (decimal)newnumber;
+            => HeldCharacter.Description.Weight = new((decimal)newnumber, Settings<DnDSettings>.Current.PreferredMassUnit);
 
         private void HeightBox_NumericBoxChanged(object sender, TextChangedEventArgs e, double newnumber)
-            => HeldCharacter.Description.Height[Settings<DnDSettings>.Current.PreferredLengthUnit] = (decimal)newnumber;
+            => HeldCharacter.Description.Height = new((decimal)newnumber, Settings<DnDSettings>.Current.PreferredLengthUnit);
 
         private void AgeBox_NumericBoxChanged(object sender, TextChangedEventArgs e, double newnumber)
             => HeldCharacter.Description.Age = (int)newnumber;

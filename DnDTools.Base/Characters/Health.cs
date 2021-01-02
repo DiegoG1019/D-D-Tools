@@ -40,7 +40,7 @@ namespace DiegoG.DnDTools.Base.Characters
             private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
                 => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
-            public ObservableCollection<int> History { get; set; } = new ObservableCollection<int>();
+            public ObservableCollection<int> History { get; init; } = new ObservableCollection<int>();
 
             [JsonIgnore, IgnoreDataMember, XmlIgnore]
             public int HistoryEntries => History.Count;
@@ -73,17 +73,16 @@ namespace DiegoG.DnDTools.Base.Characters
         public int EffectHP { get => EffectHPField; set { EffectHPField = value; NotifyPropertyChanged(); } }
         private int EffectHPField;
         public int BaseHP { get => BaseHPField; set { BaseHPField = value; NotifyPropertyChanged(); } }
-        private int BaseHPField;
+        private int BaseHPField = 1;
 
         public Hurt LethalDamage
         {
             get => LethalDamageField;
-            set
+            init
             {
                 LethalDamageField.PropertyChanged -= LethalDamageField_PropertyChanged;
                 LethalDamageField = value;
                 LethalDamageField.PropertyChanged += LethalDamageField_PropertyChanged;
-                NotifyPropertyChanged();
             }
         }
         private void LethalDamageField_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -98,7 +97,6 @@ namespace DiegoG.DnDTools.Base.Characters
                 NonlethalDamageField.PropertyChanged -= NonlethalDamageField_PropertyChanged;
                 NonlethalDamageField = value;
                 NonlethalDamageField.PropertyChanged += NonlethalDamageField_PropertyChanged;
-                NotifyPropertyChanged();
             }
         }
         private void NonlethalDamageField_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -113,7 +111,6 @@ namespace DiegoG.DnDTools.Base.Characters
                 HpThrowsField.CollectionChanged -= HpThrowsField_CollectionChanged;
                 HpThrowsField = value;
                 HpThrowsField.CollectionChanged += HpThrowsField_CollectionChanged;
-                NotifyPropertyChanged();
             }
         }
         private void HpThrowsField_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -125,6 +122,8 @@ namespace DiegoG.DnDTools.Base.Characters
             BaseHP = 0;
             for (byte i = 0; i <= Parent.Experience.Level; i++)
             {
+                if (HpThrows.Count <= i)
+                    return;
                 var n = HpThrows[i] + Parent.Stats[Stats.Constitution].Modifier;
                 if (n > 1)
                 { BaseHP += n; continue; }
@@ -148,6 +147,8 @@ namespace DiegoG.DnDTools.Base.Characters
 
         [JsonIgnore, IgnoreDataMember, XmlIgnore]
         public int RemainingHP => EffectHP + BaseHP - (LethalDamage.Damage + NonlethalDamage.Damage);
+
+        [IgnoreDataMember, JsonIgnore, XmlIgnore]
         public NumberRelation HPRelation { get; private set; } = new();
 
         [JsonIgnore, IgnoreDataMember, XmlIgnore]

@@ -15,6 +15,7 @@ namespace DiegoG.DnDTools.CLI.InterfaceCommands
         public string HelpUsage => "No special usage requirements";
         public string Trigger => "version";
         public string Alias => null;
+        void ICommand.ClearData() { return; }
 
         public Task<string> Action(string[] args)
         {

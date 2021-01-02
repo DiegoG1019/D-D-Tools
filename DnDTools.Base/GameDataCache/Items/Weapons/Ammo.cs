@@ -13,7 +13,7 @@ namespace DiegoG.DnDTools.Base.Cache.Items.Weapons
     {
         public static IEnumerable<Ammo> All { get; } = ReflectionCollectionMethods.GetAllMatchingTypeStaticPropertyValues<Ammo>(typeof(Ammunition));
         private static Lang SetLang => Settings<Lang>.Current;
-        private static Lang.WeaponsAndArmorLang Lang => SetLang.WeaponsAndArmor;
+        private static ItemLang.WeaponsAndArmorLang Lang => Settings<ItemLang>.Current.WeaponsAndArmor;
         public static Ammo CrossbowBolt => new Ammo(Lang.CrossbowBolt)
         {
             Value = new PriceTag(100),

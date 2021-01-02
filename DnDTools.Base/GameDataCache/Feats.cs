@@ -3,14 +3,14 @@ using DiegoG.Utilities.Collections;
 using DiegoG.Utilities.Settings;
 using System.Collections.Generic;
 using static DiegoG.DnDTools.Base.Enumerations;
-using static DiegoG.DnDTools.Base.Lang;
+using static DiegoG.DnDTools.Base.ItemLang;
 
 namespace DiegoG.DnDTools.Base.Cache
 {
     public static class Feats
     {
         public static IEnumerable<Ability> All { get; } = ReflectionCollectionMethods.GetAllMatchingTypeStaticPropertyValues<Ability>(typeof(Feats));
-        private static FeatsAndAbilitiesLang FeatLang => Settings<Lang>.Current.FeatsAndAbilities;
+        private static FeatsAndAbilitiesLang FeatLang => Settings<ItemLang>.Current.FeatsAndAbilities;
         private static Lang Lang => Settings<Lang>.Current;
         public static Ability WeaponFinesse => new Ability()
         {

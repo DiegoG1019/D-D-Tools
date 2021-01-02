@@ -14,6 +14,8 @@ using System.Xml.Serialization;
 using static DiegoG.DnDTools.Base.Cache.GlobalCache;
 using static DiegoG.DnDTools.Base.Enumerations;
 using Version = DiegoG.Utilities.Version;
+using DiegoG.DnDTools.Base.Attributes;
+using DiegoG.Utilities.Settings;
 
 namespace DiegoG.DnDTools.Base.Characters
 {
@@ -51,81 +53,63 @@ namespace DiegoG.DnDTools.Base.Characters
             }
         }
 
-        [JsonPropertyName("Character Stats"), XmlElement(ElementName = "Character Stats", IsNullable = false)]
+        [JsonPropertyName("Character Stats"), XmlElement(ElementName = "Character Stats", IsNullable = false), PresentationRelevant("CharacterData.StatsText")]
         public CharacterStat<Stats, CharacterStatProperty> Stats { get; init; }
-        //public CharacterStat<Stats, CharacterStatProperty> Stats { get => StatsField; init { StatsField = ConstructingSetTest(value); } }
-        //private CharacterStat<Stats, CharacterStatProperty> StatsField;
 
-        [JsonPropertyName("Character Saving Throws"), XmlElement(ElementName = "Character Saving Throws", IsNullable = false)]
-        public CharacterStat<SavingThrow, CharacterSavingThrowProperty> SavingThrows { get => SavingThrowsField; set { SavingThrowsField = ConstructingSetTest(value); } }
-        private CharacterStat<SavingThrow, CharacterSavingThrowProperty> SavingThrowsField;
+        [JsonPropertyName("Character Saving Throws"), XmlElement(ElementName = "Character Saving Throws", IsNullable = false), PresentationRelevant("CharacterData.SavingThrowsText")]
+        public CharacterStat<SavingThrow, CharacterSavingThrowProperty> SavingThrows { get; init; }
 
-        [JsonPropertyName("Other Character Stats"), XmlElement(ElementName = "Other Character Stats", IsNullable = false)]
-        public SecondaryCharacterStats SecondaryStats { get => SecondaryStatsField; set { SecondaryStatsField = ConstructingSetTest(value); } }
-        private SecondaryCharacterStats SecondaryStatsField;
+        //[JsonPropertyName("Other Character Stats"), XmlElement(ElementName = "Other Character Stats", IsNullable = false), PresentationRelevant("CharacterData.SecondaryStatsText")]
+        //public SecondaryCharacterStats SecondaryStats { get => SecondaryStatsField; set { SecondaryStatsField = ConstructingSetTest(value); } }
+        //private SecondaryCharacterStats SecondaryStatsField;
 
-        [JsonPropertyName("Character Experience"), XmlElement(ElementName = "Character Experience", IsNullable = false)]
-        public Experience Experience { get => ExperienceField; set { ExperienceField = ConstructingSetTest(value); } }
-        private Experience ExperienceField;
+        [JsonPropertyName("Character Experience"), XmlElement(ElementName = "Character Experience", IsNullable = false), PresentationRelevant("CharacterData.ExperienceText")]
+        public Experience Experience { get; init; }
 
-        [JsonPropertyName("Character Armor Class"), XmlElement(ElementName = "Character Armor Class", IsNullable = false)]
-        public ArmorClass ArmorClass { get => ArmorClassField; set { ArmorClassField = ConstructingSetTest(value); } }
-        private ArmorClass ArmorClassField;
+        [JsonPropertyName("Character Armor Class"), XmlElement(ElementName = "Character Armor Class", IsNullable = false), PresentationRelevant("CharacterData.ArmorClassText")]
+        public ArmorClass ArmorClass { get; init; }
 
-        [JsonPropertyName("Character Description"), XmlElement(ElementName = "Character Description", IsNullable = false)]
-        public Description Description { get => DescriptionField; set { DescriptionField = ConstructingSetTest(value); } }
-        private Description DescriptionField;
+        [JsonPropertyName("Character Description"), XmlElement(ElementName = "Character Description", IsNullable = false), PresentationRelevant("CharacterData.DescriptionText")]
+        public Description Description { get; init; }
 
-        [JsonPropertyName("Character Health"), XmlElement(ElementName = "Character Health", IsNullable = false)]
+        [JsonPropertyName("Character Health"), XmlElement(ElementName = "Character Health", IsNullable = false), PresentationRelevant("CharacterData.HealthText")]
         public Health Health { get => HealthField; set { HealthField = ConstructingSetTest(value); } }
         private Health HealthField;
 
-        [JsonPropertyName("Character Classes"), XmlElement(ElementName = "Character Classes", IsNullable = false)]
-        public JobList Jobs { get => JobsField; set { JobsField = ConstructingSetTest(value); } }
-        private JobList JobsField;
+        [JsonPropertyName("Character Classes"), XmlElement(ElementName = "Character Classes", IsNullable = false), PresentationRelevant("CharacterData.ClassPluralText")]
+        public JobList Jobs { get; init; }
 
-        [JsonPropertyName("Character Abilities"), XmlElement(ElementName = "Character Abilities", IsNullable = false)]
-        public ObservableCollection<Ability> Abilities { get => AbilitiesField; set { AbilitiesField = ConstructingSetTest(value); } }
-        private ObservableCollection<Ability> AbilitiesField = new();
+        [JsonPropertyName("Character Abilities"), XmlElement(ElementName = "Character Abilities", IsNullable = false), PresentationRelevant("CharacterAbilities.AbilityPluralText")]
+        public ObservableCollection<Ability> Abilities { get; init; } = new();
 
-        [JsonPropertyName("Character Feats"), XmlElement(ElementName = "Character Feats", IsNullable = false)]
-        public ObservableCollection<Ability> Feats { get => FeatsField; set { FeatsField = ConstructingSetTest(value); } }
-        private ObservableCollection<Ability> FeatsField = new();
-        [JsonPropertyName("Character Skills"), XmlElement(ElementName = "Character Skills", IsNullable = false)]
-        public SkillList Skills { get => SkillsField; set { SkillsField = ConstructingSetTest(value); } }
-        private SkillList SkillsField;
+        [JsonPropertyName("Character Feats"), XmlElement(ElementName = "Character Feats", IsNullable = false), PresentationRelevant("CharacterAbilities.FeatPluralText")]
+        public ObservableCollection<Ability> Feats { get; init; } = new();
 
-        [JsonPropertyName("Character Bags"), XmlElement(ElementName = "Character Bags", IsNullable = false)]
-        public ObservableCollection<Inventory> Bags { get => BagsField; set { BagsField = ConstructingSetTest(value); } }
-        private ObservableCollection<Inventory> BagsField = new();
+        [JsonPropertyName("Character Skills"), XmlElement(ElementName = "Character Skills", IsNullable = false), PresentationRelevant("CharacterSkills.SkillPluralText")]
+        public SkillList Skills { get; init; }
 
-        [JsonPropertyName("Character Equipped Items"), XmlElement(ElementName = "Character Equipped Items", IsNullable = false)]
-        public Inventory Equipped { get => EquippedField; set { EquippedField = ConstructingSetTest(value); } }
-        private Inventory EquippedField = new() { Description = "Equipped Items", Name = "Equipped" };
+        [JsonPropertyName("Character Bags"), XmlElement(ElementName = "Character Bags", IsNullable = false), PresentationRelevant("Other.BagPluralText")]
+        public ObservableCollection<Inventory> Bags { get; init; } = new();
 
-        [JsonPropertyName("Character Initiative"), XmlElement(ElementName = "Character Initiative", IsNullable = false)]
-        public InitiativeProperty Initiative { get => InitiativeField; set { InitiativeField = ConstructingSetTest(value); } }
-        private InitiativeProperty InitiativeField;
+        [JsonPropertyName("Character Equipped Items"), XmlElement(ElementName = "Character Equipped Items", IsNullable = false), PresentationRelevant("Other.EquippedText")]
+        public Inventory Equipped { get; init; } = new() { Description = "Equipped Items", Name = "Equipped" };
 
+        [JsonPropertyName("Character Initiative"), XmlElement(ElementName = "Character Initiative", IsNullable = false), PresentationRelevant("CharacterData.InitiativeText")]
+        public InitiativeProperty Initiative { get; init; }
 
-        [JsonPropertyName("Character Speed"), XmlElement(ElementName = "Character Speed", IsNullable = false)]
-        public SpeedProperty Speed { get => SpeedField; set { SpeedField = ConstructingSetTest(value); } }
-        private SpeedProperty SpeedField;
+        [JsonPropertyName("Character Speed"), XmlElement(ElementName = "Character Speed", IsNullable = false), PresentationRelevant("CharacterData.SpeedText")]
+        public CharacterSpeed Speed { get; init; }
 
         /// <summary>
         /// Don't use this one, this is for serialization, and WILL result in bugs if not initialized properly. (The serializer is supposed to take care of that)
         /// </summary>
         public Character() { }
-        public Character(string characterFileName) : this()
+        private Character(string characterFileName) : this()
         {
             CharacterFileName = characterFileName;
 
             Experience = new Experience() { ParentName = CharacterFileName };
-            ArmorClass = new ArmorClass()
-            { 
-                ParentName = CharacterFileName,
-                BaseAC = 10,
-            };
+            ArmorClass = new ArmorClass() { ParentName = CharacterFileName };
             Description = new Description() { ParentName = CharacterFileName };
             Health = new Health() { ParentName = CharacterFileName };
             Jobs = new JobList() { ParentName = CharacterFileName };
@@ -140,10 +124,11 @@ namespace DiegoG.DnDTools.Base.Characters
             SavingThrows[SavingThrow.Willpower].BaseStat = Enumerations.Stats.Wisdom;
 
             Version = Working_Version;
+            
+            //SecondaryStats = new SecondaryCharacterStats() { ParentName = CharacterFileName, };
 
             //Commented out until I replace CSScript with a Lua Engine
 
-            //SecondaryStats = new SecondaryCharacterStats() { ParentName = CharacterFileName, };
             //SecondaryStats.Add(
             //    "speed",
             //    new SecondaryCharacterStatProperty()
@@ -209,6 +194,15 @@ namespace DiegoG.DnDTools.Base.Characters
             DnDManager.Characters.Register(chara);
             chara.constructing = false;
             return chara;
+        }
+
+        public static Character Create(string characterFileName)
+        {
+            var chara = new Character(characterFileName);
+            DnDManager.Characters.Register(chara);
+            chara.Health.SetBaseHP();
+            chara.Experience.SetRequired();
+            return DnDManager.Characters[characterFileName];
         }
 
         private T ConstructingSetTest<T>(T value, [CallerMemberName] string propertyName = "")

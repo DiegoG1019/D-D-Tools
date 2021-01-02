@@ -12,7 +12,7 @@ namespace DiegoG.DnDTools.Base.Characters
     public sealed class ArmorClass : CharacterTrait<ArmorClass>
     {
         public int BaseAC { get => BaseACField; set { BaseACField = value; NotifyPropertyChanged(); } }
-        private int BaseACField;
+        private int BaseACField = 10;
         public int Natural { get => NaturalField; set { NaturalField = value; NotifyPropertyChanged(); } }
         private int NaturalField;
         public int Deflection { get => DeflectionField; set { DeflectionField = value; NotifyPropertyChanged(); } }

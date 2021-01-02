@@ -49,7 +49,7 @@ namespace DiegoG.DnDTools.CLI.Display
             {
                 return new Report()
                 {
-                    Title = string.Format(UILang.CharacterStatsText, c.Description.Name, c.CharacterFileName),
+                    Title = string.Format(UILang.CharacterStatsFormatText, c.Description.Name, c.CharacterFileName),
                     Lines = await lines,
                     Footer = await footer,
                 };
@@ -88,13 +88,11 @@ namespace DiegoG.DnDTools.CLI.Display
                         sthrows += $"{SThrows[s]} {c.SavingThrows[s].Total:00} | ";
                         basesthrows += $"{SThrows[s]} {c.SavingThrows[s].BaseTotal:0} | ";
                     }
-                    sthrows = sthrows[0..^3] + OtherLang.CurrentText + $" — {OtherLang.CurrentText}";
-                    basesthrows = basesthrows[0..^3] + OtherLang.BaseText + $" — {OtherLang.BaseText}";
+                    sthrows = sthrows[0..^3] + $" — {OtherLang.CurrentText}";
+                    basesthrows = basesthrows[0..^3] + $" — {OtherLang.BaseText}";
                 }
             );
 
-
-            //
             Health chp = c.Health;
             ArmorClass cac = c.ArmorClass;
             Experience cexp = c.Experience;
@@ -103,7 +101,7 @@ namespace DiegoG.DnDTools.CLI.Display
 
             return new()
             {
-                Title = string.Format(UILang.CharacterDataText, c.Description.Name, c.CharacterFileName),
+                Title = string.Format(UILang.CharacterBasicDataFormatText, c.Description.Name, c.CharacterFileName),
                 Lines = new ReportLine[]
                 {
                     new()
@@ -121,7 +119,7 @@ namespace DiegoG.DnDTools.CLI.Display
                     new()
                     {
                         Title = ChardatLang.HealthText,
-                        Body = RLang.CharacterData.HealthReportBodyFormatString.Format(chp.BaseHP, chp.EffectHP, chp.LethalDamage.Damage, ChardatLang.NonLethalDamageText, chp.NonlethalDamage.Damage),
+                        Body = RLang.CharacterData.HealthReportBodyFormatString.Format(chp.BaseHP, chp.EffectHP, chp.LethalDamage.Damage, chp.NonlethalDamage.Damage),
                         Subtitle = RLang.CharacterData.HealthReportSubtitleFormatString.Format(chp.RemainingHP, chp.HPRelation.PercentageString, Settings<Lang>.Current.CombatStateStrings[chp.State]),
                     },
                     new()
@@ -163,6 +161,6 @@ namespace DiegoG.DnDTools.CLI.Display
                     return classes;
                 }
             );
-        private static async Task<string> Footer(Character c) => $"{c.Description.Name}, {ChardatLang.LevelText} {c.Jobs.AllLevels}" + await GetClassList(c);
+        public static async Task<string> Footer(Character c) => $"{c.Description.Name}, {ChardatLang.LevelText} {c.Jobs.AllLevels}" + await GetClassList(c);
     }
 }

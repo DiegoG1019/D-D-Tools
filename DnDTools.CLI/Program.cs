@@ -35,6 +35,9 @@ namespace DiegoG.DnDTools.CLI
                     levelSwitch: LoggingLevelSwitch
                 ).CreateLogger();
 
+            Log.Information("Initializing Command Processor");
+            Commands.Initialize(new(true, false, false, false));
+
             Log.Information("Initializing all application directories");
             Directories.InitApplicationDirectories();
 

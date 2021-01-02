@@ -5,14 +5,14 @@ using DiegoG.Utilities.Measures;
 using DiegoG.Utilities.Settings;
 using System.Collections.Generic;
 using static DiegoG.DnDTools.Base.Enumerations;
-using static DiegoG.DnDTools.Base.Lang;
+using static DiegoG.DnDTools.Base.ItemLang;
 
 namespace DiegoG.DnDTools.Base.Cache.Items
 {
     public static class Armors
     {
         public static IEnumerable<Armor> All { get; } = ReflectionCollectionMethods.GetAllMatchingTypeStaticPropertyValues<Armor>(typeof(Armors));
-        private static WeaponsAndArmorLang SetLang => Settings<Lang>.Current.WeaponsAndArmor;
+        private static WeaponsAndArmorLang SetLang => Settings<ItemLang>.Current.WeaponsAndArmor;
         public static Armor LeatherArmor => new Armor(SetLang.LeatherArmor)
         {
             Value = new PriceTag(1000),

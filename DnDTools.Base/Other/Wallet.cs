@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
+using System.Xml.Serialization;
 
 namespace DiegoG.DnDTools.Base.Other
 {
@@ -31,7 +34,7 @@ namespace DiegoG.DnDTools.Base.Other
         public void Add(int value)
         {
             _Value += value;
-            Weight.Gram = _Value * Settings<DnDSettings>.Current.CoinWeight.Gram;
+            Weight = new(_Value * Settings<DnDSettings>.Current.CoinWeight.Gram, Mass.Units.Gram);
         }
 
         public void Gain(int value)
@@ -51,7 +54,7 @@ namespace DiegoG.DnDTools.Base.Other
             if (value > _Value)
                 throw new InvalidOperationException($"Attempted to draw {value - Value} over limit. W1: {Value}; W2: {value}");
             _Value -= value;
-            Weight.Gram = value * Settings<DnDSettings>.Current.CoinWeight.Gram;
+            Weight = new(_Value * Settings<DnDSettings>.Current.CoinWeight.Gram, Mass.Units.Gram);
         }
 
         public void Spend(int value)
@@ -86,9 +89,10 @@ namespace DiegoG.DnDTools.Base.Other
             }
         }
 
+        [IgnoreDataMember, JsonIgnore, XmlIgnore]
         public PriceTag PriceTag => new PriceTag(Value);
 
-        public NoteList Notes { get; set; }
+        public NoteList Notes { get; set; } = new();
 
         public Wallet() { }
         public Wallet(int value) : this() => Value = value;

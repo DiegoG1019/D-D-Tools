@@ -13,7 +13,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiegoG.CLI", "..\DGUtilitie
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DnDTools.Desktop", "DnDTools.Desktop\DnDTools.Desktop.csproj", "{7112D692-B1CB-4E34-AE04-3C87A3856DFA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DnDTools.CLI", "DnDTools.CLI\DnDTools.CLI.csproj", "{618D7D48-2E17-435E-B441-A33589BB3408}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DnDTools.CLI", "DnDTools.CLI\DnDTools.CLI.csproj", "{618D7D48-2E17-435E-B441-A33589BB3408}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DD1D76B2-1DAC-486E-A84D-3C0DB2F945F9}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution

@@ -18,7 +18,7 @@ namespace DiegoG.DnDTools.CLI.InterfaceCommands
     public class CharacterCommand : CharacterRelatedCommandAbstract, ICommand
     {
         public string HelpExplanation => CLang.HelpExplanation;
-        public string HelpUsage => string.Format(CLang.HelpUsage, "action", "arg", "characterFileName", "Y/N", UnregisterArg, IsRegisteredArg, SelectedArg, SelectArg, AllArg, GetArg, LoadArg, CreateArg, SaveArg, GetFilesArg);
+        public string HelpUsage => string.Format(CLang.HelpUsage, "action", "arg", "characterFileName", "Y/N", UnregisterArg, IsRegisteredArg, SelectedArg, SelectArg, AllArg, GetArg, LoadArg, CreateArg, SaveArg, GetFilesArg, LoadSelectArg);
         public string Trigger => "character";
         public string Alias => "c";
 
@@ -32,9 +32,11 @@ namespace DiegoG.DnDTools.CLI.InterfaceCommands
         private const string CreateArg       = "create";
         private const string SaveArg         = "save";
         private const string GetFilesArg     = "getfiles";
+        private const string LoadSelectArg   = "loadselect";
 
         private static List<string> CfnList { get; } = new();
 
+        void ICommand.ClearData() => CfnList.Clear();
         private static async Task<string> GetFiles(string index)
         {
             var ind = -1;
@@ -65,10 +67,17 @@ namespace DiegoG.DnDTools.CLI.InterfaceCommands
         }
         private static Task<string> Create(string characterFileName)
         {
-            Characters.Register(new Character(characterFileName));
+            try
+            {
+                Character.Create(characterFileName);
+            }catch(ArgumentException e)
+            {
+                throw new CommandProcessException("Cannot create a character with the same name as one already registered.", e);
+            }
             OutConsole.Message = string.Format(CLang.CharacterCreated, characterFileName);
             return Task.FromResult(characterFileName);
         }
+        private static async Task<string> LoadSelect(string characterFileName) => await Select(await Load(characterFileName));
         private static async Task<string> Load(string characterFileName)
         {
             (Task<Character> Task, bool Reloaded) tskr;
@@ -118,8 +127,13 @@ namespace DiegoG.DnDTools.CLI.InterfaceCommands
         }
         private static Task<string> Selected()
         {
-            OutConsole.Message = CLang.SelectedCharacterResult + Characters.Selected.CharacterFileName;
-            return Task.FromResult(Characters.Selected.CharacterFileName);
+            if (Characters.Selected is not null)
+            {
+                OutConsole.Message = CLang.SelectedCharacterResult + Characters.Selected.CharacterFileName;
+                return Task.FromResult(Characters.Selected.CharacterFileName);
+            }
+            OutConsole.Message = CLang.SelectedNoCharacterResult;
+            return Task.FromResult<string>(null);
         }
         private static Task<string> IsRegistered(string cfn) => Task.FromResult(Characters.IsRegistered(cfn) ? CLang.RegisteredResult : CLang.NotRegisteredResult);
         private static async Task<string> Unregister(string cfn, string savestr = null)
@@ -160,6 +174,7 @@ namespace DiegoG.DnDTools.CLI.InterfaceCommands
                 AllArg => ThrowHelper(AllArg, NoArgs, args.Length, () => All()),
                 GetFilesArg => ThrowHelper(GetFilesArg, NoArgs, args.Length, () => GetFiles(args.Length >= 3 ? args[2] : null)),
                 UnregisterArg => ThrowHelper(UnregisterArg, OneArg, args.Length, () => Unregister(args[2], args.Length >= 4 ? args[3] : "true")),
+                LoadSelectArg => ThrowHelper(LoadSelectArg, OneArg, args.Length, () => LoadSelect(args[2])),
                 _ => throw new InvalidCommandArgumentException($"Invalid argument for command Character: {args.Flatten()}")
             };
         }

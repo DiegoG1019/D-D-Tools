@@ -14,7 +14,7 @@ namespace DiegoG.DnDTools.Base.Characters
     public class JobList : CharacterTrait<JobList>, IList<Job>
     {
         [JsonIgnore, IgnoreDataMember, XmlIgnore]
-        public List<Job> JobsCollection { get; set; } = new List<Job>();
+        private List<Job> JobsCollection { get; set; } = new List<Job>();
         public event Action ListChanged;
         public void Add(Job item)
         {

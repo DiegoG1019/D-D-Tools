@@ -82,6 +82,11 @@ namespace DiegoG.DnDTools.CLI.Display
                     Message = Settings<CLILang>.Current.Commands.InvalidCommandArgumentExceptionText;
                     CommandOutput = e.Message;
                 }
+                catch (CommandProcessException e)
+                {
+                    Message = Settings<CLILang>.Current.Commands.CommandProcessExceptionText;
+                    CommandOutput = e.Message;
+                }
             }
         }
         private static void WriteOpenInput()
